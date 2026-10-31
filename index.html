@@ -15,6 +15,7 @@
       <nav>
         <a href="#temi">Теми</a>
         <a href="#kviz">Квиз</a>
+        <a href="#anagram">Анаграм</a>
       </nav>
     </div>
   </header>
@@ -76,6 +77,22 @@
       </div>
     </section>
 
+    <!-- АНАГРАМ -->
+    <section id="anagram" class="container section">
+      <h2>Анаграм</h2>
+      <p class="section-sub">Состави го хемискиот поим од измешаните букви.</p>
+
+      <div class="quiz" id="anagram-game">
+        <div class="progress"><div class="progress-bar" id="ana-bar"></div></div>
+        <div class="quiz-meta">
+          <span id="ana-counter"></span>
+          <span id="ana-score"></span>
+        </div>
+
+        <div class="stage" id="ana-stage"></div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer">
@@ -84,5 +101,7 @@
 
   <script src="questions.js"></script>
   <script src="quiz.js"></script>
+  <script src="anagram-words.js"></script>
+  <script src="anagram.js"></script>
 </body>
 </html>

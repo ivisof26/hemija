@@ -1,10 +1,10 @@
 :root {
-  --bg: #f4f8fb;
+  --bg: #f3f5fa;
   --text: #1c2b36;
   --muted: #5b6b78;
-  --primary: #1f8a70;
-  --primary-dark: #166b56;
-  --accent: #e8f5f1;
+  --primary: #1d3a6e;
+  --primary-dark: #14284f;
+  --accent: #e8edf7;
   --good: #2e9e5b;
   --good-bg: #e3f6ea;
   --bad: #d64545;
@@ -45,7 +45,7 @@ nav a:hover { color: var(--primary); }
 
 /* Hero */
 .hero {
-  background: linear-gradient(135deg, #1f8a70, #2bb3a0);
+  background: linear-gradient(135deg, #14284f, #1f4180);
   color: white; text-align: center; padding: 80px 0;
 }
 .hero h1 { font-size: clamp(1.8rem, 5vw, 3rem); margin: 0 0 12px; }
@@ -166,6 +166,37 @@ nav a:hover { color: var(--primary); }
 .result .big { font-size: 3rem; margin: 0; }
 .result h3 { font-size: 1.6rem; margin: 6px 0; }
 .result p { color: var(--muted); }
+
+/* Anagram game */
+.section-sub { color: var(--muted); margin: -10px 0 18px; }
+.ana-hint { font-size: 1.1rem; margin: 0 0 20px; }
+.ana-slots, .ana-pool { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.ana-slots { margin-bottom: 22px; }
+.ana-pool { margin-bottom: 20px; }
+
+.slot {
+  width: 44px; height: 52px; display: grid; place-items: center;
+  border: 2px dashed #b8c4dc; border-radius: 8px;
+  font-size: 1.4rem; font-weight: 800;
+  transition: background .2s, border-color .2s;
+}
+.slot.filled { border-style: solid; border-color: var(--primary); background: var(--accent); }
+.slot.correct { border-color: var(--good); background: var(--good-bg); animation: pop .4s ease both; }
+.slot.wrong { border-color: var(--bad); background: var(--bad-bg); animation: shake .35s; }
+.slot.revealed { border-color: var(--muted); background: #eef1f6; }
+
+.letter {
+  width: 46px; height: 52px; font: inherit; font-size: 1.4rem; font-weight: 800;
+  background: #fff; color: var(--text); cursor: pointer;
+  border: 2px solid #cbd5e8; border-bottom-width: 5px; border-radius: 8px;
+  transition: transform .15s, opacity .2s, border-color .2s;
+}
+.letter:hover:not(:disabled) { transform: translateY(-4px); border-color: var(--primary); }
+.letter:disabled { opacity: .25; cursor: default; }
+
+.ana-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 6px; }
+.btn.ghost { background: var(--accent); color: var(--primary-dark); padding: 9px 18px; font-size: .9rem; }
+.btn.ghost:disabled { opacity: .4; cursor: default; transform: none; box-shadow: none; }
 
 /* Footer */
 .site-footer { text-align: center; padding: 28px 0; color: var(--muted); font-size: .9rem; }

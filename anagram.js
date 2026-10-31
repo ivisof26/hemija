@@ -58,7 +58,10 @@
     let done = false;
 
     const slide = el("div", "slide");
-    slide.appendChild(el("p", "ana-hint", "Подсказка: " + item.hint));
+
+    // Помошта е скриена додека играчот не кликне на копчето
+    const hintBox = el("p", "ana-hint", "💡 " + item.hint);
+    hintBox.hidden = true;
 
     const slotsBox = el("div", "ana-slots");
     const slots = Array.from(word).map(() => {
@@ -82,11 +85,17 @@
     }
 
     const controls = el("div", "ana-controls");
+    const hintBtn = el("button", "btn ghost", "💡 Помош");
     const undoBtn = el("button", "btn ghost", "⌫ Избриши");
     const shuffleBtn = el("button", "btn ghost", "🔀 Измешај");
     const skipBtn = el("button", "btn ghost", "Прикажи одговор");
-    [undoBtn, shuffleBtn, skipBtn].forEach(b => (b.type = "button"));
-    controls.append(undoBtn, shuffleBtn, skipBtn);
+    [hintBtn, undoBtn, shuffleBtn, skipBtn].forEach(b => (b.type = "button"));
+    controls.append(hintBtn, undoBtn, shuffleBtn, skipBtn);
+
+    hintBtn.addEventListener("click", () => {
+      hintBox.hidden = false;
+      hintBtn.disabled = true;
+    });
 
     const actions = el("div", "actions");
 
@@ -112,6 +121,7 @@
         });
       }
       refresh();
+      hintBtn.disabled = true;
       undoBtn.disabled = true;
       shuffleBtn.disabled = true;
       skipBtn.disabled = true;
@@ -170,7 +180,7 @@
       finish(true);
     });
 
-    slide.append(slotsBox, poolBox, controls, actions);
+    slide.append(slotsBox, poolBox, controls, hintBox, actions);
     buildPool();
     refresh();
     stage.replaceChildren(slide);

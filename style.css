@@ -169,7 +169,16 @@ nav a:hover { color: var(--primary); }
 
 /* Anagram game */
 .section-sub { color: var(--muted); margin: -10px 0 18px; }
-.ana-hint { font-size: 1.1rem; margin: 0 0 20px; }
+.ana-hint {
+  font-size: 1rem; text-align: center;
+  margin: 16px 0 0; padding: 10px 14px;
+  background: var(--accent); border-radius: 10px;
+  animation: fadeIn .4s ease both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
 .ana-slots, .ana-pool { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .ana-slots { margin-bottom: 22px; }
 .ana-pool { margin-bottom: 20px; }

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Хемија за сите</title>
+  <meta name="description" content="Учи хемија на македонски јазик преку квизови и објаснувања.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#top">⚗️ Хемија<span>за сите</span></a>
+      <nav>
+        <a href="#temi">Теми</a>
+        <a href="#kviz">Квиз</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <h1>Научи хемија на лесен и интересен начин</h1>
+        <p>Објаснувања, примери и квизови на македонски јазик.</p>
+        <a class="btn" href="#kviz">Започни квиз →</a>
+      </div>
+    </section>
+
+    <!-- ТЕМИ -->
+    <section id="temi" class="container section">
+      <h2>Теми</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>⚛️ Атом</h3>
+          <p>Протони, неутрони и електрони – градбата на материјата.</p>
+        </article>
+        <article class="card">
+          <h3>🧪 Киселини и бази</h3>
+          <p>pH вредност, индикатори и неутрализација.</p>
+        </article>
+        <article class="card">
+          <h3>🔗 Хемиски врски</h3>
+          <p>Јонска, ковалентна и метална врска.</p>
+        </article>
+        <article class="card">
+          <h3>📊 Периоден систем</h3>
+          <p>Елементи, групи и периоди.</p>
+        </article>
+      </div>
+      <p class="hint">Овие картички подоцна можеш да ги претвориш во посебни страници.</p>
+    </section>
+
+    <!-- КВИЗ -->
+    <section id="kviz" class="container section">
+      <h2>Квиз</h2>
+
+      <div class="quiz" id="quiz">
+        <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+        <div class="quiz-meta">
+          <span id="counter"></span>
+          <span id="score-label"></span>
+        </div>
+
+        <div class="stage" id="stage"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> Хемија за сите</div>
+  </footer>
+
+  <script src="questions.js"></script>
+  <script src="quiz.js"></script>
+</body>
+</html>

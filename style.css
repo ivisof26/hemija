@@ -98,6 +98,10 @@ nav a:hover { color: var(--primary); }
 .tiles.small .tile { --size: clamp(30px, 4.4vw, 44px); }
 .tiles.small .nm { display: none; }
 
+/* Two-letter element symbols: the letter we spell with is dark, the rest is pale */
+.tile .sym.two { font-size: calc(var(--size) * .48); letter-spacing: -.02em; }
+.tile .sym .lt { opacity: .4; font-weight: 700; }
+
 /* Atom animation */
 .atom {
   display: block; width: clamp(120px, 24vw, 170px); height: auto;

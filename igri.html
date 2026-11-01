@@ -6,6 +6,10 @@
   <title>Игри – Хемија за сите</title>
   <meta name="description" content="Хемиски игри: анаграм, меморија, израмнување равенки, бесилка.">
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#2d1b4e">
+  <link rel="icon" type="image/png" href="icons/favicon-64.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 </head>
 <body>
 
@@ -23,24 +27,18 @@
 
   <main id="top">
 
-    <section class="page-head">
-      <div class="container">
-        <h1>Игри</h1>
-        <p>Учи играјќи: избери игра од табовите.</p>
-      </div>
-    </section>
-
-    <!-- ИГРИ -->
-    <section id="igri" class="container section">
-      <div class="tabs" role="tablist" aria-label="Игри">
+    <section class="container section">
+      <!-- ТАБОВИ ЗА ИГРИ -->
+      <div class="tabs" role="tablist" aria-label="Игри" style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
         <button class="tab active" role="tab" id="tab-anagram" data-tab="anagram" aria-selected="true" aria-controls="panel-anagram" type="button">🔤 Анаграм</button>
         <button class="tab" role="tab" id="tab-memorija" data-tab="memorija" aria-selected="false" aria-controls="panel-memorija" type="button">🃏 Меморија</button>
         <button class="tab" role="tab" id="tab-ravenki" data-tab="ravenki" aria-selected="false" aria-controls="panel-ravenki" type="button">⚖️ Равенки</button>
         <button class="tab" role="tab" id="tab-besilka" data-tab="besilka" aria-selected="false" aria-controls="panel-besilka" type="button">✏️ Бесилка</button>
       </div>
 
+      <!-- АНАГРАМ -->
       <div class="tab-panel" id="panel-anagram" role="tabpanel">
-        <h3 class="game-title">Анаграм</h3>
+        <h2>Анаграм</h2>
         <p class="section-sub">Состави го хемискиот поим од измешаните букви.</p>
         <div class="quiz" id="anagram-game">
           <div class="progress"><div class="progress-bar" id="ana-bar"></div></div>
@@ -51,8 +49,10 @@
           <div class="stage" id="ana-stage"></div>
         </div>
       </div>
+
+      <!-- МЕМОРИЈА -->
       <div class="tab-panel" id="panel-memorija" role="tabpanel" hidden>
-        <h3 class="game-title">Меморија</h3>
+        <h2>Меморија</h2>
         <p class="section-sub">Најди ги паровите: симбол и име на елемент.</p>
         <div class="quiz">
           <div class="progress"><div class="progress-bar" id="mem-bar"></div></div>
@@ -63,8 +63,10 @@
           <div class="stage" id="mem-stage"></div>
         </div>
       </div>
+
+      <!-- РАВЕНКИ -->
       <div class="tab-panel" id="panel-ravenki" role="tabpanel" hidden>
-        <h3 class="game-title">Израмнување хемиски равенки</h3>
+        <h2>Израмнување хемиски равенки</h2>
         <p class="section-sub">Израмни ја равенката: промени го коефициентот пред секоја супстанца така што бројот на атомите ќе се изедначи од двете страни на равенката.</p>
         <div class="quiz">
           <div class="progress"><div class="progress-bar" id="bal-bar"></div></div>
@@ -75,8 +77,10 @@
           <div class="stage" id="bal-stage"></div>
         </div>
       </div>
+
+      <!-- БЕСИЛКА -->
       <div class="tab-panel" id="panel-besilka" role="tabpanel" hidden>
-        <h3 class="game-title">Бесилка</h3>
+        <h2>Бесилка</h2>
         <p class="section-sub">Погоди го хемискиот поим буква по буква.</p>
         <div class="quiz">
           <div class="progress"><div class="progress-bar" id="han-bar"></div></div>
@@ -104,7 +108,6 @@
   <script src="balance.js"></script>
   <script src="hangman.js"></script>
   <script>
-    // Табови за игрите: се гледа една по една
     (function () {
       const tabs = document.querySelectorAll(".tab");
       tabs.forEach(t => t.addEventListener("click", () => {
@@ -112,7 +115,8 @@
           const on = x === t;
           x.classList.toggle("active", on);
           x.setAttribute("aria-selected", on);
-          document.getElementById("panel-" + x.dataset.tab).hidden = !on;
+          const panel = document.getElementById("panel-" + x.dataset.tab);
+          if (panel) panel.hidden = !on;
         });
       }));
     })();

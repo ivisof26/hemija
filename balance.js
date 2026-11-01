@@ -81,11 +81,11 @@
         score++;
         scoreLabel.textContent = `Поени: ${score}`;
         eq.classList.add("ok");
-        msg.textContent = "Точно! Атомите се изедначени од двете страни.";
+        msg.textContent = "Точно! Равенката е израмнета — атомите се исти од двете страни.";
         finish();
       } else {
         eq.classList.add("bad");
-        msg.textContent = "Уште не е избалансирано — изброј ги атомите од двете страни.";
+        msg.textContent = "Уште не е израмнето — изброј ги атомите од двете страни.";
         setTimeout(() => eq.classList.remove("bad"), 500);
       }
     });

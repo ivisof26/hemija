@@ -46,7 +46,7 @@ nav a:hover { color: var(--primary); }
 /* Hero */
 .hero {
   background: linear-gradient(135deg, #2d1b4e, #6a2c70);
-  color: white; text-align: center; padding: 80px 0;
+  color: white; text-align: center; padding: 48px 0 68px;
 }
 .hero h1.tiles { margin: 0 0 26px; }
 .hero p { font-size: 1.15rem; opacity: .95; margin-bottom: 28px; }
@@ -72,7 +72,7 @@ nav a:hover { color: var(--primary); }
   position: relative;
   width: var(--size); height: calc(var(--size) * 1.12);
   display: grid; place-items: center;
-  background: hsl(calc(12 + var(--i) * 2.4) 92% 56%);
+  background: hsl(calc(12 + var(--i) * var(--step, 2.4)) 92% 56%);
   color: #2b1305;
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0,0,0,.3), inset 0 0 0 2px rgba(255,255,255,.3);
@@ -93,9 +93,39 @@ nav a:hover { color: var(--primary); }
 .tiles .part { display: flex; gap: 6px; }
 .tiles .row.long { gap: 6px; }
 
+/* Smaller secondary version (used in the "I LOVE CHEMISTRY" band) */
+.tiles.small { margin: 0; gap: 6px; }
+.tiles.small .tile { --size: clamp(30px, 4.4vw, 44px); }
+.tiles.small .nm { display: none; }
+
+/* Atom animation */
+.atom {
+  display: block; width: clamp(120px, 24vw, 170px); height: auto;
+  margin: 0 auto 8px; overflow: visible;
+  filter: drop-shadow(0 0 14px rgba(255, 170, 60, .35));
+}
+.atom .orbit { fill: none; stroke: rgba(255, 255, 255, .38); stroke-width: 1.5; }
+.atom .electron { fill: #ffd166; filter: drop-shadow(0 0 4px #ffd166); }
+.atom .nucleus {
+  transform-box: fill-box; transform-origin: center;
+  animation: nucleusPulse 2.4s ease-in-out infinite;
+}
+@keyframes nucleusPulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.14); }
+}
+
+/* "I LOVE CHEMISTRY" band */
+.love-band {
+  background: linear-gradient(135deg, #2d1b4e, #6a2c70);
+  padding: 44px 0 48px;
+}
+
 @media (max-width: 560px) {
-  .tiles .row.long { flex-direction: column; align-items: center; gap: 8px; }
-  .tile { --size: min(15vw, 62px); }
+  .tiles .row, .tiles .part { gap: 4px; }
+  .tile { --size: min(14vw, 62px); }
+  .tiles .row.long { flex-direction: column; align-items: center; gap: 6px; }
+  .tiles.small .tile { --size: min(10vw, 40px); }
 }
 
 @keyframes pop {

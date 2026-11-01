@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Хемија за сите</title>
-  <meta name="description" content="Учи хемија на македонски јазик преку квизови и објаснувања.">
+  <meta name="description" content="Учи хемија на македонски јазик преку квизови, игри и тестови.">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#2d1b4e">
@@ -18,11 +18,12 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="logo" href="#top">⚗️ Хемија<span>за сите</span></a>
+      <a class="logo" href="index.html">⚗️ Хемија<span>за сите</span></a>
       <nav>
-        <a href="#temi">Теми</a>
-        <a href="#kviz">Квиз</a>
-        <a href="#anagram">Анаграм</a>
+        <a href="index.html" class="active" aria-current="page">Почетна</a>
+        <a href="kvizovi.html">Квизови</a>
+        <a href="igri.html">Игри</a>
+        <a href="testovi.html">Тестови</a>
       </nav>
     </div>
   </header>
@@ -58,14 +59,45 @@
           <span class="row" aria-hidden="true"><span class="tile" style="--i:0"><span class="num">16</span><span class="sym">С</span><span class="nm">Сулфур</span></span><span class="tile" style="--i:1"><span class="num">7</span><span class="sym">А</span><span class="nm">Азот</span></span><span class="tile" style="--i:2"><span class="num">19</span><span class="sym">К</span><span class="nm">Калиум</span></span><span class="tile" style="--i:3"><span class="num">13</span><span class="sym">А</span><span class="nm">Алуминиум</span></span><span class="tile" style="--i:4"><span class="num">25</span><span class="sym">М</span><span class="nm">Манган</span></span></span>
           <span class="row" aria-hidden="true"><span class="tile" style="--i:5"><span class="num">2</span><span class="sym">Х</span><span class="nm">Хелиум</span></span><span class="tile" style="--i:6"><span class="num">68</span><span class="sym">Е</span><span class="nm">Ербиум</span></span><span class="tile" style="--i:7"><span class="num">12</span><span class="sym">М</span><span class="nm">Магнезиум</span></span><span class="tile" style="--i:8"><span class="num">77</span><span class="sym">И</span><span class="nm">Иридиум</span></span><span class="tile" style="--i:9"><span class="num">53</span><span class="sym">Ј</span><span class="nm">Јод</span></span><span class="tile" style="--i:10"><span class="num">18</span><span class="sym">А</span><span class="nm">Аргон</span></span></span>
         </h1>
-        <p>Објаснувања, примери и квизови на македонски јазик.</p>
+        <p class="hero-sub">Учи хемија и провери го своето знаење.</p>
         <div class="hero-actions">
-          <a class="btn" href="#kviz">Започни квиз →</a>
+          <a class="btn" href="#start">Започни →</a>
           <button class="btn install" id="install-btn" type="button" hidden>📲 Инсталирај апликација</button>
         </div>
         <p class="install-hint" id="ios-hint" hidden>За да ја инсталираш: кликни <strong>Сподели</strong> (квадратче со стрелка), па <strong>Додај на почетен екран</strong>.</p>
         <p class="install-hint" id="offline-note" hidden>✅ Апликацијата е подготвена и работи и без интернет.</p>
       </div>
+    </section>
+
+    <!-- ПОЛИЊА: КВИЗОВИ, ИГРИ, ТЕСТОВИ -->
+    <section id="start" class="container section hub-section">
+      <div class="hub">
+        <a class="hub-card" href="kvizovi.html">
+          <span class="hub-ico">🧪</span>
+          <h3>Квизови</h3>
+          <p>Прашања со понудени одговори за основите на хемијата, со објаснување по секој одговор.</p>
+          <span class="hub-go">Отвори →</span>
+        </a>
+        <a class="hub-card" href="igri.html">
+          <span class="hub-ico">🎮</span>
+          <h3>Игри</h3>
+          <p>Анаграм, меморија со елементите, израмнување хемиски равенки и бесилка.</p>
+          <span class="hub-go">Отвори →</span>
+        </a>
+        <a class="hub-card" href="testovi.html">
+          <span class="hub-ico">📝</span>
+          <h3>Тестови</h3>
+          <p>Тест по квалитативна анализа од вежбите, со пишување, влечење и проверка.</p>
+          <span class="hub-go">Отвори →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ДЕНЕС ВО ХЕМИЈАТА -->
+    <section id="denes" class="container section">
+      <h2>Денес во хемијата <span class="today-date" id="today-date"></span></h2>
+      <p class="section-sub">Хемичар роден на денешен ден.</p>
+      <div class="today" id="today-box"></div>
     </section>
 
     <!-- ТЕМИ -->
@@ -91,45 +123,14 @@
       </div>
     </section>
 
-    <!-- КВИЗ -->
-    <section id="kviz" class="container section">
-      <h2>Квиз</h2>
-
-      <div class="quiz" id="quiz">
-        <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
-        <div class="quiz-meta">
-          <span id="counter"></span>
-          <span id="score-label"></span>
-        </div>
-
-        <div class="stage" id="stage"></div>
-      </div>
-    </section>
-
-    <!-- АНАГРАМ -->
-    <section id="anagram" class="container section">
-      <h2>Анаграм</h2>
-      <p class="section-sub">Состави го хемискиот поим од измешаните букви.</p>
-
-      <div class="quiz" id="anagram-game">
-        <div class="progress"><div class="progress-bar" id="ana-bar"></div></div>
-        <div class="quiz-meta">
-          <span id="ana-counter"></span>
-          <span id="ana-score"></span>
-        </div>
-
-        <div class="stage" id="ana-stage"></div>
-      </div>
-    </section>
-
   </main>
 
   <section class="love-band">
     <div class="container">
       <div class="tiles small" role="img" aria-label="I love chemistry">
         <span class="row" aria-hidden="true"><span class="tile" style="--i:0"><span class="num">53</span><span class="sym">I</span><span class="nm">Iodine</span></span></span>
-        <span class="row" aria-hidden="true"><span class="tile" style="--i:1"><span class="num">3</span><span class="sym">L<span class="dim">i</span></span><span class="nm">Lithium</span></span><span class="tile" style="--i:2"><span class="num">8</span><span class="sym">O</span><span class="nm">Oxygen</span></span><span class="tile" style="--i:3"><span class="num">23</span><span class="sym">V</span><span class="nm">Vanadium</span></span><span class="tile" style="--i:4"><span class="num">63</span><span class="sym">E<span class="dim">u</span></span><span class="nm">Europium</span></span></span>
-        <span class="row long" aria-hidden="true"><span class="part"><span class="tile" style="--i:5"><span class="num">6</span><span class="sym">C</span><span class="nm">Carbon</span></span><span class="tile" style="--i:6"><span class="num">1</span><span class="sym">H</span><span class="nm">Hydrogen</span></span><span class="tile" style="--i:7"><span class="num">68</span><span class="sym">E<span class="dim">r</span></span><span class="nm">Erbium</span></span><span class="tile" style="--i:8"><span class="num">12</span><span class="sym">M<span class="dim">g</span></span><span class="nm">Magnesium</span></span></span><span class="part"><span class="tile" style="--i:9"><span class="num">77</span><span class="sym">I<span class="dim">r</span></span><span class="nm">Iridium</span></span><span class="tile" style="--i:10"><span class="num">16</span><span class="sym">S</span><span class="nm">Sulfur</span></span><span class="tile" style="--i:11"><span class="num">22</span><span class="sym">T<span class="dim">i</span></span><span class="nm">Titanium</span></span><span class="tile" style="--i:12"><span class="num">88</span><span class="sym">R<span class="dim">a</span></span><span class="nm">Radium</span></span><span class="tile" style="--i:13"><span class="num">39</span><span class="sym">Y</span><span class="nm">Yttrium</span></span></span></span>
+        <span class="row" aria-hidden="true"><span class="tile" style="--i:1"><span class="num">3</span><span class="sym two">L<span class="lt">i</span></span><span class="nm">Lithium</span></span><span class="tile" style="--i:2"><span class="num">8</span><span class="sym">O</span><span class="nm">Oxygen</span></span><span class="tile" style="--i:3"><span class="num">23</span><span class="sym">V</span><span class="nm">Vanadium</span></span><span class="tile" style="--i:4"><span class="num">63</span><span class="sym two">E<span class="lt">u</span></span><span class="nm">Europium</span></span></span>
+        <span class="row long" aria-hidden="true"><span class="part"><span class="tile" style="--i:5"><span class="num">6</span><span class="sym">C</span><span class="nm">Carbon</span></span><span class="tile" style="--i:6"><span class="num">1</span><span class="sym">H</span><span class="nm">Hydrogen</span></span><span class="tile" style="--i:7"><span class="num">68</span><span class="sym two">E<span class="lt">r</span></span><span class="nm">Erbium</span></span><span class="tile" style="--i:8"><span class="num">12</span><span class="sym two">M<span class="lt">g</span></span><span class="nm">Magnesium</span></span></span><span class="part"><span class="tile" style="--i:9"><span class="num">77</span><span class="sym two">I<span class="lt">r</span></span><span class="nm">Iridium</span></span><span class="tile" style="--i:10"><span class="num">16</span><span class="sym">S</span><span class="nm">Sulfur</span></span><span class="tile" style="--i:11"><span class="num">22</span><span class="sym two">T<span class="lt">i</span></span><span class="nm">Titanium</span></span><span class="tile" style="--i:12"><span class="num">88</span><span class="sym two">R<span class="lt">a</span></span><span class="nm">Radium</span></span><span class="tile" style="--i:13"><span class="num">39</span><span class="sym">Y</span><span class="nm">Yttrium</span></span></span></span>
       </div>
     </div>
   </section>
@@ -138,19 +139,15 @@
     <div class="container">© <span id="year"></span> Хемија за сите</div>
   </footer>
 
-  <script src="questions.js"></script>
-  <script src="quiz.js"></script>
-  <script src="anagram-words.js"></script>
-  <script src="anagram.js"></script>
+  <script src="chemists.js"></script>
+  <script src="today.js"></script>
   <script>
-    // Ако некој има исклучено анимации во системот, го запираме атомот
     if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) {
       const a = document.querySelector(".atom");
       if (a && a.pauseAnimations) a.pauseAnimations();
     }
   </script>
   <script>
-    // Копче „Инсталирај апликација“
     (function () {
       const btn = document.getElementById("install-btn");
       const iosHint = document.getElementById("ios-hint");
@@ -158,7 +155,7 @@
       const installed = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
       let deferred = null;
 
-      if (installed) return; // веќе е инсталирана, нема потреба од копче
+      if (installed) return;
 
       window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();
@@ -179,18 +176,15 @@
         iosHint.hidden = true;
       });
 
-      // iPhone/iPad (Safari) нема автоматско копче за инсталација, па даваме упатство
       const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
       if (ios) iosHint.hidden = false;
 
-      // Порака кога сајтот е зачуван за работа без интернет
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.ready.then(() => { note.hidden = false; }).catch(() => {});
       }
     })();
   </script>
   <script>
-    // Регистрација на service worker (за инсталација и работа без интернет)
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker.register("sw.js").catch(() => {});

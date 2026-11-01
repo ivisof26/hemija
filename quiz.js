@@ -12,7 +12,7 @@ const ROUND = 10; // колку прашања има една игра (се б
 // Поднасловот на страницата Квизови (ако го има) се прилагодува автоматски
 const subtitle = document.querySelector(".page-head p");
 if (subtitle) {
-  subtitle.textContent = `Провери колку знаеш: ${Math.min(ROUND, QUESTIONS.length)} случајни прашања од ${QUESTIONS.length}, по секое има објаснување.`;
+  subtitle.textContent = `Провери колку знаеш: ${Math.min(ROUND, QUESTIONS.length)} случајни прашања, по секое има објаснување.`;
 }
 
 let current = 0;

@@ -133,7 +133,7 @@ const TEST_QUESTIONS = [
       "Инка за прекристализација",
       "Инка за растворање"
     ],
-    "answer": 0,
+    "answer": 2,
     "points": 1,
     "img": "org-q9.jpg"
   },

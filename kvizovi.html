@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Квизови – Хемија за сите</title>
+  <meta name="description" content="Квиз по општа хемија на македонски јазик.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html">⚗️ Хемија<span>за сите</span></a>
+      <nav>
+        <a href="index.html">Почетна</a>
+        <a href="kvizovi.html" class="active" aria-current="page">Квизови</a>
+        <a href="igri.html">Игри</a>
+        <a href="testovi.html">Тестови</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="page-head">
+      <div class="container">
+        <h1>Квизови</h1>
+        <p>Провери колку знаеш: шест прашања, по секое има објаснување.</p>
+      </div>
+    </section>
+
+    <!-- КВИЗ -->
+    <section id="kviz" class="container section">
+      <h2>Квиз: основи на хемијата</h2>
+
+      <div class="quiz" id="quiz">
+        <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+        <div class="quiz-meta">
+          <span id="counter"></span>
+          <span id="score-label"></span>
+        </div>
+
+        <div class="stage" id="stage"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> Хемија за сите</div>
+  </footer>
+
+  <script src="questions.js"></script>
+  <script src="quiz.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

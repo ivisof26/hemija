@@ -4,20 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Хемија за сите</title>
-  <meta name="description" content="Учи хемија на македонски јазик преку квизови и објаснувања.">
+  <meta name="description" content="Учи хемија на македонски јазик преку квизови, игри и тестови.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="logo" href="#top">⚗️ Хемија<span>за сите</span></a>
+      <a class="logo" href="index.html">⚗️ Хемија<span>за сите</span></a>
       <nav>
-        <a href="#denes">Денес</a>
-        <a href="#temi">Теми</a>
-        <a href="#kviz">Квиз</a>
-        <a href="#kvalitativna">Тест</a>
-        <a href="#igri">Игри</a>
+        <a href="index.html" class="active" aria-current="page">Почетна</a>
+        <a href="kvizovi.html">Квизови</a>
+        <a href="igri.html">Игри</a>
+        <a href="testovi.html">Тестови</a>
       </nav>
     </div>
   </header>
@@ -54,7 +53,30 @@
           <span class="row" aria-hidden="true"><span class="tile" style="--i:5"><span class="num">2</span><span class="sym">Х</span><span class="nm">Хелиум</span></span><span class="tile" style="--i:6"><span class="num">68</span><span class="sym">Е</span><span class="nm">Ербиум</span></span><span class="tile" style="--i:7"><span class="num">12</span><span class="sym">М</span><span class="nm">Магнезиум</span></span><span class="tile" style="--i:8"><span class="num">77</span><span class="sym">И</span><span class="nm">Иридиум</span></span><span class="tile" style="--i:9"><span class="num">53</span><span class="sym">Ј</span><span class="nm">Јод</span></span><span class="tile" style="--i:10"><span class="num">18</span><span class="sym">А</span><span class="nm">Аргон</span></span></span>
         </h1>
         <p>Објаснувања, примери и квизови на македонски јазик.</p>
-        <a class="btn" href="#kviz">Започни квиз →</a>
+        <a class="btn" href="kvizovi.html">Започни квиз →</a>
+      </div>
+    </section>
+    <!-- ПОЛИЊА: КВИЗОВИ, ИГРИ, ТЕСТОВИ -->
+    <section id="start" class="container section hub-section">
+      <div class="hub">
+        <a class="hub-card" href="kvizovi.html">
+          <span class="hub-ico">🧪</span>
+          <h3>Квизови</h3>
+          <p>Прашања со понудени одговори за основите на хемијата, со објаснување по секој одговор.</p>
+          <span class="hub-go">Отвори →</span>
+        </a>
+        <a class="hub-card" href="igri.html">
+          <span class="hub-ico">🎮</span>
+          <h3>Игри</h3>
+          <p>Анаграм, меморија со елементите, израмнување хемиски равенки и бесилка.</p>
+          <span class="hub-go">Отвори →</span>
+        </a>
+        <a class="hub-card" href="testovi.html">
+          <span class="hub-ico">📝</span>
+          <h3>Тестови</h3>
+          <p>Тест по квалитативна анализа од вежбите, со пишување, влечење и проверка.</p>
+          <span class="hub-go">Отвори →</span>
+        </a>
       </div>
     </section>
 
@@ -64,7 +86,6 @@
       <p class="section-sub">Хемичар роден на денешен ден.</p>
       <div class="today" id="today-box"></div>
     </section>
-
     <!-- ТЕМИ -->
     <section id="temi" class="container section">
       <h2>Теми</h2>
@@ -88,97 +109,6 @@
       </div>
     </section>
 
-    <!-- КВИЗ -->
-    <section id="kviz" class="container section">
-      <h2>Квиз</h2>
-
-      <div class="quiz" id="quiz">
-        <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
-        <div class="quiz-meta">
-          <span id="counter"></span>
-          <span id="score-label"></span>
-        </div>
-
-        <div class="stage" id="stage"></div>
-      </div>
-    </section>
-
-    <!-- ТЕСТ ПО КВАЛИТАТИВНА АНАЛИЗА -->
-    <section id="kvalitativna" class="container section">
-      <h2>Тест по квалитативна анализа</h2>
-      <p class="section-sub">Завршен тест од вежбите 2025–2026. Прашањата 1–14 имаат понудени одговори, а 15–17 се задачи: пишувај во полињата, влечи ги катјоните и провери.</p>
-
-      <div class="quiz" id="qa-quiz">
-        <div class="progress"><div class="progress-bar" id="qa-bar"></div></div>
-        <div class="quiz-meta">
-          <span id="qa-counter"></span>
-          <span id="qa-score"></span>
-        </div>
-
-        <div class="stage" id="qa-stage"></div>
-      </div>
-    </section>
-
-    <!-- ИГРИ -->
-    <section id="igri" class="container section">
-      <h2>Игри</h2>
-      <div class="tabs" role="tablist" aria-label="Игри">
-        <button class="tab active" role="tab" id="tab-anagram" data-tab="anagram" aria-selected="true" aria-controls="panel-anagram" type="button">🔤 Анаграм</button>
-        <button class="tab" role="tab" id="tab-memorija" data-tab="memorija" aria-selected="false" aria-controls="panel-memorija" type="button">🃏 Меморија</button>
-        <button class="tab" role="tab" id="tab-ravenki" data-tab="ravenki" aria-selected="false" aria-controls="panel-ravenki" type="button">⚖️ Равенки</button>
-        <button class="tab" role="tab" id="tab-besilka" data-tab="besilka" aria-selected="false" aria-controls="panel-besilka" type="button">✏️ Бесилка</button>
-      </div>
-
-      <div class="tab-panel" id="panel-anagram" role="tabpanel">
-        <h3 class="game-title">Анаграм</h3>
-        <p class="section-sub">Состави го хемискиот поим од измешаните букви.</p>
-        <div class="quiz" id="anagram-game">
-          <div class="progress"><div class="progress-bar" id="ana-bar"></div></div>
-          <div class="quiz-meta">
-            <span id="ana-counter"></span>
-            <span id="ana-score"></span>
-          </div>
-          <div class="stage" id="ana-stage"></div>
-        </div>
-      </div>
-      <div class="tab-panel" id="panel-memorija" role="tabpanel" hidden>
-        <h3 class="game-title">Меморија</h3>
-        <p class="section-sub">Најди ги паровите: симбол и име на елемент.</p>
-        <div class="quiz">
-          <div class="progress"><div class="progress-bar" id="mem-bar"></div></div>
-          <div class="quiz-meta">
-            <span id="mem-counter"></span>
-            <span id="mem-score"></span>
-          </div>
-          <div class="stage" id="mem-stage"></div>
-        </div>
-      </div>
-      <div class="tab-panel" id="panel-ravenki" role="tabpanel" hidden>
-        <h3 class="game-title">Израмнување хемиски равенки</h3>
-        <p class="section-sub">Израмни ја равенката: промени го коефициентот пред секоја супстанца така што бројот на атомите ќе се изедначи од двете страни на равенката.</p>
-        <div class="quiz">
-          <div class="progress"><div class="progress-bar" id="bal-bar"></div></div>
-          <div class="quiz-meta">
-            <span id="bal-counter"></span>
-            <span id="bal-score"></span>
-          </div>
-          <div class="stage" id="bal-stage"></div>
-        </div>
-      </div>
-      <div class="tab-panel" id="panel-besilka" role="tabpanel" hidden>
-        <h3 class="game-title">Бесилка</h3>
-        <p class="section-sub">Погоди го хемискиот поим буква по буква.</p>
-        <div class="quiz">
-          <div class="progress"><div class="progress-bar" id="han-bar"></div></div>
-          <div class="quiz-meta">
-            <span id="han-counter"></span>
-            <span id="han-score"></span>
-          </div>
-          <div class="stage" id="han-stage"></div>
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <section class="love-band">
@@ -190,40 +120,12 @@
       </div>
     </div>
   </section>
-
   <footer class="site-footer">
     <div class="container">© <span id="year"></span> Хемија за сите</div>
   </footer>
 
   <script src="chemists.js"></script>
   <script src="today.js"></script>
-  <script src="questions.js"></script>
-  <script src="quiz.js"></script>
-  <script src="anagram-words.js"></script>
-  <script src="anagram.js"></script>
-  <script src="common.js"></script>
-  <script src="elements.js"></script>
-  <script src="memory.js"></script>
-  <script src="equations.js"></script>
-  <script src="balance.js"></script>
-  <script src="hangman.js"></script>
-  <script src="qa-scheme.js"></script>
-  <script src="qa-questions.js"></script>
-  <script src="qa-quiz.js"></script>
-  <script>
-    // Табови за игрите: се гледа една по една
-    (function () {
-      const tabs = document.querySelectorAll(".tab");
-      tabs.forEach(t => t.addEventListener("click", () => {
-        tabs.forEach(x => {
-          const on = x === t;
-          x.classList.toggle("active", on);
-          x.setAttribute("aria-selected", on);
-          document.getElementById("panel-" + x.dataset.tab).hidden = !on;
-        });
-      }));
-    })();
-  </script>
   <script>
     // Ако некој има исклучено анимации во системот, го запираме атомот
     if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -231,5 +133,6 @@
       if (a && a.pauseAnimations) a.pauseAnimations();
     }
   </script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

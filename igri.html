@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Игри – Хемија за сите</title>
+  <meta name="description" content="Хемиски игри: анаграм, меморија, израмнување равенки, бесилка.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html">⚗️ Хемија<span>за сите</span></a>
+      <nav>
+        <a href="index.html">Почетна</a>
+        <a href="kvizovi.html">Квизови</a>
+        <a href="igri.html" class="active" aria-current="page">Игри</a>
+        <a href="testovi.html">Тестови</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="page-head">
+      <div class="container">
+        <h1>Игри</h1>
+        <p>Учи играјќи: избери игра од табовите.</p>
+      </div>
+    </section>
+
+    <!-- ИГРИ -->
+    <section id="igri" class="container section">
+      <div class="tabs" role="tablist" aria-label="Игри">
+        <button class="tab active" role="tab" id="tab-anagram" data-tab="anagram" aria-selected="true" aria-controls="panel-anagram" type="button">🔤 Анаграм</button>
+        <button class="tab" role="tab" id="tab-memorija" data-tab="memorija" aria-selected="false" aria-controls="panel-memorija" type="button">🃏 Меморија</button>
+        <button class="tab" role="tab" id="tab-ravenki" data-tab="ravenki" aria-selected="false" aria-controls="panel-ravenki" type="button">⚖️ Равенки</button>
+        <button class="tab" role="tab" id="tab-besilka" data-tab="besilka" aria-selected="false" aria-controls="panel-besilka" type="button">✏️ Бесилка</button>
+      </div>
+
+      <div class="tab-panel" id="panel-anagram" role="tabpanel">
+        <h3 class="game-title">Анаграм</h3>
+        <p class="section-sub">Состави го хемискиот поим од измешаните букви.</p>
+        <div class="quiz" id="anagram-game">
+          <div class="progress"><div class="progress-bar" id="ana-bar"></div></div>
+          <div class="quiz-meta">
+            <span id="ana-counter"></span>
+            <span id="ana-score"></span>
+          </div>
+          <div class="stage" id="ana-stage"></div>
+        </div>
+      </div>
+      <div class="tab-panel" id="panel-memorija" role="tabpanel" hidden>
+        <h3 class="game-title">Меморија</h3>
+        <p class="section-sub">Најди ги паровите: симбол и име на елемент.</p>
+        <div class="quiz">
+          <div class="progress"><div class="progress-bar" id="mem-bar"></div></div>
+          <div class="quiz-meta">
+            <span id="mem-counter"></span>
+            <span id="mem-score"></span>
+          </div>
+          <div class="stage" id="mem-stage"></div>
+        </div>
+      </div>
+      <div class="tab-panel" id="panel-ravenki" role="tabpanel" hidden>
+        <h3 class="game-title">Израмнување хемиски равенки</h3>
+        <p class="section-sub">Израмни ја равенката: промени го коефициентот пред секоја супстанца така што бројот на атомите ќе се изедначи од двете страни на равенката.</p>
+        <div class="quiz">
+          <div class="progress"><div class="progress-bar" id="bal-bar"></div></div>
+          <div class="quiz-meta">
+            <span id="bal-counter"></span>
+            <span id="bal-score"></span>
+          </div>
+          <div class="stage" id="bal-stage"></div>
+        </div>
+      </div>
+      <div class="tab-panel" id="panel-besilka" role="tabpanel" hidden>
+        <h3 class="game-title">Бесилка</h3>
+        <p class="section-sub">Погоди го хемискиот поим буква по буква.</p>
+        <div class="quiz">
+          <div class="progress"><div class="progress-bar" id="han-bar"></div></div>
+          <div class="quiz-meta">
+            <span id="han-counter"></span>
+            <span id="han-score"></span>
+          </div>
+          <div class="stage" id="han-stage"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> Хемија за сите</div>
+  </footer>
+
+  <script src="anagram-words.js"></script>
+  <script src="anagram.js"></script>
+  <script src="common.js"></script>
+  <script src="elements.js"></script>
+  <script src="memory.js"></script>
+  <script src="equations.js"></script>
+  <script src="balance.js"></script>
+  <script src="hangman.js"></script>
+  <script>
+    // Табови за игрите: се гледа една по една
+    (function () {
+      const tabs = document.querySelectorAll(".tab");
+      tabs.forEach(t => t.addEventListener("click", () => {
+        tabs.forEach(x => {
+          const on = x === t;
+          x.classList.toggle("active", on);
+          x.setAttribute("aria-selected", on);
+          document.getElementById("panel-" + x.dataset.tab).hidden = !on;
+        });
+      }));
+    })();
+  </script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Хемија за сите</title>
-  <meta name="description" content="Учи хемија на македонски јазик преку квизови, игри и тестови.">
+  <meta name="description" content="Учи хемија на македонски јазик преку квизови, игри и тестови[cite: 34].">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#2d1b4e">
@@ -61,7 +61,7 @@
         </h1>
         <p class="hero-sub">Учи хемија и провери го своето знаење.</p>
         <div class="hero-actions">
-          <a class="btn" href="#start">Започни →</a>
+          <a class="btn primary" href="#start">Започни →</a>
           <button class="btn install" id="install-btn" type="button" hidden>📲 Инсталирај апликација</button>
         </div>
         <p class="install-hint" id="ios-hint" hidden>За да ја инсталираш: кликни <strong>Сподели</strong> (квадратче со стрелка), па <strong>Додај на почетен екран</strong>.</p>
@@ -71,24 +71,24 @@
 
     <!-- ПОЛИЊА: КВИЗОВИ, ИГРИ, ТЕСТОВИ -->
     <section id="start" class="container section hub-section">
-      <div class="hub">
-        <a class="hub-card" href="kvizovi.html">
-          <span class="hub-ico">🧪</span>
-          <h3>Квизови</h3>
-          <p>Прашања со понудени одговори за основите на хемијата, со објаснување по секој одговор.</p>
-          <span class="hub-go">Отвори →</span>
+      <div class="hub" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 20px;">
+        <a class="hub-card" href="kvizovi.html" style="background: var(--card); padding: 28px; border-radius: var(--radius); box-shadow: var(--shadow); text-decoration: none; color: inherit; display: block; transition: transform 0.25s, box-shadow 0.25s;">
+          <span class="hub-ico" style="font-size: 2.2rem; display: block; margin-bottom: 12px;">🧪</span>
+          <h3 style="margin: 0 0 10px; font-size: 1.4rem;">Квизови</h3>
+          <p style="margin: 0 0 16px; color: var(--muted);">Прашања со понудени одговори за основите на хемијата, со објаснување по секој одговор[cite: 34].</p>
+          <span class="hub-go" style="color: var(--primary); font-weight: 700;">Отвори →</span>
         </a>
-        <a class="hub-card" href="igri.html">
-          <span class="hub-ico">🎮</span>
-          <h3>Игри</h3>
-          <p>Анаграм, меморија со елементите, израмнување хемиски равенки и бесилка.</p>
-          <span class="hub-go">Отвори →</span>
+        <a class="hub-card" href="igri.html" style="background: var(--card); padding: 28px; border-radius: var(--radius); box-shadow: var(--shadow); text-decoration: none; color: inherit; display: block; transition: transform 0.25s, box-shadow 0.25s;">
+          <span class="hub-ico" style="font-size: 2.2rem; display: block; margin-bottom: 12px;">🎮</span>
+          <h3 style="margin: 0 0 10px; font-size: 1.4rem;">Игри</h3>
+          <p style="margin: 0 0 16px; color: var(--muted);">Анаграм, меморија со елементите, израмнување хемиски равенки и бесилка[cite: 34].</p>
+          <span class="hub-go" style="color: var(--primary); font-weight: 700;">Отвори →</span>
         </a>
-        <a class="hub-card" href="testovi.html">
-          <span class="hub-ico">📝</span>
-          <h3>Тестови</h3>
-          <p>Тест по квалитативна анализа од вежбите, со пишување, влечење и проверка.</p>
-          <span class="hub-go">Отвори →</span>
+        <a class="hub-card" href="testovi.html" style="background: var(--card); padding: 28px; border-radius: var(--radius); box-shadow: var(--shadow); text-decoration: none; color: inherit; display: block; transition: transform 0.25s, box-shadow 0.25s;">
+          <span class="hub-ico" style="font-size: 2.2rem; display: block; margin-bottom: 12px;">📝</span>
+          <h3 style="margin: 0 0 10px; font-size: 1.4rem;">Тестови</h3>
+          <p style="margin: 0 0 16px; color: var(--muted);">Тест по квалитативна анализа од вежбите, со пишување, влечење и проверка[cite: 34].</p>
+          <span class="hub-go" style="color: var(--primary); font-weight: 700;">Отвори →</span>
         </a>
       </div>
     </section>
@@ -96,7 +96,7 @@
     <!-- ДЕНЕС ВО ХЕМИЈАТА -->
     <section id="denes" class="container section">
       <h2>Денес во хемијата <span class="today-date" id="today-date"></span></h2>
-      <p class="section-sub">Хемичар роден на денешен ден.</p>
+      <p class="section-sub">Хемичар роден на денешен ден[cite: 34].</p>
       <div class="today" id="today-box"></div>
     </section>
 

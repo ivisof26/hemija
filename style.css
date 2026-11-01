@@ -86,6 +86,7 @@ nav a:hover { color: var(--primary); }
   font-size: max(8px, calc(var(--size) * .2)); font-weight: 700;
 }
 .tile .sym { font-size: calc(var(--size) * .55); font-weight: 800; line-height: 1; }
+.tile .sym .dim { color: rgba(43, 19, 5, .36); font-weight: 700; }
 .tile .nm {
   position: absolute; bottom: 3px; left: 0; right: 0; text-align: center;
   font-size: calc(var(--size) * .15); font-weight: 600;
@@ -97,10 +98,7 @@ nav a:hover { color: var(--primary); }
 .tiles.small { margin: 0; gap: 6px; }
 .tiles.small .tile { --size: clamp(30px, 4.4vw, 44px); }
 .tiles.small .nm { display: none; }
-
-/* Two-letter element symbols: the letter we spell with is dark, the rest is pale */
-.tile .sym.two { font-size: calc(var(--size) * .48); letter-spacing: -.02em; }
-.tile .sym .lt { opacity: .4; font-weight: 700; }
+.tiles.small .sym { font-size: calc(var(--size) * .5); padding-top: 5px; }
 
 /* Atom animation */
 .atom {
@@ -137,26 +135,12 @@ nav a:hover { color: var(--primary); }
   to   { opacity: 1; transform: none; }
 }
 
-/* Почетна: полиња за Квизови, Игри, Тестови */
-.hub-section { margin-top: -40px; padding-top: 0; position: relative; z-index: 2; }
-.hub { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
-.hub-card {
-  display: block; text-decoration: none; color: var(--text);
-  background: var(--card); border-radius: var(--radius); border-top: 6px solid var(--primary);
-  box-shadow: var(--shadow); padding: 26px 24px 22px;
-  transition: transform .25s, box-shadow .25s;
-}
-.hub-card:hover { transform: translateY(-6px); box-shadow: 0 14px 30px rgba(20,50,70,.18); }
-.hub-ico { display: block; font-size: 2.6rem; line-height: 1.1; margin-bottom: 8px; }
-.hub-card h3 { margin: 0 0 6px; font-size: 1.5rem; }
-.hub-card p { margin: 0 0 14px; color: var(--muted); }
-.hub-go { color: var(--primary); font-weight: 800; }
-
-/* Наслов на внатрешните страници */
-.page-head { background: linear-gradient(135deg, #2d1b4e, #6a2c70); color: #fff; text-align: center; padding: 34px 0 38px; }
-.page-head h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 5vw, 2.4rem); }
-.page-head p { margin: 0; opacity: .9; }
-nav a.active { color: var(--primary); }
+/* Install button */
+[hidden] { display: none !important; }
+.hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.btn.install { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.7); padding: 10px 24px; }
+.btn.install:hover { background: rgba(255,255,255,.15); }
+.install-hint { margin: 16px auto 0; max-width: 460px; font-size: .92rem; opacity: .9; }
 
 /* Cards */
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px; }
@@ -168,21 +152,6 @@ nav a.active { color: var(--primary); }
 .card h3 { margin: 0 0 8px; }
 .card p { margin: 0; color: var(--muted); }
 .hint { color: var(--muted); font-size: .9rem; margin-top: 16px; }
-
-/* Today in chemistry */
-.today-date { font-size: 1rem; font-weight: 600; color: var(--primary); margin-left: 8px; }
-.today { display: grid; gap: 16px; }
-.today-card {
-  background: var(--card); border-left: 6px solid var(--primary);
-  border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 24px;
-}
-.today-card.muted { border-left-color: var(--muted); }
-.today-card h3 { margin: 6px 0 8px; font-size: 1.4rem; }
-.today-card p { margin: 0; color: var(--muted); }
-.today-year {
-  display: inline-block; background: var(--accent); color: var(--primary-dark);
-  padding: 2px 12px; border-radius: 999px; font-size: .85rem; font-weight: 700;
-}
 
 /* Quiz */
 .quiz {
@@ -286,144 +255,6 @@ nav a.active { color: var(--primary); }
 .ana-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 6px; }
 .btn.ghost { background: var(--accent); color: var(--primary-dark); padding: 9px 18px; font-size: .9rem; }
 .btn.ghost:disabled { opacity: .4; cursor: default; transform: none; box-shadow: none; }
-
-
-/* Тест по квалитативна анализа */
-.qa-q { white-space: pre-line; }
-.qa-q2 { margin: 0 0 14px; }
-.qa-img {
-  display: block; max-width: 100%; height: auto; margin: 10px auto 14px;
-  background: #fff; border: 1px solid #eadfd6; border-radius: 10px;
-}
-.qa-answer-text { white-space: pre-line; margin-top: 4px; }
-.qa-answer .qa-img { margin-bottom: 0; }
-.qa-grade { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
-.btn.good { background: var(--good); color: #fff; }
-.btn.bad { background: var(--bad); color: #fff; }
-
-/* Тест: пишување (индекс/степен), шема, повлекување */
-#qa-quiz { max-width: 940px; }
-.qa-part { margin: 14px 0 8px; font-weight: 600; }
-.qa-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 6px; position: sticky; top: 64px; z-index: 5; background: var(--card); padding: 6px 0; }
-.qa-tools-label { color: var(--muted); font-weight: 700; font-size: .9rem; }
-.qa-tools .btn.ghost { padding: 6px 14px; font-size: .9rem; }
-.qa-tools-hint { flex-basis: 100%; color: var(--muted); font-size: .85rem; }
-
-.qa-fill {
-  border: 0; border-bottom: 2px solid #222; background: #fff3e8; color: var(--text);
-  font-family: inherit; font-weight: 700; text-align: center; outline: none;
-  border-radius: 4px 4px 0 0; box-sizing: border-box; min-width: 0;
-}
-.qa-fill:focus { background: #ffe0c4; border-bottom-color: var(--primary); }
-.qa-fill.ok { background: var(--good-bg); border-bottom-color: var(--good); }
-.qa-fill.fmt { background: #fff6cc; border-bottom-color: #d4a017; }
-.qa-fill.bad { background: var(--bad-bg); border-bottom-color: var(--bad); }
-.qa-fill:disabled { color: var(--text); opacity: 1; }
-.qa-fill.inline { position: static; width: min(260px, 100%); font-size: 1.15rem; padding: 6px 8px; }
-.qa-ions { display: flex; flex-wrap: wrap; gap: 10px 22px; }
-.qa-ion { display: flex; align-items: center; gap: 8px; font-weight: 700; }
-.qa-ion-wide { margin-bottom: 6px; }
-
-.qa-scheme-scroll { overflow-x: auto; background: #fff; border: 1px solid #eadfd6; border-radius: 10px; }
-.qa-scheme { position: relative; min-width: 760px; width: 100%; }
-.qa-svg { display: block; width: 100%; height: auto; }
-.qa-svg text { font-family: Arial, Helvetica, sans-serif; font-size: 26px; fill: #111; }
-.qa-scheme .qa-fill { position: absolute; font-size: calc(var(--s, .6) * 24px); padding: 0; }
-.qa-yn { display: flex; gap: 10px; }
-.qa-yn .btn.ghost { padding: 8px 22px; }
-.qa-yn .good-pick { outline: 3px solid var(--good); }
-.qa-yn .bad-pick { outline: 3px solid var(--bad); }
-
-.dz-body { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; min-height: 52px; padding: 8px; border-radius: 10px; }
-.dz-pool { background: var(--accent); border: 2px dashed #e3c9b0; }
-.dnd-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 14px; }
-.dz-group { background: #fff; border: 2px solid #eadfd6; border-radius: 12px; padding: 8px 8px 10px; }
-.dz-group h4 { margin: 0 0 6px 4px; font-size: .95rem; color: var(--primary-dark); }
-.dz-group .dz-body { border: 2px dashed #d9c9bd; }
-.dz-body.over { background: #ffe9d6; border-color: var(--primary); }
-.chip {
-  padding: 8px 14px; background: #fff; border: 2px solid #e3d6cb; border-bottom-width: 4px;
-  border-radius: 10px; font: inherit; font-weight: 700; color: var(--text);
-  cursor: grab; user-select: none; touch-action: none;
-}
-.chip.tog { cursor: pointer; touch-action: auto; }
-.chip.tog.on { background: var(--accent); border-color: var(--primary); }
-.chip.sel { border-color: var(--primary); background: #ffe9d6; }
-.chip.dragging { opacity: .3; }
-.chip.ghost { position: fixed; z-index: 1000; pointer-events: none; margin: 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
-.chip.ok { border-color: var(--good); background: var(--good-bg); }
-.chip.bad { border-color: var(--bad); background: var(--bad-bg); }
-.chip.missing { border-color: var(--bad); border-style: dashed; }
-.qa-result { margin-right: auto; align-self: center; font-weight: 700; color: var(--muted); }
-
-/* Табови за игрите */
-.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-.tab {
-  font: inherit; font-weight: 700; padding: 10px 18px; border-radius: 999px;
-  border: 2px solid #eadfd6; background: var(--card); color: var(--muted); cursor: pointer;
-  transition: background .2s, border-color .2s, color .2s, transform .15s;
-}
-.tab:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
-.tab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
-.tab-panel[hidden] { display: none; }
-.game-title { font-size: 1.35rem; margin: 0 0 6px; }
-
-/* Меморија */
-.mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.mem-card {
-  position: relative; font: inherit; font-weight: 800; padding: 2px;
-  font-size: clamp(.65rem, 2.8vw, 1.05rem); overflow-wrap: anywhere;
-  aspect-ratio: 1 / .85; color: transparent; background: var(--primary);
-  border: 2px solid var(--primary-dark); border-bottom-width: 5px; border-radius: 10px;
-  cursor: pointer; transition: transform .15s, background .2s;
-}
-.mem-card::before {
-  content: "?"; position: absolute; inset: 0; display: grid; place-items: center;
-  color: #fff; font-size: 1.5rem;
-}
-.mem-card:hover:not(.open):not(.done) { transform: translateY(-3px); }
-.mem-card.open, .mem-card.done { background: #fff; color: var(--text); border-color: #e3d6cb; }
-.mem-card.open::before, .mem-card.done::before { content: none; }
-.mem-card.sym { font-size: clamp(1.1rem, 4.4vw, 1.7rem); }
-.mem-card.done { background: var(--good-bg); border-color: var(--good); }
-
-/* Балансирање равенки */
-.bal-eq {
-  display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end;
-  gap: 14px 8px; margin: 10px 0 14px; padding: 18px 8px;
-  border: 2px solid transparent; border-radius: 12px; transition: background .2s, border-color .2s;
-}
-.bal-term { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.bal-ctl { display: flex; align-items: center; gap: 4px; }
-.bal-ctl button {
-  width: 30px; height: 30px; border-radius: 50%; border: 2px solid #e3d6cb;
-  background: #fff; font: inherit; font-weight: 800; cursor: pointer; line-height: 1;
-}
-.bal-ctl button:hover:not(:disabled) { border-color: var(--primary); }
-.bal-ctl button:disabled { opacity: .35; cursor: default; }
-.bal-n { min-width: 26px; text-align: center; font-size: 1.4rem; font-weight: 800; color: var(--primary); }
-.bal-f { font-size: 1.5rem; font-weight: 800; }
-.bal-op { font-size: 1.5rem; font-weight: 800; color: var(--muted); padding-bottom: 2px; }
-.bal-eq.ok { border-color: var(--good); background: var(--good-bg); }
-.bal-eq.bad { border-color: var(--bad); background: var(--bad-bg); animation: shake .35s; }
-.bal-msg { text-align: center; color: var(--muted); min-height: 1.6em; margin: 0 0 12px; }
-
-/* Избор на опции пред играта */
-.game-opts { display: grid; gap: 8px; margin-bottom: 16px; }
-.opt-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.opt-label { color: var(--muted); font-size: .9rem; font-weight: 600; min-width: 84px; }
-.opt-row .btn.ghost { padding: 6px 14px; font-size: .85rem; }
-.btn.ghost.active { background: var(--primary); color: #fff; }
-
-/* Бесилка */
-.hm-svg { display: block; width: 120px; height: 140px; margin: 0 auto 4px; color: var(--text); }
-.hm-lives { text-align: center; color: var(--muted); margin: 0 0 14px; }
-.hm-keys { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 16px; }
-.letter.key { width: 38px; height: 44px; font-size: 1.05rem; }
-.letter.key.hit:disabled { opacity: 1; background: var(--good-bg); border-color: var(--good); }
-.letter.key.miss:disabled { opacity: .7; background: var(--bad-bg); border-color: var(--bad); }
-
-.header-inner { flex-wrap: wrap; gap: 6px 12px; }
 
 /* Footer */
 .site-footer { text-align: center; padding: 28px 0; color: var(--muted); font-size: .9rem; }

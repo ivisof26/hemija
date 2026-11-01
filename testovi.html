@@ -6,6 +6,13 @@
   <title>Тестови – Хемија за сите</title>
   <meta name="description" content="Тест по квалитативна анализа.">
   <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#2d1b4e">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Хемија">
 </head>
 <body>
 
@@ -17,6 +24,7 @@
         <a href="kvizovi.html">Квизови</a>
         <a href="igri.html">Игри</a>
         <a href="testovi.html" class="active" aria-current="page">Тестови</a>
+        <a href="aplikacija.html">📱 Апликација</a>
       </nav>
     </div>
   </header>
@@ -33,7 +41,7 @@
     <!-- ТЕСТ ПО КВАЛИТАТИВНА АНАЛИЗА -->
     <section id="kvalitativna" class="container section">
       <h2>Тест по квалитативна анализа</h2>
-      <p class="section-sub"> Реши ги сите прашања, па на крајот кликни „Предај и провери“.</p>
+      <p class="section-sub">Прашањата 1–14 имаат понудени одговори, а 15–17 се задачи: пишувај во полињата и влечи ги катјоните. Реши ги сите прашања, па на крајот кликни „Предај и провери“.</p>
 
       <div class="quiz" id="qa-quiz">
         <div class="qa-sticky" id="qa-sticky">
@@ -58,6 +66,7 @@
   <script src="qa-scheme.js"></script>
   <script src="qa-questions.js"></script>
   <script src="qa-quiz.js"></script>
+  <script src="app.js"></script>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

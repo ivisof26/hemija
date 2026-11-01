@@ -15,6 +15,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 html { scroll-behavior: smooth; }
 
@@ -152,6 +153,25 @@ nav a:hover { color: var(--primary); }
 .hub-card h3 { margin: 0 0 6px; font-size: 1.5rem; }
 .hub-card p { margin: 0 0 14px; color: var(--muted); }
 .hub-go { color: var(--primary); font-weight: 800; }
+
+/* Апликација */
+.app-banner-wrap { padding-bottom: 8px; }
+.app-banner {
+  display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--text);
+  background: var(--accent); border: 2px dashed #e3b48c; border-radius: var(--radius); padding: 14px 18px;
+  transition: transform .2s, box-shadow .2s;
+}
+.app-banner:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.app-banner-ico { font-size: 2rem; }
+.app-banner .hub-go { margin-left: auto; white-space: nowrap; }
+.app-intro { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 22px; }
+.app-intro > div { flex: 1 1 280px; }
+.app-intro h2 { margin: 0 0 8px; font-size: 1.5rem; }
+.app-intro p { margin: 0 0 14px; color: var(--muted); }
+.app-icon { border-radius: 22px; box-shadow: var(--shadow); }
+.platforms .card.me { outline: 3px solid var(--primary); }
+.steps { margin: 8px 0 0; padding-left: 20px; color: var(--muted); }
+.steps li { margin-bottom: 6px; }
 
 /* Наслов на внатрешните страници */
 .page-head { background: linear-gradient(135deg, #2d1b4e, #6a2c70); color: #fff; text-align: center; padding: 34px 0 38px; }
@@ -454,7 +474,7 @@ nav a.active { color: var(--primary); }
   .question { font-size: 1.15rem; }
   nav a { margin-left: 10px; }
   .logo { font-size: 1rem; }
-  nav { white-space: nowrap; }
+  nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 2px 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

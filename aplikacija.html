@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Апликација – Хемија за сите</title>
+  <meta name="description" content="Инсталирај ја Хемија за сите како апликација на телефон.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#2d1b4e">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Хемија">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html">⚗️ Хемија<span>за сите</span></a>
+      <nav>
+        <a href="index.html">Почетна</a>
+        <a href="kvizovi.html">Квизови</a>
+        <a href="igri.html">Игри</a>
+        <a href="testovi.html">Тестови</a>
+        <a href="aplikacija.html" class="active" aria-current="page">📱 Апликација</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="page-head">
+      <div class="container">
+        <h1>Апликација</h1>
+        <p>Користи ја „Хемија за сите“ како апликација на телефонот.</p>
+      </div>
+    </section>
+
+    <section class="container section">
+      <div class="app-intro">
+        <img class="app-icon" src="icon-192.png" alt="Икона на апликацијата" width="96" height="96">
+        <div>
+          <h2>Инсталирај ја на телефон</h2>
+          <p>Сајтот може да се сними како апликација: има своја икона на почетниот екран, се отвора на цел екран, а откако еднаш ќе го отвориш, повеќето работи и без интернет.</p>
+          <button class="btn primary" id="install-btn" type="button" hidden>📲 Инсталирај апликација</button>
+          <p class="hint" id="install-status"></p>
+        </div>
+      </div>
+
+      <div class="cards platforms">
+        <article class="card" data-platform="android">
+          <h3>🤖 Android (Chrome)</h3>
+          <ol class="steps">
+            <li>Отвори го сајтот во Chrome.</li>
+            <li>Допри ги трите точки ⋮ горе десно.</li>
+            <li>Избери „Инсталирај апликација“ (или „Додај на почетен екран“).</li>
+            <li>Потврди. Иконата се појавува на почетниот екран.</li>
+          </ol>
+        </article>
+        <article class="card" data-platform="ios">
+          <h3>🍎 iPhone / iPad (Safari)</h3>
+          <ol class="steps">
+            <li>Отвори го сајтот во Safari (не во Chrome).</li>
+            <li>Допри „Сподели“ (квадрат со стрелка нагоре).</li>
+            <li>Одбери „Додај на почетен екран“.</li>
+            <li>Допри „Додај“.</li>
+          </ol>
+        </article>
+        <article class="card" data-platform="desktop">
+          <h3>💻 Компјутер (Chrome или Edge)</h3>
+          <ol class="steps">
+            <li>Отвори го сајтот.</li>
+            <li>Во адресната лента кликни на иконата за инсталирање (монитор со стрелка).</li>
+            <li>Или од менито ⋮ избери „Инсталирај Хемија за сите“.</li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> Хемија за сите</div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

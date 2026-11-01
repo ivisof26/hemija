@@ -266,6 +266,64 @@ nav a:hover { color: var(--primary); }
 .btn.ghost { background: var(--accent); color: var(--primary-dark); padding: 9px 18px; font-size: .9rem; }
 .btn.ghost:disabled { opacity: .4; cursor: default; transform: none; box-shadow: none; }
 
+
+/* Меморија */
+.mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.mem-card {
+  position: relative; font: inherit; font-weight: 800; padding: 2px;
+  font-size: clamp(.65rem, 2.8vw, 1.05rem); overflow-wrap: anywhere;
+  aspect-ratio: 1 / .85; color: transparent; background: var(--primary);
+  border: 2px solid var(--primary-dark); border-bottom-width: 5px; border-radius: 10px;
+  cursor: pointer; transition: transform .15s, background .2s;
+}
+.mem-card::before {
+  content: "?"; position: absolute; inset: 0; display: grid; place-items: center;
+  color: #fff; font-size: 1.5rem;
+}
+.mem-card:hover:not(.open):not(.done) { transform: translateY(-3px); }
+.mem-card.open, .mem-card.done { background: #fff; color: var(--text); border-color: #e3d6cb; }
+.mem-card.open::before, .mem-card.done::before { content: none; }
+.mem-card.sym { font-size: clamp(1.1rem, 4.4vw, 1.7rem); }
+.mem-card.done { background: var(--good-bg); border-color: var(--good); }
+
+/* Балансирање равенки */
+.bal-eq {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end;
+  gap: 14px 8px; margin: 10px 0 14px; padding: 18px 8px;
+  border: 2px solid transparent; border-radius: 12px; transition: background .2s, border-color .2s;
+}
+.bal-term { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.bal-ctl { display: flex; align-items: center; gap: 4px; }
+.bal-ctl button {
+  width: 30px; height: 30px; border-radius: 50%; border: 2px solid #e3d6cb;
+  background: #fff; font: inherit; font-weight: 800; cursor: pointer; line-height: 1;
+}
+.bal-ctl button:hover:not(:disabled) { border-color: var(--primary); }
+.bal-ctl button:disabled { opacity: .35; cursor: default; }
+.bal-n { min-width: 26px; text-align: center; font-size: 1.4rem; font-weight: 800; color: var(--primary); }
+.bal-f { font-size: 1.5rem; font-weight: 800; }
+.bal-op { font-size: 1.5rem; font-weight: 800; color: var(--muted); padding-bottom: 2px; }
+.bal-eq.ok { border-color: var(--good); background: var(--good-bg); }
+.bal-eq.bad { border-color: var(--bad); background: var(--bad-bg); animation: shake .35s; }
+.bal-msg { text-align: center; color: var(--muted); min-height: 1.6em; margin: 0 0 12px; }
+
+/* Избор на опции пред играта */
+.game-opts { display: grid; gap: 8px; margin-bottom: 16px; }
+.opt-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.opt-label { color: var(--muted); font-size: .9rem; font-weight: 600; min-width: 84px; }
+.opt-row .btn.ghost { padding: 6px 14px; font-size: .85rem; }
+.btn.ghost.active { background: var(--primary); color: #fff; }
+
+/* Бесилка */
+.hm-svg { display: block; width: 120px; height: 140px; margin: 0 auto 4px; color: var(--text); }
+.hm-lives { text-align: center; color: var(--muted); margin: 0 0 14px; }
+.hm-keys { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 16px; }
+.letter.key { width: 38px; height: 44px; font-size: 1.05rem; }
+.letter.key.hit:disabled { opacity: 1; background: var(--good-bg); border-color: var(--good); }
+.letter.key.miss:disabled { opacity: .7; background: var(--bad-bg); border-color: var(--bad); }
+
+.header-inner { flex-wrap: wrap; gap: 6px 12px; }
+
 /* Footer */
 .site-footer { text-align: center; padding: 28px 0; color: var(--muted); font-size: .9rem; }
 

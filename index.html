@@ -16,7 +16,7 @@
         <a href="#denes">Денес</a>
         <a href="#temi">Теми</a>
         <a href="#kviz">Квиз</a>
-        <a href="#anagram">Анаграм</a>
+        <a href="#anagram">Игри</a>
       </nav>
     </div>
   </header>
@@ -118,6 +118,54 @@
       </div>
     </section>
 
+    <!-- МЕМОРИЈА -->
+    <section id="memorija" class="container section">
+      <h2>Меморија</h2>
+      <p class="section-sub">Најди ги паровите: симбол и име на елемент.</p>
+
+      <div class="quiz">
+        <div class="progress"><div class="progress-bar" id="mem-bar"></div></div>
+        <div class="quiz-meta">
+          <span id="mem-counter"></span>
+          <span id="mem-score"></span>
+        </div>
+
+        <div class="stage" id="mem-stage"></div>
+      </div>
+    </section>
+
+    <!-- БАЛАНСИРАЊЕ РАВЕНКИ -->
+    <section id="ravenki" class="container section">
+      <h2>Балансирање равенки</h2>
+      <p class="section-sub">Избалансирај ја равенката така што ќе го смениш бројот пред секоја супстанца.</p>
+
+      <div class="quiz">
+        <div class="progress"><div class="progress-bar" id="bal-bar"></div></div>
+        <div class="quiz-meta">
+          <span id="bal-counter"></span>
+          <span id="bal-score"></span>
+        </div>
+
+        <div class="stage" id="bal-stage"></div>
+      </div>
+    </section>
+
+    <!-- БЕСИЛКА -->
+    <section id="besilka" class="container section">
+      <h2>Бесилка</h2>
+      <p class="section-sub">Погоди го хемискиот поим буква по буква.</p>
+
+      <div class="quiz">
+        <div class="progress"><div class="progress-bar" id="han-bar"></div></div>
+        <div class="quiz-meta">
+          <span id="han-counter"></span>
+          <span id="han-score"></span>
+        </div>
+
+        <div class="stage" id="han-stage"></div>
+      </div>
+    </section>
+
   </main>
 
   <section class="love-band">
@@ -140,6 +188,12 @@
   <script src="quiz.js"></script>
   <script src="anagram-words.js"></script>
   <script src="anagram.js"></script>
+  <script src="common.js"></script>
+  <script src="elements.js"></script>
+  <script src="memory.js"></script>
+  <script src="equations.js"></script>
+  <script src="balance.js"></script>
+  <script src="hangman.js"></script>
   <script>
     // Ако некој има исклучено анимации во системот, го запираме атомот
     if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) {

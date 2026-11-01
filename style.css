@@ -148,6 +148,21 @@ nav a:hover { color: var(--primary); }
 .card p { margin: 0; color: var(--muted); }
 .hint { color: var(--muted); font-size: .9rem; margin-top: 16px; }
 
+/* Today in chemistry */
+.today-date { font-size: 1rem; font-weight: 600; color: var(--primary); margin-left: 8px; }
+.today { display: grid; gap: 16px; }
+.today-card {
+  background: var(--card); border-left: 6px solid var(--primary);
+  border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 24px;
+}
+.today-card.muted { border-left-color: var(--muted); }
+.today-card h3 { margin: 6px 0 8px; font-size: 1.4rem; }
+.today-card p { margin: 0; color: var(--muted); }
+.today-year {
+  display: inline-block; background: var(--accent); color: var(--primary-dark);
+  padding: 2px 12px; border-radius: 999px; font-size: .85rem; font-weight: 700;
+}
+
 /* Quiz */
 .quiz {
   background: var(--card); border-radius: var(--radius);

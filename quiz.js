@@ -7,6 +7,14 @@ const scoreLabel = document.getElementById("score-label");
 
 document.getElementById("year").textContent = new Date().getFullYear();
 
+const ROUND = 10; // колку прашања има една игра (се бираат случајно од questions.js)
+
+// Поднасловот на страницата Квизови (ако го има) се прилагодува автоматски
+const subtitle = document.querySelector(".page-head p");
+if (subtitle) {
+  subtitle.textContent = `Провери колку знаеш: ${Math.min(ROUND, QUESTIONS.length)} случајни прашања од ${QUESTIONS.length}, по секое има објаснување.`;
+}
+
 let current = 0;
 let score = 0;
 
@@ -19,7 +27,7 @@ function shuffle(arr) {
   return a;
 }
 
-let order = shuffle(QUESTIONS);
+let order = shuffle(QUESTIONS).slice(0, ROUND);
 
 function updateMeta() {
   counter.textContent = `Прашање ${Math.min(current + 1, order.length)} од ${order.length}`;
@@ -51,20 +59,24 @@ function showQuestion() {
   const actions = document.createElement("div");
   actions.className = "actions";
 
-  q.options.forEach((text, i) => {
+  // Одговорите се мешаат, за точниот да не биде секогаш на исто место
+  const choices = shuffle(q.options.map((text, i) => ({ text, right: i === q.answer })));
+  const rightIndex = choices.findIndex(c => c.right);
+
+  choices.forEach((c, i) => {
     const btn = document.createElement("button");
     btn.className = "option";
-    btn.textContent = text;
+    btn.textContent = c.text;
     btn.addEventListener("click", () => {
       const all = optionsBox.querySelectorAll(".option");
       all.forEach(b => (b.disabled = true));
 
-      if (i === q.answer) {
+      if (c.right) {
         btn.classList.add("correct");
         score++;
       } else {
         btn.classList.add("wrong");
-        all[q.answer].classList.add("correct");
+        all[rightIndex].classList.add("correct");
       }
       scoreLabel.textContent = `Поени: ${score}`;
       explain.classList.add("show");
@@ -114,7 +126,7 @@ function showResult() {
   document.getElementById("restart").addEventListener("click", () => {
     current = 0;
     score = 0;
-    order = shuffle(QUESTIONS);
+    order = shuffle(QUESTIONS).slice(0, ROUND);
     stage.firstChild.classList.add("leaving");
     setTimeout(showQuestion, 300);
   });

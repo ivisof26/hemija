@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Тест по органска хемија – Хемија за сите</title>
+  <meta name="description" content="Тест по органска хемија: лабораториски садови, екстракција, температура на топење и тестови за функционални групи.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#2d1b4e">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Хемија">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html">⚗️ Хемија<span>за сите</span></a>
+      <nav>
+        <a href="index.html">Почетна</a>
+        <a href="kvizovi.html">Квизови</a>
+        <a href="igri.html">Игри</a>
+        <a href="testovi.html" class="active" aria-current="page">Тестови</a>
+        <a href="aplikacija.html">📱 Апликација</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="page-head">
+      <div class="container">
+        <h1>Тест по органска хемија</h1>
+        <p>Реши ги сите прашања, па на крајот кликни „Предај и провери“.</p>
+      </div>
+    </section>
+
+    <!-- ТЕСТ ПО КВАЛИТАТИВНА АНАЛИЗА -->
+    <section id="organska" class="container section">
+      <p class="back-wrap"><a class="back-link" href="testovi.html">← Сите тестови</a></p>
+
+      <div class="quiz" id="qa-quiz">
+        <div class="qa-sticky" id="qa-sticky">
+          <div class="progress"><div class="progress-bar" id="qa-bar"></div></div>
+          <div class="quiz-meta">
+            <span id="qa-counter"></span>
+            <span id="qa-score"></span>
+          </div>
+        </div>
+
+        <div class="stage" id="qa-stage"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> Хемија за сите</div>
+  </footer>
+
+  <script src="common.js"></script>
+  <script src="organska-questions.js"></script>
+  <script src="qa-quiz.js"></script>
+  <script src="app.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

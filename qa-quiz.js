@@ -1,7 +1,9 @@
 // Тест по квалитативна анализа: сите прашања се на една страница (скролање), на крајот „Предај и провери“.
-// Прашањата се во qa-questions.js, шемата во qa-scheme.js
+// Прашањата се во qa-questions.js (или во TEST_QUESTIONS на друг тест), шемата во qa-scheme.js
 (function () {
-  const Q = QA_QUESTIONS;
+  const Q = typeof TEST_QUESTIONS !== "undefined" ? TEST_QUESTIONS : QA_QUESTIONS;
+  const pts = q => q.points || 1;
+  const MAX = Q.reduce((sum, q) => sum + pts(q), 0);
   const stage = document.getElementById("qa-stage");
   const counter = document.getElementById("qa-counter");
   const scoreLabel = document.getElementById("qa-score");
@@ -359,9 +361,76 @@
     };
   }
 
+  // ---------- повеќе точни одговори ----------
+
+  function multi(q, onChange) {
+    const sel = new Set();
+    const box = G.el("div", "options");
+    const btns = q.options.map((t, i) => {
+      const b = G.el("button", "option multi", t);
+      b.type = "button";
+      b.addEventListener("click", () => {
+        if (submitted) return;
+        if (sel.has(i)) sel.delete(i); else sel.add(i);
+        b.classList.toggle("picked", sel.has(i));
+        onChange();
+      });
+      box.appendChild(b);
+      return b;
+    });
+    return {
+      nodes: [G.el("p", "qa-hint", "Означи ги сите точни одговори."), box],
+      answered: () => sel.size > 0,
+      grade() {
+        let hits = 0, wrong = 0;
+        btns.forEach((b, i) => {
+          b.disabled = true;
+          b.classList.remove("picked");
+          const should = q.answers.includes(i), on = sel.has(i);
+          if (should && on) { hits++; b.classList.add("correct"); }
+          else if (on) { wrong++; b.classList.add("wrong"); }
+          else if (should) b.classList.add("missed");
+        });
+        return { got: Math.max(0, hits - wrong), total: q.answers.length };
+      }
+    };
+  }
+
+  // ---------- кус одговор (се проверува по клучни зборови) ----------
+
+  function text(q, onChange) {
+    const norm = v => v.toLowerCase().replace(/[„“”"'.,;:!?()]/g, " ").replace(/\s+/g, " ").trim();
+    const nodes = [];
+    const fields = q.fields.map(f => {
+      const row = G.el("label", "qa-ion qa-ion-wide");
+      const inp = G.el("input", "qa-fill inline qa-wide");
+      inp.type = "text";
+      inp.autocomplete = "off";
+      inp.spellcheck = false;
+      inp.addEventListener("input", onChange);
+      row.append(G.el("span", "", f.label || "Одговор:"), inp);
+      nodes.push(row);
+      return inp;
+    });
+    return {
+      nodes,
+      answered: () => fields.some(i => i.value.trim()),
+      grade() {
+        let got = 0;
+        fields.forEach((inp, k) => {
+          inp.disabled = true;
+          const ok = q.fields[k].accept.some(p => new RegExp(p, "i").test(norm(inp.value)));
+          inp.classList.add(ok ? "ok" : "bad");
+          if (ok) got++;
+        });
+        return { got, total: fields.length };
+      }
+    };
+  }
+
   // ---------- страница со сите прашања ----------
 
-  const builders = { mc, scheme, dnd, fill };
+  const builders = { mc, multi, text, scheme, dnd, fill };
 
   function build() {
     submitted = false; total = 0; warned = false;
@@ -372,8 +441,15 @@
       const head = G.el("div", "qa-head");
       it.badge = G.el("span", "qa-badge");
       head.append(G.el("span", "qa-num", `Прашање ${q.n}`), it.badge);
-      el.append(head, G.el("h3", "question qa-q", q.q), ...it.nodes);
-      if (q.type !== "mc") { it.ans = answerBox(q); el.appendChild(it.ans); }
+      el.append(head, G.el("h3", "question qa-q", q.q));
+      if (q.img) {
+        const im = G.el("img", "qa-img qa-q-img");
+        im.src = q.img;
+        im.alt = "Слика кон прашањето";
+        el.appendChild(im);
+      }
+      el.append(...it.nodes);
+      if (typeof q.answer === "string") { it.ans = answerBox(q); el.appendChild(it.ans); }
       it.el = el;
       return it;
     });
@@ -399,17 +475,17 @@
     items.forEach(it => {
       const r = it.grade();
       const frac = r.got / r.total;
-      total += frac;
+      total += frac * pts(it.q);
       it.badge.textContent = frac > 0.999 ? "✔ Точно" : r.total === 1 ? "✘ Погрешно" : `Точно: ${r.got} од ${r.total}`;
       it.badge.classList.add(frac > 0.999 ? "good" : "bad");
       if (it.ans) it.ans.classList.add("show");
       if (frac <= 0.999) missed.push(it);
     });
 
-    const pct = Math.round((total / Q.length) * 100);
+    const pct = Math.round((total / MAX) * 100);
     const [emoji, msg] = G.grade(pct);
     const sum = G.el("div", "qa-summary");
-    sum.append(G.el("p", "big", emoji), G.el("h3", "", `${fmt(total)} од ${Q.length} поени (${pct}%)`), G.el("p", "", msg));
+    sum.append(G.el("p", "big", emoji), G.el("h3", "", `${fmt(total)} од ${MAX} поени (${pct}%)`), G.el("p", "", msg));
     if (missed.length) {
       const list = G.el("p", "qa-missed", "За повторување: ");
       missed.forEach((it, k) => {

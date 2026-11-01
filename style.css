@@ -154,6 +154,12 @@ nav a:hover { color: var(--primary); }
 .hub-card p { margin: 0 0 14px; color: var(--muted); }
 .hub-go { color: var(--primary); font-weight: 800; }
 
+/* Врска назад кон листата */
+.back-wrap { margin: 0 0 14px; }
+.back-link { color: var(--primary); font-weight: 700; text-decoration: none; }
+.back-link:hover { text-decoration: underline; }
+.tests-list { margin-top: 0; }
+
 /* Апликација */
 .app-banner-wrap { padding-bottom: 8px; }
 .app-banner {
@@ -334,6 +340,13 @@ nav a.active { color: var(--primary); }
 .qa-badge.good { background: var(--good-bg); color: var(--good); }
 .qa-badge.bad { background: var(--bad-bg); color: var(--bad); }
 .option.picked { border-color: var(--primary); background: var(--accent); }
+.option:disabled { color: var(--text); }
+.option.multi::before { content: "☐  "; }
+.option.multi.picked::before, .option.multi.correct::before, .option.multi.wrong::before { content: "☑  "; }
+.option.missed { border-style: dashed; border-color: var(--good); }
+.qa-hint { margin: 0 0 8px; color: var(--muted); font-size: .9rem; }
+.qa-fill.qa-wide { width: min(420px, 100%); }
+.qa-q-img { margin: 6px 0 14px; max-width: 100%; max-height: 520px; width: auto; }
 .qa-answer:not(.show) { display: none; }
 .qa-summary { text-align: center; background: var(--accent); border-radius: var(--radius); padding: 18px 16px 14px; margin: 14px 0 4px; scroll-margin-top: 150px; }
 .qa-summary .big { font-size: 3rem; margin: 0; }

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Тестови – Хемија за сите</title>
-  <meta name="description" content="Тест по квалитативна анализа.">
+  <meta name="description" content="Избери тест за вежбање по хемија.">
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#2d1b4e">
@@ -34,25 +34,25 @@
     <section class="page-head">
       <div class="container">
         <h1>Тестови</h1>
-        <p>Вежбај за тестовите со прашања од вежбите.</p>
+        <p>Избери тест за вежбање.</p>
+        <a class="hub-card" href="test-organska.html">
+          <span class="hub-ico">⚗️</span>
+          <h3>Органска хемија</h3>
+          <p>23 прашања со слики: лабораториски садови, екстракција, температура на топење и тестови за функционални групи.</p>
+          <span class="hub-go">Отвори →</span>
+        </a>
       </div>
     </section>
 
     <!-- ТЕСТ ПО КВАЛИТАТИВНА АНАЛИЗА -->
-    <section id="kvalitativna" class="container section">
-      <h2>Тест по квалитативна анализа</h2>
-      <p class="section-sub"> Реши ги сите прашања, па на крајот кликни „Предај и провери“.</p>
-
-      <div class="quiz" id="qa-quiz">
-        <div class="qa-sticky" id="qa-sticky">
-          <div class="progress"><div class="progress-bar" id="qa-bar"></div></div>
-          <div class="quiz-meta">
-            <span id="qa-counter"></span>
-            <span id="qa-score"></span>
-          </div>
-        </div>
-
-        <div class="stage" id="qa-stage"></div>
+    <section class="container section">
+      <div class="hub tests-list">
+        <a class="hub-card" href="test-kvalitativna.html">
+          <span class="hub-ico">🧫</span>
+          <h3>Квалитативна анализа</h3>
+          <p>17 прашања: понудени одговори, пишување на формули, шема и влечење на катјони.</p>
+          <span class="hub-go">Отвори →</span>
+        </a>
       </div>
     </section>
 
@@ -62,10 +62,6 @@
     <div class="container">© <span id="year"></span> Хемија за сите</div>
   </footer>
 
-  <script src="common.js"></script>
-  <script src="qa-scheme.js"></script>
-  <script src="qa-questions.js"></script>
-  <script src="qa-quiz.js"></script>
   <script src="app.js"></script>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>

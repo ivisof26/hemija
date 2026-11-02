@@ -35,12 +35,12 @@
   const CATS = [
     { id: "alkali",    name: "Алкални метали",        color: "#ff8a65", z: [3, 11, 19, 37, 55, 87] },
     { id: "alkaline",  name: "Земноалкални метали",   color: "#ffb74d", z: [4, 12, 20, 38, 56, 88] },
-    { id: "trans",     name: "Преодни метали",        color: "#ffe082", z: range(21, 30).concat(range(39, 48), range(72, 80), range(104, 112)) },
-    { id: "post",      name: "Постпреодни метали",    color: "#aed581", z: [13, 31, 49, 50, 81, 82, 83, 84, 113, 114, 115, 116] },
+    { id: "trans",     name: "Преодни елементи",        color: "#ffe082", z: range(21, 30).concat(range(39, 48), range(72, 80), range(104, 112)) },
+    { id: "post",      name: "Преодни елементи",    color: "#aed581", z: [13, 31, 49, 50, 81, 82, 83, 84, 113, 114, 115, 116] },
     { id: "metalloid", name: "Полуметали",            color: "#4db6ac", z: [5, 14, 32, 33, 51, 52] },
     { id: "nonmetal",  name: "Неметали",              color: "#81d4fa", z: [1, 6, 7, 8, 15, 16, 34] },
     { id: "halogen",   name: "Халогени елементи",     color: "#f48fb1", z: [9, 17, 35, 53, 85, 117] },
-    { id: "noble",     name: "Племенити гасови",      color: "#b39ddb", z: [2, 10, 18, 36, 54, 86, 118] },
+    { id: "noble",     name: "Благородни гасови",      color: "#b39ddb", z: [2, 10, 18, 36, 54, 86, 118] },
     { id: "lanth",     name: "Лантаноиди",            color: "#d7ccc8", z: range(57, 71) },
     { id: "actin",     name: "Актиноиди",             color: "#bcaaa4", z: range(89, 103) }
   ];
@@ -55,7 +55,7 @@
     if (GAS.has(z)) return "гас";
     if (LIQUID.has(z)) return "течност";
     if (z === 85 || z === 87 || z >= 104) return "непознато (синтетички елемент)";
-    return "цврсто тело";
+    return "цврста";
   }
 
   // ---------- Место во табелата ----------

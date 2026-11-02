@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Алатки – Хемија за сите</title>
+  <meta name="description" content="Периоден систем на кој се кликнува и калкулатор за моларна маса на македонски јазик.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="alatki.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#2d1b4e">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Хемија">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html">⚗️ Хемија<span>за сите</span></a>
+      <nav>
+        <a href="index.html">Почетна</a>
+        <a href="kvizovi.html">Квизови</a>
+        <a href="igri.html">Игри</a>
+        <a href="testovi.html">Тестови</a>
+        <a href="alatki.html" class="active" aria-current="page">🧮 Алатки</a>
+        <a href="aplikacija.html">📱 Апликација</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="page-head">
+      <div class="container">
+        <h1>Алатки</h1>
+        <p>Периоден систем на кој се кликнува и калкулатор за моларна маса.</p>
+      </div>
+    </section>
+
+    <section class="container section">
+      <div class="at-tabs" role="tablist" aria-label="Алатки">
+        <button class="at-tab active" role="tab" id="at-tab-pt" data-tab="pt" aria-selected="true" aria-controls="at-panel-pt" type="button">📊 Периоден систем</button>
+        <button class="at-tab" role="tab" id="at-tab-calc" data-tab="calc" aria-selected="false" aria-controls="at-panel-calc" type="button">🧮 Калкулатор</button>
+      </div>
+
+      <!-- ПЕРИОДЕН СИСТЕМ -->
+      <div class="at-panel" id="at-panel-pt" role="tabpanel">
+        <div class="pt-tools">
+          <input class="pt-search" id="pt-search" type="search" placeholder="Барај елемент: име, симбол или број" aria-label="Барај елемент" autocomplete="off">
+        </div>
+        <div class="pt-legend" id="pt-legend" aria-label="Категории на елементи"></div>
+
+        <div class="pt-detail-top" id="pt-detail-top"></div>
+
+        <div class="pt-scroll">
+          <div class="pt-grid" id="pt-grid">
+            <div class="pt-detail-inline"><div class="pt-detail-wrap" id="pt-detail-inline"></div></div>
+          </div>
+        </div>
+        <p class="at-note">Во заграда е масениот број на најстабилниот изотоп (елементи без стабилен изотоп). Агрегатната состојба е при собна температура и нормален притисок.</p>
+      </div>
+
+      <!-- КАЛКУЛАТОР -->
+      <div class="at-panel" id="at-panel-calc" role="tabpanel" hidden>
+        <div class="calc-card">
+          <label class="calc-label" for="calc-input">Хемиска формула</label>
+          <div class="calc-row">
+            <input class="calc-input" id="calc-input" type="text" inputmode="text" placeholder="на пример Ca(OH)2" autocomplete="off" autocapitalize="off" spellcheck="false">
+          </div>
+          <div class="calc-keys" aria-label="Помош при пишување">
+            <button type="button" class="calc-key" data-ins="(">(</button>
+            <button type="button" class="calc-key" data-ins=")">)</button>
+            <button type="button" class="calc-key" data-ins="·">· (хидрат)</button>
+            <button type="button" class="calc-key calc-clear" id="calc-clear">Избриши</button>
+          </div>
+          <p class="calc-help">Пиши со латинични букви, а индексите како обични броеви: <b>H2SO4</b>, <b>Al2(SO4)3</b>, <b>CuSO4·5H2O</b>. Симболите почнуваат со голема буква (Na, Cl).</p>
+          <div class="calc-examples" id="calc-examples"></div>
+
+          <div class="calc-error" id="calc-error" role="alert" hidden></div>
+
+          <div class="calc-result" id="calc-result" hidden>
+            <div class="calc-big"><span class="calc-big-label">Моларна маса</span> <span class="calc-big-val"><b id="calc-M"></b> g/mol</span></div>
+            <p class="calc-formula" id="calc-formula"></p>
+            <div class="calc-table-wrap">
+              <table class="calc-table">
+                <thead><tr><th>Елемент</th><th>Атоми</th><th>Ar</th><th>Вкупно</th><th>Масен удел</th></tr></thead>
+                <tbody id="calc-body"></tbody>
+              </table>
+            </div>
+            <p class="at-note" id="calc-radio" hidden>* Радиоактивен елемент: користена е масата на најстабилниот изотоп.</p>
+
+            <h3 class="calc-h">Претворање: маса ⇄ мол ⇄ честички</h3>
+            <p class="calc-help">Внеси една вредност, а другите се пресметуваат за формулата погоре.</p>
+            <div class="calc-conv">
+              <label>Маса, m (g)<input class="calc-num" id="cv-m" type="text" inputmode="decimal" autocomplete="off"></label>
+              <label>Количество, n (mol)<input class="calc-num" id="cv-n" type="text" inputmode="decimal" autocomplete="off"></label>
+              <label>Број на честички, N<input class="calc-num" id="cv-N" type="text" inputmode="decimal" autocomplete="off"></label>
+              <label>Волумен на гас, V (L), нормални услови<input class="calc-num" id="cv-V" type="text" inputmode="decimal" autocomplete="off"></label>
+            </div>
+            <p class="at-note">n = m / M &nbsp;·&nbsp; N = n · Nₐ (Nₐ = 6,022 · 10²³ mol⁻¹) &nbsp;·&nbsp; V = n · 22,4 L/mol (за гас при нормални услови).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> Хемија за сите</div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script src="elements.js"></script>
+  <script src="alatki.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

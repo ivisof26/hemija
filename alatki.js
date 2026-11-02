@@ -197,7 +197,7 @@
       fact("Атомски број (Z)", String(e.z)),
       fact("Релативна атомска маса (Ar)", massText(e)),
       fact("Група", g === null ? "— (" + cat.name.toLowerCase() + ")" : String(g)),
-      fact("Период", String(periodOf(e.z))),
+      fact("Периода", String(periodOf(e.z))),
       fact("Валентни електрони", v === null ? "—" : String(v)),
       fact("Состојба (собна температура)", stateOf(e.z))
     );

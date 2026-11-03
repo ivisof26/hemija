@@ -1,4 +1,4 @@
-// Алатки: периоден систем на кој се кликнува + калкулатор за моларна маса.
+// Алатки: периоден систем + калкулатор за моларна маса.
 // Ги користи имињата и симболите од elements.js (ELEMENTS).
 (function () {
   "use strict";
@@ -58,7 +58,7 @@
   }
 
   // ---------- Место во табелата ----------
-  // Групи 1–18, периоди 1–7; лантаноидите (Ce–Lu) и актиноидите (Th–Lr) се во два реда подолу.
+  // Групи 1–18, и 1–7; лантаноидите (Ce–Lu) и актиноидите (Th–Lr) се во два реда подолу.
   function pos(z) {
     if (z === 1) return [1, 1];
     if (z === 2) return [1, 18];
@@ -97,7 +97,7 @@
   const fmtNum = n => String(n).replace(".", ",");
   function massText(e) { return e.radio ? "(" + e.mass + ")" : fmtNum(e.mass); }
 
-  // ---------- Периоден систем ----------
+  // ---------- ен систем ----------
   const grid = document.getElementById("pt-grid");
   const legend = document.getElementById("pt-legend");
   const search = document.getElementById("pt-search");
@@ -196,7 +196,7 @@
       fact("Атомски број (Z)", String(e.z)),
       fact("Релативна атомска маса (Ar)", massText(e)),
       fact("Група", g === null ? "— (" + cat.name.toLowerCase() + ")" : String(g)),
-      fact("Период", String(periodOf(e.z))),
+      fact("Периода", String(periodOf(e.z))),
       fact("Валентни електрони", v === null ? "—" : String(v)),
       fact("Агрегатна состојба (собна температура)", stateOf(e.z))
     );

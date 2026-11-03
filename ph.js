@@ -70,14 +70,30 @@
   }
   Object.keys(F).forEach(k => F[k].addEventListener("input", () => from(k)));
 
-  // силна киселина / база
+  // силна киселина / база (со поправена формула за H2SO4 преку Ka2)
   function fromConc() {
     const v = parse($("ph-c").value);
     $("ph-c").classList.remove("bad");
     if (v === null) return;
     if (Number.isNaN(v) || v <= 0) { $("ph-c").classList.add("bad"); showError("Концентрацијата мора да е позитивен број."); return; }
-    const t = $("ph-type").value, n = t.endsWith("2") ? 2 : 1;
-    const pH = t[0] === "a" ? -Math.log10(v * n) : 14 + Math.log10(v * n);
+    
+    const t = $("ph-type").value;
+    let pH;
+
+    if (t === "a2") { 
+      // Пресметка за H2SO4 со земање предвид на вториот степен на дисоцијација (Ka2 ≈ 0.012)
+      const Ka2 = 0.012;
+      const a = 1;
+      const b = v + Ka2;
+      const c = -Ka2 * v;
+      const x = (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a);
+      const hTotal = v + x;
+      pH = -Math.log10(hTotal);
+    } else {
+      const n = t.endsWith("2") ? 2 : 1;
+      pH = t[0] === "a" ? -Math.log10(v * n) : 14 + Math.log10(v * n);
+    }
+
     last = null;
     setAll(pH);
     showError(pH < 0 || pH > 14 ? "Забелешка: при толку голема концентрација формулата pH = −log[H⁺] е само приближна." : "");

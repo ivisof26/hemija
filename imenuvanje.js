@@ -38,7 +38,7 @@
     const askKey = mode === "f2n" ? "f" : "n", ansKey = mode === "f2n" ? "n" : "f";
 
     const slide = G.el("div", "slide");
-    const q = G.el("h3", "question", mode === "f2n" ? "Како се вика соединението:" : "Која е формулата на соединението:");
+    const q = G.el("h3", "question", mode === "f2n" ? "Како се именува соединението:" : "Која е формулата на соединението:");
     const big = G.el("p", "nam-big", item[askKey]);
     const explain = G.el("div", "explain");
     const actions = G.el("div", "actions");

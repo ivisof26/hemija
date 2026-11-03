@@ -34,7 +34,7 @@
     const options = G.shuffle([item[ansKey], ...distractors(item, ansKey)]);
 
     const slide = G.el("div", "slide");
-    const q = G.el("h3", "question", mode === "f2n" ? "Како се вика соединението:" : "Која е формулата на соединението:");
+    const q = G.el("h3", "question", mode === "f2n" ? "Како се именува соединението:" : "Која е формулата на соединението:");
     const big = G.el("p", "nam-big", item[askKey]);
     const box = G.el("div", "options");
     const explain = G.el("div", "explain");

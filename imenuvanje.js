@@ -1,4 +1,4 @@
-// Игра „Имиња на соединенија“: внесување или избор
+// Игра „Именување на соединенија“: внесување или избор
 (function () {
   const ROUND = 10;
   const stage = document.getElementById("nam-stage");

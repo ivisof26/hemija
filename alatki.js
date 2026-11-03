@@ -1,4 +1,4 @@
-// Алатки: периоден систем + калкулатор за моларна маса.
+// Алатки: периоден систем на кој се кликнува + калкулатор за моларна маса.
 // Ги користи имињата и симболите од elements.js (ELEMENTS).
 (function () {
   "use strict";
@@ -35,8 +35,7 @@
   const CATS = [
     { id: "alkali",    name: "Алкални метали",        color: "#ff8a65", z: [3, 11, 19, 37, 55, 87] },
     { id: "alkaline",  name: "Земноалкални метали",   color: "#ffb74d", z: [4, 12, 20, 38, 56, 88] },
-    { id: "trans",     name: "Преодни елементи",        color: "#ffe082", z: range(21, 30).concat(range(39, 48), range(72, 80), range(104, 112)) },
-    { id: "post",      name: "Преодни елементи",    color: "#aed581", z: [13, 31, 49, 50, 81, 82, 83, 84, 113, 114, 115, 116] },
+    { id: "trans",     name: "Преодни елементи",       color: "#ffe082", z: range(21, 30).concat(range(39, 48), range(72, 80), range(104, 112), [13, 31, 49, 50, 81, 82, 83, 84, 113, 114, 115, 116]) },
     { id: "metalloid", name: "Полуметали",            color: "#4db6ac", z: [5, 14, 32, 33, 51, 52] },
     { id: "nonmetal",  name: "Неметали",              color: "#81d4fa", z: [1, 6, 7, 8, 15, 16, 34] },
     { id: "halogen",   name: "Халогени елементи",     color: "#f48fb1", z: [9, 17, 35, 53, 85, 117] },
@@ -52,8 +51,8 @@
   const GAS = new Set([1, 2, 7, 8, 9, 10, 17, 18, 36, 54, 86]);
   const LIQUID = new Set([35, 80]);
   function stateOf(z) {
-    if (GAS.has(z)) return "гас";
-    if (LIQUID.has(z)) return "течност";
+    if (GAS.has(z)) return "гасовита";
+    if (LIQUID.has(z)) return "течна";
     if (z === 85 || z === 87 || z >= 104) return "непознато (синтетички елемент)";
     return "цврста";
   }
@@ -197,9 +196,9 @@
       fact("Атомски број (Z)", String(e.z)),
       fact("Релативна атомска маса (Ar)", massText(e)),
       fact("Група", g === null ? "— (" + cat.name.toLowerCase() + ")" : String(g)),
-      fact("Периода", String(periodOf(e.z))),
+      fact("Период", String(periodOf(e.z))),
       fact("Валентни електрони", v === null ? "—" : String(v)),
-      fact("Состојба (собна температура)", stateOf(e.z))
+      fact("Агрегатна состојба (собна температура)", stateOf(e.z))
     );
     const right = node("div", "pt-detail-right");
     right.append(head, facts);

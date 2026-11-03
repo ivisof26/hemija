@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Алатки – Хемија за сите</title>
-  <meta name="description" content="Периоден систем и калкулатор за моларна маса.">
+  <meta name="description" content="Периоден систем на кој се кликнува и калкулатор за моларна маса на македонски јазик.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="alatki.css">
   <link rel="manifest" href="manifest.webmanifest">
@@ -36,7 +36,7 @@
     <section class="page-head">
       <div class="container">
         <h1>Алатки</h1>
-        <p>Периоден систем и калкулатор за моларна маса.</p>
+        <p>Периоден систем на кој се кликнува, калкулатор за моларна маса и pH-калкулатор.</p>
       </div>
     </section>
 
@@ -44,6 +44,7 @@
       <div class="at-tabs" role="tablist" aria-label="Алатки">
         <button class="at-tab active" role="tab" id="at-tab-pt" data-tab="pt" aria-selected="true" aria-controls="at-panel-pt" type="button">📊 Периоден систем</button>
         <button class="at-tab" role="tab" id="at-tab-calc" data-tab="calc" aria-selected="false" aria-controls="at-panel-calc" type="button">🧮 Калкулатор</button>
+        <button class="at-tab" role="tab" id="at-tab-ph" data-tab="ph" aria-selected="false" aria-controls="at-panel-ph" type="button">🧪 pH</button>
       </div>
 
       <!-- ПЕРИОДЕН СИСТЕМ -->
@@ -104,6 +105,42 @@
           </div>
         </div>
       </div>
+
+      <!-- pH -->
+      <div class="at-panel" id="at-panel-ph" role="tabpanel" hidden>
+        <div class="calc-card">
+          <h3 class="calc-h" style="margin-top:0">pH, pOH и концентрација на јони</h3>
+          <p class="calc-help">Внеси која било од четирите вредности, а другите се пресметуваат (на 25 °C, pH + pOH = 14).</p>
+          <div class="calc-conv">
+            <label>pH<input class="calc-num" id="ph-pH" type="text" inputmode="decimal" autocomplete="off" placeholder="на пример 3"></label>
+            <label>pOH<input class="calc-num" id="ph-pOH" type="text" inputmode="decimal" autocomplete="off"></label>
+            <label>[H⁺] (mol/L)<input class="calc-num" id="ph-H" type="text" inputmode="decimal" autocomplete="off" placeholder="на пример 1e-3"></label>
+            <label>[OH⁻] (mol/L)<input class="calc-num" id="ph-OH" type="text" inputmode="decimal" autocomplete="off"></label>
+          </div>
+          <div class="ph-result" id="ph-result" hidden>
+            <div class="calc-big" id="ph-big"><span class="calc-big-label" id="ph-verdict"></span> <span class="calc-big-val">pH = <b id="ph-val"></b></span></div>
+            <div class="ph-scale" aria-hidden="true"><div class="ph-marker" id="ph-marker"></div></div>
+            <div class="ph-ticks" aria-hidden="true"><span>0</span><span>7</span><span>14</span></div>
+          </div>
+          <div class="calc-error" id="ph-error" role="alert" hidden></div>
+          <div class="calc-examples" id="ph-examples"></div>
+
+          <h3 class="calc-h">pH на силна киселина или база</h3>
+          <p class="calc-help">Силните киселини и бази се дисоцираат целосно.</p>
+          <div class="calc-conv">
+            <label>Супстанца
+              <select class="calc-num" id="ph-type">
+                <option value="a1">Силна киселина со еден H⁺ (HCl, HNO₃)</option>
+                <option value="a2">Силна киселина со два H⁺ (H₂SO₄)</option>
+                <option value="b1">Силна база со еден OH⁻ (NaOH, KOH)</option>
+                <option value="b2">Силна база со два OH⁻ (Ca(OH)₂, Ba(OH)₂)</option>
+              </select>
+            </label>
+            <label>Концентрација (mol/L)<input class="calc-num" id="ph-c" type="text" inputmode="decimal" autocomplete="off" placeholder="на пример 0,01"></label>
+          </div>
+          <p class="at-note">pH = −log[H⁺] &nbsp;·&nbsp; pOH = −log[OH⁻] &nbsp;·&nbsp; [H⁺] · [OH⁻] = 10⁻¹⁴.</p>
+        </div>
+      </div>
     </section>
 
   </main>
@@ -115,6 +152,7 @@
   <script src="app.js"></script>
   <script src="elements.js"></script>
   <script src="alatki.js"></script>
+  <script src="ph.js"></script>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

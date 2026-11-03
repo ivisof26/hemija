@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Игри – Хемија за сите</title>
-  <meta name="description" content="Хемиски игри: анаграм, меморија, израмнување равенки, бесилка.">
+  <meta name="description" content="Хемиски игри: анаграм, меморија, израмнување равенки, имиња на соединенија, бесилка.">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="imenuvanje.css">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#2d1b4e">
   <link rel="icon" type="image/png" href="icon-192.png">
@@ -45,6 +46,7 @@
         <button class="tab active" role="tab" id="tab-anagram" data-tab="anagram" aria-selected="true" aria-controls="panel-anagram" type="button">🔤 Анаграм</button>
         <button class="tab" role="tab" id="tab-memorija" data-tab="memorija" aria-selected="false" aria-controls="panel-memorija" type="button">🃏 Меморија</button>
         <button class="tab" role="tab" id="tab-ravenki" data-tab="ravenki" aria-selected="false" aria-controls="panel-ravenki" type="button">⚖️ Равенки</button>
+        <button class="tab" role="tab" id="tab-imenuvanje" data-tab="imenuvanje" aria-selected="false" aria-controls="panel-imenuvanje" type="button">🔬 Имиња</button>
         <button class="tab" role="tab" id="tab-besilka" data-tab="besilka" aria-selected="false" aria-controls="panel-besilka" type="button">✏️ Бесилка</button>
       </div>
 
@@ -84,6 +86,19 @@
           <div class="stage" id="bal-stage"></div>
         </div>
       </div>
+      <div class="tab-panel" id="panel-imenuvanje" role="tabpanel" hidden>
+        <h3 class="game-title">Имиња на соединенија</h3>
+        <p class="section-sub">Оксиди, киселини, бази и соли: од формула до име или обратно.</p>
+        <div class="quiz">
+          <div class="game-opts" id="nam-opts"></div>
+          <div class="progress"><div class="progress-bar" id="nam-bar"></div></div>
+          <div class="quiz-meta">
+            <span id="nam-counter"></span>
+            <span id="nam-score"></span>
+          </div>
+          <div class="stage" id="nam-stage"></div>
+        </div>
+      </div>
       <div class="tab-panel" id="panel-besilka" role="tabpanel" hidden>
         <h3 class="game-title">Бесилка</h3>
         <p class="section-sub">Погоди го хемискиот поим буква по буква.</p>
@@ -112,6 +127,8 @@
   <script src="equations.js"></script>
   <script src="balance.js"></script>
   <script src="hangman.js"></script>
+  <script src="imenuvanje-data.js"></script>
+  <script src="imenuvanje.js"></script>
   <script>
     // Табови за игрите: се гледа една по една
     (function () {

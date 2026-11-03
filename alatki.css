@@ -146,6 +146,9 @@
 .calc-num.bad { border-color: var(--bad, #d64545); background: var(--bad-bg, #fbe5e5); }
 
 @media (max-width: 560px) {
+  .site-header .header-inner { flex-wrap: wrap; justify-content: center; gap: 2px 12px; }
+  .site-header nav { white-space: normal; text-align: center; }
+  .site-header nav a { display: inline-block; margin: 0 6px; }
   .calc-card { padding: 16px; }
   .calc-input { font-size: 1.2rem; }
   .calc-big-val { font-size: 1.4rem; }
@@ -156,3 +159,17 @@
   .at-panel, .calc-result, .pt-detail { animation: none; }
   .pt-cell, .at-tab { transition: none; }
 }
+
+/* ===== pH ===== */
+.ph-result { margin-top: 18px; animation: atFade .3s ease both; }
+.ph-result[hidden] { display: none; }
+.ph-scale {
+  position: relative; height: 18px; margin-top: 14px; border-radius: 99px;
+  background: linear-gradient(90deg, #e53935, #fb8c00, #fdd835, #7cb342, #26a69a, #3949ab, #6a1b9a);
+}
+.ph-marker {
+  position: absolute; top: -5px; width: 6px; height: 28px; margin-left: -3px; border-radius: 3px;
+  background: #2a1f2d; box-shadow: 0 0 0 2px #fff; transition: left .4s ease;
+}
+.ph-ticks { display: flex; justify-content: space-between; font-size: .8rem; color: var(--muted, #6b5b6e); margin-top: 8px; }
+select.calc-num { width: 100%; }

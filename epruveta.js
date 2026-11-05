@@ -267,10 +267,56 @@
     return seen;
   }
 
-  function buildAllReagents() {
+  // Категории на реагенси (за да нема многу скролање)
+  const RG_CATS = [
+    ["Киселини и бази", ["HCl", "H2SO4", "HClO4", "tartaric", "NaOH", "NH4OH"]],
+    ["Сулфиди", ["H2S", "NH42S"]],
+    ["Карбонати, фосфати, сулфати", ["Na2CO3", "Na2HPO4", "MgPhos", "C2O4", "CaSO4"]],
+    ["Халогениди и хромати", ["KI", "NH4Br", "K2CrO4", "K2Cr2O7", "AgNO3", "HgCl2"]],
+    ["Цијаниди и тиоцијанати", ["KCN", "K4FeCN6", "K3FeCN6", "KSCN", "NH4SCN", "HgSCN4"]],
+    ["Комплексни и органски", ["DMG", "K2HgI4", "CoNO32", "KNO2", "NaCoNO2", "H2PtCl6", "KH2SbO4", "UO2Ac"]],
+    ["Редукциони и оксидациони", ["SnCl2", "Na2SnO2", "Zn", "H2O2", "S2O8", "PbO2"]],
+    ["Пламен, вода, останато", ["Flame", "H2O", "CH3COONa"]]
+  ];
+  let rgCat = 0, rgQuery = "";
+  const rgTools = el("div", "ep-rgtools");
+  const rgChips = el("div", "ep-chips");
+  const rgSearch = el("input", "pt-search ep-rgsearch");
+  rgSearch.type = "search"; rgSearch.placeholder = "Барај реагенс: формула или име"; rgSearch.autocomplete = "off";
+  rgSearch.setAttribute("aria-label", "Барај реагенс");
+  rgSearch.addEventListener("input", () => { rgQuery = rgSearch.value.trim().toLowerCase(); renderReagents(); });
+  rgTools.append(rgChips, rgSearch);
+  rgTools.hidden = true;
+  reagBox.parentNode.insertBefore(rgTools, reagBox);
+
+  function catKeys(i) { return RG_CATS[i][1].filter(r => REAGENSI[r]); }
+  function ungrouped() {
+    const known = new Set(RG_CATS.flatMap(c => c[1]));
+    return allReagentKeys().filter(r => !known.has(r));
+  }
+
+  function renderChips() {
+    rgChips.replaceChildren();
+    RG_CATS.forEach((c, i) => {
+      const used = catKeys(i).filter(r => log.some(e => e.r === r)).length;
+      const b = el("button", "ep-cat ep-catsm" + (i === rgCat && !rgQuery ? " active" : ""), c[0] + (used ? ` (${used}✓)` : ""));
+      b.type = "button";
+      b.addEventListener("click", () => { rgCat = i; rgQuery = ""; rgSearch.value = ""; renderChips(); renderReagents(); });
+      rgChips.appendChild(b);
+    });
+  }
+
+  function renderReagents() {
     reagBox.replaceChildren();
-    allReagentKeys().forEach(r => {
-      const b = el("button", "ep-rg" + (log.some(e => e.r === r) ? " used" : ""));
+    let keys;
+    if (rgQuery) {
+      keys = allReagentKeys().filter(r => (r + " " + REAGENSI[r].label + " " + REAGENSI[r].name).toLowerCase().includes(rgQuery));
+    } else {
+      keys = catKeys(rgCat).concat(rgCat === RG_CATS.length - 1 ? ungrouped() : []);
+    }
+    if (!keys.length) { reagBox.appendChild(el("p", "ep-hint small", "Нема таков реагенс.")); return; }
+    keys.forEach(r => {
+      const b = el("button", "ep-rg" + (log.some(e => e.r === r) ? " used" : "") + (rg === r ? " active" : ""));
       b.type = "button";
       b.dataset.r = r;
       b.disabled = done;
@@ -279,8 +325,16 @@
       reagBox.appendChild(b);
     });
   }
+
+  function buildAllReagents() {
+    rgTools.hidden = false;
+    rgCat = 0; rgQuery = ""; rgSearch.value = "";
+    renderChips();
+    renderReagents();
+  }
   function markUsed() {
     document.querySelectorAll(".ep-rg").forEach(b => b.classList.toggle("used", log.some(e => e.r === b.dataset.r)));
+    if (!rgTools.hidden) renderChips();
   }
 
   // Набљудување без да се открие катјонот или формулата
@@ -299,6 +353,7 @@
     learnBox.hidden = m !== "learn";
     quizSetup.hidden = m !== "quiz";
     quizBox.hidden = m !== "quiz";
+    rgTools.hidden = true;
     cat = null; rg = null; unknown = null; log = []; answers = {}; sel = ""; done = false;
     Object.keys(catBtns).forEach(k => catBtns[k].classList.remove("active"));
     quizBox.replaceChildren();

@@ -271,3 +271,9 @@ select.calc-num { width: 100%; }
 .ep-fb-bad { margin: 0; padding: 10px 12px; border-radius: 10px; font-weight: 600; color: #7f1d1d; background: var(--bad-bg, #fbe5e5); border: 2px solid var(--bad, #d64545); }
 .ep-sol { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #d9c9bd; }
 .ep-sol-r { margin-bottom: 10px; }
+
+/* категории на реагенси во режимот „Непознат раствор“ */
+.ep-rgtools { margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
+.ep-rgtools[hidden] { display: none; }
+.ep-catsm { font-size: .82rem; padding: 5px 10px; }
+.ep-rgsearch { max-width: 100%; }

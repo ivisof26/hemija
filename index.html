@@ -2,6 +2,7 @@
 <html lang="mk">
 <head>
   <meta charset="UTF-8">
+  <meta name="google-site-verification" content="757U35GRRpz-citF34Vdss3DPtDx2b-UmY7ng4AJ7CU" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Хемија за сите</title>
   <meta name="description" content="Учи хемија на македонски јазик преку квизови, игри и тестови.">
@@ -143,7 +144,7 @@
     </div>
   </section>
   <footer class="site-footer">
-    <div class="container">© <span id="year"></span> Хемија за сите</div>
+    <div class="container">© <span id="year"></span> Хемија за сите · Изработил: Ивона Софрониевска · <a href="#" id="contact-link">Контакт</a></div>
   </footer>
 
   <script src="chemists.js"></script>
@@ -156,6 +157,11 @@
     }
   </script>
   <script src="app.js"></script>
-  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    // Е-поштата се составува овде за да не ја читаат лесно автоматски програми (спам ботови)
+    const mailUser = "sofronievska.ivona", mailDomain = "gmail.com";
+    document.getElementById("contact-link").href = "mailto:" + mailUser + "@" + mailDomain;
+  </script>
 </body>
 </html>

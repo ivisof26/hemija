@@ -56,6 +56,7 @@
     let picked = []; // индекси од измешаните букви, по редослед на кликање
     let locked = false;
     let done = false;
+    let revealed = false; // флаг за откриен одговор
 
     const slide = el("div", "slide");
 
@@ -101,26 +102,24 @@
 
     function refresh() {
       slots.forEach((s, i) => {
-        const p = picked[i];
-        s.textContent = p === undefined ? "" : letters[p];
-        s.classList.toggle("filled", p !== undefined);
+        if (revealed) {
+          s.textContent = word[i];
+          s.classList.add("filled", "revealed");
+        } else {
+          const p = picked[i];
+          s.textContent = p === undefined ? "" : letters[p];
+          s.classList.toggle("filled", p !== undefined);
+        }
       });
       poolBtns.forEach((b, i) => {
         b.disabled = locked || picked.includes(i);
       });
     }
 
-    function finish(reveal) {
+    function finish(rev) {
       done = true;
       locked = true;
-      if (reveal) {
-        picked = [];
-        Array.from(word).forEach((ch, i) => {
-          slots[i].textContent = ch;
-          slots[i].classList.remove("wrong");
-          slots[i].classList.add("filled", "revealed");
-        });
-      }
+      revealed = rev;
       refresh();
       hintBtn.disabled = true;
       undoBtn.disabled = true;

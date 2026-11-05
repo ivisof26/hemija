@@ -269,14 +269,14 @@
 
   // Категории на реагенси (за да нема многу скролање)
   const RG_CATS = [
-    ["Киселини и бази", ["HCl", "H2SO4", "HClO4", "tartaric", "NaOH", "NH4OH"]],
-    ["Сулфиди", ["H2S", "NH42S"]],
-    ["Карбонати, фосфати, сулфати", ["Na2CO3", "Na2HPO4", "MgPhos", "C2O4", "CaSO4"]],
-    ["Халогениди и хромати", ["KI", "NH4Br", "K2CrO4", "K2Cr2O7", "AgNO3", "HgCl2"]],
-    ["Цијаниди и тиоцијанати", ["KCN", "K4FeCN6", "K3FeCN6", "KSCN", "NH4SCN", "HgSCN4"]],
-    ["Комплексни и органски", ["DMG", "K2HgI4", "CoNO32", "KNO2", "NaCoNO2", "H2PtCl6", "KH2SbO4", "UO2Ac"]],
-    ["Редукциони и оксидациони", ["SnCl2", "Na2SnO2", "Zn", "H2O2", "S2O8", "PbO2"]],
-    ["Пламен, вода, останато", ["Flame", "H2O", "CH3COONa"]]
+    ["Киселини", ["HCl", "H2SO4", "HClO4", "H2S", "tartaric"]],
+    ["Бази", ["NaOH", "NH4OH"]],
+    ["Соли: халогениди, цијаниди", ["KI", "NH4Br", "HgCl2", "SnCl2", "KCN", "KSCN", "NH4SCN"]],
+    ["Соли: карбонати, фосфати, сулфати", ["Na2CO3", "Na2HPO4", "MgPhos", "CaSO4", "C2O4", "CH3COONa"]],
+    ["Соли: останати", ["AgNO3", "CoNO32", "UO2Ac", "K2CrO4", "K2Cr2O7", "KNO2", "KH2SbO4", "NH42S"]],
+    ["Комплекси", ["K4FeCN6", "K3FeCN6", "HgSCN4", "NaCoNO2", "H2PtCl6", "K2HgI4", "DMG"]],
+    ["Метали и редокс", ["Zn", "Na2SnO2", "H2O2", "S2O8", "PbO2"]],
+    ["Пламен и вода", ["Flame", "H2O"]]
   ];
   let rgCat = 0, rgQuery = "";
   const rgTools = el("div", "ep-rgtools");

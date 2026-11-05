@@ -173,10 +173,10 @@
     const box = document.createDocumentFragment();
     const head = el("div", "ep-title");
     head.append(el("span", "", `${cat.ion} + ${REAGENSI[rg].label}`), badge(x));
-    if (x && x.star) { const s = el("span", "ep-star", "★ кључна реакција"); s.title = "Затемнето поле во табелата на практикумот: групен реагенс или реакција за идентификација"; head.appendChild(s); }
+    if (x && x.star) { const s = el("span", "ep-star", "★ кључна реакција"); s.title = "Групен реагенс или реакција за идентификација"; head.appendChild(s); }
     box.appendChild(head);
     if (!x) {
-      box.appendChild(el("p", "ep-obs", "Во табелата на практикумот нема реакција за оваа комбинација, па епруветата останува непроменета."));
+      box.appendChild(el("p", "ep-obs", "Нема реакција."));
     } else {
       if (x.kind !== "flame" && x.prod) {
         const p = el("div", "ep-prod");

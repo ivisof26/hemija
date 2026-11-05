@@ -173,3 +173,63 @@
 }
 .ph-ticks { display: flex; justify-content: space-between; font-size: .8rem; color: var(--muted, #6b5b6e); margin-top: 8px; }
 select.calc-num { width: 100%; }
+
+/* ===== Епрувета (виртуелна лабораторија) ===== */
+.ep-layout { display: grid; grid-template-columns: minmax(250px, 340px) 1fr; gap: 22px; align-items: start; }
+.ep-stagecol { position: sticky; top: 76px; }
+.ep-stage {
+  background: linear-gradient(180deg, #eef3f8, #dbe5ee); border: 2px solid #eadfd6; border-radius: 16px; padding: 10px 6px 4px;
+  box-shadow: var(--shadow, 0 4px 18px rgba(20, 50, 70, .08));
+}
+#ep-svg { display: block; width: 100%; height: auto; max-height: 520px; }
+#ep-liquid { transition: fill 1.2s, fill-opacity 1.2s; }
+.ep-h { margin: 0 0 8px; font-size: 1.05rem; }
+.ep-h:not(:first-child) { margin-top: 18px; }
+.ep-group { margin-bottom: 10px; }
+.ep-group-t { font-size: .8rem; font-weight: 700; color: var(--muted, #6b5b6e); letter-spacing: .02em; margin-bottom: 4px; }
+.ep-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ep-cat {
+  font: inherit; font-weight: 800; cursor: pointer; padding: 6px 12px; background: #fff; color: var(--text, #2a1f2d);
+  border: 2px solid #eadfd6; border-radius: 10px; transition: border-color .2s, background .2s, transform .15s;
+}
+.ep-cat:hover { border-color: var(--primary, #c2410c); transform: translateY(-2px); }
+.ep-cat.active { background: var(--primary, #c2410c); border-color: var(--primary, #c2410c); color: #fff; }
+.ep-reagents { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.ep-rg {
+  font: inherit; text-align: left; cursor: pointer; padding: 8px 10px; background: #fff; color: inherit;
+  border: 2px solid #eadfd6; border-radius: 10px; display: flex; flex-direction: column; gap: 2px;
+  transition: border-color .2s, background .2s, transform .15s;
+}
+.ep-rg:hover { border-color: var(--primary, #c2410c); transform: translateY(-2px); }
+.ep-rg.active { border-color: var(--primary, #c2410c); background: var(--accent, #fff1e6); }
+.ep-rg.muted { border-style: dashed; opacity: .72; }
+.ep-rg.star .ep-rg-f { color: var(--primary-dark, #9a3412); }
+.ep-rg-f { font-weight: 800; }
+.ep-rg-n { font-size: .72rem; color: var(--muted, #6b5b6e); line-height: 1.2; }
+.ep-info { margin-top: 16px; padding: 14px 16px; background: var(--card, #fff); border: 2px solid #eadfd6; border-radius: 14px; min-height: 90px; }
+.ep-hint { margin: 0 0 6px; color: var(--muted, #6b5b6e); }
+.ep-hint.small { font-size: .85rem; }
+.ep-title { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 1.15rem; font-weight: 800; margin-bottom: 8px; }
+.ep-badge { font-size: .75rem; font-weight: 800; padding: 2px 10px; border-radius: 99px; background: #eee; color: #444; }
+.ep-badge.ppt { background: #e3f0ff; color: #1d4f9a; }
+.ep-badge.soln { background: #f3e5ff; color: #6b2a9e; }
+.ep-badge.gas { background: #e3f6ea; color: #1f7a45; }
+.ep-badge.flame { background: #ffe9d6; color: #b34a00; }
+.ep-badge.none { background: #f1ece7; color: #6b5b6e; }
+.ep-star { font-size: .78rem; font-weight: 700; color: var(--primary-dark, #9a3412); background: var(--accent, #fff1e6); padding: 2px 10px; border-radius: 99px; }
+.ep-prod { display: flex; align-items: center; gap: 8px; font-size: 1.05rem; margin-bottom: 6px; }
+.ep-sw { width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(0, 0, 0, .25); flex: none; }
+.ep-col { color: var(--muted, #6b5b6e); }
+.ep-obs { margin: 0 0 10px; }
+.ep-eqs { background: #fffaf5; border: 1px solid #eadfd6; border-radius: 10px; padding: 8px 12px; margin: 0 0 10px; overflow-x: auto; }
+.ep-eq { font-size: 1.05rem; font-weight: 600; white-space: nowrap; padding: 3px 0; }
+.ep-note { margin: 0 0 10px; font-size: .88rem; color: var(--muted, #6b5b6e); }
+.ep-excess { margin: 0 0 10px; }
+.ep-after { border-top: 1px dashed #d9c9bd; padding-top: 10px; margin-bottom: 10px; }
+.ep-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; }
+.ep-src { font-size: .78rem; color: var(--muted, #6b5b6e); }
+
+@media (max-width: 760px) {
+  .ep-layout { grid-template-columns: 1fr; }
+  .ep-stagecol { position: static; max-width: 300px; margin: 0 auto; }
+}

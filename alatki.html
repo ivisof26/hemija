@@ -45,6 +45,7 @@
         <button class="at-tab active" role="tab" id="at-tab-pt" data-tab="pt" aria-selected="true" aria-controls="at-panel-pt" type="button">📊 Периоден систем</button>
         <button class="at-tab" role="tab" id="at-tab-calc" data-tab="calc" aria-selected="false" aria-controls="at-panel-calc" type="button">🧮 Калкулатор</button>
         <button class="at-tab" role="tab" id="at-tab-ph" data-tab="ph" aria-selected="false" aria-controls="at-panel-ph" type="button">🧪 pH</button>
+        <button class="at-tab" role="tab" id="at-tab-ep" data-tab="ep" aria-selected="false" aria-controls="at-panel-ep" type="button">⚗️ Епрувета</button>
       </div>
 
       <!-- ПЕРИОДЕН СИСТЕМ -->
@@ -141,6 +142,63 @@
           <p class="at-note">pH = −log[H⁺] &nbsp;·&nbsp; pOH = −log[OH⁻] &nbsp;·&nbsp; [H⁺] · [OH⁻] = 10⁻¹⁴.</p>
         </div>
       </div>
+
+      <!-- ЕПРУВЕТА: виртуелна лабораторија за катјони -->
+      <div class="at-panel" id="at-panel-ep" role="tabpanel" hidden>
+        <div class="ep-layout">
+          <div class="ep-stagecol">
+            <div class="ep-stage">
+              <svg id="ep-svg" viewBox="0 0 280 380" role="img" aria-label="Епрувета со раствор">
+                <defs>
+                  <clipPath id="ep-clip"><path d="M97 60 V270 A43 43 0 0 0 183 270 V60 Z"/></clipPath>
+                  <linearGradient id="ep-glassg" x1="0" x2="1">
+                    <stop offset="0" stop-color="#ffffff" stop-opacity=".55"/><stop offset=".25" stop-color="#ffffff" stop-opacity="0"/>
+                    <stop offset=".8" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#ffffff" stop-opacity=".35"/>
+                  </linearGradient>
+                  <radialGradient id="ep-fl-o" cx=".5" cy=".75" r=".7"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+                </defs>
+
+                <!-- епрувета -->
+                <g id="ep-tube">
+                  <!-- капалка -->
+                  <path d="M133 6 q7 -8 14 0 v34 h-14 z" fill="#c2410c"/>
+                  <path d="M135 40 h10 v54 l-5 14 l-5 -14 z" fill="#e6eef5" stroke="#9fb3c8" stroke-width="2"/>
+                  <g clip-path="url(#ep-clip)">
+                    <rect id="ep-liquid" x="90" y="170" width="100" height="160" fill="#cfe6f5" fill-opacity=".55"/>
+                    <rect id="ep-turb" x="90" y="170" width="100" height="160" fill="#fff" opacity="0"/>
+                    <g id="ep-ppt"></g>
+                    <g id="ep-bubbles"></g>
+                  </g>
+                  <ellipse cx="140" cy="170" rx="43" ry="3" fill="#fff" opacity=".35"/>
+                  <path d="M97 60 V270 A43 43 0 0 0 183 270 V60" fill="url(#ep-glassg)" stroke="#8fa6bd" stroke-width="4" stroke-linecap="round"/>
+                  <path d="M91 58 H189" stroke="#8fa6bd" stroke-width="5" stroke-linecap="round"/>
+                  <path d="M106 70 V250" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+                  <g id="ep-drops"></g>
+                  <text id="ep-label" x="140" y="350" text-anchor="middle" font-size="22" font-weight="800" fill="#2d1b4e"></text>
+                </g>
+
+                <!-- пламен -->
+                <g id="ep-flamescene" style="display:none">
+                  <rect x="118" y="290" width="44" height="46" rx="6" fill="#6b5b6e"/>
+                  <rect x="112" y="332" width="56" height="12" rx="4" fill="#4a3b4e"/>
+                  <path id="ep-flame-out" d="M140 290 C108 262 112 218 140 150 C168 218 172 262 140 290 Z" fill="#f5c518" style="transform-box:fill-box;transform-origin:50% 100%"/>
+                  <path id="ep-flame-in" d="M140 290 C126 274 128 250 140 222 C152 250 154 274 140 290 Z" fill="#fff6d8" style="transform-box:fill-box;transform-origin:50% 100%"/>
+                  <text x="140" y="368" text-anchor="middle" font-size="16" font-weight="700" fill="#6b5b6e">проба на пламен</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <div class="ep-controls">
+            <h3 class="ep-h">1. Избери катјон</h3>
+            <div id="ep-cations"></div>
+            <h3 class="ep-h">2. Избери реагенс</h3>
+            <div id="ep-reagents" class="ep-reagents"><p class="ep-hint small">Прво избери катјон.</p></div>
+            <div class="ep-info" id="ep-info" aria-live="polite"></div>
+          </div>
+        </div>
+        <p class="at-note">Реакциите се од „Квалитативна аналитичка хемија. Практикум“ (табелите на крајот од секоја аналитичка група и реакциите за идентификација). ★ = затемнето поле во табелата (групен реагенс или реакција за идентификација). Равенките се јонски; не е прикажана секоја реакција што постои, само оние од табелите.</p>
+      </div>
     </section>
 
   </main>
@@ -153,6 +211,8 @@
   <script src="elements.js"></script>
   <script src="alatki.js"></script>
   <script src="ph.js"></script>
+  <script src="reakcii.js"></script>
+  <script src="epruveta.js"></script>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

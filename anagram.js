@@ -110,11 +110,10 @@
       });
     }
 
-    function finish(reveal) function finish(reveal) {
+    function finish(reveal) {
       done = true;
       locked = true;
       if (reveal) {
-        // Ги поставуваме точните букви во слотовите директно од зборот
         picked = [];
         Array.from(word).forEach((ch, i) => {
           slots[i].textContent = ch;
@@ -133,19 +132,7 @@
       next.type = "button";
       next.addEventListener("click", goNext);
       actions.appendChild(next);
-      next.focus(); // автоматски фокус на копчето за следно прашање
-    }
-      refresh();
-      hintBtn.disabled = true;
-      undoBtn.disabled = true;
-      shuffleBtn.disabled = true;
-      skipBtn.disabled = true;
-
-      const next = el("button", "btn primary",
-        idx === order.length - 1 ? "Види резултат" : "Следно →");
-      next.type = "button";
-      next.addEventListener("click", goNext);
-      actions.appendChild(next);
+      next.focus();
     }
 
     function check() {

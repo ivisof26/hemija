@@ -190,14 +190,29 @@
           </div>
 
           <div class="ep-controls">
-            <h3 class="ep-h">1. Избери катјон</h3>
-            <div id="ep-cations"></div>
-            <h3 class="ep-h">2. Избери реагенс</h3>
+            <div class="ep-modes" role="group" aria-label="Режим">
+              <button type="button" class="ep-mode active" data-mode="learn">🔬 Вежбање</button>
+              <button type="button" class="ep-mode" data-mode="quiz">❓ Непознат раствор</button>
+            </div>
+
+            <div id="ep-learn">
+              <h3 class="ep-h">1. Избери катјон</h3>
+              <div id="ep-cations"></div>
+            </div>
+
+            <div id="ep-quizsetup" class="ep-setup" hidden>
+              <label class="ep-lab" for="ep-group-sel">Од која група да биде катјонот?</label>
+              <select class="calc-num ep-sel" id="ep-group-sel"></select>
+              <button type="button" class="btn" id="ep-new">🎲 Нов непознат раствор</button>
+            </div>
+
+            <h3 class="ep-h" id="ep-rg-h">2. Избери реагенс</h3>
             <div id="ep-reagents" class="ep-reagents"><p class="ep-hint small">Прво избери катјон.</p></div>
             <div class="ep-info" id="ep-info" aria-live="polite"></div>
+            <div id="ep-quiz" hidden></div>
           </div>
         </div>
-        <p class="at-note">Реакциите се од „Квалитативна аналитичка хемија. Практикум“. ★ = групен реагенс или реакција за идентификација. Равенките се јонски.</p>
+        <p class="at-note">Реакциите се од „Квалитативна аналитичка хемија. Практикум“. ★ = групен реагенс или реакција за идентификација. Равенките се јонски. Во режимот „Непознат раствор“ ★ и равенките се кријат додека не го дадеш одговорот.</p>
       </div>
     </section>
 

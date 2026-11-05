@@ -233,3 +233,41 @@ select.calc-num { width: 100%; }
   .ep-layout { grid-template-columns: 1fr; }
   .ep-stagecol { position: static; max-width: 300px; margin: 0 auto; }
 }
+
+/* ===== Епрувета: непознат раствор ===== */
+.ep-modes { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.ep-mode {
+  font: inherit; font-weight: 700; cursor: pointer; padding: 8px 16px; background: #fff; color: var(--text, #2a1f2d);
+  border: 2px solid #eadfd6; border-radius: 999px; transition: background .2s, border-color .2s, transform .15s;
+}
+.ep-mode:hover { border-color: var(--primary, #c2410c); transform: translateY(-2px); }
+.ep-mode.active { background: #2d1b4e; border-color: #2d1b4e; color: #fff; }
+.ep-setup { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+.ep-setup .ep-sel { max-width: 340px; }
+.ep-lab { display: block; font-weight: 700; margin: 12px 0 6px; }
+.ep-setup .ep-lab { margin: 0; }
+.ep-sel { width: 100%; }
+.ep-rg.used { border-color: #26a69a; }
+.ep-rg.used .ep-rg-f::after { content: " ✓"; color: #1f7a45; }
+.ep-rg:disabled { opacity: .55; cursor: default; transform: none; }
+.ep-sw.sm { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; margin-right: 6px; }
+#ep-quiz { margin-top: 8px; }
+.ep-logwrap { overflow-x: auto; background: var(--card, #fff); border: 2px solid #eadfd6; border-radius: 14px; }
+.ep-log { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.ep-log th, .ep-log td { padding: 8px 10px; text-align: left; border-bottom: 1px solid #eadfd6; vertical-align: top; }
+.ep-log th { font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted, #6b5b6e); }
+.ep-log tr:last-child td { border-bottom: 0; }
+.ep-log-r { font-weight: 800; white-space: nowrap; }
+.ep-log-ex { color: var(--muted, #6b5b6e); font-size: .85rem; margin-top: 2px; }
+.ep-answer { margin-top: 8px; padding: 14px 16px; background: var(--card, #fff); border: 2px solid #eadfd6; border-radius: 14px; }
+.ep-formrow { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 8px 0; }
+.ep-formlab { font-weight: 600; flex: 1 1 170px; }
+.ep-formin { flex: 1 1 180px; max-width: 260px; }
+.ep-formin.ok { border-color: #2e9e5b; background: #e6f6ec; }
+.ep-formin.bad { border-color: var(--bad, #d64545); background: var(--bad-bg, #fbe5e5); }
+.ep-mark { width: 1.2em; font-weight: 800; }
+.ep-fb { margin-top: 10px; }
+.ep-fb-ok { margin: 0; padding: 10px 12px; border-radius: 10px; font-weight: 700; color: #14532d; background: #e6f6ec; border: 2px solid #2e9e5b; }
+.ep-fb-bad { margin: 0; padding: 10px 12px; border-radius: 10px; font-weight: 600; color: #7f1d1d; background: var(--bad-bg, #fbe5e5); border: 2px solid var(--bad, #d64545); }
+.ep-sol { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #d9c9bd; }
+.ep-sol-r { margin-bottom: 10px; }

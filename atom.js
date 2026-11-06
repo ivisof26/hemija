@@ -117,7 +117,7 @@
 
     const total = p + n;
     if (total === 0 && e === 0) {
-      g += `<text class="ab-s-empty" x="200" y="205">Влечи честички тука</text>`;
+      g += `<text class="ab-s-empty" x="200" y="205">Повлечи ги честичките тука</text>`;
     }
 
     if (total > 0) {

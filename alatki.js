@@ -86,18 +86,23 @@
     if (z >= 90 && z <= 103) return 7;
     return pos(z)[0];
   }
+  // Валентни електрони = електроните во најнадворешниот слој.
+  // Главни групи: 1, 2 и 13–18 (He = 2). Преодни елементи, лантаноиди и актиноиди: обично 2 (s-електрони од
+  // последниот слој); исклучоци со 1 (Cr, Cu, Nb, Mo, Ru, Rh, Ag, Pt, Au) и Pd со 0.
+  const ONE_VAL = [24, 29, 41, 42, 44, 45, 47, 78, 79];
   function valenceOf(z) {
     const g = groupOf(z);
-    if (z === 2) return 2;
-    if (g === 1 || g === 2) return g;
-    if (g >= 13) return g - 10;
-    return null;
+    if (z === 2) return "2";
+    if (g === 1 || g === 2) return String(g);
+    if (g !== null && g >= 13) return String(g - 10);
+    if (z === 46) return "0";
+    return ONE_VAL.includes(z) ? "1" : "2";
   }
 
   const fmtNum = n => String(n).replace(".", ",");
   function massText(e) { return e.radio ? "(" + e.mass + ")" : fmtNum(e.mass); }
 
-  // ---------- ен систем ----------
+  // ---------- Периоден систем ----------
   const grid = document.getElementById("pt-grid");
   const legend = document.getElementById("pt-legend");
   const search = document.getElementById("pt-search");
@@ -197,7 +202,7 @@
       fact("Релативна атомска маса (Ar)", massText(e)),
       fact("Група", g === null ? "— (" + cat.name.toLowerCase() + ")" : String(g)),
       fact("Периода", String(periodOf(e.z))),
-      fact("Валентни електрони", v === null ? "—" : String(v)),
+      fact("Валентни електрони (најнадворешен слој)", v),
       fact("Агрегатна состојба (собна температура)", stateOf(e.z))
     );
     const right = node("div", "pt-detail-right");

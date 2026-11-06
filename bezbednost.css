@@ -1,0 +1,40 @@
+/* Игра „Лабораториска безбедност“ */
+.sf-card { max-width: 900px; }
+.sf-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 12px; }
+.sf-bar #sf-count { font-weight: 800; color: var(--primary-dark, #9a3412); }
+.sf-bar #sf-wrong { color: var(--muted, #6b5b6e); font-size: .88rem; }
+.sf-btns { margin-left: auto; display: flex; flex-wrap: wrap; gap: 8px; }
+.sf-btns button {
+  font: inherit; font-weight: 700; font-size: .88rem; cursor: pointer; padding: 7px 14px;
+  background: var(--accent, #fff1e6); color: var(--primary-dark, #9a3412); border: 0; border-radius: 999px;
+  transition: background .2s, transform .15s;
+}
+.sf-btns button:hover { background: #ffe2cc; transform: translateY(-1px); }
+.sf-scene-wrap { border: 2px solid #eadfd6; border-radius: 14px; overflow: hidden; background: #efe7da; }
+#sf-svg { display: block; width: 100%; height: auto; cursor: crosshair; touch-action: manipulation; }
+.sf-info {
+  margin-top: 12px; padding: 12px 14px; border-radius: 12px; background: #f6f1ea; color: var(--text, #2a1f2d); min-height: 54px;
+  border-left: 6px solid #d9c9bd;
+}
+.sf-info.good { background: var(--good-bg, #e3f6ea); border-left-color: var(--good, #2e9e5b); }
+.sf-info.bad { background: var(--bad-bg, #fbe5e5); border-left-color: var(--bad, #d64545); }
+.sf-info.ok { background: #fff7e8; border-left-color: #e0a830; }
+.sf-list { display: grid; gap: 8px; margin-top: 12px; }
+.sf-item { background: #fff; border: 2px solid #eadfd6; border-left: 6px solid var(--good, #2e9e5b); border-radius: 10px; padding: 8px 12px; display: flex; flex-direction: column; gap: 2px; }
+.sf-item span { font-size: .88rem; color: var(--muted, #6b5b6e); }
+.sf-item.missed { border-left-color: var(--bad, #d64545); }
+
+.sf-mark rect { fill: rgba(46, 158, 91, .12); stroke: #2e9e5b; stroke-width: 3.5; animation: sfPop .4s ease both; transform-box: fill-box; transform-origin: center; }
+.sf-mark circle { fill: #2e9e5b; stroke: #fff; stroke-width: 2; }
+.sf-mark text { fill: #fff; font-weight: 800; font-size: 16px; }
+.sf-mark.miss rect { fill: rgba(214, 69, 69, .1); stroke: #d64545; stroke-dasharray: 8 6; }
+.sf-mark.miss circle { fill: #d64545; }
+@keyframes sfPop { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.sf-hint { fill: rgba(245, 197, 24, .25); stroke: #f5c518; stroke-width: 4; animation: sfPulse .9s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes sfPulse { 0%, 100% { transform: scale(.92); opacity: .5; } 50% { transform: scale(1.08); opacity: 1; } }
+.sf-rip { fill: none; stroke-width: 3; transform-box: fill-box; transform-origin: center; animation: sfRip .65s ease-out forwards; }
+.sf-rip.bad { stroke: #d64545; }
+.sf-rip.ok { stroke: #2e9e5b; }
+@keyframes sfRip { from { transform: scale(1); opacity: 1; } to { transform: scale(5); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .sf-mark rect, .sf-hint, .sf-rip { animation: none; } }
+@media (max-width: 560px) { .sf-btns { margin-left: 0; } }

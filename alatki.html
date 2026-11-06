@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Алатки – Хемија за сите</title>
-  <meta name="description" content="Периоден систем, калкулатор за моларна маса, pH калкулатор и квалитативна анализа на катјони.">
+  <meta name="description" content="Периоден систем, калкулатор за моларна маса, pH калкулатор, квалитативна анализа на катјони и виртуелни инструментални вежби.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="alatki.css">
   <link rel="manifest" href="manifest.webmanifest">
@@ -36,7 +36,7 @@
     <section class="page-head">
       <div class="container">
         <h1>Алатки</h1>
-        <p>Периоден систем, калкулатор за моларна маса и pH-калкулатор.</p>
+        <p>Периоден систем, калкулатори, виртуелна епрувета и инструментални лабораториски вежби.</p>
       </div>
     </section>
 
@@ -46,6 +46,7 @@
         <button class="at-tab" role="tab" id="at-tab-calc" data-tab="calc" aria-selected="false" aria-controls="at-panel-calc" type="button">🧮 Калкулатор</button>
         <button class="at-tab" role="tab" id="at-tab-ph" data-tab="ph" aria-selected="false" aria-controls="at-panel-ph" type="button">⚗️ pH</button>
         <button class="at-tab" role="tab" id="at-tab-ep" data-tab="ep" aria-selected="false" aria-controls="at-panel-ep" type="button">🧪 Квалитативна анализа на катјони</button>
+        <button class="at-tab" role="tab" id="at-tab-inst" data-tab="inst" aria-selected="false" aria-controls="at-panel-inst" type="button">🔬 Инструментални методи</button>
       </div>
 
       <!-- ПЕРИОДЕН СИСТЕМ -->
@@ -214,6 +215,12 @@
         </div>
         <p class="at-note">Реакциите се од „Квалитативна аналитичка хемија. Практикум“. ★ = групен реагенс или реакција за идентификација. Равенките се јонски. Во режимот „Непознат раствор“ ★ и равенките се кријат додека не го дадеш одговорот.</p>
       </div>
+
+      <!-- ИНСТРУМЕНТАЛНИ МЕТОДИ: виртуелни лаборатории -->
+      <div class="at-panel" id="at-panel-inst" role="tabpanel" hidden>
+        <div id="inst-root"></div>
+        <p class="at-note">Симулациите се засновани на реални мерења од лабораториски вежби (спектрофотометрија, кондуктометрија и pH-метрија). Вредностите на пробите се случајни: секој пат добиваш нова непозната проба.</p>
+      </div>
     </section>
 
   </main>
@@ -228,6 +235,8 @@
   <script src="ph.js"></script>
   <script src="reakcii.js"></script>
   <script src="epruveta.js"></script>
+  <script src="model.js"></script>
+  <script src="instrumentalna.js"></script>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

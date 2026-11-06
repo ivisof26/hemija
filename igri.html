@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Игри – Хемија за сите</title>
-  <meta name="description" content="Хемиски игри: анаграм, меморија, израмнување равенки, именување на соединенија, бесилка.">
+  <meta name="description" content="Хемиски игри: анаграм, меморија, израмнување равенки, именување на соединенија, бесилка, изгради атом.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="imenuvanje.css">
+  <link rel="stylesheet" href="atom.css">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#2d1b4e">
   <link rel="icon" type="image/png" href="icon-192.png">
@@ -48,6 +49,7 @@
         <button class="tab" role="tab" id="tab-ravenki" data-tab="ravenki" aria-selected="false" aria-controls="panel-ravenki" type="button">⚖️ Равенки</button>
         <button class="tab" role="tab" id="tab-imenuvanje" data-tab="imenuvanje" aria-selected="false" aria-controls="panel-imenuvanje" type="button">🔬 Имиња</button>
         <button class="tab" role="tab" id="tab-besilka" data-tab="besilka" aria-selected="false" aria-controls="panel-besilka" type="button">✏️ Бесилка</button>
+        <button class="tab" role="tab" id="tab-atom" data-tab="atom" aria-selected="false" aria-controls="panel-atom" type="button">⚛️ Атом</button>
       </div>
 
       <div class="tab-panel" id="panel-anagram" role="tabpanel">
@@ -88,7 +90,7 @@
       </div>
       <div class="tab-panel" id="panel-imenuvanje" role="tabpanel" hidden>
         <h3 class="game-title">Именување на соединенија</h3>
-        <p class="section-sub">Оксиди, киселини, бази, соли и комплексни соединенија: од формула до име или обратно.</p>
+        <p class="section-sub">Оксиди, киселини, бази и соли: од формула до име или обратно.</p>
         <div class="quiz">
           <div class="game-opts" id="nam-opts"></div>
           <div class="progress"><div class="progress-bar" id="nam-bar"></div></div>
@@ -111,6 +113,70 @@
           <div class="stage" id="han-stage"></div>
         </div>
       </div>
+
+      <!-- ИЗГРАДИ АТОМ -->
+      <div class="tab-panel" id="panel-atom" role="tabpanel" hidden>
+        <h3 class="game-title">Изгради атом</h3>
+        <p class="section-sub">Влечи протони, неутрони и електрони (или само кликни на нив) за да ја добиеш зададената честичка.</p>
+
+        <div class="ab-card">
+          <div class="ab-modes">
+            <button class="ab-mode" data-mode="atom" aria-pressed="true" type="button">Атом</button>
+            <button class="ab-mode" data-mode="ion" aria-pressed="false" type="button">Јон</button>
+            <button class="ab-mode" data-mode="iso" aria-pressed="false" type="button">Изотоп</button>
+          </div>
+
+          <div class="ab-task" id="ab-task"></div>
+
+          <div class="ab-board">
+            <!-- Лево: атомот -->
+            <div class="ab-stage" id="ab-stage">
+              <svg class="ab-svg" id="ab-svg" viewBox="0 0 400 400" role="img" aria-label="Модел на атом што го градиш"></svg>
+            </div>
+
+            <!-- Десно: честички и контроли -->
+            <div>
+              <p class="ab-tip">Влечи ја честичката во атомот, или кликни на неа. Со „−“ отстрануваш.</p>
+
+              <div class="ab-tray">
+                <div class="ab-row">
+                  <button class="ab-chip ab-chip-p" data-type="p" aria-label="Додај протон" type="button">p⁺</button>
+                  <div class="ab-rowinfo"><strong>Протони</strong><span>позитивни, во јадрото</span></div>
+                  <button class="ab-minus" data-type="p" aria-label="Отстрани протон" type="button">−</button>
+                  <span class="ab-count" id="ab-cnt-p">0</span>
+                </div>
+                <div class="ab-row">
+                  <button class="ab-chip ab-chip-n" data-type="n" aria-label="Додај неутрон" type="button">n⁰</button>
+                  <div class="ab-rowinfo"><strong>Неутрони</strong><span>без полнеж, во јадрото</span></div>
+                  <button class="ab-minus" data-type="n" aria-label="Отстрани неутрон" type="button">−</button>
+                  <span class="ab-count" id="ab-cnt-n">0</span>
+                </div>
+                <div class="ab-row">
+                  <button class="ab-chip ab-chip-e" data-type="e" aria-label="Додај електрон" type="button">e⁻</button>
+                  <div class="ab-rowinfo"><strong>Електрони</strong><span>негативни, во обвивките</span></div>
+                  <button class="ab-minus" data-type="e" aria-label="Отстрани електрон" type="button">−</button>
+                  <span class="ab-count" id="ab-cnt-e">0</span>
+                </div>
+              </div>
+
+              <div class="ab-live">
+                <div class="ab-nota" id="ab-nota" aria-label="Ознака на атомот"></div>
+                <div class="ab-facts" id="ab-facts"></div>
+              </div>
+
+              <div class="ab-actions">
+                <button class="ab-btn" id="ab-btn-check" type="button">Провери</button>
+                <button class="ab-btn sec" id="ab-btn-hint" type="button">Совет</button>
+                <button class="ab-btn sec" id="ab-btn-clear" type="button">Исчисти</button>
+                <button class="ab-btn sec" id="ab-btn-new" type="button">Нова задача</button>
+              </div>
+
+              <div class="ab-msg info" id="ab-msg" aria-live="polite">Изгради ја честичката од задачата, па кликни „Провери“.</div>
+              <div class="ab-score" id="ab-score"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
   </main>
@@ -129,6 +195,7 @@
   <script src="hangman.js"></script>
   <script src="imenuvanje-data.js"></script>
   <script src="imenuvanje.js"></script>
+  <script src="atom.js"></script>
   <script>
     // Табови за игрите: се гледа една по една
     (function () {

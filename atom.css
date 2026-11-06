@@ -1,0 +1,74 @@
+/* Игра „Изгради атом“ - сите класи почнуваат со ab- за да не се мешаат со остатокот од сајтот */
+
+.ab-card{background:#fff;color:#1c2333;border:1px solid #e2e6ef;border-radius:18px;padding:22px;box-shadow:0 8px 28px rgba(45,27,78,.10);max-width:980px;margin:0 auto}
+
+.ab-modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.ab-mode{font:inherit;font-weight:600;padding:8px 18px;border-radius:99px;border:2px solid #d9d2e8;background:#fff;color:#2d1b4e;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.ab-mode:hover{border-color:#2d1b4e}
+.ab-mode[aria-pressed="true"]{background:#2d1b4e;border-color:#2d1b4e;color:#fff}
+
+.ab-task{background:#f4f0fb;border-radius:12px;padding:13px 16px;font-size:1.1rem;margin-bottom:16px}
+.ab-task sup,.ab-task sub{font-size:.7em}
+
+.ab-board{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:760px){.ab-board{grid-template-columns:1fr}}
+
+/* Сцена со атомот */
+.ab-stage{position:relative;width:100%;max-width:440px;aspect-ratio:1;margin:0 auto;background:radial-gradient(circle at 50% 50%,#fff8ec 0,#f5f0ff 72%);border:2px dashed #cfc5e6;border-radius:16px;transition:border-color .15s,box-shadow .15s}
+.ab-stage.ab-over{border-color:#2a9df4;box-shadow:0 0 0 4px rgba(42,157,244,.2)}
+.ab-stage.ab-ok{border:2px solid #15803d;box-shadow:0 0 0 4px rgba(21,128,61,.18)}
+.ab-svg{width:100%;height:100%;display:block}
+.ab-s-orbit{fill:none;stroke:#cfc5e6;stroke-width:1.2;stroke-dasharray:3 4}
+.ab-s-glow{fill:rgba(255,159,28,.18)}
+.ab-s-p{fill:#e63946;stroke:#9d1d28;stroke-width:.8}
+.ab-s-n{fill:#9aa3b5;stroke:#667089;stroke-width:.8}
+.ab-s-e{fill:#2a9df4;stroke:#1566a8;stroke-width:.8}
+.ab-s-t{fill:#fff;font:700 9px sans-serif;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.ab-s-empty{fill:#8a82a3;font:600 15px sans-serif;text-anchor:middle}
+.ab-ring{transform-origin:200px 200px;animation:ab-spin linear infinite}
+@keyframes ab-spin{to{transform:rotate(360deg)}}
+
+/* Честички што се влечат */
+.ab-tray{display:grid;gap:10px;margin-bottom:14px}
+.ab-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:12px;align-items:center;background:#faf9fd;border:1px solid #e6e1f2;border-radius:12px;padding:8px 12px}
+.ab-chip{width:48px;height:48px;padding:0;border-radius:50%;border:none;color:#fff;font:700 15px sans-serif;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;box-shadow:0 3px 8px rgba(0,0,0,.18);transition:transform .1s}
+.ab-chip:active{cursor:grabbing;transform:scale(.94)}
+.ab-chip-p{background:#e63946}
+.ab-chip-n{background:#8d99ae}
+.ab-chip-e{background:#2a9df4}
+.ab-rowinfo strong{display:block;line-height:1.2}
+.ab-rowinfo span{font-size:.85rem;color:#5b6478}
+.ab-minus{width:34px;height:34px;padding:0;border-radius:50%;border:2px solid #d9d2e8;background:#fff;color:#2d1b4e;font:700 18px sans-serif;cursor:pointer}
+.ab-minus:hover{border-color:#2d1b4e}
+.ab-count{min-width:28px;text-align:center;font-size:1.4rem;font-weight:700;color:#2d1b4e}
+.ab-count.bump{animation:ab-bump .25s ease}
+@keyframes ab-bump{50%{transform:scale(1.35)}}
+.ab-tip{font-size:.9rem;color:#5b6478;margin:0 0 12px}
+
+/* Ознака на атомот во живо */
+.ab-live{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:#f4f0fb;border-radius:12px;padding:10px 14px;margin-bottom:14px}
+.ab-nota{display:inline-flex;align-items:center;gap:3px;font-size:2.2rem;font-weight:700;color:#2d1b4e;line-height:1}
+.ab-nota .nums{display:flex;flex-direction:column;font-size:.95rem;line-height:1.15;text-align:right;color:#5b6478}
+.ab-nota .q{align-self:flex-start;font-size:1rem}
+.ab-facts{font-size:.9rem;color:#3b4357;line-height:1.5}
+
+.ab-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.ab-btn{font:inherit;font-weight:600;padding:11px 18px;border-radius:12px;border:2px solid #2d1b4e;background:#2d1b4e;color:#fff;cursor:pointer;transition:transform .1s,background .15s}
+.ab-btn:hover{background:#3d2a66}
+.ab-btn:active{transform:scale(.98)}
+.ab-btn.sec{background:#fff;color:#2d1b4e}
+.ab-btn.sec:hover{background:#f4f0fb}
+.ab-btn:disabled{opacity:.45;cursor:default}
+
+.ab-msg{min-height:3em;border-radius:12px;padding:10px 14px;font-size:.98rem}
+.ab-msg.ok{background:#e7f6ec;color:#14532d}
+.ab-msg.bad{background:#fdecec;color:#7f1d1d}
+.ab-msg.info{background:#eef3ff;color:#1e3a8a}
+.ab-score{margin-top:12px;font-size:.9rem;color:#5b6478}
+
+.ab-ghost{position:fixed;left:0;top:0;width:40px;height:40px;border-radius:50%;color:#fff;font:700 14px sans-serif;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:9999;opacity:.92;box-shadow:0 6px 16px rgba(0,0,0,.3)}
+
+@media (prefers-reduced-motion:reduce){
+  .ab-ring{animation:none}
+  .ab-count.bump{animation:none}
+}

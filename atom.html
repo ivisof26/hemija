@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Изгради атом – Хемија за сите</title>
+  <meta name="description" content="Игра: изгради атом, јон или изотоп со влечење протони, неутрони и електрони.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="icon-192.png">
+
+  <style>
+    /* Сите стилови за играта почнуваат со ab- за да не се мешаат со остатокот од сајтот */
+    .ab-card{background:#fff;color:#1c2333;border:1px solid #e2e6ef;border-radius:18px;padding:22px;box-shadow:0 8px 28px rgba(45,27,78,.10);max-width:980px;margin:0 auto}
+    .ab-card h1{margin:0 0 6px;font-size:1.65rem;color:#2d1b4e;line-height:1.25}
+    .ab-sub{margin:0 0 16px;color:#5b6478}
+
+    .ab-modes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+    .ab-mode{font:inherit;font-weight:600;padding:8px 18px;border-radius:99px;border:2px solid #d9d2e8;background:#fff;color:#2d1b4e;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+    .ab-mode:hover{border-color:#2d1b4e}
+    .ab-mode[aria-pressed="true"]{background:#2d1b4e;border-color:#2d1b4e;color:#fff}
+
+    .ab-task{background:#f4f0fb;border-radius:12px;padding:13px 16px;font-size:1.1rem;margin-bottom:16px}
+    .ab-task sup,.ab-task sub{font-size:.7em}
+
+    .ab-board{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+    @media (max-width:760px){.ab-board{grid-template-columns:1fr}}
+
+    /* Сцена со атомот */
+    .ab-stage{position:relative;width:100%;max-width:440px;aspect-ratio:1;margin:0 auto;background:radial-gradient(circle at 50% 50%,#fff8ec 0,#f5f0ff 72%);border:2px dashed #cfc5e6;border-radius:16px;transition:border-color .15s,box-shadow .15s}
+    .ab-stage.ab-over{border-color:#2a9df4;box-shadow:0 0 0 4px rgba(42,157,244,.2)}
+    .ab-stage.ab-ok{border:2px solid #15803d;box-shadow:0 0 0 4px rgba(21,128,61,.18)}
+    .ab-svg{width:100%;height:100%;display:block}
+    .s-orbit{fill:none;stroke:#cfc5e6;stroke-width:1.2;stroke-dasharray:3 4}
+    .s-glow{fill:rgba(255,159,28,.18)}
+    .s-p{fill:#e63946;stroke:#9d1d28;stroke-width:.8}
+    .s-n{fill:#9aa3b5;stroke:#667089;stroke-width:.8}
+    .s-e{fill:#2a9df4;stroke:#1566a8;stroke-width:.8}
+    .s-t{fill:#fff;font:700 9px sans-serif;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+    .s-empty{fill:#8a82a3;font:600 15px sans-serif;text-anchor:middle}
+    .ab-ring{transform-origin:200px 200px;animation:ab-spin linear infinite}
+    @keyframes ab-spin{to{transform:rotate(360deg)}}
+
+    /* Честички што се влечат */
+    .ab-tray{display:grid;gap:10px;margin-bottom:14px}
+    .ab-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:12px;align-items:center;background:#faf9fd;border:1px solid #e6e1f2;border-radius:12px;padding:8px 12px}
+    .ab-chip{width:48px;height:48px;border-radius:50%;border:none;color:#fff;font:700 15px sans-serif;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;box-shadow:0 3px 8px rgba(0,0,0,.18);transition:transform .1s}
+    .ab-chip:active{cursor:grabbing;transform:scale(.94)}
+    .chip-p{background:#e63946}.chip-n{background:#8d99ae}.chip-e{background:#2a9df4}
+    .ab-rowinfo strong{display:block;line-height:1.2}
+    .ab-rowinfo span{font-size:.85rem;color:#5b6478}
+    .ab-minus{width:34px;height:34px;border-radius:50%;border:2px solid #d9d2e8;background:#fff;color:#2d1b4e;font:700 18px sans-serif;cursor:pointer}
+    .ab-minus:hover{border-color:#2d1b4e}
+    .ab-count{min-width:28px;text-align:center;font-size:1.4rem;font-weight:700;color:#2d1b4e}
+    .ab-count.bump{animation:ab-bump .25s ease}
+    @keyframes ab-bump{50%{transform:scale(1.35)}}
+    .ab-tip{font-size:.9rem;color:#5b6478;margin:0 0 12px}
+
+    /* Ознака на атомот во живо */
+    .ab-live{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:#f4f0fb;border-radius:12px;padding:10px 14px;margin-bottom:14px}
+    .ab-nota{display:inline-flex;align-items:center;gap:3px;font-size:2.2rem;font-weight:700;color:#2d1b4e;line-height:1}
+    .ab-nota .nums{display:flex;flex-direction:column;font-size:.95rem;line-height:1.15;text-align:right;color:#5b6478}
+    .ab-nota .q{align-self:flex-start;font-size:1rem}
+    .ab-facts{font-size:.9rem;color:#3b4357;line-height:1.5}
+
+    .ab-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .ab-btn{font:inherit;font-weight:600;padding:11px 18px;border-radius:12px;border:2px solid #2d1b4e;background:#2d1b4e;color:#fff;cursor:pointer;transition:transform .1s,background .15s}
+    .ab-btn:hover{background:#3d2a66}
+    .ab-btn:active{transform:scale(.98)}
+    .ab-btn.sec{background:#fff;color:#2d1b4e}
+    .ab-btn.sec:hover{background:#f4f0fb}
+    .ab-btn:disabled{opacity:.45;cursor:default}
+
+    .ab-msg{min-height:3em;border-radius:12px;padding:10px 14px;font-size:.98rem}
+    .ab-msg.ok{background:#e7f6ec;color:#14532d}
+    .ab-msg.bad{background:#fdecec;color:#7f1d1d}
+    .ab-msg.info{background:#eef3ff;color:#1e3a8a}
+    .ab-score{margin-top:12px;font-size:.9rem;color:#5b6478}
+
+    .ab-ghost{position:fixed;left:0;top:0;width:40px;height:40px;border-radius:50%;color:#fff;font:700 14px sans-serif;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:9999;opacity:.92;box-shadow:0 6px 16px rgba(0,0,0,.3)}
+
+    @media (prefers-reduced-motion:reduce){
+      .ab-ring{animation:none}
+      .ab-count.bump{animation:none}
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html">⚗️ Хемија<span>за сите</span></a>
+      <nav>
+        <a href="index.html">Почетна</a>
+        <a href="kvizovi.html">Квизови</a>
+        <a href="igri.html">Игри</a>
+        <a href="testovi.html">Тестови</a>
+        <a href="alatki.html">🧮 Алатки</a>
+        <a href="aplikacija.html">📱 Апликација</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="container section">
+      <div class="ab-card">
+        <h1>⚛️ Изгради атом</h1>
+        <p class="ab-sub">Влечи честички во атомот (или само кликни на нив) за да ја добиеш зададената честичка.</p>
+
+        <div class="ab-modes" id="ab-modes">
+          <button class="ab-mode" data-mode="atom" aria-pressed="true">Атом</button>
+          <button class="ab-mode" data-mode="ion" aria-pressed="false">Јон</button>
+          <button class="ab-mode" data-mode="iso" aria-pressed="false">Изотоп</button>
+        </div>
+
+        <div class="ab-task" id="ab-task"></div>
+
+        <div class="ab-board">
+          <!-- Лево: атомот -->
+          <div class="ab-stage" id="ab-stage">
+            <svg class="ab-svg" id="ab-svg" viewBox="0 0 400 400" role="img" aria-label="Модел на атом што го градиш"></svg>
+          </div>
+
+          <!-- Десно: честички и контроли -->
+          <div>
+            <p class="ab-tip">Влечи ја честичката во атомот, или кликни на неа. Со „−“ отстрануваш.</p>
+
+            <div class="ab-tray">
+              <div class="ab-row">
+                <button class="ab-chip chip-p" data-type="p" aria-label="Додај протон">p⁺</button>
+                <div class="ab-rowinfo"><strong>Протони</strong><span>позитивни, во јадрото</span></div>
+                <button class="ab-minus" data-type="p" aria-label="Отстрани протон">−</button>
+                <span class="ab-count" id="cnt-p">0</span>
+              </div>
+              <div class="ab-row">
+                <button class="ab-chip chip-n" data-type="n" aria-label="Додај неутрон">n⁰</button>
+                <div class="ab-rowinfo"><strong>Неутрони</strong><span>без полнеж, во јадрото</span></div>
+                <button class="ab-minus" data-type="n" aria-label="Отстрани неутрон">−</button>
+                <span class="ab-count" id="cnt-n">0</span>
+              </div>
+              <div class="ab-row">
+                <button class="ab-chip chip-e" data-type="e" aria-label="Додај електрон">e⁻</button>
+                <div class="ab-rowinfo"><strong>Електрони</strong><span>негативни, во обвивките</span></div>
+                <button class="ab-minus" data-type="e" aria-label="Отстрани електрон">−</button>
+                <span class="ab-count" id="cnt-e">0</span>
+              </div>
+            </div>
+
+            <div class="ab-live">
+              <div class="ab-nota" id="ab-nota" aria-label="Ознака на атомот"></div>
+              <div class="ab-facts" id="ab-facts"></div>
+            </div>
+
+            <div class="ab-actions">
+              <button class="ab-btn" id="btn-check">Провери</button>
+              <button class="ab-btn sec" id="btn-hint">Совет</button>
+              <button class="ab-btn sec" id="btn-clear">Исчисти</button>
+              <button class="ab-btn sec" id="btn-new">Нова задача</button>
+            </div>
+
+            <div class="ab-msg info" id="ab-msg" aria-live="polite">Изгради ја честичката од задачата, па кликни „Провери“.</div>
+            <div class="ab-score" id="ab-score"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> Хемија за сите · Изработил: Ивона Софрониевска · <a href="#" id="contact-link">Контакт</a></div>
+  </footer>
+
+  <script>
+  (function () {
+    "use strict";
+
+    // ---------- ПОДАТОЦИ ----------
+    // Елементи со атомски број 1-20: симбол, име, масен број на најчестиот изотоп
+    const ELEMENTS = [null,
+      {s:"H",  n:"Водород",    a:1},  {s:"He", n:"Хелиум",     a:4},
+      {s:"Li", n:"Литиум",     a:7},  {s:"Be", n:"Берилиум",   a:9},
+      {s:"B",  n:"Бор",        a:11}, {s:"C",  n:"Јаглерод",   a:12},
+      {s:"N",  n:"Азот",       a:14}, {s:"O",  n:"Кислород",   a:16},
+      {s:"F",  n:"Флуор",      a:19}, {s:"Ne", n:"Неон",       a:20},
+      {s:"Na", n:"Натриум",    a:23}, {s:"Mg", n:"Магнезиум",  a:24},
+      {s:"Al", n:"Алуминиум",  a:27}, {s:"Si", n:"Силициум",   a:28},
+      {s:"P",  n:"Фосфор",     a:31}, {s:"S",  n:"Сулфур",     a:32},
+      {s:"Cl", n:"Хлор",       a:35}, {s:"Ar", n:"Аргон",      a:40},
+      {s:"K",  n:"Калиум",     a:39}, {s:"Ca", n:"Калциум",    a:40}
+    ];
+
+    // Јони: [атомски број, наелектризирање]
+    const IONS = [[1,1],[1,-1],[3,1],[4,2],[7,-3],[8,-2],[9,-1],[11,1],[12,2],
+                  [13,3],[15,-3],[16,-2],[17,-1],[19,1],[20,2]];
+
+    // Изотопи: [атомски број, масен број, дополнително име]
+    const ISOTOPES = [[1,2,"деутериум"],[1,3,"тритиум"],[3,6,""],[5,10,""],[6,13,""],
+                      [6,14,""],[7,15,""],[8,17,""],[8,18,""],[10,22,""],[12,26,""],
+                      [17,37,""],[18,36,""],[19,41,""]];
+
+    const MAX  = { p: 20, n: 24, e: 24 };      // најмногу честички од секој вид
+    const CAPS = [2, 8, 8, 6];                 // колку електрони собира секоја обвивка
+    const RING_R = [80, 115, 150, 180];        // радиуси на обвивките во SVG
+    const RING_DUR = [4, 7, 11, 15];           // брзина на ротација (секунди)
+    const NAMES = { p: "протони", n: "неутрони", e: "електрони" };
+
+    // ---------- СОСТОЈБА ----------
+    const state = { mode: "atom", task: null, solved: false };
+    const cnt = { p: 0, n: 0, e: 0 };
+    let score = { solved: 0, streak: 0 };
+    let suppressClick = false;
+    const T0 = performance.now();
+
+    const $ = (id) => document.getElementById(id);
+    const stage = $("ab-stage"), svg = $("ab-svg");
+
+    // ---------- ПОМОШНИ ФУНКЦИИ ----------
+    function rand(n) { return Math.floor(Math.random() * n); }
+
+    function chargeStr(q) {
+      if (q === 0) return "";
+      return (Math.abs(q) === 1 ? "" : String(Math.abs(q))) + (q > 0 ? "+" : "−");
+    }
+
+    // ---------- ЗАДАЧИ ----------
+    function makeTask(mode) {
+      if (mode === "ion") {
+        const [z, q] = IONS[rand(IONS.length)];
+        const el = ELEMENTS[z];
+        return { mode, z, a: el.a, q, key: "i" + z + "_" + q,
+          label: `Изгради го јонот <b>${el.s}<sup>${chargeStr(q)}</sup></b> (${el.n.toLowerCase()}) со масен број <b>${el.a}</b>.` };
+      }
+      if (mode === "iso") {
+        const [z, a, extra] = ISOTOPES[rand(ISOTOPES.length)];
+        const el = ELEMENTS[z];
+        const ex = extra ? ` (${extra})` : "";
+        return { mode, z, a, q: 0, key: "s" + z + "_" + a,
+          label: `Изгради го изотопот <b>${el.n.toLowerCase()}-${a}</b>${ex}, <sup>${a}</sup>${el.s}, како неутрален атом.` };
+      }
+      const z = 1 + rand(20), el = ELEMENTS[z];
+      return { mode: "atom", z, a: el.a, q: 0, key: "a" + z,
+        label: `Изгради неутрален атом на <b>${el.n.toLowerCase()}</b> (${el.s}) со масен број <b>${el.a}</b>.` };
+    }
+
+    function newTask() {
+      let t, tries = 0;
+      do { t = makeTask(state.mode); tries++; }
+      while (state.task && t.key === state.task.key && tries < 10);
+      state.task = t;
+      state.solved = false;
+      cnt.p = cnt.n = cnt.e = 0;
+      stage.classList.remove("ab-ok");
+      $("btn-check").disabled = false;
+      $("ab-task").innerHTML = t.label;
+      setMsg("info", "Изгради ја честичката од задачата, па кликни „Провери“.");
+      render();
+    }
+
+    // ---------- ЦРТАЊЕ НА АТОМОТ ----------
+    function nucleusOrder(p, n) {
+      const out = []; let pi = 0, ni = 0;
+      for (let i = 0; i < p + n; i++) {
+        if (pi < p && (ni >= n || pi / p <= ni / n)) { out.push("p"); pi++; }
+        else { out.push("n"); ni++; }
+      }
+      return out;
+    }
+
+    function ringFill(e) {
+      const out = []; let left = e;
+      CAPS.forEach((c) => { const x = Math.min(c, left); out.push(x); left -= x; });
+      return out;
+    }
+
+    function render() {
+      const { p, n, e } = cnt;
+      let g = "";
+      const rings = ringFill(e);
+
+      RING_R.forEach((r, k) => {
+        if (k < 3 || rings[k] > 0) g += `<circle class="s-orbit" cx="200" cy="200" r="${r}"/>`;
+      });
+
+      const total = p + n;
+      if (total === 0 && e === 0) {
+        g += `<text class="s-empty" x="200" y="205">Влечи честички тука</text>`;
+      }
+
+      if (total > 0) {
+        const nr = 7.6 * Math.sqrt(total) + 12;
+        g += `<circle class="s-glow" cx="200" cy="200" r="${(nr + 8).toFixed(1)}"/>`;
+        nucleusOrder(p, n).forEach((t, i) => {
+          const rad = 7.6 * Math.sqrt(i + 0.5), ang = i * 2.399963;
+          const x = (200 + rad * Math.cos(ang)).toFixed(1);
+          const y = (200 + rad * Math.sin(ang)).toFixed(1);
+          g += `<circle class="s-${t}" cx="${x}" cy="${y}" r="7.2"/>`;
+          if (t === "p") g += `<text class="s-t" x="${x}" y="${y}">+</text>`;
+        });
+      }
+
+      // Електрони: ротираат; фазата се чува за да нема скокање при секоја промена
+      const now = (performance.now() - T0) / 1000;
+      rings.forEach((c, k) => {
+        if (!c) return;
+        const dur = RING_DUR[k], delay = -(now % dur);
+        let es = "";
+        for (let j = 0; j < c; j++) {
+          const a = (2 * Math.PI * j) / c + k * 0.8;
+          const x = (200 + RING_R[k] * Math.cos(a)).toFixed(1);
+          const y = (200 + RING_R[k] * Math.sin(a)).toFixed(1);
+          es += `<circle class="s-e" cx="${x}" cy="${y}" r="6.2"/><text class="s-t" x="${x}" y="${y}">−</text>`;
+        }
+        g += `<g class="ab-ring" style="animation-duration:${dur}s;animation-delay:${delay.toFixed(2)}s;animation-direction:${k % 2 ? "reverse" : "normal"}">${es}</g>`;
+      });
+
+      svg.innerHTML = g;
+
+      // Броила
+      ["p", "n", "e"].forEach((t) => { $("cnt-" + t).textContent = cnt[t]; });
+
+      // Ознака во живо
+      const z = p, a = p + n, q = p - e;
+      const sym = z >= 1 && z <= 20 ? ELEMENTS[z].s : "?";
+      $("ab-nota").innerHTML =
+        `<span class="nums"><span>${a}</span><span>${z}</span></span><span>${sym}</span>` +
+        (q !== 0 ? `<span class="q">${chargeStr(q)}</span>` : "");
+
+      $("ab-facts").innerHTML =
+        `Атомски број Z = <b>${z}</b> (број на протони)<br>` +
+        `Масен број A = <b>${a}</b> (протони + неутрони)<br>` +
+        `Наелектризирање = <b>${q === 0 ? "0" : (q > 0 ? "+" : "−") + Math.abs(q)}</b>` +
+        (z >= 1 && z <= 20 ? `<br>Елемент: <b>${ELEMENTS[z].n}</b>` : "");
+    }
+
+    // ---------- ДОДАВАЊЕ И ОТСТРАНУВАЊЕ ----------
+    function bump(type) {
+      const el = $("cnt-" + type);
+      el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump");
+    }
+
+    function clearIfWrong() {
+      const m = $("ab-msg");
+      if (m.classList.contains("bad")) setMsg("info", "Продолжи со градењето, па повторно кликни „Провери“.");
+    }
+
+    function add(type) {
+      if (state.solved) return;
+      if (cnt[type] >= MAX[type]) {
+        setMsg("info", `Не може повеќе: најмногу ${MAX[type]} ${NAMES[type]} во оваа игра.`);
+        return;
+      }
+      cnt[type]++; clearIfWrong(); render(); bump(type);
+    }
+
+    function remove(type) {
+      if (state.solved || cnt[type] === 0) return;
+      cnt[type]--; clearIfWrong(); render(); bump(type);
+    }
+
+    // ---------- ВЛЕКУВАЊЕ ----------
+    function inStage(ev) {
+      const r = stage.getBoundingClientRect();
+      return ev.clientX >= r.left && ev.clientX <= r.right && ev.clientY >= r.top && ev.clientY <= r.bottom;
+    }
+
+    function startDrag(e, chip) {
+      const type = chip.dataset.type, sx = e.clientX, sy = e.clientY;
+      let ghost = null, moved = false;
+      try { chip.setPointerCapture(e.pointerId); } catch (_) {}
+
+      const move = (ev) => {
+        if (!moved && Math.hypot(ev.clientX - sx, ev.clientY - sy) > 8) {
+          moved = true;
+          ghost = document.createElement("div");
+          ghost.className = "ab-ghost chip-" + type;
+          ghost.textContent = chip.textContent;
+          document.body.appendChild(ghost);
+        }
+        if (moved) {
+          ghost.style.transform = `translate(${ev.clientX - 20}px, ${ev.clientY - 20}px)`;
+          stage.classList.toggle("ab-over", inStage(ev));
+        }
+      };
+
+      const up = (ev) => {
+        chip.removeEventListener("pointermove", move);
+        chip.removeEventListener("pointerup", up);
+        chip.removeEventListener("pointercancel", up);
+        try { chip.releasePointerCapture(ev.pointerId); } catch (_) {}
+        if (moved) {
+          suppressClick = true;
+          setTimeout(() => { suppressClick = false; }, 60);
+          stage.classList.remove("ab-over");
+          if (ghost) ghost.remove();
+          if (ev.type === "pointerup" && inStage(ev)) add(type);
+        }
+      };
+
+      chip.addEventListener("pointermove", move);
+      chip.addEventListener("pointerup", up);
+      chip.addEventListener("pointercancel", up);
+    }
+
+    document.querySelectorAll(".ab-chip").forEach((chip) => {
+      chip.addEventListener("click", () => { if (!suppressClick) add(chip.dataset.type); });
+      chip.addEventListener("pointerdown", (e) => { if (e.button === undefined || e.button === 0) startDrag(e, chip); });
+    });
+    document.querySelectorAll(".ab-minus").forEach((b) => {
+      b.addEventListener("click", () => remove(b.dataset.type));
+    });
+
+    // ---------- ПРОВЕРКА ----------
+    function setMsg(kind, html) {
+      const m = $("ab-msg");
+      m.className = "ab-msg " + kind;
+      m.innerHTML = html;
+    }
+
+    function check() {
+      const t = state.task;
+      if (!t || state.solved) return;
+      const need = { p: t.z, n: t.a - t.z, e: t.z - t.q };
+      const wrong = [];
+      ["p", "n", "e"].forEach((k) => {
+        if (cnt[k] !== need[k]) wrong.push(`${NAMES[k]}: ${cnt[k] < need[k] ? "има премалку" : "има премногу"}`);
+      });
+
+      if (wrong.length === 0) {
+        state.solved = true;
+        score.solved++; score.streak++;
+        saveScore(); showScore();
+        stage.classList.add("ab-ok");
+        $("btn-check").disabled = true;
+        const eq = t.q === 0 ? `${t.z}` : `${t.z} ${t.q > 0 ? "−" : "+"} ${Math.abs(t.q)}`;
+        setMsg("ok",
+          `<b>Точно! 🎉</b><br>` +
+          `Протони = Z = ${t.z}.<br>` +
+          `Неутрони = A − Z = ${t.a} − ${t.z} = ${t.a - t.z}.<br>` +
+          `Електрони = Z − наелектризирање = ${eq} = ${t.z - t.q}.`);
+      } else {
+        score.streak = 0; saveScore(); showScore();
+        setMsg("bad", `<b>Не баш.</b> Провери: ${wrong.join("; ")}.<br>Не ти оди? Кликни „Совет“.`);
+      }
+    }
+
+    function hint() {
+      const t = state.task, el = ELEMENTS[t.z];
+      setMsg("info",
+        `<b>Совет:</b> атомскиот број на ${el.n.toLowerCase()} е <b>${t.z}</b>.<br>` +
+        `Протони = Z. Неутрони = A − Z. Електрони = Z − наелектризирање.`);
+    }
+
+    // ---------- РЕЗУЛТАТ (се памти во прелистувачот) ----------
+    function loadScore() {
+      try {
+        const s = JSON.parse(localStorage.getItem("ab-score"));
+        if (s && typeof s.solved === "number") score = { solved: s.solved, streak: s.streak || 0 };
+      } catch (_) {}
+    }
+    function saveScore() { try { localStorage.setItem("ab-score", JSON.stringify(score)); } catch (_) {} }
+    function showScore() { $("ab-score").textContent = `Решени задачи: ${score.solved} · Тековна серија: ${score.streak}`; }
+
+    // ---------- КОПЧИЊА ----------
+    $("btn-check").addEventListener("click", check);
+    $("btn-hint").addEventListener("click", hint);
+    $("btn-new").addEventListener("click", newTask);
+    $("btn-clear").addEventListener("click", () => {
+      if (state.solved) return;
+      cnt.p = cnt.n = cnt.e = 0; render();
+      setMsg("info", "Исчистено. Почни одново.");
+    });
+
+    document.querySelectorAll(".ab-mode").forEach((b) => {
+      b.addEventListener("click", () => {
+        state.mode = b.dataset.mode;
+        document.querySelectorAll(".ab-mode").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+        state.task = null;
+        newTask();
+      });
+    });
+
+    // ---------- СТАРТ ----------
+    loadScore(); showScore(); newTask();
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    // Е-поштата се составува овде за да не ја читаат лесно автоматски програми
+    const mailUser = "sofronievska.ivona", mailDomain = "gmail.com";
+    document.getElementById("contact-link").href = "mailto:" + mailUser + "@" + mailDomain;
+  })();
+  </script>
+</body>
+</html>

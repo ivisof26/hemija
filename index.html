@@ -14,6 +14,20 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Хемија">
+  <style>
+    .toc { margin-top: 28px; }
+    .toc > h2 { margin: 0 0 4px; }
+    .toc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 14px; }
+    .toc-card { background: var(--card, #fff); border: 2px solid #eadfd6; border-radius: var(--radius, 14px); padding: 16px 18px; box-shadow: var(--shadow, 0 4px 18px rgba(20, 50, 70, .08)); }
+    .toc-card h3 { margin: 0 0 8px; font-size: 1.1rem; }
+    .toc-card h3 a { color: inherit; text-decoration: none; }
+    .toc-card h3 a:hover { color: var(--primary, #c2410c); }
+    .toc-card ul { margin: 0; padding-left: 1.1em; }
+    .toc-card li { margin: 4px 0; line-height: 1.35; }
+    .toc-card li small { display: block; color: var(--muted, #6b5b6e); font-size: .82rem; }
+    .toc-card ul ul { margin-top: 2px; }
+    .toc-card a { color: var(--primary-dark, #9a3412); }
+  </style>
 </head>
 <body>
 
@@ -77,7 +91,7 @@
         <a class="hub-card" href="igri.html">
           <span class="hub-ico">🎮</span>
           <h3>Игри</h3>
-          <p>Анаграм, меморија, равенки, именување на соединенија и бесилка.</p>
+          <p>Анаграм, меморија, равенки, именување на соединенија, бесилка и лабораториска безбедност.</p>
           <span class="hub-go">Отвори →</span>
         </a>
         <a class="hub-card" href="testovi.html">
@@ -89,16 +103,91 @@
         <a class="hub-card" href="alatki.html">
           <span class="hub-ico">🧮</span>
           <h3>Алатки</h3>
-          <p>Периоден систем, калкулатор за моларна маса, pH калкулатор и квалитативна анализа на катјони.</p>
+          <p>Периоден систем, калкулатор, pH, виртуелна епрувета за квалитативна анализа и инструментални лабораториски вежби.</p>
           <span class="hub-go">Отвори →</span>
         </a>
+      </div>
+    </section>
+
+
+    <!-- СОДРЖИНА: што има на сајтот -->
+    <section id="sodrzina" class="container section toc">
+      <h2>Содржина</h2>
+      <p class="section-sub">Што има во секој дел, за да знаеш каде да го најдеш она што ти треба.</p>
+      <div class="toc-grid">
+
+        <div class="toc-card">
+          <h3><a href="kvizovi.html">🧪 Квизови</a></h3>
+          <ul>
+            <li>Квиз: основи на хемијата
+              <small>шест прашања со понудени одговори и објаснување по секое</small></li>
+          </ul>
+        </div>
+
+        <div class="toc-card">
+          <h3><a href="igri.html">🎮 Игри</a></h3>
+          <ul>
+            <li>🔤 Анаграм
+              <small>состави го хемискиот поим од измешани букви</small></li>
+            <li>🃏 Меморија
+              <small>најди парови: симбол и име на елемент</small></li>
+            <li>⚖️ Равенки
+              <small>израмнување хемиски равенки</small></li>
+            <li>🔬 Имиња
+              <small>именување на оксиди, киселини, бази и соли</small></li>
+            <li>✏️ Бесилка
+              <small>погоди го хемискиот поим буква по буква</small></li>
+            <li>🦺 Безбедност
+              <small>најди ги опасните грешки во лабораторијата</small></li>
+          </ul>
+        </div>
+
+        <div class="toc-card">
+          <h3><a href="testovi.html">📝 Тестови</a></h3>
+          <ul>
+            <li><a href="test-organska.html">Органска хемија</a></li>
+            <li><a href="test-kvalitativna.html">Квалитативна анализа на неоргански катјони и анјони</a></li>
+          </ul>
+        </div>
+
+        <div class="toc-card">
+          <h3><a href="alatki.html">🧮 Алатки</a></h3>
+          <ul>
+            <li>📊 Периоден систем
+              <small>пребарување, категории на елементи и детали</small></li>
+            <li>🧮 Калкулатор
+              <small>моларна маса, претворање маса ⇄ мол ⇄ честички ⇄ волумен</small></li>
+            <li>⚗️ pH
+              <small>pH, pOH, [H⁺] и [OH⁻]; силни киселини и бази</small></li>
+            <li>🧪 Квалитативна анализа на катјони
+              <ul>
+                <li>Вежбање: избери катјон и реагенс</li>
+                <li>Непознат раствор: најди го катјонот и напиши ги формулите на талозите</li>
+              </ul></li>
+            <li>🔬 Инструментални методи
+              <ul>
+                <li>Фотометрија: фосфати</li>
+                <li>Фотометрија: Cr(VI) и Mn(VII) во смеса</li>
+                <li>Титрации: кондуктометриска и pH-метриска</li>
+              </ul></li>
+          </ul>
+        </div>
+
+        <div class="toc-card">
+          <h3><a href="aplikacija.html">📱 Апликација</a></h3>
+          <ul>
+            <li>Како да ја инсталираш на телефонот
+              <small>работи и без интернет откако еднаш ќе се отвори</small></li>
+          </ul>
+        </div>
+
       </div>
     </section>
 
     <section class="container app-banner-wrap">
       <a class="app-banner" href="aplikacija.html">
         <span class="app-banner-ico">📱</span>
-        <span><strong>Симни ја апликацијата</strong><br>Инсталирај ја „ сите“ на телефонот.</span>
+        <span><strong>Симни ја апликацијата</strong><br>Инсталирај ја „Сакам хемија“ на телефонот.</span>
         <span class="hub-go">Како →</span>
       </a>
     </section>

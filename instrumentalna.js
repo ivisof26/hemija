@@ -476,13 +476,13 @@
     // --- сцена: статив, бирета со чешма, чаша на магнетна мешалка, електрода, пипета, шишенце за миење
     const gid = uid("tt");
     const svg = sv("svg", { viewBox: "0 0 300 400", class: "in-spec in-tit", role: "img", "aria-label": "Бирета, чаша на магнетна мешалка и електрода" });
-    const ticksB = Array.from({ length: 26 }, (_, i) => { const y = 30 + i * 6.4, big = i % 5 === 0; return `<line x1="${big ? 140 : 144}" x2="152" y1="${y}" y2="${y}" stroke="#7d93a8" stroke-width="${big ? 1.4 : .8}"/>${big ? `<text x="165" y="${y + 3}" font-size="7" fill="#5b6e82">${i}</text>` : ""}`; }).join("");
-    const ticksC = [50, 100, 150].map(v => { const y = 358 - v / 150 * 90; return `<line x1="196" x2="205" y1="${y}" y2="${y}" stroke="#7d93a8" stroke-width="1"/><text x="193" y="${y + 2.5}" text-anchor="end" font-size="7" fill="#5b6e82">${v}</text>`; }).join("");
+    const ticksB = Array.from({ length: 26 }, (_, i) => { const y = 30 + i * 6.4, big = i % 5 === 0; return `<line x1="${big ? 139 : 142}" x2="148" y1="${y}" y2="${y}" stroke="#4f657a" stroke-width="${big ? 1.2 : .7}"/>${big ? `<text x="150.5" y="${y + 2.4}" font-size="6.5" fill="#3f5266">${i}</text>` : ""}`; }).join("");
+    const ticksC = [25, 50, 75, 100, 125, 150].map(v => { const y = 358 - v / 150 * 90, big = v % 50 === 0; return `<line x1="${big ? 183 : 188}" x2="196" y1="${y}" y2="${y}" stroke="#4f657a" stroke-width="1"/>${big ? `<text x="180" y="${y + 2.4}" text-anchor="end" font-size="7" fill="#3f5266">${v}</text>` : ""}`; }).join("");
     svg.innerHTML = `
       <defs>
         <linearGradient id="${gid}-gl" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset=".85" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".4"/></linearGradient>
         <clipPath id="${gid}-cb"><path d="M95 268 V350 a8 8 0 0 0 8 8 H197 a8 8 0 0 0 8 -8 V268 Z"/></clipPath>
-        <clipPath id="${gid}-bt"><rect x="142" y="30" width="16" height="172"/></clipPath>
+        <clipPath id="${gid}-bt"><rect x="138" y="30" width="24" height="172"/></clipPath>
         <clipPath id="${gid}-pp"><path d="M117 130 H123 V152 C131 158 131 182 123 188 V292 L120 304 L117 292 V188 C109 182 109 158 117 152 Z"/></clipPath>
       </defs>
       <rect x="0" y="378" width="300" height="22" fill="#d6c8b6"/><rect x="0" y="378" width="300" height="3" fill="#bfae98"/>
@@ -497,10 +497,10 @@
       <g id="${gid}-surf" class="tt-surf"><ellipse cx="150" cy="358" rx="55" ry="4" fill="rgba(255,255,255,.55)" stroke="#9ec7e8" stroke-width="1"/><ellipse class="tt-swirl" cx="150" cy="358" rx="30" ry="2.4" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="10 8"/></g>
       <path d="M92 268 V350 a10 10 0 0 0 10 10 H198 a10 10 0 0 0 10 -10 V268" fill="url(#${gid}-gl)" stroke="#8fa6bd" stroke-width="3.5"/>
       <path d="M88 268 H212" stroke="#8fa6bd" stroke-width="3.5" stroke-linecap="round"/>${ticksC}
-      <rect x="140" y="22" width="20" height="184" rx="3" fill="#f6fbff" stroke="#8fa6bd" stroke-width="2.5"/>
-      <g clip-path="url(#${gid}-bt)"><rect id="${gid}-bur" class="tt-bur" x="142" y="30" width="16" height="172" fill="#bfe0f5"/></g>
-      <rect x="140" y="22" width="20" height="184" rx="3" fill="url(#${gid}-gl)"/>${ticksB}
-      <rect x="134" y="70" width="32" height="22" rx="4" fill="#5b6570"/>
+      <rect x="136" y="22" width="28" height="184" rx="3" fill="#f6fbff" stroke="#8fa6bd" stroke-width="2.5"/>
+      <g clip-path="url(#${gid}-bt)"><rect id="${gid}-bur" class="tt-bur" x="138" y="30" width="24" height="172" fill="#bfe0f5"/></g>
+      <rect x="136" y="22" width="28" height="184" rx="3" fill="url(#${gid}-gl)"/>${ticksB}
+      <rect x="130" y="70" width="40" height="22" rx="4" fill="#5b6570"/>
       <rect x="145" y="206" width="10" height="12" rx="2" fill="#e6eef5" stroke="#8fa6bd"/>
       <g transform="translate(150 212)"><g id="${gid}-stop" class="tt-stop"><rect x="5" y="-2.5" width="26" height="5" rx="2.5" fill="#c2410c"/></g></g>
       <path d="M146 218 h8 v16 l-4 9 l-4 -9 z" fill="#e6eef5" stroke="#8fa6bd" stroke-width="2"/>

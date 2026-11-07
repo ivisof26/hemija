@@ -541,12 +541,12 @@
     let S = null, run = null, busy = false, stepBusy = false, inflight = 0;
     const queue = [];
     function setProbe() {
-      const cap = '<rect x="180" y="70" width="14" height="14" rx="3" fill="#2d1b4e"/>';
-      const body = '<rect x="182" y="82" width="10" height="250" rx="3" fill="#dfe5ec" stroke="#7d93a8" stroke-width="2"/>';
+      const cap = '<rect x="180" y="94" width="14" height="14" rx="3" fill="#2d1b4e"/>';
+      const body = '<rect x="182" y="106" width="10" height="196" rx="3" fill="#dfe5ec" stroke="#7d93a8" stroke-width="2"/>';
       const tip = T.method === "ph"
-        ? '<rect x="182" y="318" width="10" height="16" fill="#9fb3c6"/><ellipse cx="187" cy="341" rx="7" ry="10" fill="#bfe0f5" stroke="#6f87a0" stroke-width="2"/>'
-        : '<rect x="180" y="316" width="14" height="34" rx="3" fill="rgba(255,255,255,.4)" stroke="#7d93a8" stroke-width="2"/><rect x="183" y="322" width="3" height="24" fill="#b9bcc6"/><rect x="188" y="322" width="3" height="24" fill="#b9bcc6"/>';
-      probe.innerHTML = `<path d="M187 72 C187 40 238 34 262 78 S 286 220 292 520" fill="none" stroke="#2b2f36" stroke-width="3"/>${body}${cap}${tip}`;
+        ? '<rect x="182" y="290" width="10" height="14" fill="#9fb3c6"/><ellipse cx="187" cy="312" rx="7" ry="9" fill="#bfe0f5" stroke="#6f87a0" stroke-width="2"/>'
+        : '<rect x="179" y="296" width="16" height="30" rx="3" fill="rgba(255,255,255,.4)" stroke="#7d93a8" stroke-width="2"/><rect x="183" y="302" width="3" height="20" fill="#b9bcc6"/><rect x="188" y="302" width="3" height="20" fill="#b9bcc6"/>';
+      probe.innerHTML = `<path d="M187 96 C187 60 238 40 262 84 S 286 220 292 520" fill="none" stroke="#2b2f36" stroke-width="3"/>${body}${cap}${tip}`;
     }
 
     function init() {

@@ -2,7 +2,7 @@
 // Кога менувате датотеки, сменете го бројот на верзијата подолу.
 const CACHE = "hemija-v10";
 const FILES = [
-  "./", "index.html", "kvizovi.html", "igri.html", "testovi.html", "test-kvalitativna.html", "test-organska.html", "aplikacija.html", "alatki.html", "alatki.css", "alatki.js", "ph.js", "imenuvanje.js", "imenuvanje-data.js", "imenuvanje.css", "reakcii.js", "epruveta.js", "model.js", "instrumentalna.js",
+  "./", "index.html", "kvizovi.html", "igri.html", "testovi.html", "test-kvalitativna.html", "test-organska.html", "aplikacija.html", "alatki.html", "alatki.css", "alatki.js", "ph.js", "imenuvanje.js", "imenuvanje-data.js", "imenuvanje.css", "bezbednost.js", "bezbednost.css", "reakcii.js", "epruveta.js", "model.js", "instrumentalna.js",
   "style.css", "app.js", "common.js", "chemists.js", "today.js",
   "questions.js", "quiz.js", "anagram-words.js", "anagram.js",
   "elements.js", "memory.js", "equations.js", "balance.js", "hangman.js",

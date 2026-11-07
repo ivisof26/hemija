@@ -588,7 +588,7 @@
         later(() => { strm.style.opacity = 1; strm.animate([{ transform: "scaleY(.05)" }, { transform: "scaleY(1)" }], { duration: reduce ? 1 : 250, fill: "forwards" }); setLevel(100); }, 650);
         later(() => { strm.style.opacity = 0; }, 2300); later(() => wb.classList.remove("in"), 2400); later(finish, 3000);
       } else if (name.startsWith("🎚")) {     // калибрација со два пуфера
-        const seq = [["пуфер pH 4,00", "pH 4,00"], ["пуфер pH 7,00", "pH 7,00"], ["нагиб 99,3 % ✓", "OK ✓"]];
+        const seq = [["пуфер pH 4,00", "pH 4,00"], ["пуфер pH 7,00", "pH 7,00"], ["наклон 99,3 % ✓", "OK ✓"]];
         seq.forEach((q, k) => later(() => { tmsg.textContent = q[0]; mVal.textContent = q[1]; }, k * 1100));
         later(() => { tmsg.textContent = ""; mVal.textContent = "–"; finish(); }, 3500);
       } else if (name.startsWith("🔌")) {     // електродата се спушта, мешалката се вклучува

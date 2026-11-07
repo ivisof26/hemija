@@ -502,7 +502,7 @@
       <rect x="136" y="22" width="28" height="184" rx="3" fill="url(#${gid}-gl)"/>${ticksB}
       <rect x="130" y="70" width="40" height="22" rx="4" fill="#5b6570"/>
       <rect x="144" y="206" width="12" height="12" rx="2" fill="#e6eef5" stroke="#8fa6bd"/><rect x="141" y="209.5" width="18" height="5" rx="2.5" fill="#d4dde6" stroke="#8fa6bd"/>
-      <g transform="translate(150 212)"><g id="${gid}-stop" class="tt-stop"><rect x="8" y="-2" width="12" height="4" rx="2" fill="#e8edf2" stroke="#8fa6bd" stroke-width="1"/><rect x="18" y="-4.5" width="6" height="9" rx="2.5" fill="#cfd8e1" stroke="#8fa6bd" stroke-width="1"/></g></g>
+      <g transform="translate(150 212)"><g id="${gid}-stop" class="tt-stop"><rect x="8" y="-2.5" width="20" height="5" rx="2.5" fill="#c2410c"/></g></g>
       <path d="M146 218 h8 v16 l-4 9 l-4 -9 z" fill="#e6eef5" stroke="#8fa6bd" stroke-width="2"/>
       <rect x="176" y="104" width="22" height="22" rx="4" fill="#5b6570"/>
       <g id="${gid}-probe" class="tt-probe"></g>

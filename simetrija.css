@@ -1,0 +1,46 @@
+/* Стилови за „Симетрија на молекули“ */
+.sy-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.sy-tab { font: inherit; font-weight: 700; cursor: pointer; padding: 9px 18px; border-radius: 999px;
+  border: 2px solid #eadfd6; background: var(--card, #fff); color: var(--text, #2a1f2d); transition: background .2s, border-color .2s; }
+.sy-tab:hover { border-color: var(--primary, #c2410c); }
+.sy-tab.active { background: var(--primary, #c2410c); border-color: var(--primary, #c2410c); color: #fff; }
+.sy-theory[hidden], .sy-game[hidden] { display: none; }
+
+.sy-sec { margin-bottom: 26px; }
+.sy-sec h4 { font-size: 1.1rem; margin: 0 0 8px; color: var(--primary-dark, #9a3412); }
+.sy-sec p { margin: 6px 0; line-height: 1.5; }
+.sy-small { font-size: .82rem; color: var(--muted, #6b5b6e); font-weight: 400; }
+.sy-list, .sy-steps { margin: 6px 0 6px 20px; padding: 0; line-height: 1.5; }
+.sy-list li, .sy-steps li { margin-bottom: 7px; }
+.sy-sec sub, .sy-table sub, .sy-info sub, .sy-legend sub, .sy-gbtn sub, .option sub { font-size: .75em; line-height: 0; }
+
+.sy-tablewrap { overflow-x: auto; margin: 8px 0; border: 1px solid #eadfd6; border-radius: 12px; }
+.sy-table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 560px; }
+.sy-table th { text-align: left; font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted, #6b5b6e); background: #faf3ec; }
+.sy-table th, .sy-table td { padding: 8px 10px; border-bottom: 1px solid #f1e8e0; vertical-align: top; }
+.sy-table tr:last-child td { border-bottom: 0; }
+
+.sy-select { font: inherit; padding: 9px 12px; border: 2px solid #d9c9bd; border-radius: 10px; background: #fff; color: inherit; max-width: 100%; margin: 6px 0 10px; }
+.sy-viewer { margin: 8px 0; }
+.sy-svg { display: block; width: 100%; max-width: 520px; margin: 0 auto; background: #f4f9fd; border-radius: 14px; cursor: grab; touch-action: none; user-select: none; }
+.sy-svg:active { cursor: grabbing; }
+.sy-layers { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 8px; }
+.sy-layers[hidden], .sy-legend[hidden] { display: none; }
+.sy-drag { text-align: center; font-size: .78rem; color: var(--muted, #6b5b6e); margin: 4px 0; }
+.sy-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: center; font-size: .85rem; margin-top: 6px; }
+.sy-leg { display: inline-flex; align-items: center; gap: 6px; }
+.sy-sw { display: inline-block; width: 22px; height: 0; border-top: 3px dashed var(--c); }
+.sy-sw.box { width: 16px; height: 12px; border: 2px solid var(--c); background: color-mix(in srgb, var(--c) 15%, transparent); }
+.sy-sw.dia { width: 10px; height: 10px; border: 2px solid var(--c); background: #fff; transform: rotate(45deg); }
+.sy-repnote, .sy-none { flex-basis: 100%; text-align: center; font-size: .8rem; color: var(--muted, #6b5b6e); margin: 2px 0; }
+
+.sy-mol { font-size: 1.15rem; margin: 4px 0; }
+.sy-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); gap: 8px; margin: 10px 0; }
+.sy-gbtn { padding: 10px 6px; font-size: 1rem; }
+.sy-gbtn.correct { background: var(--good-bg, #e3f6ea); outline: 2px solid var(--good, #2e9e5b); }
+.sy-gbtn.wrong { background: var(--bad-bg, #fbe5e5); outline: 2px solid var(--bad, #d64545); }
+.sy-skip { margin-top: 10px; }
+.sy-info { margin-top: 8px; }
+.sy-stage .explain { margin-top: 12px; }
+
+@media (max-width: 560px) { .sy-table { font-size: .82rem; } }

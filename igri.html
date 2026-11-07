@@ -4,10 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Игри – Хемија за сите</title>
-  <meta name="description" content="Хемиски игри: анаграм, меморија, израмнување равенки, именување на соединенија, бесилка.">
+  <meta name="description" content="Хемиски игри: анаграм, меморија, израмнување равенки, именување на соединенија, бесилка, симетрија на молекули.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="imenuvanje.css">
   <link rel="stylesheet" href="bezbednost.css">
+  <link rel="stylesheet" href="ezero.css">
+  <link rel="stylesheet" href="simetrija.css">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#2d1b4e">
   <link rel="icon" type="image/png" href="icon-192.png">
@@ -50,6 +52,8 @@
         <button class="tab" role="tab" id="tab-imenuvanje" data-tab="imenuvanje" aria-selected="false" aria-controls="panel-imenuvanje" type="button">🔬 Имиња</button>
         <button class="tab" role="tab" id="tab-besilka" data-tab="besilka" aria-selected="false" aria-controls="panel-besilka" type="button">✏️ Бесилка</button>
         <button class="tab" role="tab" id="tab-bezbednost" data-tab="bezbednost" aria-selected="false" aria-controls="panel-bezbednost" type="button">🦺 Безбедност</button>
+        <button class="tab" role="tab" id="tab-ezero" data-tab="ezero" aria-selected="false" aria-controls="panel-ezero" type="button">🌊 Езеро</button>
+        <button class="tab" role="tab" id="tab-simetrija" data-tab="simetrija" aria-selected="false" aria-controls="panel-simetrija" type="button">🔷 Симетрија</button>
       </div>
 
       <div class="tab-panel" id="panel-anagram" role="tabpanel">
@@ -131,6 +135,16 @@
           <div class="sf-list" id="sf-list"></div>
         </div>
       </div>
+      <div class="tab-panel" id="panel-ezero" role="tabpanel" hidden>
+        <h3 class="game-title">Езеро на работ</h3>
+        <p class="section-sub">Задача: за 10 години спаси го животот во езерото од кисел дожд и затоплување. Секоја година купи мерки со поените (вар, филтри, сончева енергија, дрвја), па кликни „Следна година“. Види дали pH и температурата на водата одговараат на секој вид (зелено = добро).</p>
+        <div class="quiz ez-wrap" id="ez-root"></div>
+      </div>
+      <div class="tab-panel" id="panel-simetrija" role="tabpanel" hidden>
+        <h3 class="game-title">Симетрија на молекули</h3>
+        <p class="section-sub">Научи кои елементи на симетрија постојат и кои точковни групи од нив се добиваат, па погоди ја точковната група на молекулите.</p>
+        <div class="quiz" id="sy-root"></div>
+      </div>
     </section>
 
   </main>
@@ -150,6 +164,9 @@
   <script src="imenuvanje-data.js"></script>
   <script src="imenuvanje.js"></script>
   <script src="bezbednost.js"></script>
+  <script src="ezero.js"></script>
+  <script src="simetrija-data.js"></script>
+  <script src="simetrija.js"></script>
   <script>
     // Табови за игрите: се гледа една по една
     (function () {

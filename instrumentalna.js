@@ -489,7 +489,7 @@
       <rect x="14" y="368" width="98" height="12" rx="3" fill="#5b6570"/><rect x="30" y="30" width="8" height="340" rx="2" fill="#8a95a1"/>
       <rect x="38" y="78" width="104" height="7" fill="#8a95a1"/>
       <rect x="236" y="368" width="62" height="12" rx="3" fill="#5b6570"/><rect x="264" y="60" width="8" height="310" rx="2" fill="#8a95a1"/>
-      <rect x="184" y="112" width="82" height="7" fill="#8a95a1"/>
+      <rect x="184" y="158" width="82" height="7" fill="#8a95a1"/>
       <rect x="78" y="358" width="144" height="20" rx="6" fill="#dde1e6" stroke="#9aa5b1" stroke-width="2"/>
       <circle cx="206" cy="368" r="5" fill="#c2410c"/><circle class="tt-led" cx="92" cy="368" r="3.2" fill="#7a8794"/>
       <g clip-path="url(#${gid}-cb)"><rect id="${gid}-liq" class="tt-liq" x="94" y="268" width="112" height="90" fill="#bfe0f5" fill-opacity=".75"/></g>
@@ -504,7 +504,7 @@
       <rect x="144" y="206" width="12" height="12" rx="2" fill="#e6eef5" stroke="#8fa6bd"/><rect x="141" y="209.5" width="18" height="5" rx="2.5" fill="#d4dde6" stroke="#8fa6bd"/>
       <g transform="translate(150 212)"><g id="${gid}-stop" class="tt-stop"><rect x="8" y="-2.5" width="14" height="5" rx="2.5" fill="#c2410c"/></g></g>
       <path d="M146 218 h8 v16 l-4 9 l-4 -9 z" fill="#e6eef5" stroke="#8fa6bd" stroke-width="2"/>
-      <rect x="184" y="104" width="22" height="22" rx="4" fill="#5b6570"/>
+      <rect x="184" y="150" width="22" height="22" rx="4" fill="#5b6570"/>
       <g id="${gid}-probe" class="tt-probe"></g>
       <g id="${gid}-pip" class="tt-pip">
         <g clip-path="url(#${gid}-pp)"><rect id="${gid}-pipl" class="tt-pipl" x="110" y="130" width="20" height="176" fill="#bfe0f5"/></g>
@@ -541,12 +541,12 @@
     let S = null, run = null, busy = false, stepBusy = false, inflight = 0;
     const queue = [];
     function setProbe() {
-      const cap = '<rect x="180" y="94" width="14" height="14" rx="3" fill="#2d1b4e"/>';
-      const body = '<rect x="182" y="106" width="10" height="196" rx="3" fill="#dfe5ec" stroke="#7d93a8" stroke-width="2"/>';
+      const cap = '<rect x="180" y="134" width="14" height="14" rx="3" fill="#2d1b4e"/>';
+      const body = '<rect x="182" y="146" width="10" height="156" rx="3" fill="#dfe5ec" stroke="#7d93a8" stroke-width="2"/>';
       const tip = T.method === "ph"
         ? '<rect x="182" y="290" width="10" height="14" fill="#9fb3c6"/><ellipse cx="187" cy="312" rx="7" ry="9" fill="#bfe0f5" stroke="#6f87a0" stroke-width="2"/>'
-        : '<rect x="179" y="296" width="16" height="30" rx="3" fill="rgba(255,255,255,.4)" stroke="#7d93a8" stroke-width="2"/><rect x="183" y="302" width="3" height="20" fill="#b9bcc6"/><rect x="188" y="302" width="3" height="20" fill="#b9bcc6"/>';
-      probe.innerHTML = `<g transform="translate(8 0)"><path d="M187 96 C187 60 238 40 262 84 S 286 220 292 520" fill="none" stroke="#2b2f36" stroke-width="3"/>${body}${cap}${tip}</g>`;
+        : '<rect x="179" y="298" width="16" height="26" rx="3" fill="rgba(255,255,255,.4)" stroke="#7d93a8" stroke-width="2"/><rect x="183" y="303" width="3" height="16" fill="#b9bcc6"/><rect x="188" y="303" width="3" height="16" fill="#b9bcc6"/>';
+      probe.innerHTML = `<g transform="translate(8 0)"><path d="M187 136 C187 100 238 82 262 124 S 286 250 292 520" fill="none" stroke="#2b2f36" stroke-width="3"/>${body}${cap}${tip}</g>`;
     }
 
     function init() {

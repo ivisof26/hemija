@@ -477,7 +477,7 @@
     const gid = uid("tt");
     const svg = sv("svg", { viewBox: "0 0 300 400", class: "in-spec in-tit", role: "img", "aria-label": "Бирета, чаша на магнетна мешалка и електрода" });
     const ticksB = Array.from({ length: 26 }, (_, i) => { const y = 30 + i * 6.4, big = i % 5 === 0; return `<line x1="${big ? 139 : 142}" x2="148" y1="${y}" y2="${y}" stroke="#4f657a" stroke-width="${big ? 1.2 : .7}"/>${big ? `<text x="150.5" y="${y + 2.4}" font-size="6.5" fill="#3f5266">${i}</text>` : ""}`; }).join("");
-    const ticksC = [25, 50, 75, 100, 125, 150].map(v => { const y = 358 - v / 150 * 90, big = v % 50 === 0; return `<line x1="${big ? 183 : 188}" x2="196" y1="${y}" y2="${y}" stroke="#4f657a" stroke-width="1"/>${big ? `<text x="180" y="${y + 2.4}" text-anchor="end" font-size="7" fill="#3f5266">${v}</text>` : ""}`; }).join("");
+    const ticksC = [25, 50, 75, 100, 125, 150, 175].map(v => { const y = 358 - v / 200 * 90, big = v % 50 === 0; return `<line x1="${big ? 183 : 188}" x2="196" y1="${y}" y2="${y}" stroke="#4f657a" stroke-width="1"/>${big ? `<text x="180" y="${y + 2.4}" text-anchor="end" font-size="7" fill="#3f5266">${v}</text>` : ""}`; }).join("");
     svg.innerHTML = `
       <defs>
         <linearGradient id="${gid}-gl" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset=".85" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".4"/></linearGradient>
@@ -501,8 +501,8 @@
       <g clip-path="url(#${gid}-bt)"><rect id="${gid}-bur" class="tt-bur" x="138" y="30" width="24" height="172" fill="#bfe0f5"/></g>
       <rect x="136" y="22" width="28" height="184" rx="3" fill="url(#${gid}-gl)"/>${ticksB}
       <rect x="130" y="70" width="40" height="22" rx="4" fill="#5b6570"/>
-      <rect x="145" y="206" width="10" height="12" rx="2" fill="#e6eef5" stroke="#8fa6bd"/>
-      <g transform="translate(150 212)"><g id="${gid}-stop" class="tt-stop"><rect x="5" y="-2.5" width="26" height="5" rx="2.5" fill="#c2410c"/></g></g>
+      <rect x="144" y="206" width="12" height="12" rx="2" fill="#e6eef5" stroke="#8fa6bd"/><rect x="141" y="209.5" width="18" height="5" rx="2.5" fill="#d4dde6" stroke="#8fa6bd"/>
+      <g transform="translate(150 212)"><g id="${gid}-stop" class="tt-stop"><rect x="8" y="-2" width="12" height="4" rx="2" fill="#e8edf2" stroke="#8fa6bd" stroke-width="1"/><rect x="18" y="-4.5" width="6" height="9" rx="2.5" fill="#cfd8e1" stroke="#8fa6bd" stroke-width="1"/></g></g>
       <path d="M146 218 h8 v16 l-4 9 l-4 -9 z" fill="#e6eef5" stroke="#8fa6bd" stroke-width="2"/>
       <rect x="176" y="104" width="22" height="22" rx="4" fill="#5b6570"/>
       <g id="${gid}-probe" class="tt-probe"></g>
@@ -572,7 +572,7 @@
       return a;
     };
     const electrodeIdx = () => (T.method === "ph" ? 3 : 2);
-    const setLevel = v => { const lv = clamp(v / 150, 0, 1); liq.style.transform = `scaleY(${lv})`; surf.style.transform = `translateY(${-lv * 90}px)`; };
+    const setLevel = v => { const lv = clamp(v / 200, 0, 1); liq.style.transform = `scaleY(${lv})`; surf.style.transform = `translateY(${-lv * 90}px)`; };
     function doStep(i) {
       if (i !== run.stage || stepBusy) return;
       const name = stepList()[i][0];
@@ -631,7 +631,7 @@
     }
     function spawnDrop() {
       if (reduce) return;
-      const surfY = 358 - clamp(level() / 150, 0, 1) * 90;
+      const surfY = 358 - clamp(level() / 200, 0, 1) * 90;
       const c = sv("circle", { cx: 150, cy: 243, r: 3.4, fill: "#bfe0f5", stroke: "#6f9bc2", "stroke-width": 1 }); dropsG.appendChild(c);
       c.style.transformBox = "fill-box"; c.style.transformOrigin = "center";
       const a = c.animate([{ transform: "translateY(0) scale(.3)", opacity: 0 }, { transform: "translateY(0) scale(1)", opacity: 1, offset: 0.15 }, { transform: `translateY(${surfY - 243}px) scale(1)`, opacity: 1 }], { duration: 340, easing: "cubic-bezier(.5,0,1,.6)" });

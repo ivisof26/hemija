@@ -18,6 +18,19 @@
   const btn = (text, cls, fn) => { const b = el("button", cls || "btn", text); b.type = "button"; if (fn) b.addEventListener("click", fn); return b; };
   const qa = (q, a) => { const d = el("details", "in-qa"); d.appendChild(el("summary", "", q)); d.appendChild(el("p", "", a)); return d; };
 
+  const later = (fn, ms) => setTimeout(fn, reduce ? Math.min(ms, 20) : ms);
+  let uidN = 0; const uid = p => p + (++uidN);
+  // боја на светлина според бранова должина (nm) -> [r,g,b]
+  function lamRGB(l) {
+    if (l < 380) return [150, 110, 210];
+    if (l > 780) return [190, 70, 70];
+    let r = 0, g = 0, b = 0;
+    if (l < 440) { r = (440 - l) / 60; b = 1; } else if (l < 490) { g = (l - 440) / 50; b = 1; } else if (l < 510) { g = 1; b = (510 - l) / 20; }
+    else if (l < 580) { r = (l - 510) / 70; g = 1; } else if (l < 645) { r = 1; g = (645 - l) / 65; } else { r = 1; }
+    const f = l < 420 ? 0.35 + 0.65 * (l - 380) / 40 : l > 700 ? 0.35 + 0.65 * (780 - l) / 80 : 1;
+    return [Math.round(255 * r * f), Math.round(255 * g * f), Math.round(255 * b * f)];
+  }
+
   function ticks(a, b, n) {
     const r = b - a || 1, raw = r / n, p = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / p;
     const s = (f < 1.5 ? 1 : f < 3.5 ? 2 : f < 7.5 ? 5 : 10) * p, out = [];
@@ -96,24 +109,85 @@
     const layout = el("div", "in-layout"), stageCol = el("div", "in-stagecol"), ctl = el("div", "in-ctl");
     layout.append(stageCol, ctl); host.appendChild(layout);
 
-    // --- инструмент (SVG)
-    const svg = sv("svg", { viewBox: "0 0 300 250", class: "in-spec", role: "img", "aria-label": "Спектрофотометар" });
+    // --- инструмент (SVG): лампа, процеп, кивета со капак, детектор, LCD, скала на λ
+    const gid = uid("pb");
+    const svg = sv("svg", { viewBox: "0 0 360 292", class: "in-spec", role: "img", "aria-label": "Спектрофотометар" });
+    const specStops = [350, 400, 450, 500, 550, 600, 650, 700, 750, 800].map((l, i, a) => { const c = lamRGB(l); return `<stop offset="${(i / (a.length - 1)).toFixed(3)}" stop-color="rgb(${c[0]},${c[1]},${c[2]})"/>`; }).join("");
     svg.innerHTML = `
-      <rect x="10" y="40" width="280" height="150" rx="14" fill="#dfe6ee" stroke="#8fa6bd" stroke-width="3"/>
-      <rect x="28" y="56" width="150" height="62" rx="8" fill="#16241f" stroke="#5c7468" stroke-width="3"/>
-      <text id="lcd1" x="38" y="82" font-size="17" font-family="monospace" fill="#8cf5b5"></text>
-      <text id="lcd2" x="38" y="108" font-size="22" font-weight="700" font-family="monospace" fill="#8cf5b5"></text>
-      <rect x="196" y="56" width="78" height="62" rx="8" fill="#c9d4df" stroke="#8fa6bd" stroke-width="2"/>
-      <rect x="214" y="64" width="42" height="46" rx="3" fill="#f6fbff" stroke="#6f87a0" stroke-width="2"/>
-      <rect id="cuv" x="216" y="78" width="38" height="30" fill="#fff" fill-opacity="0"/>
-      <text x="235" y="130" text-anchor="middle" font-size="10" fill="#4a5d70">кивета</text>
-      <circle cx="60" cy="155" r="14" fill="#b8c6d4" stroke="#7d93a8" stroke-width="3"/><text x="60" y="180" text-anchor="middle" font-size="10" fill="#4a5d70">λ</text>
-      <rect x="120" y="143" width="60" height="22" rx="6" fill="#eaf0f6" stroke="#7d93a8"/><text x="150" y="159" text-anchor="middle" font-size="12" fill="#2d1b4e">ZERO</text>
-      <rect x="200" y="143" width="60" height="22" rx="6" fill="#eaf0f6" stroke="#7d93a8"/><text x="230" y="159" text-anchor="middle" font-size="12" fill="#2d1b4e">READ</text>
-      <text id="lcdw" x="150" y="215" text-anchor="middle" font-size="12" fill="#b34a00"></text>`;
+      <defs>
+        <linearGradient id="${gid}-b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6f9fc"/><stop offset="1" stop-color="#c9d4e0"/></linearGradient>
+        <linearGradient id="${gid}-s" x1="0" y1="0" x2="1" y2="0">${specStops}</linearGradient>
+        <radialGradient id="${gid}-k" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#aab8c8"/></radialGradient>
+        <clipPath id="${gid}-c"><rect x="167" y="104" width="26" height="56" rx="3"/></clipPath>
+      </defs>
+      <ellipse cx="180" cy="250" rx="160" ry="8" fill="rgba(0,0,0,.14)"/>
+      <rect x="14" y="40" width="332" height="206" rx="18" fill="url(#${gid}-b)" stroke="#9fb0c2" stroke-width="2.5"/>
+      <rect x="24" y="46" width="312" height="7" rx="3.5" fill="#fff" opacity=".7"/>
+      <text x="30" y="72" font-size="10" font-weight="700" letter-spacing="2" fill="#6b7f95">UV-VIS СПЕКТРОФОТОМЕТАР</text>
+      <circle class="pb-led" cx="322" cy="68" r="4" fill="#2ecc71"/>
+      <rect x="26" y="82" width="308" height="94" rx="10" fill="#1d2733"/>
+      <rect x="34" y="98" width="40" height="62" rx="8" fill="#2c3846" stroke="#4a5b6e"/>
+      <circle id="${gid}-lg" class="pb-fade" cx="54" cy="129" r="16" fill="#ffd76a" opacity=".18"/>
+      <circle cx="54" cy="129" r="5" fill="#ffd76a"/>
+      <text x="54" y="172" text-anchor="middle" font-size="7" fill="#8da0b5">лампа</text>
+      <rect x="86" y="112" width="6" height="34" rx="2" fill="#3d4b5c"/>
+      <text x="89" y="172" text-anchor="middle" font-size="7" fill="#8da0b5">процеп</text>
+      <rect id="${gid}-bA" class="pb-fade" x="92" y="122" width="76" height="14" fill="#fff" opacity="0"/>
+      <rect id="${gid}-bM" class="pb-fade" x="168" y="122" width="24" height="14" fill="#fff" opacity="0"/>
+      <rect id="${gid}-bB" class="pb-fade" x="192" y="122" width="104" height="14" fill="#fff" opacity="0"/>
+      <rect x="156" y="92" width="48" height="76" rx="6" fill="#2f3b4a" stroke="#4c5d70"/>
+      <g id="${gid}-cg" class="pb-cuv out">
+        <rect x="166" y="102" width="28" height="60" rx="3" fill="rgba(255,255,255,.10)"/>
+        <g clip-path="url(#${gid}-c)"><rect id="${gid}-cl" class="pb-cliq" x="166" y="118" width="28" height="44" fill="#fff"/></g>
+        <rect x="166" y="102" width="28" height="60" rx="3" fill="none" stroke="#cfe0ef" stroke-width="2"/>
+        <path d="M171 106 V152" stroke="#fff" stroke-width="2" opacity=".5" stroke-linecap="round"/>
+      </g>
+      <rect x="296" y="104" width="30" height="50" rx="6" fill="#2c3846" stroke="#4a5b6e"/>
+      <circle id="${gid}-dg" class="pb-fade" cx="311" cy="129" r="9" fill="#8cf5b5" opacity=".15"/>
+      <text x="311" y="172" text-anchor="middle" font-size="7" fill="#8da0b5">детектор</text>
+      <g id="${gid}-lid" class="pb-lid open"><rect x="146" y="86" width="68" height="86" rx="8" fill="rgba(140,160,180,.42)" stroke="#b6c4d2" stroke-width="2"/><rect x="146" y="86" width="68" height="12" rx="6" fill="#b6c4d2"/></g>
+      <rect x="26" y="184" width="308" height="52" rx="10" fill="#e8eef4" stroke="#b3c1d0"/>
+      <rect x="36" y="190" width="170" height="40" rx="6" fill="#16241f" stroke="#4d6a5c" stroke-width="2"/>
+      <text id="${gid}-l1" x="44" y="205" font-size="12" font-family="monospace" fill="#8cf5b5"></text>
+      <text id="${gid}-l2" x="44" y="224" font-size="18" font-weight="700" font-family="monospace" fill="#8cf5b5"></text>
+      <g transform="translate(240 210)"><circle r="16" fill="url(#${gid}-k)" stroke="#8394a8" stroke-width="2"/><g id="${gid}-kn" class="pb-knob"><line x1="0" y1="-5" x2="0" y2="-14" stroke="#c2410c" stroke-width="3.5" stroke-linecap="round"/></g></g>
+      <text x="240" y="233" text-anchor="middle" font-size="8" fill="#5b6e82">λ</text>
+      <g transform="translate(280 209)"><g id="${gid}-bz" class="pb-btn"><circle r="10" fill="#f4f7fa" stroke="#7d93a8" stroke-width="2"/><text y="3.5" text-anchor="middle" font-size="10" font-weight="700" fill="#2d1b4e">0</text></g></g>
+      <text x="280" y="233" text-anchor="middle" font-size="7" fill="#5b6e82">ZERO</text>
+      <g transform="translate(314 209)"><g id="${gid}-br" class="pb-btn"><circle r="10" fill="#c2410c" stroke="#8a2c08" stroke-width="2"/><text y="3.5" text-anchor="middle" font-size="9" fill="#fff">▶</text></g></g>
+      <text x="314" y="233" text-anchor="middle" font-size="7" fill="#5b6e82">READ</text>
+      <rect x="26" y="256" width="308" height="7" rx="3.5" fill="url(#${gid}-s)"/>
+      <g id="${gid}-mk" class="pb-mk"><path d="M0 265 l-5 8 h10 z" fill="#2d1b4e"/></g>
+      <text x="26" y="284" font-size="8" fill="#6b5b6e">350</text><text x="334" y="284" text-anchor="end" font-size="8" fill="#6b5b6e">800 nm</text>
+      <text id="${gid}-w" x="180" y="286" text-anchor="middle" font-size="10" font-weight="700" fill="#b34a00"></text>`;
+    const Q = n => svg.querySelector("#" + gid + "-" + n);
     const stage = el("div", "in-stage"); stage.appendChild(svg); stageCol.appendChild(stage);
-    const lcd1 = svg.querySelector("#lcd1"), lcd2 = svg.querySelector("#lcd2"), lcdw = svg.querySelector("#lcdw"), cuv = svg.querySelector("#cuv");
-    const clock = el("div", "in-clock"); stageCol.appendChild(clock);
+    const lcd1 = Q("l1"), lcd2 = Q("l2"), lcdw = Q("w"), cuvliq = Q("cl"), cuvg = Q("cg"), lid = Q("lid"), knob = Q("kn"), mk = Q("mk");
+    const beamA = Q("bA"), beamM = Q("bM"), beamB = Q("bB"), lampG = Q("lg"), detG = Q("dg"), bZero = Q("bz"), bRead = Q("br");
+    const clock = el("div", "in-clock");
+    const clkSvg = sv("svg", { viewBox: "0 0 24 24", class: "in-clk", "aria-hidden": "true" });
+    clkSvg.innerHTML = `<circle cx="12" cy="12" r="10" fill="#fff" stroke="#6b5b6e" stroke-width="2"/><line class="in-hand" x1="12" y1="12" x2="12" y2="5" stroke="#c2410c" stroke-width="2.4" stroke-linecap="round"/>`;
+    const clkHand = clkSvg.querySelector(".in-hand"), clkTxt = el("span");
+    clock.append(clkSvg, clkTxt); stageCol.appendChild(clock);
+    let busy = false, adv = false;
+    const setKnob = l => { knob.style.transform = `rotate(${-135 + (l - 350) / 450 * 270}deg)`; mk.style.transform = `translateX(${26 + (l - 350) / 450 * 308}px)`; };
+    function beam(on, lam, A) {
+      const c = lamRGB(lam), col = `rgb(${c[0]},${c[1]},${c[2]})`, Tr = Math.pow(10, -Math.max(0, A || 0));
+      [beamA, beamM, beamB].forEach(b => b.setAttribute("fill", col));
+      beamA.style.opacity = on ? 0.95 : 0; beamM.style.opacity = on ? 0.9 * (1 + Tr) / 2 : 0; beamB.style.opacity = on ? 0.95 * Tr : 0;
+      lampG.style.opacity = on ? 0.9 : 0.18; detG.style.opacity = on ? 0.2 + 0.7 * Tr : 0.15;
+    }
+    function roll(ms, done) {
+      if (reduce) { done(); return; }
+      const t0 = performance.now();
+      (function f(now) { if (now - t0 < ms) { lcd2.textContent = `A = ${fmt(Math.random() * 1.2, 3)}`; requestAnimationFrame(f); } else done(); })(t0);
+    }
+    // капакот се затвора, зракот минува низ кивета, LCD „брои“, па капакот се отвора
+    function instrument(pressEl, lam, A) {
+      busy = true; pressEl.classList.add("press"); later(() => pressEl.classList.remove("press"), 180);
+      lid.classList.remove("open");
+      later(() => { beam(true, lam, A); roll(950, () => { beam(false, lam, 0); lid.classList.add("open"); busy = false; show(); }); }, 550);
+    }
 
     // --- колба
     const fcol = flask => {
@@ -160,7 +234,7 @@
       const bad = inputs.filter(r => Math.abs(num(r.inp.value) * r.sp.stock / cfg.flaskV - r.t) / r.t > 0.03).length;
       msg1.textContent = bad ? `Тиквичките се подготвени, но ${bad} од нив немаат бараната концентрација (⚠). Поправи ги волумените и подготви повторно, или продолжи со добиените вредности.` : "Сите тиквички се подготвени со точна концентрација.";
       msg1.className = "in-msg " + (bad ? "warn" : "ok");
-      refresh();
+      buildChips(); show(); renderRes();
     });
     const msg1 = el("p", "in-msg"); c1.append(prep, msg1);
 
@@ -169,10 +243,11 @@
     const rbtn = btn("➕ Додај реагенси во сите тиквички", "btn", () => {
       if (!S.prepared) { msg2.textContent = "Прво подготви ги стандардните раствори."; msg2.className = "in-msg bad"; return; }
       S.reagent = true; S.t = 0; S.zero = null;
+      ["#e8f1ff", "#fff3b8", "#dfe9d4"].forEach((col, k) => Object.keys(chipEls).forEach((id, i) => later(() => dropInto(chipEls[id].b, col), i * 90 + k * 280)));
       msg2.textContent = "Додадени: 0,5 cm³ Na₂S₂O₅, 1 cm³ (NH₄)₆Mo₇O₂₄ и 1 cm³ метол; дополнето со вода до марка. Остави ги растворите да стојат."; msg2.className = "in-msg ok"; refresh();
     });
     const tw = el("div", "in-row");
-    const wait = n => btn(`⏱ Почекај ${n} min`, "btn ghost", () => { if (!S.reagent) { msg2.textContent = "Прво додај ги реагенсите."; msg2.className = "in-msg bad"; return; } S.t += n; refresh(); });
+    const wait = n => btn(`⏱ Почекај ${n} min`, "btn ghost", () => { if (!S.reagent) { msg2.textContent = "Прво додај ги реагенсите."; msg2.className = "in-msg bad"; return; } advance(n); });
     tw.append(wait(5), wait(30));
     const msg2 = el("p", "in-msg"); c2.append(el("p", "in-hint", "Додај: 0,5 cm³ Na₂S₂O₅, 1 cm³ (NH₄)₆Mo₇O₂₄ и 1 cm³ метол, а потоа дополни со вода до марка. Растворите треба да стојат 30 min пред мерење."), rbtn, tw, msg2);
     if (!cfg.develop) c2.hidden = true;
@@ -188,21 +263,25 @@
     wl.append(wr, wn); wrow.appendChild(wl); c3.appendChild(wrow);
     const brow = el("div", "in-row");
     const zeroB = btn(cfg.develop ? "⓪ Нулирај (слепа проба)" : "⓪ Нулирај (дестилирана вода)", "btn ghost", () => {
+      if (busy || adv) return;
       if (cfg.develop && !S.reagent) { msg3.textContent = "Слепата проба добива реагенси; додај ги прво реагенсите (чекор 2)."; msg3.className = "in-msg warn"; }
-      S.zero = { lam: S.lam, A: cfg.develop && S.reagent ? M.REAGENT_BLANK : 0 }; S.last = { A: 0, f: "слепа проба" }; show();
+      S.zero = { lam: S.lam, A: cfg.develop && S.reagent ? M.REAGENT_BLANK : 0 }; S.last = { A: 0, f: "слепа проба" };
+      instrument(bZero, S.lam, 0);
     });
     const measB = btn("📏 Измери", "btn", () => {
+      if (busy || adv) return;
       const f = S.flasks.find(x => x.id === S.sel);
       if (!f) { msg3.textContent = "Избери тиквичка."; msg3.className = "in-msg bad"; return; }
       if (cfg.develop && f.type !== "blank" && !S.reagent) { msg3.textContent = "Во тиквичката нема реагенси: нема да се образува обојување."; msg3.className = "in-msg warn"; }
-      else if (cfg.develop && S.t < 30) { msg3.textContent = `Изминале се само ${S.t} min: бојата не е целосно развиена, па апсорбанцата е премногу ниска.`; msg3.className = "in-msg warn"; }
+      else if (cfg.develop && S.t < 30) { msg3.textContent = `Изминале се само ${Math.round(S.t)} min: бојата не е целосно развиена, па апсорбанцата е премногу ниска.`; msg3.className = "in-msg warn"; }
       else { msg3.textContent = ""; msg3.className = "in-msg"; }
       let A = M.trueA(S.lam, f.conc || {}) * (cfg.develop ? (S.reagent ? M.dev(S.t) : 0) : 1);
       if (cfg.develop && S.reagent) A += M.REAGENT_BLANK;
       const z = S.zero && S.zero.lam === S.lam;
       if (z) A -= S.zero.A;
       A += gauss() * 0.0015;
-      S.last = { A, f: f.label, fid: f.id, zeroed: z, lam: S.lam }; show();
+      S.last = { A, f: f.label, fid: f.id, zeroed: z, lam: S.lam };
+      instrument(bRead, S.lam, A);
     });
     const recB = btn("📝 Запиши во дневникот", "btn ghost", () => {
       if (!S.last || S.last.fid === undefined) { msg3.textContent = "Прво измери."; msg3.className = "in-msg bad"; return; }
@@ -211,10 +290,20 @@
       S.journal.push({ fid: f.id, label: f.label, type: f.type, sp: f.sp, lam: S.last.lam, A: S.last.A }); renderRes();
     });
     const scanB = btn("🌈 Снимај спектар", "btn ghost", () => {
+      if (busy || adv) return;
       const f = S.flasks.find(x => x.id === S.sel); if (!f) { msg3.textContent = "Избери тиквичка."; msg3.className = "in-msg bad"; return; }
       const cur = []; for (let l = 350; l <= 800; l += 5) { let A = M.trueA(l, f.conc || {}) * (cfg.develop ? (S.reagent ? M.dev(S.t) : 0) : 1); cur.push({ x: l, y: Math.max(0, A + gauss() * 0.0008) }); }
       chart(specBox, { xl: "λ / nm", yl: "A", curve: cur, xmin: 350, xmax: 800, ymin: 0, title: "UV-Vis спектар на " + f.label, marks: [{ x: S.lam }] });
       specBox.prepend(el("div", "in-cap", "Спектар: " + f.label + " (вертикалната линија = избраната λ)"));
+      // анимација: монохроматорот ја брише целата област, а кривата се исцртува
+      busy = true; lid.classList.remove("open");
+      const dur = reduce ? 1 : 1800, t0 = performance.now(), path = specBox.querySelector(".in-curve");
+      if (path && !reduce) { const L = path.getTotalLength(); path.style.strokeDasharray = L; path.animate([{ strokeDashoffset: L }, { strokeDashoffset: 0 }], { duration: dur, easing: "linear", fill: "backwards" }); }
+      (function step(now) {
+        const k = Math.min(1, (now - t0) / dur), l = 350 + 450 * k; setKnob(l);
+        const i = Math.min(cur.length - 1, Math.round(k * (cur.length - 1))); beam(true, l, cur[i].y); lcd1.textContent = `λ = ${Math.round(l / 5) * 5} nm`; lcd2.textContent = `A = ${fmt(cur[i].y, 3)}`;
+        if (k < 1) requestAnimationFrame(step); else { beam(false, S.lam, 0); lid.classList.add("open"); busy = false; show(); }
+      })(t0);
     });
     brow.append(zeroB, measB, recB, scanB); c3.appendChild(brow);
     const msg3 = el("p", "in-msg"); c3.appendChild(msg3);
@@ -240,25 +329,52 @@
 
     // --- состојби
     function setLam(l) { S.lam = l; wr.value = l; wn.value = l; show(); }
-    function selectFlask(id) { S.sel = id; renderChips(); show(); }
-    function renderChips() {
-      chips.replaceChildren();
-      S.flasks.forEach(f => {
-        const b = el("button", "in-flask" + (f.id === S.sel ? " sel" : ""));
-        b.type = "button"; b.title = f.label;
-        const liq = el("span", "in-liq"); liq.style.background = css(f); b.append(liq, el("span", "in-fl", f.label.replace("PO₄³⁻ ", "")));
-        b.addEventListener("click", () => selectFlask(f.id)); chips.appendChild(b);
+    function selectFlask(id) { S.sel = id; updateChips(); show(); }
+    const chipEls = {};
+    function flaskSvg() {
+      const id = uid("fc"), shape = "M14 4 H22 V24 C32 28 34 38 33 46 C32 55 26 58 18 58 C10 58 4 55 3 46 C2 38 4 28 14 24 Z";
+      const s = sv("svg", { viewBox: "0 0 36 60", class: "in-fsvg", "aria-hidden": "true" });
+      s.innerHTML = `<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs><g clip-path="url(#${id})"><rect class="in-fliq" x="0" y="26" width="36" height="34"/></g>
+        <path d="${shape}" fill="rgba(255,255,255,.16)" stroke="#8fa6bd" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M9 34 C7 40 7 46 9 51" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" opacity=".75"/><line x1="12" x2="24" y1="12" y2="12" stroke="#8fa6bd" stroke-width="1.5"/>`;
+      return s;
+    }
+    function dropInto(b, color) {
+      if (reduce) return;
+      const d = el("span", "in-fdrop"); d.style.background = color; b.appendChild(d); setTimeout(() => d.remove(), 800);
+    }
+    // тиквичките се полнат „одоздола нагоре“ кога ќе се подготват
+    function buildChips() {
+      chips.replaceChildren(); Object.keys(chipEls).forEach(k => delete chipEls[k]);
+      S.flasks.forEach((f, i) => {
+        const b = el("button", "in-flask"); b.type = "button"; b.title = f.label;
+        const fs = flaskSvg(), liq = fs.querySelector(".in-fliq");
+        liq.style.transform = "scaleY(0)"; liq.style.transitionDelay = (i * 90) + "ms";
+        b.append(fs, el("span", "in-fl", f.label.replace("PO₄³⁻ ", "")));
+        b.addEventListener("click", () => selectFlask(f.id)); chips.appendChild(b); chipEls[f.id] = { b, liq };
       });
+      updateChips();
+      requestAnimationFrame(() => requestAnimationFrame(() => Object.keys(chipEls).forEach(k => (chipEls[k].liq.style.transform = "scaleY(1)"))));
+    }
+    function updateChips() {
+      S.flasks.forEach(f => { const c = chipEls[f.id]; if (!c) return; c.b.classList.toggle("sel", f.id === S.sel); c.liq.style.fill = css(f); });
+    }
+    function advance(n) {
+      if (adv || busy) return; adv = true;
+      const t0 = S.t, t1 = t0 + n, dur = reduce ? 1 : 1500, st = performance.now();
+      (function step(now) { const k = Math.min(1, (now - st) / dur); S.t = t0 + (t1 - t0) * k; updateChips(); show(); if (k < 1) requestAnimationFrame(step); else { S.t = t1; adv = false; updateChips(); show(); } })(st);
     }
     function show() {
       const f = S.flasks.find(x => x.id === S.sel);
-      cuv.setAttribute("fill", f ? css(f) : "#fff"); cuv.setAttribute("fill-opacity", f ? 1 : 0);
+      cuvliq.style.fill = f ? css(f) : "none"; cuvg.classList.toggle("out", !f);
       lcd1.textContent = `λ = ${S.lam} nm`;
       lcd2.textContent = S.last ? `A = ${fmt(S.last.A, 3)}` : "A = –";
       lcdw.textContent = S.last && S.last.fid !== undefined && !S.last.zeroed ? "⚠ нулирај на оваа λ" : (f ? "кивета: " + f.label : "избери тиквичка");
-      clock.textContent = cfg.develop ? (S.reagent ? `⏱ Од додавање на реагенсите: ${S.t} min` : "⏱ Реагенсите сè уште не се додадени") : "";
+      if (!busy) { setKnob(S.lam); }
+      clkTxt.textContent = cfg.develop ? (S.reagent ? ` Од додавање на реагенсите: ${Math.round(S.t)} min` : " Реагенсите сè уште не се додадени") : "";
+      clkHand.style.transform = `rotate(${(cfg.develop ? S.t : 0) * 12}deg)`; clock.hidden = !cfg.develop;
     }
-    function refresh() { renderChips(); show(); renderRes(); }
+    function refresh() { updateChips(); show(); renderRes(); }
     function renderJournal() {
       jbox.replaceChildren(); if (!S.journal.length) return;
       jbox.appendChild(el("div", "in-cap", "Дневник на мерења"));
@@ -334,7 +450,7 @@
     S.flasks.push({ id: "sample", type: "sample", label: "Проба", conc: S.truth });
     // пробата се нова при повторно
     Object.defineProperty(S.flasks[1], "conc", { get: () => S.truth });
-    S.sel = "sample"; refresh();
+    S.sel = "sample"; buildChips(); show(); renderRes();
   }
 
   // ============================================================
@@ -357,21 +473,54 @@
     const layout = el("div", "in-layout"), stageCol = el("div", "in-stagecol"), ctl = el("div", "in-ctl");
     layout.append(stageCol, ctl); host.appendChild(layout);
 
-    // --- сцена
-    const svg = sv("svg", { viewBox: "0 0 260 360", class: "in-spec", role: "img", "aria-label": "Бирета, чаша и електрода" });
+    // --- сцена: статив, бирета со чешма, чаша на магнетна мешалка, електрода, пипета, шишенце за миење
+    const gid = uid("tt");
+    const svg = sv("svg", { viewBox: "0 0 300 400", class: "in-spec in-tit", role: "img", "aria-label": "Бирета, чаша на магнетна мешалка и електрода" });
+    const ticksB = Array.from({ length: 26 }, (_, i) => { const y = 30 + i * 6.4, big = i % 5 === 0; return `<line x1="${big ? 140 : 144}" x2="152" y1="${y}" y2="${y}" stroke="#7d93a8" stroke-width="${big ? 1.4 : .8}"/>${big ? `<text x="165" y="${y + 3}" font-size="7" fill="#5b6e82">${i}</text>` : ""}`; }).join("");
+    const ticksC = [50, 100, 150].map(v => { const y = 358 - v / 150 * 90; return `<line x1="196" x2="205" y1="${y}" y2="${y}" stroke="#7d93a8" stroke-width="1"/><text x="193" y="${y + 2.5}" text-anchor="end" font-size="7" fill="#5b6e82">${v}</text>`; }).join("");
     svg.innerHTML = `
-      <rect x="120" y="14" width="26" height="150" rx="3" fill="#f4f9ff" stroke="#8fa6bd" stroke-width="3"/>
-      <rect id="bur" x="123" y="17" width="20" height="144" fill="#cfe6f5" fill-opacity=".8"/>
-      <g stroke="#8fa6bd" stroke-width="1">${Array.from({ length: 11 }, (_, i) => `<line x1="120" x2="${i % 2 ? 128 : 134}" y1="${17 + i * 14.4}" y2="${17 + i * 14.4}"/>`).join("")}</g>
-      <rect x="127" y="166" width="12" height="10" fill="#c2410c"/><path d="M130 176 h6 v14 l-3 6 l-3 -6 z" fill="#e6eef5" stroke="#8fa6bd" stroke-width="2"/>
-      <path d="M60 214 V318 a10 10 0 0 0 10 10 H190 a10 10 0 0 0 10 -10 V214" fill="rgba(255,255,255,.35)" stroke="#8fa6bd" stroke-width="4"/>
-      <clipPath id="tclip"><path d="M62 214 V318 a8 8 0 0 0 8 8 H190 a8 8 0 0 0 8 -8 V214 Z"/></clipPath>
-      <rect id="liq" x="60" y="326" width="140" height="0" fill="#cfe6f5" fill-opacity=".7" clip-path="url(#tclip)"/>
-      <ellipse id="bar" cx="130" cy="318" rx="14" ry="4" fill="#3b3b44"/>
-      <g id="probe"><rect x="172" y="120" width="12" height="190" rx="4" fill="#d8dee6" stroke="#7d93a8" stroke-width="2"/><rect x="170" y="300" width="16" height="18" rx="8" fill="#9ec7e8" stroke="#6f87a0" stroke-width="2"/></g>
-      <g id="drops"></g>`;
+      <defs>
+        <linearGradient id="${gid}-gl" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".3" stop-color="#fff" stop-opacity="0"/><stop offset=".85" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".4"/></linearGradient>
+        <clipPath id="${gid}-cb"><path d="M95 268 V350 a8 8 0 0 0 8 8 H197 a8 8 0 0 0 8 -8 V268 Z"/></clipPath>
+        <clipPath id="${gid}-bt"><rect x="142" y="30" width="16" height="172"/></clipPath>
+        <clipPath id="${gid}-pp"><path d="M117 130 H123 V152 C131 158 131 182 123 188 V292 L120 304 L117 292 V188 C109 182 109 158 117 152 Z"/></clipPath>
+      </defs>
+      <rect x="0" y="378" width="300" height="22" fill="#d6c8b6"/><rect x="0" y="378" width="300" height="3" fill="#bfae98"/>
+      <rect x="14" y="368" width="98" height="12" rx="3" fill="#5b6570"/><rect x="30" y="30" width="8" height="340" rx="2" fill="#8a95a1"/>
+      <rect x="38" y="78" width="104" height="7" fill="#8a95a1"/>
+      <rect x="236" y="368" width="62" height="12" rx="3" fill="#5b6570"/><rect x="264" y="60" width="8" height="310" rx="2" fill="#8a95a1"/>
+      <rect x="184" y="112" width="82" height="7" fill="#8a95a1"/>
+      <rect x="78" y="358" width="144" height="20" rx="6" fill="#dde1e6" stroke="#9aa5b1" stroke-width="2"/>
+      <circle cx="206" cy="368" r="5" fill="#c2410c"/><circle class="tt-led" cx="92" cy="368" r="3.2" fill="#7a8794"/>
+      <g clip-path="url(#${gid}-cb)"><rect id="${gid}-liq" class="tt-liq" x="94" y="268" width="112" height="90" fill="#bfe0f5" fill-opacity=".75"/></g>
+      <ellipse class="tt-bar" cx="150" cy="352" rx="15" ry="3.6" fill="#3b3b44"/>
+      <g id="${gid}-surf" class="tt-surf"><ellipse cx="150" cy="358" rx="55" ry="4" fill="rgba(255,255,255,.55)" stroke="#9ec7e8" stroke-width="1"/><ellipse class="tt-swirl" cx="150" cy="358" rx="30" ry="2.4" fill="none" stroke="#fff" stroke-width="1.5" stroke-dasharray="10 8"/></g>
+      <path d="M92 268 V350 a10 10 0 0 0 10 10 H198 a10 10 0 0 0 10 -10 V268" fill="url(#${gid}-gl)" stroke="#8fa6bd" stroke-width="3.5"/>
+      <path d="M88 268 H212" stroke="#8fa6bd" stroke-width="3.5" stroke-linecap="round"/>${ticksC}
+      <rect x="140" y="22" width="20" height="184" rx="3" fill="#f6fbff" stroke="#8fa6bd" stroke-width="2.5"/>
+      <g clip-path="url(#${gid}-bt)"><rect id="${gid}-bur" class="tt-bur" x="142" y="30" width="16" height="172" fill="#bfe0f5"/></g>
+      <rect x="140" y="22" width="20" height="184" rx="3" fill="url(#${gid}-gl)"/>${ticksB}
+      <rect x="134" y="70" width="32" height="22" rx="4" fill="#5b6570"/>
+      <rect x="145" y="206" width="10" height="12" rx="2" fill="#e6eef5" stroke="#8fa6bd"/>
+      <g transform="translate(150 212)"><g id="${gid}-stop" class="tt-stop"><rect x="5" y="-2.5" width="26" height="5" rx="2.5" fill="#c2410c"/></g></g>
+      <path d="M146 218 h8 v16 l-4 9 l-4 -9 z" fill="#e6eef5" stroke="#8fa6bd" stroke-width="2"/>
+      <rect x="176" y="104" width="22" height="22" rx="4" fill="#5b6570"/>
+      <g id="${gid}-probe" class="tt-probe"></g>
+      <g id="${gid}-pip" class="tt-pip">
+        <g clip-path="url(#${gid}-pp)"><rect id="${gid}-pipl" class="tt-pipl" x="110" y="130" width="20" height="176" fill="#bfe0f5"/></g>
+        <path d="M117 130 H123 V152 C131 158 131 182 123 188 V292 L120 304 L117 292 V188 C109 182 109 158 117 152 Z" fill="rgba(255,255,255,.2)" stroke="#8fa6bd" stroke-width="2" stroke-linejoin="round"/>
+        <line x1="116" x2="124" y1="226" y2="226" stroke="#c2410c" stroke-width="2"/>
+      </g>
+      <g id="${gid}-wb" class="tt-wb">
+        <path d="M236 246 q0 -24 -16 -20 L206 232" fill="none" stroke="#9fb3c6" stroke-width="5" stroke-linecap="round"/>
+        <rect x="222" y="244" width="34" height="86" rx="12" fill="#e9f4fb" stroke="#8fa6bd" stroke-width="2.5"/><rect x="222" y="274" width="34" height="56" rx="12" fill="#bfe0f5" opacity=".8"/>
+        <rect id="${gid}-strm" class="tt-strm" x="204" y="236" width="3" height="60" fill="#bfe0f5"/>
+      </g>
+      <g id="${gid}-drops"></g>
+      <text id="${gid}-msg" x="150" y="256" text-anchor="middle" font-size="10" font-weight="700" fill="#c2410c"></text>`;
+    const Q = n => svg.querySelector("#" + gid + "-" + n);
     const stage = el("div", "in-stage"); stage.appendChild(svg); stageCol.appendChild(stage);
-    const bur = svg.querySelector("#bur"), liq = svg.querySelector("#liq"), bar = svg.querySelector("#bar"), probe = svg.querySelector("#probe"), dropsG = svg.querySelector("#drops");
+    const bur = Q("bur"), liq = Q("liq"), surf = Q("surf"), probe = Q("probe"), pip = Q("pip"), pipL = Q("pipl"), wb = Q("wb"), strm = Q("strm"), stopc = Q("stop"), dropsG = Q("drops"), tmsg = Q("msg");
     const meter = el("div", "in-meter"); const mLab = el("div", "in-meter-l", ""), mVal = el("div", "in-meter-v", "–"); meter.append(mLab, mVal); stageCol.appendChild(meter);
     const bRead = el("div", "in-clock"); stageCol.appendChild(bRead);
 
@@ -389,7 +538,16 @@
     const qs = el("div", "in-qs"); qs.appendChild(el("h4", "", "Прашања"));
     ctl.append(c1, c2, c3, qs);
 
-    let S = null, run = null;
+    let S = null, run = null, busy = false, stepBusy = false, inflight = 0;
+    const queue = [];
+    function setProbe() {
+      const cap = '<rect x="180" y="70" width="14" height="14" rx="3" fill="#2d1b4e"/>';
+      const body = '<rect x="182" y="82" width="10" height="250" rx="3" fill="#dfe5ec" stroke="#7d93a8" stroke-width="2"/>';
+      const tip = T.method === "ph"
+        ? '<rect x="182" y="318" width="10" height="16" fill="#9fb3c6"/><ellipse cx="187" cy="341" rx="7" ry="10" fill="#bfe0f5" stroke="#6f87a0" stroke-width="2"/>'
+        : '<rect x="180" y="316" width="14" height="34" rx="3" fill="rgba(255,255,255,.4)" stroke="#7d93a8" stroke-width="2"/><rect x="183" y="322" width="3" height="24" fill="#b9bcc6"/><rect x="188" y="322" width="3" height="24" fill="#b9bcc6"/>';
+      probe.innerHTML = `<path d="M187 72 C187 40 238 34 262 78 S 286 220 292 520" fill="none" stroke="#2b2f36" stroke-width="3"/>${body}${cap}${tip}`;
+    }
 
     function init() {
       T.method = mSel.value; T.kind = kSel.value;
@@ -399,6 +557,7 @@
       if (T.kind === "m") { ns = rnd(3, 5) * cN / 2; na = rnd(5, 8) * cN; }
       S = { cN, ns, na, runs: [], cur: 0, calibrated: false, ansVals: {} }; newRun();
       qs.replaceChildren(el("h4", "", "Прашања")); questions();
+      queue.length = 0; inflight = 0; busy = false; stepBusy = false; setProbe(); tmsg.textContent = "";
       renderAll();
     }
     function newRun() { run = { stage: 0, V: 0, pts: [], eq: [], br: [] }; S.runs.push(run); S.cur = S.runs.length - 1; }
@@ -412,15 +571,33 @@
       a.push(["📖 Отчитај ја почетната вредност (V = 0)"]);
       return a;
     };
+    const electrodeIdx = () => (T.method === "ph" ? 3 : 2);
+    const setLevel = v => { const lv = clamp(v / 150, 0, 1); liq.style.transform = `scaleY(${lv})`; surf.style.transform = `translateY(${-lv * 90}px)`; };
     function doStep(i) {
-      const L = stepList(), name = L[i][0];
-      if (i !== run.stage) return;
-      if (name.startsWith("📖")) { record(0, 0); }
-      run.stage++; renderAll();
+      if (i !== run.stage || stepBusy) return;
+      const name = stepList()[i][0];
+      stepBusy = true;
+      const finish = () => { if (name.startsWith("📖")) record(0, 0); run.stage++; stepBusy = false; renderAll(); if (name.startsWith("📖")) meterShow(); };
+      if (name.startsWith("💧")) {           // пипета: влегува, се празни, излегува
+        pipL.style.transition = "none"; pipL.style.transform = "scaleY(1)"; void pipL.getBoundingClientRect(); pipL.style.transition = "";
+        pip.classList.add("in"); later(() => pip.classList.add("down"), 350);
+        later(() => { pipL.style.transform = "scaleY(0)"; setLevel(20); }, 1100);
+        later(() => pip.classList.remove("down"), 2300); later(() => { pip.classList.remove("in"); finish(); }, 2900);
+      } else if (name.startsWith("🚰")) {     // шишенце со дестилирана вода
+        wb.classList.add("in");
+        later(() => { strm.style.opacity = 1; strm.animate([{ transform: "scaleY(.05)" }, { transform: "scaleY(1)" }], { duration: reduce ? 1 : 250, fill: "forwards" }); setLevel(100); }, 650);
+        later(() => { strm.style.opacity = 0; }, 2300); later(() => wb.classList.remove("in"), 2400); later(finish, 3000);
+      } else if (name.startsWith("🎚")) {     // калибрација со два пуфера
+        const seq = [["пуфер pH 4,00", "pH 4,00"], ["пуфер pH 7,00", "pH 7,00"], ["нагиб 99,3 % ✓", "OK ✓"]];
+        seq.forEach((q, k) => later(() => { tmsg.textContent = q[0]; mVal.textContent = q[1]; }, k * 1100));
+        later(() => { tmsg.textContent = ""; mVal.textContent = "–"; finish(); }, 3500);
+      } else if (name.startsWith("🔌")) {     // електродата се спушта, мешалката се вклучува
+        finish();
+      } else { finish(); }
     }
-    function level() { // ниво на течност (cm³ → висина)
+    function level() { // обем во чашата (cm³)
       const v = run.stage === 0 ? 0 : (run.stage === 1 ? 20 : 100) + (run.stage >= stepList().length - 1 ? run.V : 0);
-      return clamp(v / 130, 0, 1);
+      return v;
     }
     function reading(V) {
       let y = M.titration(T.method, S.ns, S.na, S.cN, V);
@@ -433,29 +610,54 @@
     function addVol(dv) {
       if (run.stage < stepList().length) { msgT.textContent = "Заврши ја подготовката (чекор 1)."; msgT.className = "in-msg bad"; return; }
       if (!(dv > 0)) { msgT.textContent = "Внеси позитивен волумен."; msgT.className = "in-msg bad"; return; }
-      if (run.V + dv > 25 + 1e-9) { msgT.textContent = "Буретата е од 25 cm³; нема повеќе база."; msgT.className = "in-msg bad"; return; }
+      if (run.V + inflight + dv > 25 + 1e-9) { msgT.textContent = "Буретата е од 25 cm³; нема повеќе база."; msgT.className = "in-msg bad"; return; }
       msgT.textContent = ""; msgT.className = "in-msg";
-      run.V = +(run.V + dv).toFixed(2); record(dv, run.V); drop(); renderAll();
+      inflight += dv; queue.push(dv); pump();
     }
-    function drop() {
+    function pump() {
+      if (busy || !queue.length) return;
+      busy = true; const dv = queue.shift(), r = run;
+      const N = clamp(Math.round(dv * 10) + 3, 3, 14), gap = 110;
+      stopc.classList.add("open");
+      bur.style.transitionDuration = ((N * gap + 450) / 1000) + "s";
+      bur.style.transform = `scaleY(${clamp((172 - 6.4 * (r.V + dv)) / 172, 0, 1)})`;
+      for (let i = 0; i < N; i++) later(() => spawnDrop(), i * gap);
+      later(() => {
+        stopc.classList.remove("open");
+        inflight -= dv; r.V = +(r.V + dv).toFixed(2); r.pts.push({ x: +r.V.toFixed(2), y: reading(r.V), V: +r.V.toFixed(2) });
+        bur.style.transitionDuration = "";
+        renderAll(); meterShow(); busy = false; pump();
+      }, N * gap + 450);
+    }
+    function spawnDrop() {
       if (reduce) return;
-      for (let i = 0; i < 3; i++) {
-        const c = sv("circle", { cx: 133, cy: 192, r: 3.5, fill: "#cfe6f5", stroke: "#6f9bc2" }); dropsG.appendChild(c);
-        const y1 = 326 - level() * 112;
-        const a = c.animate([{ transform: "translateY(0)", opacity: 0 }, { opacity: 1, offset: 0.2 }, { transform: `translateY(${y1 - 192}px)`, opacity: 1 }], { duration: 380, delay: i * 120, easing: "ease-in" });
-        a.onfinish = () => c.remove();
-      }
+      const surfY = 358 - clamp(level() / 150, 0, 1) * 90;
+      const c = sv("circle", { cx: 150, cy: 243, r: 3.4, fill: "#bfe0f5", stroke: "#6f9bc2", "stroke-width": 1 }); dropsG.appendChild(c);
+      c.style.transformBox = "fill-box"; c.style.transformOrigin = "center";
+      const a = c.animate([{ transform: "translateY(0) scale(.3)", opacity: 0 }, { transform: "translateY(0) scale(1)", opacity: 1, offset: 0.15 }, { transform: `translateY(${surfY - 243}px) scale(1)`, opacity: 1 }], { duration: 340, easing: "cubic-bezier(.5,0,1,.6)" });
+      a.onfinish = () => {
+        c.remove();
+        const rp = sv("ellipse", { cx: 150, cy: surfY, rx: 3, ry: 1.2, fill: "none", stroke: "#fff", "stroke-width": 1.2 }); dropsG.appendChild(rp);
+        rp.style.transformBox = "fill-box"; rp.style.transformOrigin = "center";
+        const b = rp.animate([{ transform: "scale(1)", opacity: .9 }, { transform: "scale(9,3)", opacity: 0 }], { duration: 520 }); b.onfinish = () => rp.remove();
+      };
+    }
+    function meterText(v) { return v === null ? "–" : T.method === "cond" ? `${fmt(v, 1)} μS/cm` : `pH ${fmt(v, 2)}`; }
+    function meterShow() {   // дисплејот „трепка“ и се смирува на вредноста
+      const lr = lastReading(); if (lr === null || reduce) { mVal.textContent = meterText(lr); return; }
+      let n = 0; const iv = setInterval(() => { n++; if (n > 7) { clearInterval(iv); mVal.textContent = meterText(lr); return; } mVal.textContent = meterText(T.method === "cond" ? lr * (1 + 0.06 * (Math.random() - 0.5)) : lr + 0.4 * (Math.random() - 0.5)); }, 60);
     }
     function lastReading() { const p = run.pts[run.pts.length - 1]; return p ? p.y : null; }
 
     function renderAll() {
       // сцена
-      const hL = level() * 112; liq.setAttribute("y", 326 - hL); liq.setAttribute("height", hL);
-      bar.style.animation = run.stage >= stepList().length - 1 && !reduce ? "inSpin .5s linear infinite" : "none"; bar.style.transformOrigin = "130px 318px";
-      bur.setAttribute("y", 17 + 144 * (run.V / 25)); bur.setAttribute("height", 144 * (1 - run.V / 25));
+      setLevel(level());
+      if (!busy) bur.style.transform = `scaleY(${clamp((172 - 6.4 * run.V) / 172, 0, 1)})`;
+      svg.classList.toggle("stir", run.stage >= stepList().length - 1);
+      probe.classList.toggle("in", run.stage > electrodeIdx());
       bRead.textContent = `Бирета: потрошено ${fmt(run.V, 2)} cm³ NaOH (c = ${fmt(S.cN, 4)} mol/L)`;
       const lr = lastReading();
-      mLab.textContent = T.method === "cond" ? "Кондуктометар" : "pH-метар"; mVal.textContent = lr === null ? "–" : T.method === "cond" ? `${fmt(lr, 1)} μS/cm` : `pH ${fmt(lr, 2)}`;
+      mLab.textContent = T.method === "cond" ? "Кондуктометар" : "pH-метар"; if (!stepBusy) mVal.textContent = meterText(lr);
       // чекори
       stepsBox.replaceChildren();
       stepList().forEach((s, i) => {

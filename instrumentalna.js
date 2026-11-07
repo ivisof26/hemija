@@ -502,19 +502,19 @@
       <rect x="136" y="22" width="28" height="184" rx="3" fill="url(#${gid}-gl)"/>${ticksB}
       <rect x="130" y="70" width="40" height="22" rx="4" fill="#5b6570"/>
       <rect x="144" y="206" width="12" height="12" rx="2" fill="#e6eef5" stroke="#8fa6bd"/><rect x="141" y="209.5" width="18" height="5" rx="2.5" fill="#d4dde6" stroke="#8fa6bd"/>
-      <g transform="translate(150 212)"><g id="${gid}-stop" class="tt-stop"><rect x="8" y="-2.5" width="20" height="5" rx="2.5" fill="#c2410c"/></g></g>
+      <g transform="translate(150 212)"><g id="${gid}-stop" class="tt-stop"><rect x="8" y="-2.5" width="14" height="5" rx="2.5" fill="#c2410c"/></g></g>
       <path d="M146 218 h8 v16 l-4 9 l-4 -9 z" fill="#e6eef5" stroke="#8fa6bd" stroke-width="2"/>
-      <rect x="176" y="104" width="22" height="22" rx="4" fill="#5b6570"/>
+      <rect x="184" y="104" width="22" height="22" rx="4" fill="#5b6570"/>
       <g id="${gid}-probe" class="tt-probe"></g>
       <g id="${gid}-pip" class="tt-pip">
         <g clip-path="url(#${gid}-pp)"><rect id="${gid}-pipl" class="tt-pipl" x="110" y="130" width="20" height="176" fill="#bfe0f5"/></g>
         <path d="M117 130 H123 V152 C131 158 131 182 123 188 V292 L120 304 L117 292 V188 C109 182 109 158 117 152 Z" fill="rgba(255,255,255,.2)" stroke="#8fa6bd" stroke-width="2" stroke-linejoin="round"/>
-        <line x1="116" x2="124" y1="226" y2="226" stroke="#c2410c" stroke-width="2"/>
+        <line x1="116" x2="124" y1="141" y2="141" stroke="#c2410c" stroke-width="2"/>
       </g>
       <g id="${gid}-wb" class="tt-wb">
-        <path d="M236 246 q0 -24 -16 -20 L206 232" fill="none" stroke="#9fb3c6" stroke-width="5" stroke-linecap="round"/>
+        <path d="M236 246 q0 -24 -16 -20 L184 231" fill="none" stroke="#9fb3c6" stroke-width="5" stroke-linecap="round"/>
         <rect x="222" y="244" width="34" height="86" rx="12" fill="#e9f4fb" stroke="#8fa6bd" stroke-width="2.5"/><rect x="222" y="274" width="34" height="56" rx="12" fill="#bfe0f5" opacity=".8"/>
-        <rect id="${gid}-strm" class="tt-strm" x="204" y="236" width="3" height="60" fill="#bfe0f5"/>
+        <rect id="${gid}-strm" class="tt-strm" x="182" y="236" width="3" height="74" fill="#bfe0f5"/>
       </g>
       <g id="${gid}-drops"></g>
       <text id="${gid}-msg" x="150" y="256" text-anchor="middle" font-size="10" font-weight="700" fill="#c2410c"></text>`;
@@ -546,7 +546,7 @@
       const tip = T.method === "ph"
         ? '<rect x="182" y="290" width="10" height="14" fill="#9fb3c6"/><ellipse cx="187" cy="312" rx="7" ry="9" fill="#bfe0f5" stroke="#6f87a0" stroke-width="2"/>'
         : '<rect x="179" y="296" width="16" height="30" rx="3" fill="rgba(255,255,255,.4)" stroke="#7d93a8" stroke-width="2"/><rect x="183" y="302" width="3" height="20" fill="#b9bcc6"/><rect x="188" y="302" width="3" height="20" fill="#b9bcc6"/>';
-      probe.innerHTML = `<path d="M187 96 C187 60 238 40 262 84 S 286 220 292 520" fill="none" stroke="#2b2f36" stroke-width="3"/>${body}${cap}${tip}`;
+      probe.innerHTML = `<g transform="translate(8 0)"><path d="M187 96 C187 60 238 40 262 84 S 286 220 292 520" fill="none" stroke="#2b2f36" stroke-width="3"/>${body}${cap}${tip}</g>`;
     }
 
     function init() {

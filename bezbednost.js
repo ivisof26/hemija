@@ -32,6 +32,7 @@
     ${lg("g-wood", 0, 0, 0, 1, [[0, "#c9a173"], [.5, "#ad8452"], [1, "#8a6338"]])}
     ${lg("g-metal", 0, 0, 1, 0, [[0, "#6d7781"], [.25, "#e9eef2"], [.5, "#b6c0c9"], [.8, "#7b8791"], [1, "#4f5963"]])}
     ${lg("g-red", 0, 0, 1, 0, [[0, "#7d140d"], [.22, "#e5412f"], [.45, "#c4291b"], [.8, "#8e190f"], [1, "#5e0e08"]])}
+    ${lg("g-tank", 0, 0, 1, 0, [[0, "#3e7058"], [.3, "#6da68b"], [.7, "#4f856d"], [1, "#294d3c"]])}
     ${lg("g-glass", 0, 0, 1, 0, [[0, "#dff1f8", .85], [.15, "#ffffff", .25], [.5, "#e9f6fb", .12], [.85, "#cfe6f0", .28], [1, "#ffffff", .8]])}
     ${lg("g-liq", 0, 0, 0, 1, [[0, "#8fcdf0", .85], [1, "#3f8fc9", .95]])}
     ${lg("g-refl", 0, 0, 0, 1, [[0, "#fff", .9], [.55, "#fff", 0]])}
@@ -50,12 +51,10 @@
   const cast = (cx, y, rx, op = .3) => `<ellipse cx="${cx + rx * .9}" cy="${y - 1}" rx="${rx * 1.5}" ry="${Math.max(2.4, rx * .2)}" fill="#05080b" opacity="${op}" filter="url(#f-b3)"/>`;
   const refl = (inner, baseY, op = .3) => `<g clip-path="url(#c-top)" opacity="${op}"><g mask="url(#m-refl)"><g transform="matrix(1 0 0 -1 0 ${2 * baseY})">${inner}</g></g></g>`;
 
-  // ---------- СТАНДАРДНА ВИСИНА НА МАСАТА (Y: 268) ----------
   const BASE = `
     <rect width="800" height="500" fill="url(#g-wall)"/>
     <rect width="800" height="392" filter="url(#f-plaster)" opacity=".4"/>
     <rect width="800" height="392" fill="url(#g-wlight)"/>
-    <!-- плочки (задниот ѕид) -->
     <g><rect x="0" y="156" width="800" height="236" fill="url(#p-tile)"/><rect x="0" y="156" width="800" height="236" fill="url(#g-tileshade)"/>
       <rect x="0" y="154" width="800" height="6" fill="#aeb8bf"/><rect x="0" y="154" width="800" height="1.6" fill="#fff" opacity=".8"/><rect x="0" y="160" width="800" height="5" fill="#000" opacity=".16" filter="url(#f-b2)"/></g>
     <rect y="380" width="800" height="12" fill="#6f7a82"/><rect y="380" width="800" height="2" fill="#a7b2b9"/>
@@ -70,7 +69,6 @@
     <rect x="174" y="11" width="4" height="120" fill="url(#g-frame)"/><rect x="101" y="74" width="150" height="4" fill="url(#g-frame)"/>
     <rect x="101" y="11" width="150" height="120" fill="none" stroke="#9b978c" stroke-width="1.2" opacity=".6"/>
     <rect x="86" y="120" width="180" height="9" rx="2" fill="url(#g-frame)"/><rect x="86" y="120" width="180" height="1.6" fill="#fff"/>
-    <!-- сноп светлина од прозорецот -->
     <path d="M100 128L260 128L412 392L226 392Z" fill="#fff6dc" opacity=".11" filter="url(#f-b3)"/>
     <path d="M118 128L240 128L340 392L206 392Z" fill="#fff6dc" opacity=".08" filter="url(#f-b2)"/>
     <!-- постер: периоден систем -->
@@ -85,19 +83,46 @@
       <rect x="262" y="104" width="268" height="9" rx="1.5" fill="url(#g-wood)"/><rect x="262" y="104" width="268" height="9" rx="1.5" filter="url(#f-wood)" opacity=".6"/><rect x="262" y="104" width="268" height="1.8" fill="#f1d9b2" opacity=".85"/><rect x="262" y="111.4" width="268" height="1.6" fill="#4d3114" opacity=".5"/></g>
     <!-- штекер -->
     <g><rect x="572" y="248" width="18" height="18" rx="3" fill="#000" opacity=".22" filter="url(#f-b1)" transform="translate(1.5 2)"/><rect x="572" y="248" width="18" height="18" rx="3" fill="#f4f2ec" stroke="#bdb8a8" stroke-width="1"/><circle cx="578" cy="257" r="1.7" fill="#3a3a3a"/><circle cx="584" cy="257" r="1.7" fill="#3a3a3a"/></g>
-    <!-- прва помош -->
+    <!-- кутија за прва помош -->
     <g><rect x="563" y="151" width="54" height="40" rx="5" fill="#000" opacity=".28" filter="url(#f-b2)" transform="translate(3 5)"/>
       <rect x="560" y="146" width="54" height="40" rx="5" fill="#f7f8f6"/><rect x="560" y="146" width="54" height="40" rx="5" fill="none" stroke="#c3cbc6" stroke-width="1.4"/>
       <rect x="560" y="146" width="54" height="9" rx="5" fill="#fff" opacity=".7"/><path d="M587 155v22M576 166h22" stroke="#1f9a56" stroke-width="7" stroke-linecap="round"/><path d="M587 155v22" stroke="#46c27f" stroke-width="2" opacity=".6"/>
       <rect x="581" y="181" width="12" height="3.4" rx="1.7" fill="#aab3ad"/></g>
-    <!-- апарат за гаснење -->
-    <g><rect x="40" y="138" width="36" height="30" rx="3" fill="#000" opacity=".25" filter="url(#f-b2)" transform="translate(3 4)"/><rect x="38" y="136" width="36" height="30" rx="3" fill="#1f9a56"/><rect x="38" y="136" width="36" height="30" rx="3" fill="none" stroke="#fff" stroke-width="2"/><path d="M56 142c-8 8 -6 14 0 19c6 -5 8 -11 0 -19z" fill="#fff"/></g>
-    <g><rect x="48" y="191" width="22" height="76" rx="9" fill="#000" opacity=".3" filter="url(#f-b2)" transform="translate(5 3)"/>
-      <rect x="47" y="190" width="22" height="76" rx="9" fill="url(#g-red)"/><rect x="47" y="190" width="22" height="22" rx="9" fill="#000" opacity=".12"/><rect x="51" y="196" width="3" height="62" rx="1.5" fill="#fff" opacity=".42"/>
-      <rect x="53" y="179" width="10" height="14" rx="2" fill="url(#g-metal)"/><path d="M49 179h18" stroke="#2c3238" stroke-width="4" stroke-linecap="round"/><path d="M65 183q16 0 18 16t-5 17" stroke="#16191c" stroke-width="3.4" fill="none"/>
-      <circle cx="58" cy="209" r="5.4" fill="#f3f3ee" stroke="#8b8f92" stroke-width="1.2"/><path d="M58 209l2.6 -2.6" stroke="#c4291b" stroke-width="1.2"/>
-      <rect x="50" y="228" width="16" height="16" rx="1.5" fill="#f8f6ee"/><path d="M58 231c-3 3 -2 6 0 9c3 -3 3 -6 0 -9z" fill="#c4291b"/>
-      <rect x="45" y="218" width="26" height="6" rx="2" fill="#2c3238"/></g>
+    
+    <!-- Знак за ПП апарат (ISO Standard: Црвен квадрат со бел пламен и апарат) -->
+    <g transform="translate(680, 50)">
+      <rect x="0" y="0" width="76" height="76" rx="4" fill="#c4291b" stroke="#ffffff" stroke-width="2"/>
+      <rect x="2" y="2" width="72" height="72" rx="3" fill="none" stroke="#a21d11" stroke-width="1.5"/>
+      <!-- Апарат икона -->
+      <rect x="36" y="24" width="18" height="36" rx="3" fill="#ffffff"/>
+      <rect x="41" y="18" width="8" height="6" rx="1" fill="#ffffff"/>
+      <path d="M38 18h14v3H38z" fill="#ffffff"/>
+      <path d="M48 21c6 0 10 4 10 9" stroke="#ffffff" stroke-width="3" fill="none"/>
+      <!-- Пламен икона -->
+      <path d="M22 58c-6 0-10-5-10-11c0-7 7-12 10-21c3 8 10 14 10 21c0 6-4 11-10 11z" fill="#ffffff"/>
+      <!-- Текст -->
+      <rect x="6" y="62" width="64" height="10" rx="1" fill="#ffffff"/>
+      <text x="38" y="69.5" font-family="Arial, sans-serif" font-weight="bold" font-size="7.5" fill="#c4291b" text-anchor="middle">ПП АПАРАТ</text>
+    </g>
+
+    <!-- ПП апарат со правилно црно црево и млазница -->
+    <g>
+      <rect x="712" y="191" width="22" height="76" rx="9" fill="#000" opacity=".3" filter="url(#f-b2)" transform="translate(5 3)"/>
+      <rect x="711" y="190" width="22" height="76" rx="9" fill="url(#g-red)"/>
+      <rect x="711" y="190" width="22" height="22" rx="9" fill="#000" opacity=".12"/>
+      <rect x="715" y="196" width="3" height="62" rx="1.5" fill="#fff" opacity=".42"/>
+      <rect x="717" y="179" width="10" height="14" rx="2" fill="url(#g-metal)"/>
+      <path d="M713 179h18" stroke="#2c3238" stroke-width="4" stroke-linecap="round"/>
+      <!-- Црно црево обвиткано/со поставена млазница -->
+      <path d="M728 183 c16 2 24 18 20 34 c-4 14-18 20-20 36 c-2 12 8 18 8 26" stroke="#16191c" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M736 270 l-4 14 h8 z" fill="#16191c"/>
+      <circle cx="722" cy="209" r="5.4" fill="#f3f3ee" stroke="#8b8f92" stroke-width="1.2"/>
+      <path d="M722 209l2.6 -2.6" stroke="#c4291b" stroke-width="1.2"/>
+      <rect x="714" y="228" width="16" height="16" rx="1.5" fill="#f8f6ee"/>
+      <path d="M722 231c-3 3 -2 6 0 9c3 -3 3 -6 0 -9z" fill="#c4291b"/>
+      <rect x="709" y="218" width="26" height="6" rx="2" fill="#2c3238"/>
+    </g>
+
     <!-- маса: фиоки и врати -->
     <rect x="26" y="302" width="640" height="82" fill="url(#g-door)"/>
     <rect x="26" y="302" width="640" height="82" fill="url(#g-cabsh)"/>
@@ -166,10 +191,22 @@
     <path d="M${cx - 9} ${by - 74}q6 -8 0 -16t2 -16M${cx + 6} ${by - 78}q6 -8 0 -16t2 -14" stroke="#fff" stroke-width="2.4" fill="none" opacity=".16" filter="url(#f-b1)"/></g>`;
   const FLAME_DEFS = `${lg("g-fl1", 0, 1, 0, 0, [[0, "#3a7bd8", .9], [.25, "#ff9a2e", .9], [.7, "#ffd35a", .75], [1, "#fff3b0", .0]])}${lg("g-fl2", 0, 1, 0, 0, [[0, "#2f6fe0"], [.5, "#6fb6ff"], [1, "#d7efff", .3]])}`;
 
+  // Горелка со црево поврзано за гасна боца под масата
+  const GAS_BOTTLE = `
+    <g transform="translate(240, 310)">
+      <rect x="0" y="20" width="60" height="70" rx="15" fill="url(#g-tank)"/>
+      <rect x="5" y="10" width="50" height="15" rx="5" fill="#3a4440"/>
+      <ellipse cx="30" cy="10" rx="10" ry="4" fill="url(#g-brass)"/>
+      <rect x="27" y="2" width="6" height="8" fill="url(#g-brass)"/>
+      <text x="30" y="60" font-family="Arial" font-weight="bold" font-size="14" fill="#ffffff" text-anchor="middle" opacity="0.8">ГАС</text>
+    </g>`;
+
   const BURNER = `<defs>${FLAME_DEFS}${lg("g-brass", 0, 0, 1, 0, [[0, "#6b4f1c"], [.3, "#e8c670"], [.55, "#b48a30"], [1, "#4d3510"]])}${lg("g-hose", 0, 0, 0, 1, [[0, "#2d4a3a"], [.4, "#59806a"], [1, "#1c2f24"]])}</defs>
+    ${GAS_BOTTLE}
     ${cast(150, 290, 20, .32)}${contact(150, 290, 24, .55)}
-    <path d="M160 288q22 4 38 -2t34 6" stroke="#0a120d" stroke-width="7" fill="none" stroke-linecap="round" opacity=".35" filter="url(#f-b2)" transform="translate(0 4)"/>
-    <path d="M160 286q22 4 38 -2t34 6" stroke="url(#g-hose)" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M160 284q22 4 38 -2t34 6" stroke="#9ec0ab" stroke-width="1.4" fill="none" opacity=".5" stroke-linecap="round"/>
+    <!-- Црево од горелка до боца -->
+    <path d="M150 280 C 130 310, 180 340, 267 320" stroke="#1c2f24" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M150 280 C 130 310, 180 340, 267 320" stroke="#59806a" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
     <ellipse cx="150" cy="288" rx="22" ry="5.4" fill="url(#g-metal)"/><ellipse cx="150" cy="286" rx="20" ry="4.6" fill="#8a96a1"/><ellipse cx="150" cy="284.4" rx="12" ry="3" fill="#cdd5dc"/>
     <rect x="145" y="246" width="10" height="40" rx="1.6" fill="url(#g-metal)"/><rect x="142" y="266" width="16" height="9" rx="1.6" fill="url(#g-brass)"/><path d="M142 270h16" stroke="#000" stroke-width=".8" opacity=".35"/>
     <ellipse cx="150" cy="246" rx="5.4" ry="1.7" fill="#2a2f35"/><ellipse cx="150" cy="245.6" rx="4" ry="1.1" fill="#0b0e11"/>
@@ -190,9 +227,6 @@
   const SKIN = () => `${lg("g-skin", 0, 0, 1, 0, [[0, "#f5d2b4"], [.55, "#e8b995"], [1, "#c98d68"]])}${lg("g-skin2", 0, 0, 1, 0, [[0, "#e6ba98"], [1, "#b97c58"]])}`;
   const HEAD_DEFS = `<defs>${SKIN()}${lg("g-hair", 0, 0, 1, 0, [[0, "#8a5c33"], [.5, "#6a4223"], [1, "#3b2210"]])}${lg("g-coat", 0, 0, 1, 0, [[0, "#ffffff"], [.55, "#eef2f5"], [1, "#c3ccd4"]])}${lg("g-coat2", 0, 0, 1, 0, [[0, "#f4f7f9"], [1, "#b7c1ca"]])}${lg("g-tee", 0, 0, 1, 0, [[0, "#5ed1c1"], [.55, "#35a799"], [1, "#1f7d72"]])}${lg("g-den", 0, 0, 1, 0, [[0, "#7ea6cb"], [.55, "#557fa8"], [1, "#35597e"]])}${lg("g-trs", 0, 0, 1, 0, [[0, "#5d647c"], [.5, "#444a60"], [1, "#2a2e3f"]])}${lg("g-trs2", 0, 0, 1, 0, [[0, "#3b4054"], [1, "#1f2230"]])}</defs>`;
   
-  // ======================================================================
-  //  УЧЕНИЧКА (поглед однапред): центар x=730, глава Y 104–172, нозе до Y 495
-  // ======================================================================
   const MIR = g => `<g transform="translate(1460 0) scale(-1 1)">${g}</g>`;
   const FIG_DEFS = `<defs>${rg("g-skinR", .5, .38, .75, [[0, "#fbe3cc"], [.55, "#f0c8a8"], [1, "#d9a57f"]])}${lg("g-hairw", 0, 0, 1, 0, [[0, "#9a6a3a"], [.5, "#7a4d28"], [1, "#4a2a12"]])}${lg("g-navy", 0, 0, 1, 0, [[0, "#5a617a"], [.5, "#424963"], [1, "#2a2f44"]])}</defs>`;
 
@@ -238,11 +272,15 @@
   const LEG_BARE = `<path d="${LEGL_PATH}" fill="url(#g-skin)"/><path d="${LEGL_PATH}" fill="none" stroke="#b97c58" stroke-width=".9" opacity=".4"/><ellipse cx="716" cy="403" rx="6" ry="4.4" fill="#e3b08c" opacity=".35"/><path d="M708 340Q706 368 711 392" stroke="#fff" stroke-width="2.2" fill="none" opacity=".3" stroke-linecap="round"/><path d="M705 424Q706 442 711 456" stroke="#fff" stroke-width="1.8" fill="none" opacity=".25" stroke-linecap="round"/><path d="M724 420Q725 440 724 458" stroke="#a8704c" stroke-width="1.6" fill="none" opacity=".25"/>`;
   const SANDAL_F = `<path d="M712 477Q712 475 716 475H724Q728 475 729 478L731 488Q732 493 729 495H712Q708 493 709 488Z" fill="url(#g-skin)"/>
     <path d="M711.6 495.4Q710 495 710.4 493.4" stroke="none"/><ellipse cx="712.4" cy="492.8" rx="1.9" ry="2.4" fill="#f0c8a8"/><ellipse cx="716.4" cy="493.6" rx="1.8" ry="2.4" fill="#f0c8a8"/><ellipse cx="720.4" cy="494" rx="1.7" ry="2.3" fill="#f0c8a8"/><ellipse cx="724.4" cy="493.6" rx="1.6" ry="2.2" fill="#f0c8a8"/><ellipse cx="728" cy="492.6" rx="1.5" ry="2" fill="#f0c8a8"/>
-    <path d="M707 497.4Q707 495.6 710 495.6H731Q734 495.6 733.6 497.6Q733 499.4 730 499.4H710Q707 499.4 707 497.4Z" fill="#7b4a1c"/><path d="M710 496.2H731" stroke="#b07a42" stroke-width=".8" opacity=".8"/>
+    <path d="M707 497.4Q707 495.6 710 495.6H731Q734 495.6 733.6 497.6Q733 499.4 730 499.4H710Q707 499.4 707 499.4Z" fill="#7b4a1c"/><path d="M710 496.2H731" stroke="#b07a42" stroke-width=".8" opacity=".8"/>
     <path d="M710.4 484.4Q720 481 730 484.4" stroke="#a86022" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M720 482.6V491" stroke="#a86022" stroke-width="2" stroke-linecap="round"/>`;
-  const SHORTS = `<path d="M701 288Q730 298 759 288L765 360Q753 366 737 363L731 314H729L723 363Q707 366 695 360Z" fill="url(#g-den)"/><path d="M697 358Q711 363 722 361M738 361Q750 363 763 358" stroke="#aac8e2" stroke-width="1.1" fill="none" stroke-dasharray="2 2" opacity=".8"/><path d="M730 296V314M714 304Q722 308 727 306M746 304Q738 308 733 306" stroke="#2c4e72" stroke-width="1.2" fill="none" opacity=".55"/><path d="M706 318Q708 340 706 356M754 318Q752 340 754 356" stroke="#35597e" stroke-width="1.1" fill="none" opacity=".35"/>`;
+  
+  // Подолга сукња (престилка/сукња што се протега подолу од колената)
+  const SKIRT_LONG = `<path d="M692 288Q730 298 768 288L774 415Q730 425 686 415Z" fill="url(#g-den)" stroke="#2c4e72" stroke-width="1.2"/>
+    <path d="M688 413Q730 423 772 413" stroke="#aac8e2" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>`;
+  
   const FLOOR_SH = `<ellipse cx="730" cy="495" rx="40" ry="4" fill="#000" opacity=".3" filter="url(#f-b2)"/>`;
-  const LEGS_BAD = `<g>${FLOOR_SH}${LEG_BARE}${MIR(LEG_BARE)}${SANDAL_F}${MIR(SANDAL_F)}${SHORTS}</g>`;
+  const LEGS_BAD = `<g>${FLOOR_SH}${LEG_BARE}${MIR(LEG_BARE)}${SANDAL_F}${MIR(SANDAL_F)}${SKIRT_LONG}</g>`;
 
   const TRS_L = `<path d="M703 292C702 330 706 380 708 404C706 430 706 450 712 478L727 478C727 452 728 430 727 404C729 380 731 340 731 296Z" fill="url(#g-navy)"/><path d="M718 330Q717 410 719 476" stroke="#1f2335" stroke-width="1" fill="none" opacity=".4"/>`;
   const SHOE_F = `<path d="M711 477Q711 473 716 473H724Q729 473 730 477L733 488Q735 494 731 496H709Q705 494 708 488Z" fill="#2b2d36"/><path d="M709 490Q720 486 732 490L732.4 494Q731 496.4 728 496.4H712Q708 496.4 708 493Z" fill="#fafaf8"/><path d="M706 496.2H735V498.6Q735 500 732 500H709Q706 500 706 498.4Z" fill="#e7e7e3"/>
@@ -348,8 +386,8 @@
     "torba": { "name": "Торба на подот во премин", "why": "Раниче на подот пред масата. Некој може да се сапне и да падне со хемикалии во рака.", "fix": "Торбите и јакните се оставаат на определено место, подалеку од работните површини и преминот.", "ok": "" },
     "staklo": { "name": "Скршено стакло на подот", "why": "На подот има парчиња скршено стакло, а можат да нанесат посекотини.", "fix": "Стаклото не се собира со раце: се користи лопатка и четка, а се фрла во посебен сад за стаклен отпад.", "ok": "" },
     "ocila": { "name": "Без заштитни очила и распуштена коса", "why": "Нема заштитни очила, а долгата коса е распуштена: може да влезе во пламен или во садови.", "fix": "Заштитните очила се носат цело време во лабораторија, а долгата коса се врзува.", "ok": "Носи заштитни очила, а косата е врзана." },
-    "mantil": { "name": "Без мантил, голи раце", "why": "Облечена е во кратка маица, без мантил. Прскање на хемикалија удира директно на кожата.", "fix": "Се носи долг, затворен мантил од памук со долги ракави.", "ok": "Носи долг, затворен мантил." },
-    "chevli": { "name": "Отворени сандали и шорцеви", "why": "Носи шорцеви и отворени сандали. Хемикалија или стакло што ќе падне на нога го повредува директно.", "fix": "Во лабораторија се носат затворени чевли и долги панталони.", "ok": "Носи затворени чевли и долги панталони." }
+    "mantil": { "name": "Без мантил, голи раце", "why": "Облечена е во маичка со куси ракави, без заштитен мантил. Прскање на хемикалија оди директно на кожата.", "fix": "Се носи долг, затворен памучен мантил со долги ракави.", "ok": "Носи долг, затворен мантил." },
+    "chevli": { "name": "Отворени сандали и куси алишта", "why": "Носи отворени сандали. Хемикалија или стакло што ќе падне на нога може да нанесе повреда.", "fix": "Во лабораторија се носат затворени чевли и долга облека.", "ok": "Носи затворени чевли и долги панталони." }
   };
   const T = id => TXT[id];
   const H = [
@@ -486,6 +524,7 @@
   }
 
   function start() {
+    // Случаен избор на 8 опасни грешки од листата од 12 можни варијанти
     active = shuffle(H).slice(0, N_BAD);
     found = new Set(); wrong = 0; hints = 0; over = false; streak = 0;
     $("sf-list").replaceChildren();

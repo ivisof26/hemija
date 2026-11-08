@@ -194,18 +194,23 @@
   const SKIN = () => `${lg("g-skin", 0, 0, 1, 0, [[0, "#f5d2b4"], [.55, "#e8b995"], [1, "#c98d68"]])}${lg("g-skin2", 0, 0, 1, 0, [[0, "#e6ba98"], [1, "#b97c58"]])}`;
   const HEAD_DEFS = `<defs>${SKIN()}${lg("g-hair", 0, 0, 1, 0, [[0, "#8a5c33"], [.5, "#6a4223"], [1, "#3b2210"]])}${lg("g-coat", 0, 0, 1, 0, [[0, "#ffffff"], [.55, "#eef2f5"], [1, "#c3ccd4"]])}${lg("g-coat2", 0, 0, 1, 0, [[0, "#f4f7f9"], [1, "#b7c1ca"]])}${lg("g-tee", 0, 0, 1, 0, [[0, "#5ed1c1"], [.55, "#35a799"], [1, "#1f7d72"]])}${lg("g-den", 0, 0, 1, 0, [[0, "#7ea6cb"], [.55, "#557fa8"], [1, "#35597e"]])}${lg("g-trs", 0, 0, 1, 0, [[0, "#5d647c"], [.5, "#444a60"], [1, "#2a2e3f"]])}${lg("g-trs2", 0, 0, 1, 0, [[0, "#3b4054"], [1, "#1f2230"]])}</defs>`;
   
-  const FACE = `<path d="M712 118L714 144Q724 149 735 145L732 114Z" fill="url(#g-skin2)"/><path d="M714 130Q724 136 733 130V138Q724 144 714 138Z" fill="#a8704c" opacity=".35"/>
-    <path d="M717 70C706 70 699 78 699 88L699 94Q697.5 97.5 700 99.5L694 108Q694 111 697.5 111L699 111.5Q698 113.5 700 114.5Q696.5 116.5 700 118Q698 120 700 121Q700 125 704 126.5Q713 129 722 124L730 114C738 105 740 91 735 81C731 73 725 70 717 70Z" fill="url(#g-skin)"/>
-    <path d="M722 124Q730 118 733 108" stroke="#b97c58" stroke-width="2" fill="none" opacity=".35"/><ellipse cx="707" cy="111" rx="5" ry="3.6" fill="#e89a8a" opacity=".22"/>
-    <ellipse cx="727" cy="106" rx="3.4" ry="6" fill="#d9a07a"/><path d="M725.5 102Q729 106 726 111" stroke="#a8704c" stroke-width="1.2" fill="none"/>
-    <path d="M700.5 97Q704 94 708.5 96.5Q704.5 99.8 700.5 97Z" fill="#fbf7f2"/><circle cx="703.8" cy="96.9" r="1.9" fill="#6b4524"/><circle cx="703.6" cy="96.8" r=".9" fill="#140a04"/><circle cx="703.1" cy="96.2" r=".5" fill="#fff"/>
-    <path d="M700 96.8Q704.5 93 709 96" stroke="#2b1a0c" stroke-width="1.1" fill="none" stroke-linecap="round"/><path d="M699.5 92Q704.5 89 710.5 91" stroke="#5d3c1f" stroke-width="1.4" fill="none" stroke-linecap="round"/>
-    <path d="M700.5 118.5Q703.5 117.5 705.5 119" stroke="#b3544f" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M700.5 120.5Q703 122.5 705.5 120" stroke="#cf7a72" stroke-width="1.3" fill="none" stroke-linecap="round"/>`;
-  const HAIR_LOOSE = `<path d="M699 87C698 72 708 66 719 67C733 68 742 78 742 96C744 118 742 144 746 172C738 179 730 176 726 166C727 150 727 134 725 118C723 108 722 98 714 90C708 85 703 84 699 87Z" fill="url(#g-hair)"/>
-    <path d="M706 72Q718 66 732 74" stroke="#c19a64" stroke-width="2.6" fill="none" opacity=".6" stroke-linecap="round"/><path d="M737 88Q741 118 738 150M732 86Q736 118 732 154M742 108Q744 138 742 164" stroke="#35200f" stroke-width="1.2" fill="none" opacity=".4"/><path d="M739 98Q742 128 741 158" stroke="#b58a58" stroke-width="1.4" fill="none" opacity=".5"/>`;
-  const HAIR_TIED = `<path d="M699 87C698 72 708 66 719 67C733 68 741 77 741 92C741 104 738 110 734 114C730 108 726 98 714 90C708 85 703 84 699 87Z" fill="url(#g-hair)"/><path d="M706 72Q718 66 731 74" stroke="#c19a64" stroke-width="2.4" fill="none" opacity=".6" stroke-linecap="round"/>
-    <path d="M738 86C752 84 764 108 760 138C758 152 754 160 749 165C750 148 749 126 741 106Z" fill="url(#g-hair)"/><path d="M749 98C757 114 758 136 754 156" stroke="#b58a58" stroke-width="1.4" fill="none" opacity=".55"/><path d="M745 108Q752 134 748 158" stroke="#35200f" stroke-width="1.1" fill="none" opacity=".4"/>
-    <rect x="735" y="85" width="8" height="6" rx="2.6" fill="#2f6fd1" transform="rotate(25 739 88)"/>`;
+  const FACE = `<path d="M712 118L714 144Q724 149 735 145L732 114Z" fill="url(#g-skin2)"/><path d="M714 130Q724 136 733 130V138Q724 144 714 138Z" fill="#a8704c" opacity=".3"/>
+    <path d="M718 69C730 69 740 78 740 92C740 104 737 112 733 117L727 122Q716 130 707 126Q701.5 125 701.5 121L701 118.5Q699 117 701 115.5Q699 114 700 111.5L701 109.5Q696 108.5 694 105.5Q694 103 697.5 100.5L698.5 96.5Q697 90 699.5 84Q703 71 718 69Z" fill="url(#g-skin)"/>
+    <path d="M727 121Q735 114 738 103" stroke="#b97c58" stroke-width="2" fill="none" opacity=".25"/><ellipse cx="710" cy="108" rx="6" ry="4.2" fill="#ec9a8c" opacity=".28"/>
+    <ellipse cx="729" cy="104" rx="3.2" ry="5.6" fill="#dca57f"/><path d="M727.6 100.5Q731 104 728 108.5" stroke="#a8704c" stroke-width="1.1" fill="none"/>
+    <path d="M700.2 97.2Q704 93.6 708.6 96Q704.6 99.6 700.2 97.2Z" fill="#fbf7f2"/><circle cx="703.6" cy="96.6" r="2.1" fill="#5f3d1f"/><circle cx="703.4" cy="96.5" r="1" fill="#120a04"/><circle cx="702.8" cy="95.8" r=".6" fill="#fff"/>
+    <path d="M699.8 97Q704.4 92.4 709.4 96" stroke="#24150a" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M709.4 96L711 94.6M707.6 94.6L708.8 93" stroke="#24150a" stroke-width=".9" stroke-linecap="round"/>
+    <path d="M699.6 91.6Q705 88.4 712 91" stroke="#5d3c1f" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M696.2 104.2Q697.4 105.2 698.6 104.8" stroke="#a8704c" stroke-width="1" fill="none" stroke-linecap="round"/>
+    <path d="M701 112.2Q704.4 111.2 707.2 112.8Q704.2 114 701 112.2Z" fill="#cc6f68"/><path d="M701 112.6Q704 114.6 707.2 112.8Q704.4 116.8 701.2 115.2Z" fill="#df8a82"/><path d="M701.4 113Q704.4 113.2 707 112.9" stroke="#8f3d3a" stroke-width=".7" fill="none"/>
+    <path d="M702 120.6Q705 122.4 709 121" stroke="#c78c6a" stroke-width="1" fill="none" opacity=".5"/>`;
+  const HAIR_LOOSE = `<path d="M698.5 90C697 74 707 66.5 719 66.8C734 67.4 743 78 743 95C745 118 743 146 749 176C742 184 731 181 727 170C728 154 729 136 727 120C726 108 722 98 714 92C709 88 705 84 701 85Q699 88 698.5 90Z" fill="url(#g-hair)"/>
+    <path d="M698.5 90Q700 80 708 76Q718 73 726 80Q716 80 711 86Q705 90 698.5 90Z" fill="#6a4223"/><path d="M705 72Q718 66 733 74" stroke="#d1a870" stroke-width="2.6" fill="none" opacity=".55" stroke-linecap="round"/>
+    <path d="M738 90Q742 120 740 152M732 92Q735 122 732 158M743 110Q746 142 745 170" stroke="#2f1b0c" stroke-width="1.1" fill="none" opacity=".4"/><path d="M740 100Q743 130 742 162" stroke="#c19a64" stroke-width="1.5" fill="none" opacity=".5"/>`;
+  const HAIR_TIED = `<path d="M698.5 90C697 74 707 66.5 719 66.8C732 67.4 741 77 741 92C741 103 739 109 735 114C731 108 726 99 714 92C709 88 705 84 701 85Q699 88 698.5 90Z" fill="url(#g-hair)"/>
+    <path d="M698.5 90Q700 80 708 76Q718 73 726 80Q716 80 711 86Q705 90 698.5 90Z" fill="#6a4223"/><path d="M705 72Q718 66 731 74" stroke="#d1a870" stroke-width="2.4" fill="none" opacity=".55" stroke-linecap="round"/>
+    <path d="M738 84C753 82 766 106 762 136C760 152 755 162 749 168C750 150 749 128 741 108Z" fill="url(#g-hair)"/><path d="M750 98C759 114 760 138 755 158" stroke="#c19a64" stroke-width="1.4" fill="none" opacity=".55"/><path d="M745 108Q753 134 749 160" stroke="#2f1b0c" stroke-width="1.1" fill="none" opacity=".4"/>
+    <rect x="735" y="83" width="8" height="6" rx="2.6" fill="#2f6fd1" transform="rotate(25 739 86)"/>`;
   const GOGGLES = `<path d="M714 98L738 94" stroke="#1d3a78" stroke-width="3.8" stroke-linecap="round"/><path d="M714 96.8L738 92.8" stroke="#5f8be0" stroke-width="1" opacity=".7"/>
     <path d="M696 90L711 89Q715 90 715 94L715 102Q715 106.5 710.5 106.5L698.5 106.5Q694 106.5 694 102L694 94Q694 90 696 90Z" fill="#cfe9f7" fill-opacity=".28" stroke="#2f6fd1" stroke-width="2.6"/><path d="M697 92Q703 90 711 91" stroke="#fff" stroke-width="1.8" fill="none" opacity=".85" stroke-linecap="round"/>`;
   const HEAD = tied => `<g>${FACE}${tied ? HAIR_TIED + GOGGLES : HAIR_LOOSE}</g>`;
@@ -213,7 +218,7 @@
   const HAND = `<path d="M707 252C703 258 702 268 706 273C711 276 717 272 718 264L716 252Z" fill="url(#g-skin)"/><path d="M709 269Q713 272 716 266" stroke="#b97c58" stroke-width="1" fill="none" opacity=".6"/><path d="M704 260Q701 263 703 267" stroke="#e9c2a3" stroke-width="1.4" fill="none" opacity=".7"/>`;
   
   const TORSO_BAD = `<g>
-    <path d="M710 188C708 210 706 232 705 252L718 254C719 232 720 210 724 188Z" fill="url(#g-skin)"/><path d="M707 206Q714 212 721 206" stroke="#b97c58" stroke-width="1.4" fill="none" opacity=".5"/>${HAND}
+    <g transform="translate(10 0)"><path d="M710 188C708 210 706 232 705 252L718 254C719 232 720 210 724 188Z" fill="url(#g-skin)"/><path d="M707 206Q714 212 721 206" stroke="#b97c58" stroke-width="1.4" fill="none" opacity=".5"/>${HAND}</g>
     <path d="M708 135Q698 142 697 156Q694 186 697 214Q698 232 697 246H741Q742 214 740 184Q741 156 737 144Q730 136 722 134Z" fill="url(#g-tee)"/>
     <path d="M708 135Q715 144 722 134" stroke="#1f7d72" stroke-width="2.6" fill="none"/>
     <path d="M700 196Q718 204 738 198M699 220Q718 228 738 222" stroke="#1f7d72" stroke-width="1.6" fill="none" opacity=".45"/><path d="M701 158Q700 192 702 222" stroke="#9af0e4" stroke-width="2" fill="none" opacity=".35" stroke-linecap="round"/>
@@ -244,7 +249,7 @@
     <rect x="706" y="272" width="18" height="24" rx="2" fill="none" stroke="#c4ccd4" stroke-width="1.5"/><path d="M714 274V296" stroke="#d3dae0" stroke-width=".8"/>
     <circle cx="699" cy="196" r="2" fill="#a9b4be"/><circle cx="698" cy="234" r="2" fill="#a9b4be"/><circle cx="697" cy="272" r="2" fill="#a9b4be"/><circle cx="696" cy="310" r="2" fill="#a9b4be"/>
     <path d="M706 134L698 148L712 166L722 138Z" fill="#f7f9fb" stroke="#c4ccd4" stroke-width="1.2" stroke-linejoin="round"/><path d="M716 136Q724 142 731 138L734 150L720 162Z" fill="#e6ebf0"/><path d="M707 136Q712 146 718 138" fill="#3a78c9"/>
-    </g>${COAT_SLEEVE}${HAND}`;
+    </g><g transform="translate(10 0)">${COAT_SLEEVE}${HAND}</g>`;
 
   const H2SO4 = (x, rot) => bottle(x, 60, 30, 48, { c: "#6b3a1c", liq: "#a56a2a", label: "H₂SO₄", fs: 5.4, lc: "#9c1f18", stripe: "#d9422f", onShelf: 1, rot, level: .7 });
   const RAIL = `<rect x="424" y="92" width="3" height="8" fill="#7c8791"/><rect x="466" y="92" width="3" height="8" fill="#7c8791"/><rect x="424" y="92" width="45" height="2.6" rx="1.3" fill="url(#g-metal)"/>`;

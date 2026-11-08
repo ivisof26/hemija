@@ -191,33 +191,36 @@
   const HEAD_DEFS = `<defs>${SKIN()}${lg("g-hair", 0, 0, 1, 0, [[0, "#8a5c33"], [.5, "#6a4223"], [1, "#3b2210"]])}${lg("g-coat", 0, 0, 1, 0, [[0, "#ffffff"], [.55, "#eef2f5"], [1, "#c3ccd4"]])}${lg("g-coat2", 0, 0, 1, 0, [[0, "#f4f7f9"], [1, "#b7c1ca"]])}${lg("g-tee", 0, 0, 1, 0, [[0, "#5ed1c1"], [.55, "#35a799"], [1, "#1f7d72"]])}${lg("g-den", 0, 0, 1, 0, [[0, "#7ea6cb"], [.55, "#557fa8"], [1, "#35597e"]])}${lg("g-trs", 0, 0, 1, 0, [[0, "#5d647c"], [.5, "#444a60"], [1, "#2a2e3f"]])}${lg("g-trs2", 0, 0, 1, 0, [[0, "#3b4054"], [1, "#1f2230"]])}</defs>`;
   
   // ======================================================================
-  //  УЧЕНИЧКА (поглед однапред): центар x=730, глава Y 104–172, нозе до Y 495
+  //  УЧЕНИЧКА (поглед однапред): порамнети пропорции, очи и облека
   // ======================================================================
   const MIR = g => `<g transform="translate(1460 0) scale(-1 1)">${g}</g>`;
   const FIG_DEFS = `<defs>${rg("g-skinR", .5, .38, .75, [[0, "#fbe3cc"], [.55, "#f0c8a8"], [1, "#d9a57f"]])}${lg("g-hairw", 0, 0, 1, 0, [[0, "#9a6a3a"], [.5, "#7a4d28"], [1, "#4a2a12"]])}${lg("g-navy", 0, 0, 1, 0, [[0, "#5a617a"], [.5, "#424963"], [1, "#2a2f44"]])}</defs>`;
 
-  const EYE = `<path d="M716.4 141.6Q721.5 137 726.6 141.6Q721.5 145 716.4 141.6Z" fill="#fdfbf8"/><circle cx="721.7" cy="141.2" r="2.7" fill="#6b4a2a"/><circle cx="721.7" cy="141.2" r="1.3" fill="#120a05"/><circle cx="722.7" cy="140.2" r=".8" fill="#fff"/>
+  const EYE_L = `<g transform="translate(-3 0)"><path d="M716.4 141.6Q721.5 137 726.6 141.6Q721.5 145 716.4 141.6Z" fill="#fdfbf8"/><circle cx="721.7" cy="141.2" r="2.7" fill="#6b4a2a"/><circle cx="721.7" cy="141.2" r="1.3" fill="#120a05"/><circle cx="722.7" cy="140.2" r=".8" fill="#fff"/>
     <path d="M715.6 141.8Q721.5 135.6 727.4 141.8" stroke="#24150a" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M715.8 141.6L713.6 140.2M717.4 139.2L716 137.4" stroke="#24150a" stroke-width=".9" stroke-linecap="round"/>
-    <path d="M717.4 137.8Q721.5 134.8 725.8 137.6" stroke="#b07a5a" stroke-width=".7" fill="none" opacity=".7"/><path d="M714.4 134.8Q720 130.6 727.4 133" stroke="#5a3a1e" stroke-width="1.8" fill="none" stroke-linecap="round"/>`;
+    <path d="M717.4 137.8Q721.5 134.8 725.8 137.6" stroke="#b07a5a" stroke-width=".7" fill="none" opacity=".7"/><path d="M714.4 134.8Q720 130.6 727.4 133" stroke="#5a3a1e" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>`;
+
+  const EYE_R = `<g transform="translate(3 0)"><path d="M733.4 141.6Q738.5 137 743.6 141.6Q738.5 145 733.4 141.6Z" fill="#fdfbf8"/><circle cx="738.3" cy="141.2" r="2.7" fill="#6b4a2a"/><circle cx="738.3" cy="141.2" r="1.3" fill="#120a05"/><circle cx="739.3" cy="140.2" r=".8" fill="#fff"/>
+    <path d="M732.6 141.8Q738.5 135.6 744.4 141.8" stroke="#24150a" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M732.8 141.6L730.6 140.2M734.4 139.2L733 137.4" stroke="#24150a" stroke-width=".9" stroke-linecap="round"/>
+    <path d="M734.4 137.8Q738.5 134.8 742.8 137.6" stroke="#b07a5a" stroke-width=".7" fill="none" opacity=".7"/><path d="M731.4 134.8Q737 130.6 744.4 133" stroke="#5a3a1e" stroke-width="1.8" fill="none" stroke-linecap="round"/></g>`;
 
   const FACE = `<path d="M722 166V184Q730 190 738 184V166Z" fill="url(#g-skin2)"/><path d="M722 172Q730 180 738 172V181Q730 188 722 181Z" fill="#a8704c" opacity=".3"/>
     <ellipse cx="709.4" cy="143" rx="3" ry="5.4" fill="#e6b392"/><ellipse cx="750.6" cy="143" rx="3" ry="5.4" fill="#e0ab88"/>
     <path d="M710 138C710 121 719 113 730 113C741 113 750 121 750 138C750 154 744 167 730 172C716 167 710 154 710 138Z" fill="url(#g-skinR)"/>
-    <ellipse cx="717.5" cy="153" rx="6.2" ry="3.8" fill="#ee9488" opacity=".3"/><ellipse cx="742.5" cy="153" rx="6.2" ry="3.8" fill="#ee9488" opacity=".3"/>
+    <ellipse cx="715.5" cy="153" rx="5.5" ry="3.5" fill="#ee9488" opacity=".3"/><ellipse cx="744.5" cy="153" rx="5.5" ry="3.5" fill="#ee9488" opacity=".3"/>
     <path d="M711 146Q712 160 722 168M749 146Q748 160 738 168" stroke="#c4906d" stroke-width="1" fill="none" opacity=".3"/>
-    ${EYE}${MIR(EYE)}
+    ${EYE_L}${EYE_R}
     <path d="M727.2 144Q726 150 727 153.6" stroke="#c4906d" stroke-width="1.6" fill="none" opacity=".35"/><path d="M730 143Q728.8 149.6 727.2 153.4Q730 156 732.8 153.4Q731.2 149.6 730 143" fill="none" stroke="#bf8663" stroke-width=".9" opacity=".7"/>
     <ellipse cx="728.2" cy="154" rx="1.1" ry=".7" fill="#8e5a42" opacity=".6"/><ellipse cx="731.8" cy="154" rx="1.1" ry=".7" fill="#8e5a42" opacity=".6"/><ellipse cx="730" cy="151.4" rx="1.4" ry="1.8" fill="#fff" opacity=".25"/>
     <path d="M722.4 160.2Q726 157.2 730 158.8Q734 157.2 737.6 160.2Q730 162.8 722.4 160.2Z" fill="#c4575a"/><path d="M723.4 160.6Q730 163.6 736.6 160.6Q734.6 166.6 730 166.8Q725.4 166.6 723.4 160.6Z" fill="#da786f"/><path d="M727 164Q730 165.2 733 164" stroke="#fff" stroke-width=".8" fill="none" opacity=".55"/><path d="M722.6 160.4Q730 162.4 737.4 160.4" stroke="#8b3a3a" stroke-width=".7" fill="none"/>
     <ellipse cx="730" cy="169.4" rx="4.4" ry="1.2" fill="#c4906d" opacity=".25"/>`;
 
-  const LOCK = `<path d="M722 117C714 120 710 130 709 146C708 158 713 166 711 176C709 188 702 194 703 206C704 218 713 222 710 234C708 246 699 247 698 256C697 265 706 269 711 262C717 255 716 246 714 237C712 226 719 218 718 206C717 194 721 186 719 174C718 162 716 150 716 138C716 130 718 124 722 117Z" fill="url(#g-hairw)"/>
-    <path d="M714 130Q710 152 713 168Q714 184 707 198Q704 212 711 226M717 160Q716 186 715 206Q714 224 716 240" stroke="#2f1b0c" stroke-width="1" fill="none" opacity=".35"/><path d="M712 136Q709 158 712 172Q712 188 706 200" stroke="#e0bb88" stroke-width="1.4" fill="none" opacity=".55" stroke-linecap="round"/>
-    <path d="M699 255C696 262 702 267 708 263" stroke="#2f1b0c" stroke-width="1" fill="none" opacity=".45"/><path d="M704 214Q708 220 706 228" stroke="#e0bb88" stroke-width="1.2" fill="none" opacity=".5" stroke-linecap="round"/>`;
+  const LOCK = `<path d="M722 117C714 120 710 130 709 146C708 158 713 166 711 176C709 188 703 194 704 206C705 218 713 224 711 236C709 246 704 254 700 266C706 262 713 254 716 244C718 234 716 226 714 218C713 208 718 198 719 188C720 176 718 162 717 148C716 136 718 126 722 117Z" fill="url(#g-hairw)"/>
+    <path d="M714 130Q710 152 713 168Q714 184 708 198Q705 212 711 226M717 160Q716 186 716 206Q716 224 716 240" stroke="#2f1b0c" stroke-width="1" fill="none" opacity=".35"/><path d="M712 136Q709 158 712 172Q712 188 707 200" stroke="#e0bb88" stroke-width="1.4" fill="none" opacity=".55" stroke-linecap="round"/>`;
   const CAP = `<path d="M708.6 146C703 116 716 102 731 102C746 102 757 116 751.4 146C750 134 747 128 742 124C736 119.6 728 117 722 117C715 119.6 711 128 708.6 146Z" fill="url(#g-hairw)"/>
     <path d="M714 112Q724 104 740 108" stroke="#e0bb88" stroke-width="2.2" fill="none" opacity=".55" stroke-linecap="round"/><path d="M722 117Q732 121 744 126M720 116Q716 124 712 134" stroke="#2f1b0c" stroke-width="1" fill="none" opacity=".35"/>`;
-  const HAIR_BACK_LOOSE = `<path d="M707 124C698 148 695 190 691 226C688 246 693 260 703 262C709 264 713 256 718 262C724 268 730 262 730 262C736 268 742 266 746 262C752 258 754 266 760 262C768 258 773 244 769 226C765 190 762 148 753 124Z" fill="url(#g-hairw)"/>
-    <path d="M700 170Q697 210 698 244M760 170Q763 210 762 244M712 190Q711 230 716 258M748 190Q749 230 744 258" stroke="#2f1b0c" stroke-width="1.1" fill="none" opacity=".3"/>`;
+  const HAIR_BACK_LOOSE = `<path d="M707 124C698 148 695 190 692 226C690 244 694 256 700 268C706 262 710 254 713 258C716 262 719 256 722 262C726 266 730 258 730 262C732 258 735 266 738 262C741 256 744 262 747 258C750 254 754 262 760 268C766 256 770 244 768 226C765 190 762 148 753 124Z" fill="url(#g-hairw)"/>
+    <path d="M700 170Q697 210 699 244M760 170Q763 210 761 244M712 190Q711 230 714 256M748 190Q749 230 746 256" stroke="#2f1b0c" stroke-width="1.1" fill="none" opacity=".3"/>`;
   const HAIR_BACK_TIED = `<path d="M743 112C768 104 792 130 784 174C780 198 788 214 776 238C772 246 763 242 766 233C770 223 762 215 764 197C766 178 762 160 748 140Z" fill="url(#g-hairw)"/><path d="M766 122Q786 140 778 176Q774 196 780 214M758 130Q772 150 766 178" stroke="#2f1b0c" stroke-width="1.1" fill="none" opacity=".35"/><path d="M774 128Q784 150 780 176" stroke="#e0bb88" stroke-width="1.5" fill="none" opacity=".5" stroke-linecap="round"/>
     <rect x="741" y="114" width="12" height="8" rx="3.5" fill="#2f6fd1" transform="rotate(-24 747 118)"/><path d="M743 115L752 118" stroke="#9cc0f2" stroke-width="1" opacity=".8"/>`;
   const HAIR_FRONT_LOOSE = `${LOCK}${MIR(LOCK)}${CAP}`;
@@ -226,8 +229,8 @@
   const HEAD = tied => `<g>${FACE}${tied ? HAIR_FRONT_TIED + GOGGLES : HAIR_FRONT_LOOSE}</g>`;
   const HAIR_BACK = tied => `<g>${tied ? HAIR_BACK_TIED : HAIR_BACK_LOOSE}</g>`;
 
-  const HANDL = `<path d="M686 298C684 308 685 320 689 327C692 331 697 329 699 323C701 315 700 306 700 298Z" fill="url(#g-skin)"/><path d="M692 314V327M695.6 313L696 325" stroke="#b97c58" stroke-width=".7" fill="none" opacity=".6"/><path d="M700 301C703 308 703 315 700 320" stroke="#b97c58" stroke-width=".8" fill="none" opacity=".5"/>`;
-  const ARMBARE = `<path d="M690 234L709 240C707 260 703 280 701 299L684 298C685 280 687 256 690 234Z" fill="url(#g-skin)"/><path d="M697 258Q699 262 696 268" stroke="#b97c58" stroke-width="1" fill="none" opacity=".4"/>${HANDL}`;
+  const HANDL = `<path d="M688 298C686 306 687 316 690 322C693 325 697 324 699 319C701 313 700 305 700 298Z" fill="url(#g-skin)"/><path d="M692 310V322M695 310L695.5 320" stroke="#b97c58" stroke-width=".6" fill="none" opacity=".6"/>`;
+  const ARMBARE = `<path d="M692 234L707 240C705 258 702 278 700 298L688 298C689 280 690 256 692 234Z" fill="url(#g-skin)"/><path d="M697 258Q699 262 696 268" stroke="#b97c58" stroke-width="1" fill="none" opacity=".4"/>${HANDL}`;
 
   const TORSO_BAD = `<g>${ARMBARE}${MIR(ARMBARE)}
     <path d="M722 181C712 183 703 187 697 193C692 201 689 216 688 232L709 240L710 252C706 266 702 280 701 294Q730 301 759 294C758 280 754 266 750 252L751 240L772 232C771 216 768 201 763 193C757 187 748 183 738 181Q730 194 722 181Z" fill="url(#g-tee)"/>
@@ -235,18 +238,27 @@
     <path d="M711 258C709 270 706 282 705 292" stroke="#9af0e4" stroke-width="1.8" fill="none" opacity=".25" stroke-linecap="round"/>
     <path d="M730 208Q733 216 730 222" stroke="#1f7d72" stroke-width="1" fill="none" opacity=".3"/></g>`;
 
-  const LEGL_PATH = `M704 334C703 360 706 384 709 402C705 420 704 440 710 458C712 468 713 474 714 480L725 480C726 470 727 462 726 452C726 436 728 418 726 402C728 384 731 360 730 334Z`;
-  const LEG_BARE = `<path d="${LEGL_PATH}" fill="url(#g-skin)"/><path d="M709 402Q717 406 726 402" stroke="#b97c58" stroke-width="1" fill="none" opacity=".25"/><path d="M709 336Q708 366 712 392" stroke="#fff" stroke-width="2" fill="none" opacity=".25" stroke-linecap="round"/>`;
-  const SANDAL_F = `<path d="M712 478H727C731 485 732 491 730 494H711C708 491 709 485 712 478Z" fill="url(#g-skin)"/><path d="M713 489L714 493M717 488.5L718 493M721 488.5L722 493M725 489L726 493" stroke="#b97c58" stroke-width=".8" opacity=".7"/><path d="M710 494.6Q710 492.6 713 492.6H729Q733 492.6 732 495.4Q731.6 497 729 497H713Q710 497 710 494.6Z" fill="#7b4a1c"/><path d="M713 481L716 492M727 481L724 492" stroke="#a86022" stroke-width="2" stroke-linecap="round"/><path d="M714 481.4Q720 479.2 726 481.4" stroke="#a86022" stroke-width="2" fill="none" stroke-linecap="round"/>`;
-  const SHORTS = `<path d="M701 288Q730 298 759 288L763 338Q752 343 737 341L731 312H729L723 341Q708 343 697 338Z" fill="url(#g-den)"/><path d="M699 336Q712 340 722 339M738 339Q750 340 761 336" stroke="#aac8e2" stroke-width="1.1" fill="none" stroke-dasharray="2 2" opacity=".8"/><path d="M730 296V312M716 302Q724 306 728 304" stroke="#2c4e72" stroke-width="1.2" fill="none" opacity=".55"/>`;
+  const LEGL_PATH = `M704 334C702 365 706 400 708 428C706 448 707 465 712 478L726 478C726 465 727 448 725 428C727 400 731 365 730 334Z`;
+  const LEG_BARE = `<path d="${LEGL_PATH}" fill="url(#g-skin)"/><path d="${LEGL_PATH}" fill="none" stroke="#b97c58" stroke-width=".9" opacity=".4"/><ellipse cx="716" cy="403" rx="5.5" ry="4" fill="#e3b08c" opacity=".35"/><path d="M708 340Q706 368 710 396" stroke="#fff" stroke-width="2" fill="none" opacity=".3" stroke-linecap="round"/><path d="M706 425Q707 442 711 456" stroke="#fff" stroke-width="1.6" fill="none" opacity=".25" stroke-linecap="round"/>`;
+  
+  // Подобрени сандали
+  const SANDAL_F = `<path d="M710 476Q710 474 716 474H724Q728 474 730 477L732 488Q733 494 730 496H710Q706 494 708 488Z" fill="url(#g-skin)"/>
+    <ellipse cx="712" cy="493" rx="1.6" ry="2.2" fill="#f0c8a8"/><ellipse cx="716" cy="494" rx="1.5" ry="2.2" fill="#f0c8a8"/><ellipse cx="720" cy="494.2" rx="1.5" ry="2.1" fill="#f0c8a8"/><ellipse cx="724" cy="493.6" rx="1.4" ry="2" fill="#f0c8a8"/><ellipse cx="727.5" cy="492.6" rx="1.3" ry="1.8" fill="#f0c8a8"/>
+    <path d="M706 497Q706 495.6 709 495.6H731Q734 495.6 733.6 497.5Q733 499.4 730 499.4H709Q706 499.4 706 497Z" fill="#7b4a1c"/><path d="M709 496.2H731" stroke="#b07a42" stroke-width=".8" opacity=".8"/>
+    <path d="M709.6 484Q720 480 730.4 484" stroke="#a86022" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M720 482V491" stroke="#a86022" stroke-width="1.8" stroke-linecap="round"/>`;
+
+  // Продолжени шорцеви/здолниште за да нема чудни празнини или исечоци
+  const SHORTS = `<path d="M701 288Q730 298 759 288L763 350Q751 356 737 353L731 314H729L723 353Q709 356 697 350Z" fill="url(#g-den)"/><path d="M699 348Q711 353 722 351M738 351Q750 353 761 348" stroke="#aac8e2" stroke-width="1.1" fill="none" stroke-dasharray="2 2" opacity=".8"/><path d="M730 296V314M714 304Q722 308 727 306M746 304Q738 308 733 306" stroke="#2c4e72" stroke-width="1.2" fill="none" opacity=".55"/>`;
+  
   const FLOOR_SH = `<ellipse cx="730" cy="495" rx="40" ry="4" fill="#000" opacity=".3" filter="url(#f-b2)"/>`;
   const LEGS_BAD = `<g>${FLOOR_SH}${LEG_BARE}${MIR(LEG_BARE)}${SANDAL_F}${MIR(SANDAL_F)}${SHORTS}</g>`;
 
   const TRS_L = `<path d="M703 292C702 330 706 380 708 404C706 430 706 450 712 478L727 478C727 452 728 430 727 404C729 380 731 340 731 296Z" fill="url(#g-navy)"/><path d="M718 330Q717 410 719 476" stroke="#1f2335" stroke-width="1" fill="none" opacity=".4"/>`;
-  const SHOE_F = `<path d="M711 476H727C733 482 737 490 735 495Q733 497 729 497H711Q707 497 707 493C707 486 709 480 711 476Z" fill="#2b2d36"/><path d="M706.6 493H735.6V497.6Q735 499 732 499H709.4Q706.6 499 706.6 496Z" fill="#f4f4f1"/><path d="M714 480L722 483M714 484L723 487" stroke="#e8e8e8" stroke-width="1.2" stroke-linecap="round"/><path d="M712 488Q722 484 733 489" stroke="#fff" stroke-width="1" fill="none" opacity=".3"/>`;
+  const SHOE_F = `<path d="M711 477Q711 473 716 473H724Q729 473 730 477L733 488Q735 494 731 496H709Q705 494 708 488Z" fill="#2b2d36"/><path d="M709 490Q720 486 732 490L732.4 494Q731 496.4 728 496.4H712Q708 496.4 708 493Z" fill="#fafaf8"/><path d="M706 496.2H735V498.6Q735 500 732 500H709Q706 500 706 498.4Z" fill="#e7e7e3"/>
+    <path d="M714 478.6H726M713.4 482H726.6M712.6 485.4H727.4" stroke="#e8e8e8" stroke-width="1.2" stroke-linecap="round"/><path d="M714 476Q720 474.4 726 476" stroke="#fff" stroke-width="1" fill="none" opacity=".35"/>`;
   const LEGS_GOOD = `<g>${FLOOR_SH}${TRS_L}${MIR(TRS_L)}${SHOE_F}${MIR(SHOE_F)}</g>`;
 
-  const COAT_SLEEVE = `<path d="M694 196C688 220 684 262 681 298L703 303C704 270 708 244 711 224Z" fill="url(#g-coat)" stroke="#c4ccd4" stroke-width="1"/><path d="M692 214C688 240 686 266 684 292" stroke="#fff" stroke-width="2" fill="none" opacity=".6" stroke-linecap="round"/><path d="M697 240Q701 250 699 262" stroke="#b9c3cc" stroke-width="1.2" fill="none" opacity=".6"/><path d="M681 293L703 298V305L681 300Z" fill="#e3e9ee" stroke="#c4ccd4" stroke-width=".8"/>${HANDL.replace(/684 298/, "684 301")}`;
+  const COAT_SLEEVE = `<path d="M694 196C688 220 684 262 681 298L703 303C704 270 708 244 711 224Z" fill="url(#g-coat)" stroke="#c4ccd4" stroke-width="1"/><path d="M692 214C688 240 686 266 684 292" stroke="#fff" stroke-width="2" fill="none" opacity=".6" stroke-linecap="round"/><path d="M697 240Q701 250 699 262" stroke="#b9c3cc" stroke-width="1.2" fill="none" opacity=".6"/><path d="M681 293L703 298V305L681 300Z" fill="#e3e9ee" stroke="#c4ccd4" stroke-width=".8"/>${HANDL.replace(/688 298/, "684 301")}`;
   const TORSO_GOOD = `<g>
     <path d="M722 181C710 183 700 188 694 196C690 212 690 240 690 262C689 300 688 350 686 398Q730 407 774 398C772 350 771 300 770 262C770 240 770 212 766 196C760 188 750 183 738 181Q730 194 722 181Z" fill="url(#g-coat)"/>
     <path d="M766 200C770 240 770 300 774 396" stroke="#9aa6b1" stroke-width="3" fill="none" opacity=".25" filter="url(#f-b1)"/>
@@ -287,11 +299,12 @@
     <path d="M334 271L362 264" stroke="#000" stroke-width="3" opacity=".3" filter="url(#f-b1)" transform="translate(1 3)"/><path d="M334 269.5L359 263.2L362 264.2L336 272Z" fill="url(#g-pen)"/><path d="M334 269.8L359 263.5" stroke="#fff3b0" stroke-width=".8" opacity=".8"/><path d="M359 263.2L364 262L362 264.2Z" fill="#e6c79c"/><path d="M362.8 262.3L364 262L363.2 263.3Z" fill="#2b2b2b"/><path d="M334 269.5L330 270.8L331.6 273.2L336 272Z" fill="#e48aa0"/></g>`;
 
   const SPILL = `<g>${cast(400, 276, 34, .25)}
-    <ellipse cx="440" cy="271" rx="34" ry="6" fill="#2f5a1a" opacity=".35" filter="url(#f-b2)"/>
-    <defs>${lg("g-grn", 0, 0, 0, 1, [[0, "#b7ee8b", .9], [1, "#6fbf45", .95]])}</defs>
-    <path d="M417 272Q420 266 440 266Q462 266 470 272Q468 277 450 277Q426 278 417 272Z" fill="url(#g-grn)"/><path d="M426 270Q440 267 458 270" stroke="#f1ffe2" stroke-width="1.6" fill="none" opacity=".8" stroke-linecap="round"/>
-    <path d="M440 250Q444 260 441 268" stroke="url(#g-grn)" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M439 252Q442 260 440 267" stroke="#e6ffd0" stroke-width="1" fill="none" opacity=".8"/>
-    <path d="M463 275Q466 282 464 290Q462 298 465 306" stroke="#79c84d" stroke-width="5.6" fill="none" stroke-linecap="round" opacity=".92"/><path d="M462 278Q464 286 463 294" stroke="#d8ffbd" stroke-width="1.4" fill="none" opacity=".8" stroke-linecap="round"/><ellipse cx="465" cy="308" rx="3.6" ry="4.6" fill="#79c84d"/><ellipse cx="464" cy="307" rx="1" ry="1.6" fill="#e9ffd6"/></g>`;
+    <defs>${lg("g-grn", 0, 0, 0, 1, [[0, "#c4f2a0", .9], [1, "#7cc653", .95]])}</defs>
+    <ellipse cx="446" cy="274" rx="32" ry="6.4" fill="#2f5a1a" opacity=".28" filter="url(#f-b2)" transform="translate(2 2)"/>
+    <ellipse cx="446" cy="272.6" rx="31" ry="6.2" fill="url(#g-grn)" stroke="#5aa634" stroke-width=".8"/>
+    <ellipse cx="446" cy="272.6" rx="22" ry="3.8" fill="none" stroke="#f3ffe6" stroke-width=".9" opacity=".6"/><path d="M425 271Q436 267.6 452 269" stroke="#fff" stroke-width="1.6" fill="none" opacity=".8" stroke-linecap="round"/>
+    <path d="M437 249C441 255 442 261 441 268" stroke="url(#g-grn)" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M438.4 252C441 257 441.6 262 441 266" stroke="#f3ffe6" stroke-width="1" fill="none" opacity=".8"/>
+    <ellipse cx="480" cy="276" rx="2.6" ry="1.2" fill="#7cc653" opacity=".9"/><ellipse cx="486" cy="272" rx="1.6" ry=".8" fill="#7cc653" opacity=".8"/><ellipse cx="410" cy="277" rx="2" ry="1" fill="#7cc653" opacity=".8"/></g>`;
   
   const UNLABELED = `${SPILL}${bottle(380, 214, 30, 46, { c: "#8a5a2b", liq: "#b27a3c", open: true, rot: 75, level: .35 })}`;
 
@@ -413,7 +426,7 @@
   function point(e) {
     const pt = svg.createSVGPoint();
     pt.x = e.clientX; pt.y = e.clientY;
-    return pt.matrixTransform(svg.createSVGMatrix ? svg.getScreenCTM().inverse() : svg.getScreenCTM().inverse());
+    return pt.matrixTransform(svg.createSVGMatrix ? svg.createSVGMatrix().inverse() : svg.getScreenCTM().inverse());
   }
   const inRect = (p, r, pad = 0) => p.x >= r[0] - pad && p.x <= r[0] + r[2] + pad && p.y >= r[1] - pad && p.y <= r[1] + r[3] + pad;
 

@@ -231,11 +231,11 @@
   const HEAD = tied => `<g>${FACE}${tied ? HAIR_FRONT_TIED + GOGGLES : HAIR_FRONT_LOOSE}</g>`;
   const HAIR_BACK = tied => `<g>${tied ? HAIR_BACK_TIED : HAIR_BACK_LOOSE}</g>`;
 
-  const HANDL = `<path d="M689 289C688 302 687 312 689 321C690 327 694 330 697 328C700 326 701 321 701 316C702 309 701 301 700 289Z" fill="url(#g-skin)"/><path d="M700 300C704 304 705 311 703 317C702 320 700.6 321 700 320" fill="url(#g-skin)" stroke="#b97c58" stroke-width=".7"/><path d="M692.6 314V325M695.6 313.4L696 324.6" stroke="#b97c58" stroke-width=".7" fill="none" opacity=".6"/>`;
-  const ARMBARE = `<path d="M692 236L707 240C706 258 704 276 702 297L689 297C690 276 691 256 692 236Z" fill="url(#g-skin)"/><path d="M696 256Q698 262 696 268" stroke="#b97c58" stroke-width="1" fill="none" opacity=".35"/>${HANDL}`;
+  const HANDL = `<path d="M690 287L701.4 287C702 294 704 299 703 307C702 315 701 322 699 327C697 331 692 332 690 328C687 322 687 312 688 304C688.4 297 689.6 293 690 287Z" fill="url(#g-skin)"/><path d="M692.4 315V326M695.4 314.6L696 325.6" stroke="#b97c58" stroke-width=".7" fill="none" opacity=".6"/><path d="M702 303Q704 309 701.6 316" stroke="#b97c58" stroke-width=".8" fill="none" opacity=".5"/>`;
+  const ARMBARE = `<path d="M692 248L707 253C706 266 704 280 701.4 291C702 295 704 299 703 307C702 315 701 322 699 327C697 331 692 332 690 328C687 322 687 312 688 304C688.4 297 689.6 293 690 291C690.6 278 691 262 692 248Z" fill="url(#g-skin)"/><path d="M696.4 268Q698 273 696.4 278" stroke="#b97c58" stroke-width="1" fill="none" opacity=".35"/><path d="M692.4 315V326M695.4 314.6L696 325.6" stroke="#b97c58" stroke-width=".7" fill="none" opacity=".6"/><path d="M702 303Q704 309 701.6 316" stroke="#b97c58" stroke-width=".8" fill="none" opacity=".5"/>`;
 
   const TORSO_BAD = `<g>${ARMBARE}${MIR(ARMBARE)}
-    <path d="M722 181C712 183 703 187 697 193C692 201 689 216 688 232L709 240L710 252C706 266 702 280 701 294Q730 301 759 294C758 280 754 266 750 252L751 240L772 232C771 216 768 201 763 193C757 187 748 183 738 181Q730 194 722 181Z" fill="url(#g-tee)"/>
+    <path d="M722 181C712 183 703 187 697 193C692 201 689 218 687 244L710 254L711 262C707 272 703 282 701 294Q730 301 759 294C757 282 753 272 749 262L750 254L773 244C771 218 768 201 763 193C757 187 748 183 738 181Q730 194 722 181Z" fill="url(#g-tee)"/>
     <path d="M722 181Q730 194 738 181" stroke="#1f7d72" stroke-width="2.4" fill="none"/><path d="M710 244Q730 252 750 244M704 276Q730 284 756 276" stroke="#1f7d72" stroke-width="1.4" fill="none" opacity=".35"/><path d="M700 196Q694 214 692 230" stroke="#9af0e4" stroke-width="1.8" fill="none" opacity=".4" stroke-linecap="round"/>
     <path d="M711 258C709 270 706 282 705 292" stroke="#9af0e4" stroke-width="1.8" fill="none" opacity=".25" stroke-linecap="round"/>
     <path d="M730 208Q733 216 730 222" stroke="#1f7d72" stroke-width="1" fill="none" opacity=".3"/></g>`;

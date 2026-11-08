@@ -221,8 +221,8 @@
     <path d="M714 130Q710 152 713 168Q714 184 708 198Q705 212 711 226M717 160Q716 186 716 206Q716 224 716 240" stroke="#2f1b0c" stroke-width="1" fill="none" opacity=".35"/><path d="M712 136Q709 158 712 172Q712 188 707 200" stroke="#e0bb88" stroke-width="1.4" fill="none" opacity=".55" stroke-linecap="round"/>`;
   const CAP = `<path d="M708.6 146C703 116 716 102 731 102C746 102 757 116 751.4 146C750 134 747 128 742 124C736 119.6 728 117 722 117C715 119.6 711 128 708.6 146Z" fill="url(#g-hairw)"/>
     <path d="M714 112Q724 104 740 108" stroke="#e0bb88" stroke-width="2.2" fill="none" opacity=".55" stroke-linecap="round"/><path d="M722 117Q732 121 744 126M720 116Q716 124 712 134" stroke="#2f1b0c" stroke-width="1" fill="none" opacity=".35"/>`;
-  const HAIR_BACK_LOOSE = `<path d="M707 124C698 148 695 190 692 226C690 244 694 256 700 268C706 262 710 254 713 258C716 262 719 256 722 262C726 266 730 258 730 262C732 258 735 266 738 262C741 256 744 262 747 258C750 254 754 262 760 268C766 256 770 244 768 226C765 190 762 148 753 124Z" fill="url(#g-hairw)"/>
-    <path d="M700 170Q697 210 699 244M760 170Q763 210 761 244M712 190Q711 230 714 256M748 190Q749 230 746 256" stroke="#2f1b0c" stroke-width="1.1" fill="none" opacity=".3"/>`;
+  const HAIR_BACK_LOOSE = `<path d="M707 124C698 148 695 180 693 205C691 220 695 230 701 238C706 234 710 228 713 231C716 234 719 230 722 234C726 237 730 231 730 234C732 231 735 237 738 234C741 230 744 234 747 231C750 228 754 234 759 238C765 230 769 220 767 205C765 180 762 148 753 124Z" fill="url(#g-hairw)"/>
+    <path d="M700 170Q697 196 699 222M760 170Q763 196 761 222M712 190Q711 214 714 230M748 190Q749 214 746 230" stroke="#2f1b0c" stroke-width="1.1" fill="none" opacity=".3"/>`;
   const HAIR_BACK_TIED = `<path d="M743 112C768 104 792 130 784 174C780 198 788 214 776 238C772 246 763 242 766 233C770 223 762 215 764 197C766 178 762 160 748 140Z" fill="url(#g-hairw)"/><path d="M766 122Q786 140 778 176Q774 196 780 214M758 130Q772 150 766 178" stroke="#2f1b0c" stroke-width="1.1" fill="none" opacity=".35"/><path d="M774 128Q784 150 780 176" stroke="#e0bb88" stroke-width="1.5" fill="none" opacity=".5" stroke-linecap="round"/>
     <rect x="741" y="114" width="12" height="8" rx="3.5" fill="#2f6fd1" transform="rotate(-24 747 118)"/><path d="M743 115L752 118" stroke="#9cc0f2" stroke-width="1" opacity=".8"/>`;
   const HAIR_FRONT_LOOSE = `${LOCK}${MIR(LOCK)}${CAP}`;
@@ -232,7 +232,7 @@
   const HAIR_BACK = tied => `<g>${tied ? HAIR_BACK_TIED : HAIR_BACK_LOOSE}</g>`;
 
   const HANDL = `<path d="M690 287L701.4 287C702 294 704 299 703 307C702 315 701 322 699 327C697 331 692 332 690 328C687 322 687 312 688 304C688.4 297 689.6 293 690 287Z" fill="url(#g-skin)"/><path d="M692.4 315V326M695.4 314.6L696 325.6" stroke="#b97c58" stroke-width=".7" fill="none" opacity=".6"/><path d="M702 303Q704 309 701.6 316" stroke="#b97c58" stroke-width=".8" fill="none" opacity=".5"/>`;
-  const ARMBARE = `<path d="M692 248L707 253C706 266 704 280 701.4 291C702 295 704 299 703 307C702 315 701 322 699 327C697 331 692 332 690 328C687 322 687 312 688 304C688.4 297 689.6 293 690 291C690.6 278 691 262 692 248Z" fill="url(#g-skin)"/><path d="M696.4 268Q698 273 696.4 278" stroke="#b97c58" stroke-width="1" fill="none" opacity=".35"/><path d="M692.4 315V326M695.4 314.6L696 325.6" stroke="#b97c58" stroke-width=".7" fill="none" opacity=".6"/><path d="M702 303Q704 309 701.6 316" stroke="#b97c58" stroke-width=".8" fill="none" opacity=".5"/>`;
+  const ARMBARE = `<path d="M693 234L708 238L707 253C706 266 704 280 701.4 291C702 295 704 299 703 307C702 315 701 322 699 327C697 331 692 332 690 328C687 322 687 312 688 304C688.4 297 689.6 293 690 291C690.6 278 691 262 692 248Z" fill="url(#g-skin)"/><path d="M696.4 268Q698 273 696.4 278" stroke="#b97c58" stroke-width="1" fill="none" opacity=".35"/><path d="M692.4 315V326M695.4 314.6L696 325.6" stroke="#b97c58" stroke-width=".7" fill="none" opacity=".6"/><path d="M702 303Q704 309 701.6 316" stroke="#b97c58" stroke-width=".8" fill="none" opacity=".5"/>`;
 
   const TORSO_BAD = `<g>${ARMBARE}${MIR(ARMBARE)}
     <path d="M722 181C712 183 703 187 697 193C692 201 689 218 687 244L710 254L711 262C707 272 703 282 701 294Q730 301 759 294C757 282 753 272 749 262L750 254L773 244C771 218 768 201 763 193C757 187 748 183 738 181Q730 194 722 181Z" fill="url(#g-tee)"/>
@@ -300,10 +300,10 @@
     <ellipse cx="446" cy="274" rx="32" ry="6.4" fill="#2f5a1a" opacity=".28" filter="url(#f-b2)" transform="translate(2 2)"/>
     <ellipse cx="446" cy="272.6" rx="31" ry="6.2" fill="url(#g-grn)" stroke="#5aa634" stroke-width=".8"/>
     <ellipse cx="446" cy="272.6" rx="22" ry="3.8" fill="none" stroke="#f3ffe6" stroke-width=".9" opacity=".6"/><path d="M425 271Q436 267.6 452 269" stroke="#fff" stroke-width="1.6" fill="none" opacity=".8" stroke-linecap="round"/>
-    <path d="M437 249C441 255 442 261 441 268" stroke="url(#g-grn)" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M438.4 252C441 257 441.6 262 441 266" stroke="#f3ffe6" stroke-width="1" fill="none" opacity=".8"/>
+    <path d="M442 261C446 264 447 268 446 272" stroke="url(#g-grn)" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M443 262.6C445.6 265 446 268 445.6 270" stroke="#f3ffe6" stroke-width="1" fill="none" opacity=".8"/>
     <ellipse cx="480" cy="276" rx="2.6" ry="1.2" fill="#7cc653" opacity=".9"/><ellipse cx="486" cy="272" rx="1.6" ry=".8" fill="#7cc653" opacity=".8"/><ellipse cx="410" cy="277" rx="2" ry="1" fill="#7cc653" opacity=".8"/></g>`;
   
-  const UNLABELED = `${SPILL}${bottle(380, 214, 30, 46, { c: "#8a5a2b", liq: "#b27a3c", open: true, rot: 75, level: .35 })}`;
+  const UNLABELED = `${SPILL}${bottle(380, 214, 30, 46, { c: "#8a5a2b", liq: "#b27a3c", open: true, rot: 90, level: .35 })}`;
 
   const HEATER = (good) => `<g>${cast(496, 268, 46, .3)}${contact(496, 268, 50, .5)}
     <defs>${lg("g-hbody", 0, 0, 0, 1, [[0, "#555d66"], [.2, "#363c43"], [1, "#171a1e"]])}${lg("g-hplate", 0, 0, 1, 0, [[0, "#6c7681"], [.3, "#c4ccd3"], [.6, "#8a949e"], [1, "#4c555e"]])}${rg("g-led", .5, .5, .5, [[0, good ? "#ff8a7a" : "#9dffa8"], [1, good ? "#d62d20" : "#1fb34a"]])}</defs>
@@ -359,7 +359,7 @@
   };
   const T = id => TXT[id];
   const H = [
-    { id: "polica", ...T("polica"), hot: [478, 56, 72, 66], hotGood: [418, 60, 60, 54], bad: `<g transform="rotate(10 530 108)">${H2SO4(514)}</g>`, good: H2SO4(428, 0) + `<g transform="translate(0 8)">${RAIL}</g>` },
+    { id: "polica", ...T("polica"), hot: [478, 56, 72, 66], hotGood: [418, 60, 60, 54], bad: H2SO4(507), good: H2SO4(428, 0) + `<g transform="translate(0 8)">${RAIL}</g>` },
     { id: "aparat", ...T("aparat"), hot: [24, 138, 96, 156], hotGood: [24, 138, 86, 150], bad: BOXES, good: "" },
     { id: "etanol", ...T("etanol"), hot: [96, 184, 150, 112], hotGood: [96, 196, 150, 100], bad: warm + FLAME(150, 248) + ETHANOL(true) + VAPOR + `<ellipse cx="238" cy="293" rx="8" ry="2.6" fill="#c04f2f"/><ellipse cx="238" cy="291.6" rx="8" ry="2.6" fill="#e0643f"/>`, good: ETHANOL(false) },
     { id: "hrana", ...T("hrana"), hot: [258, 234, 98, 52], hotGood: [262, 240, 104, 54], bad: FOOD, good: NOTE },

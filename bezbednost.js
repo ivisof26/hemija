@@ -89,38 +89,33 @@
       <rect x="560" y="146" width="54" height="9" rx="5" fill="#fff" opacity=".7"/><path d="M587 155v22M576 166h22" stroke="#1f9a56" stroke-width="7" stroke-linecap="round"/><path d="M587 155v22" stroke="#46c27f" stroke-width="2" opacity=".6"/>
       <rect x="581" y="181" width="12" height="3.4" rx="1.7" fill="#aab3ad"/></g>
     
-    <!-- Знак за ПП апарат (ISO Standard: Црвен квадрат со бел пламен и апарат) -->
-    <g transform="translate(680, 50)">
-      <rect x="0" y="0" width="76" height="76" rx="4" fill="#c4291b" stroke="#ffffff" stroke-width="2"/>
-      <rect x="2" y="2" width="72" height="72" rx="3" fill="none" stroke="#a21d11" stroke-width="1.5"/>
-      <!-- Апарат икона -->
-      <rect x="36" y="24" width="18" height="36" rx="3" fill="#ffffff"/>
-      <rect x="41" y="18" width="8" height="6" rx="1" fill="#ffffff"/>
-      <path d="M38 18h14v3H38z" fill="#ffffff"/>
-      <path d="M48 21c6 0 10 4 10 9" stroke="#ffffff" stroke-width="3" fill="none"/>
-      <!-- Пламен икона -->
-      <path d="M22 58c-6 0-10-5-10-11c0-7 7-12 10-21c3 8 10 14 10 21c0 6-4 11-10 11z" fill="#ffffff"/>
-      <!-- Текст -->
-      <rect x="6" y="62" width="64" height="10" rx="1" fill="#ffffff"/>
-      <text x="38" y="69.5" font-family="Arial, sans-serif" font-weight="bold" font-size="7.5" fill="#c4291b" text-anchor="middle">ПП АПАРАТ</text>
+    <!-- Знак за ПП апарат преместен лево (ISO Standard) -->
+    <g transform="translate(45, 140)">
+      <rect x="0" y="0" width="50" height="50" rx="4" fill="#c4291b" stroke="#ffffff" stroke-width="2"/>
+      <rect x="2" y="2" width="46" height="46" rx="3" fill="none" stroke="#a21d11" stroke-width="1"/>
+      <rect x="24" y="14" width="12" height="24" rx="2" fill="#ffffff"/>
+      <rect x="27" y="10" width="6" height="4" rx="1" fill="#ffffff"/>
+      <path d="M32 12c4 0 7 3 7 6" stroke="#ffffff" stroke-width="2" fill="none"/>
+      <path d="M14 38c-4 0-7-3-7-7c0-5 5-8 7-14c2 6 7 9 7 14c0 4-3 7-7 7z" fill="#ffffff"/>
+      <rect x="4" y="40" width="42" height="7" rx="1" fill="#ffffff"/>
+      <text x="25" y="45.5" font-family="Arial, sans-serif" font-weight="bold" font-size="5" fill="#c4291b" text-anchor="middle">ПП АПАРАТ</text>
     </g>
 
-    <!-- ПП апарат со правилно црно црево и млазница -->
+    <!-- ПП апарат преместен лево зад кутиите -->
     <g>
-      <rect x="712" y="191" width="22" height="76" rx="9" fill="#000" opacity=".3" filter="url(#f-b2)" transform="translate(5 3)"/>
-      <rect x="711" y="190" width="22" height="76" rx="9" fill="url(#g-red)"/>
-      <rect x="711" y="190" width="22" height="22" rx="9" fill="#000" opacity=".12"/>
-      <rect x="715" y="196" width="3" height="62" rx="1.5" fill="#fff" opacity=".42"/>
-      <rect x="717" y="179" width="10" height="14" rx="2" fill="url(#g-metal)"/>
-      <path d="M713 179h18" stroke="#2c3238" stroke-width="4" stroke-linecap="round"/>
-      <!-- Црно црево обвиткано/со поставена млазница -->
-      <path d="M728 183 c16 2 24 18 20 34 c-4 14-18 20-20 36 c-2 12 8 18 8 26" stroke="#16191c" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <path d="M736 270 l-4 14 h8 z" fill="#16191c"/>
-      <circle cx="722" cy="209" r="5.4" fill="#f3f3ee" stroke="#8b8f92" stroke-width="1.2"/>
-      <path d="M722 209l2.6 -2.6" stroke="#c4291b" stroke-width="1.2"/>
-      <rect x="714" y="228" width="16" height="16" rx="1.5" fill="#f8f6ee"/>
-      <path d="M722 231c-3 3 -2 6 0 9c3 -3 3 -6 0 -9z" fill="#c4291b"/>
-      <rect x="709" y="218" width="26" height="6" rx="2" fill="#2c3238"/>
+      <rect x="58" y="201" width="22" height="76" rx="9" fill="#000" opacity=".3" filter="url(#f-b2)" transform="translate(5 3)"/>
+      <rect x="57" y="200" width="22" height="76" rx="9" fill="url(#g-red)"/>
+      <rect x="57" y="200" width="22" height="22" rx="9" fill="#000" opacity=".12"/>
+      <rect x="61" y="206" width="3" height="62" rx="1.5" fill="#fff" opacity=".42"/>
+      <rect x="63" y="189" width="10" height="14" rx="2" fill="url(#g-metal)"/>
+      <path d="M59 189h18" stroke="#2c3238" stroke-width="4" stroke-linecap="round"/>
+      <path d="M74 193 c16 2 24 18 20 34 c-4 14-18 20-20 36 c-2 12 8 18 8 26" stroke="#16191c" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M82 280 l-4 14 h8 z" fill="#16191c"/>
+      <circle cx="68" cy="219" r="5.4" fill="#f3f3ee" stroke="#8b8f92" stroke-width="1.2"/>
+      <path d="M68 219l2.6 -2.6" stroke="#c4291b" stroke-width="1.2"/>
+      <rect x="60" y="238" width="16" height="16" rx="1.5" fill="#f8f6ee"/>
+      <path d="M68 241c-3 3 -2 6 0 9c3 -3 3 -6 0 -9z" fill="#c4291b"/>
+      <rect x="55" y="228" width="26" height="6" rx="2" fill="#2c3238"/>
     </g>
 
     <!-- маса: фиоки и врати -->
@@ -191,7 +186,6 @@
     <path d="M${cx - 9} ${by - 74}q6 -8 0 -16t2 -16M${cx + 6} ${by - 78}q6 -8 0 -16t2 -14" stroke="#fff" stroke-width="2.4" fill="none" opacity=".16" filter="url(#f-b1)"/></g>`;
   const FLAME_DEFS = `${lg("g-fl1", 0, 1, 0, 0, [[0, "#3a7bd8", .9], [.25, "#ff9a2e", .9], [.7, "#ffd35a", .75], [1, "#fff3b0", .0]])}${lg("g-fl2", 0, 1, 0, 0, [[0, "#2f6fe0"], [.5, "#6fb6ff"], [1, "#d7efff", .3]])}`;
 
-  // Горелка со црево поврзано за гасна боца под масата
   const GAS_BOTTLE = `
     <g transform="translate(240, 310)">
       <rect x="0" y="20" width="60" height="70" rx="15" fill="url(#g-tank)"/>
@@ -204,7 +198,6 @@
   const BURNER = `<defs>${FLAME_DEFS}${lg("g-brass", 0, 0, 1, 0, [[0, "#6b4f1c"], [.3, "#e8c670"], [.55, "#b48a30"], [1, "#4d3510"]])}${lg("g-hose", 0, 0, 0, 1, [[0, "#2d4a3a"], [.4, "#59806a"], [1, "#1c2f24"]])}</defs>
     ${GAS_BOTTLE}
     ${cast(150, 290, 20, .32)}${contact(150, 290, 24, .55)}
-    <!-- Црево од горелка до боца -->
     <path d="M150 280 C 130 310, 180 340, 267 320" stroke="#1c2f24" stroke-width="6" fill="none" stroke-linecap="round"/>
     <path d="M150 280 C 130 310, 180 340, 267 320" stroke="#59806a" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
     <ellipse cx="150" cy="288" rx="22" ry="5.4" fill="url(#g-metal)"/><ellipse cx="150" cy="286" rx="20" ry="4.6" fill="#8a96a1"/><ellipse cx="150" cy="284.4" rx="12" ry="3" fill="#cdd5dc"/>
@@ -272,10 +265,9 @@
   const LEG_BARE = `<path d="${LEGL_PATH}" fill="url(#g-skin)"/><path d="${LEGL_PATH}" fill="none" stroke="#b97c58" stroke-width=".9" opacity=".4"/><ellipse cx="716" cy="403" rx="6" ry="4.4" fill="#e3b08c" opacity=".35"/><path d="M708 340Q706 368 711 392" stroke="#fff" stroke-width="2.2" fill="none" opacity=".3" stroke-linecap="round"/><path d="M705 424Q706 442 711 456" stroke="#fff" stroke-width="1.8" fill="none" opacity=".25" stroke-linecap="round"/><path d="M724 420Q725 440 724 458" stroke="#a8704c" stroke-width="1.6" fill="none" opacity=".25"/>`;
   const SANDAL_F = `<path d="M712 477Q712 475 716 475H724Q728 475 729 478L731 488Q732 493 729 495H712Q708 493 709 488Z" fill="url(#g-skin)"/>
     <path d="M711.6 495.4Q710 495 710.4 493.4" stroke="none"/><ellipse cx="712.4" cy="492.8" rx="1.9" ry="2.4" fill="#f0c8a8"/><ellipse cx="716.4" cy="493.6" rx="1.8" ry="2.4" fill="#f0c8a8"/><ellipse cx="720.4" cy="494" rx="1.7" ry="2.3" fill="#f0c8a8"/><ellipse cx="724.4" cy="493.6" rx="1.6" ry="2.2" fill="#f0c8a8"/><ellipse cx="728" cy="492.6" rx="1.5" ry="2" fill="#f0c8a8"/>
-    <path d="M707 497.4Q707 495.6 710 495.6H731Q734 495.6 733.6 497.6Q733 499.4 730 499.4H710Q707 499.4 707 499.4Z" fill="#7b4a1c"/><path d="M710 496.2H731" stroke="#b07a42" stroke-width=".8" opacity=".8"/>
+    <path d="M707 497.4Q707 495.6 710 495.6H731Q734 495.6 733.6 497.6Q733 499.4 730 499.4H710Q707 499.4 707 497.4Z" fill="#7b4a1c"/><path d="M710 496.2H731" stroke="#b07a42" stroke-width=".8" opacity=".8"/>
     <path d="M710.4 484.4Q720 481 730 484.4" stroke="#a86022" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M720 482.6V491" stroke="#a86022" stroke-width="2" stroke-linecap="round"/>`;
   
-  // Подолга сукња (престилка/сукња што се протега подолу од колената)
   const SKIRT_LONG = `<path d="M692 288Q730 298 768 288L774 415Q730 425 686 415Z" fill="url(#g-den)" stroke="#2c4e72" stroke-width="1.2"/>
     <path d="M688 413Q730 423 772 413" stroke="#aac8e2" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>`;
   
@@ -372,12 +364,13 @@
     <path d="M338 470l4 -9M352 470l6 -4" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".9"/><path d="M320 470l0 -6M317 467h6" stroke="#fff" stroke-width="1.2" opacity=".9"/><path d="M381 474l0 -5M378.5 471.5h5" stroke="#fff" stroke-width="1.1" opacity=".9"/>
     <path d="M308 492Q340 500 378 494" stroke="#bcd8e6" stroke-width="2.2" fill="none" opacity=".6" stroke-linecap="round"/></g>`;
   
+  // Кутии поставени на масата лево, пред ПП апаратот
   const BOXES = `<g>${contact(78, 268, 60, .5)}<ellipse cx="78" cy="226" rx="52" ry="48" fill="#000" opacity=".18" filter="url(#f-b4)" transform="translate(16 6)"/>
     ${box(32, 214, 82, 54, { d: 14 })}${box(40, 170, 68, 44, { d: 12, rot: -2 })}${box(50, 132, 56, 38, { d: 10, rot: 5 })}</g>`;
 
   const TXT = {
     "polica": { "name": "Тешко шише на работ од полицата", "why": "Тешко шише со киселина е на самиот раб од полицата и може да падне, да се скрши и да се излее.", "fix": "Тешките и опасни шишиња се чуваат ниско и позади, на полица со раб што ги задржува.", "ok": "Шишето е сигурно позади на полицата, зад заштитен раб." },
-    "aparat": { "name": "Блокиран апарат за гаснење", "why": "Апаратот за гаснење е закопан зад кутии. Во итна ситуација нема време за поместување.", "fix": "Патот до апаратот, тушот за итни случаи и излезот мора секогаш да се слободни.", "ok": "Апаратот за гаснење е на видливо место и пристапот е слободен." },
+    "aparat": { "name": "Блокиран апарат за гаснење", "why": "Апаратот за гаснење овде е блокиран зад наредени кутии. Во итна ситуација нема брз пристап до него.", "fix": "Патот до апаратот за гаснење мора да биде секогаш слободен и видлив.", "ok": "Апаратот за гаснење е на видливо место и пристапот е слободен." },
     "etanol": { "name": "Отворен етанол покрај пламен", "why": "Шишето со лесно запалив етанол е отворено веднаш до запалена горелка. Пареите можат да се запалат.", "fix": "Запаливите течности се држат затворени и далеку од пламен. Горелката се пали само кога е потребна.", "ok": "Горелката е изгасната, а шишето со етанол е затворено." },
     "hrana": { "name": "Храна и пијалок во лабораторија", "why": "Сендвич и чаша на работната маса. Храната може да се загади со хемикалии.", "fix": "Во лабораторија не се јаде, не се пие и не се чуваат прибор за јадење или храна.", "ok": "На масата има само тетратка и молив." },
     "bezetiketa": { "name": "Шише без етикета и истурена течност", "why": "Шишето нема етикета, а од него се излева течност. Не се знае што е.", "fix": "Секое шише има етикета (име, концентрација, ознака за опасност), а излеаното се чисти веднаш по упатство.", "ok": "Шишето е затворено и означено." },
@@ -392,7 +385,7 @@
   const T = id => TXT[id];
   const H = [
     { id: "polica", ...T("polica"), hot: [478, 56, 72, 66], hotGood: [418, 60, 60, 54], bad: `<g transform="rotate(10 530 108)">${H2SO4(514)}</g>`, good: H2SO4(428, 0) + `<g transform="translate(0 8)">${RAIL}</g>` },
-    { id: "aparat", ...T("aparat"), hot: [24, 138, 96, 156], hotGood: [24, 138, 86, 150], bad: BOXES, good: "" },
+    { id: "aparat", ...T("aparat"), hot: [30, 130, 96, 140], hotGood: [30, 130, 96, 140], bad: BOXES, good: "" },
     { id: "etanol", ...T("etanol"), hot: [96, 184, 150, 112], hotGood: [96, 196, 150, 100], bad: warm + FLAME(150, 248) + ETHANOL(true) + VAPOR + `<ellipse cx="238" cy="293" rx="8" ry="2.6" fill="#c04f2f"/><ellipse cx="238" cy="291.6" rx="8" ry="2.6" fill="#e0643f"/>`, good: ETHANOL(false) },
     { id: "hrana", ...T("hrana"), hot: [258, 234, 98, 52], hotGood: [262, 240, 104, 54], bad: FOOD, good: NOTE },
     { id: "bezetiketa", ...T("bezetiketa"), hot: [372, 222, 108, 92], hotGood: [372, 216, 50, 56], bad: UNLABELED, good: bottle(380, 222, 30, 46, { c: "#a9c3cf", liq: "#ead9a0", label: "HCl 1M", fs: 5.4, cap: "#1b1b1b", level: .55 }) },
@@ -524,7 +517,6 @@
   }
 
   function start() {
-    // Случаен избор на 8 опасни грешки од листата од 12 можни варијанти
     active = shuffle(H).slice(0, N_BAD);
     found = new Set(); wrong = 0; hints = 0; over = false; streak = 0;
     $("sf-list").replaceChildren();

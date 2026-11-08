@@ -1,12 +1,12 @@
-// Игра „Лабораториска безбедност“ - Нов модерен стил
+// Игра „Лабораториска безбедност“ - Исправен и уреден изглед
 (function () {
   const svg = document.getElementById("sf-svg");
   if (!svg) return;
   const $ = id => document.getElementById(id);
-  const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]][a[j], a[i]]; } return a; };
+  const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; };
 
-  // Дефиниција на сите опасности и нивните интерактивни зони [x, y, w, h]
+  // Дефиниција на сите опасности и нивните прецизни зони
   const H = [
     {
       id: "polica",
@@ -14,7 +14,7 @@
       why: "Шишето со киселина е на самиот раб и може лесно да падне и да се скрши.",
       fix: "Чувајте ги тешките шишиња на пониски полици и длабоко навнатре.",
       hot: [460, 45, 90, 60],
-      bad: `<rect x="470" y="50" width="40" height="50" rx="6" fill="#a0522d"/><text x="490" y="80" fill="#fff" font-size="10" text-anchor="middle" font-weight="bold">H₂SO₄</text><path d="M490 50 L520 30" stroke="#ff4500" stroke-width="3" stroke-dasharray="4"/>`,
+      bad: `<rect x="470" y="50" width="40" height="50" rx="6" fill="#a0522d"/><text x="490" y="80" fill="#fff" font-size="10" text-anchor="middle" font-weight="bold">H₂SO₄</text>`,
       good: `<rect x="470" y="65" width="40" height="35" rx="6" fill="#2e8b57"/><text x="490" y="88" fill="#fff" font-size="10" text-anchor="middle" font-weight="bold">H₂SO₄</text><rect x="460" y="95" width="110" height="5" fill="#4682b4" rx="2"/>`
     },
     {
@@ -49,8 +49,8 @@
       name: "Торба поставена во премин",
       why: "Ранецот на подот го блокира патот за итна евакуација и предизвикува сопнување.",
       fix: "Личните работи се оставаат строго на предвидените гардероби или полици.",
-      hot: [80, 380, 80, 90],
-      bad: `<rect x="90" y="390" width="60" height="70" rx="15" fill="#b22222"/><rect x="105" y="380" width="30" height="15" rx="5" fill="#8b0000"/>`,
+      hot: [80, 400, 70, 70],
+      bad: `<rect x="90" y="405" width="55" height="60" rx="12" fill="#b22222"/><rect x="100" y="395" width="35" height="12" rx="4" fill="#8b0000"/>`,
       good: ``
     },
     {
@@ -67,65 +67,62 @@
       name: "Нема заштитни очила и косата е пуштена",
       why: "Очите и лицето се незаштитени од прскање на киселини, а косата може да се запали.",
       fix: "Задолжително се носат заштитни очила, а долгата коса мора да биде стегната.",
-      hot: [650, 90, 70, 75],
-      bad: `<circle cx="685" cy="125" r="22" fill="#f5d0b1"/><path d="M660 100 Q685 80 710 110 Q715 150 685 150 Q655 150 660 100" fill="#8b4513"/>`,
-      good: `<circle cx="685" cy="125" r="22" fill="#f5d0b1"/><rect x="665" y="115" width="40" height="15" rx="3" fill="#1e90ff" opacity="0.6"/><path d="M685 100 Q710 110 705 130" fill="#333"/>`
+      hot: [635, 110, 60, 60],
+      bad: `<circle cx="665" cy="140" r="18" fill="#f5d0b1"/><path d="M645 120 Q665 105 685 130 Q690 160 665 160 Q640 160 645 120" fill="#8b4513"/>`,
+      good: `<circle cx="665" cy="140" r="18" fill="#f5d0b1"/><rect x="650" y="132" width="30" height="12" rx="3" fill="#1e90ff" opacity="0.6"/><path d="M665 125 Q685 135 680 145" fill="#333"/>`
     },
     {
       id: "mantil",
       name: "Нема заштитен мантил (кратки ракави)",
       why: "Кожата на рацете е изложена на директен контакт со опасни хемикалии.",
       fix: "Задолжително се носи закопчан бел памучен лабораториски мантил.",
-      hot: [635, 165, 100, 110],
-      bad: `<path d="M650 170 L720 170 L710 270 L660 270 Z" fill="#20b2aa"/>`,
-      good: `<path d="M645 170 L725 170 L730 280 L640 280 Z" fill="#ffffff" stroke="#ccc" stroke-width="2"/>`
+      hot: [620, 175, 90, 120],
+      bad: `<path d="M630 180 L700 180 L695 295 L635 295 Z" fill="#20b2aa"/>`,
+      good: `<path d="M625 180 L705 180 L710 300 L620 300 Z" fill="#ffffff" stroke="#ccc" stroke-width="2"/>`
     },
     {
       id: "chevli",
-      name: "Отворени сандали и кратки панталони",
+      name: "Отворени сандали и долги панталони",
       why: "Нозете се потполно незаштитени при истурање на хемикалии или стакло.",
-      fix: "Во лабораторија се влегува само со затворени чевли и долги панталони/здолниште без отвори.",
-      hot: [640, 275, 90, 200],
-      bad: `<path d="M660 280 L710 280 L705 360 L665 360 Z" fill="#4682b4"/><rect x="670" y="360" width="35" height="100" fill="#f5d0b1"/><rect x="665" y="455" width="45" height="20" fill="#a0522d" rx="5"/>`,
-      good: `<path d="M655 280 L715 280 L710 450 L660 450 Z" fill="#2f4f4f"/><rect x="662" y="450" width="48" height="25" rx="6" fill="#111"/>`
+      fix: "Во лабораторија се влегува само со затворени чевли и соодветна облека.",
+      hot: [625, 300, 80, 190],
+      bad: `<path d="M635 300 L695 300 L690 480 L640 480 Z" fill="#2f4f4f"/><rect x="642" y="475" width="48" height="18" rx="5" fill="#a0522d"/>`,
+      good: `<path d="M635 300 L695 300 L690 480 L640 480 Z" fill="#2f4f4f"/><rect x="642" y="478" width="48" height="15" rx="5" fill="#111"/>`
     }
   ];
 
-  const N_BAD = 6; // Број на активни грешки во една игра
+  const N_BAD = 6;
   let active = [], found = new Set(), wrong = 0, hints = 0, over = false;
 
   function drawScene() {
     const badIds = new Set(active.map(h => h.id));
     
-    // Основни позадински елементи (Модерен чист векторски изглед)
     let bgHTML = `
       <rect width="800" height="500" fill="#faf9f6"/>
-      <!-- Позадински ѕид и плочки -->
+      <!-- Позадински ѕид и под -->
       <rect x="0" y="0" width="800" height="350" fill="#f0edf4"/>
       <line x1="0" y1="350" x2="800" y2="350" stroke="#d1c4e9" stroke-width="4"/>
       <rect x="0" y="350" width="800" height="150" fill="#e0e0e0"/>
       
-      <!-- Прозорец -->
+      <!-- Прозорец (центриран и правилен) -->
       <rect x="80" y="40" width="160" height="140" rx="8" fill="#e3f2fd" stroke="#b0bec5" stroke-width="4"/>
       <line x1="160" y1="40" x2="160" y2="180" stroke="#b0bec5" stroke-width="3"/>
       <line x1="80" y1="110" x2="240" y2="110" stroke="#b0bec5" stroke-width="3"/>
 
       <!-- Полици на ѕид -->
       <rect x="430" y="105" width="220" height="12" fill="#bcaaa4" rx="2"/>
-      <rect x="430" y="210" width="220" height="12" fill="#bcaaa4" rx="2"/>
+      <rect x="430" y="220" width="220" height="12" fill="#bcaaa4" rx="2"/>
       
       <!-- Работна клупа / маса -->
       <rect x="100" y="270" width="480" height="80" fill="#cfd8dc" rx="4"/>
       <rect x="100" y="260" width="480" height="15" fill="#90a4ae" rx="2"/>
     `;
 
-    // Рендерирање на елементите (грешка или исправена состојба)
     H.forEach(item => {
       const isBad = badIds.has(item.id);
       bgHTML += `<g id="item-${item.id}">${isBad ? item.bad : item.good}</g>`;
     });
 
-    // Контејнер за маркери и кликови
     bgHTML += `<g id="sf-marks"></g>`;
     svg.innerHTML = bgHTML;
     svg.setAttribute("viewBox", "0 0 800 500");
@@ -172,8 +169,6 @@
   svg.addEventListener("click", e => {
     if (over) return;
     const p = point(e);
-    
-    // Провери дали е кликната некоја активна опасност
     const hit = active.find(h => inRect(p, h.hot));
     
     if (hit) {
@@ -187,7 +182,6 @@
       addToList(hit);
       counters();
       
-      // Ажурирај го приказот за оваа точка да стагне во „добра“ состојба
       const group = $(`item-${hit.id}`);
       if (group) group.innerHTML = hit.good;
 
@@ -195,7 +189,6 @@
       return;
     }
 
-    // Ако е кликнато на празно место (грешка)
     wrong++;
     counters();
     info("Тука нема безбедносна грешка. Продолжи да бараш внимателно!", "ok");
@@ -211,14 +204,10 @@
     
     const [x, y, w, hh] = h.hot;
     const hintBox = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    hintBox.setAttribute("x", x);
-    hintBox.setAttribute("y", y);
-    hintBox.setAttribute("width", w);
-    hintBox.setAttribute("height", hh);
-    hintBox.setAttribute("rx", "8");
-    hintBox.setAttribute("fill", "none");
-    hintBox.setAttribute("stroke", "#ffeb3b");
-    hintBox.setAttribute("stroke-width", "4");
+    hintBox.setAttribute("x", x); hintBox.setAttribute("y", y);
+    hintBox.setAttribute("width", w); hintBox.setAttribute("height", hh);
+    hintBox.setAttribute("rx", "8"); hintBox.setAttribute("fill", "none");
+    hintBox.setAttribute("stroke", "#ffeb3b"); hintBox.setAttribute("stroke-width", "4");
     hintBox.setAttribute("stroke-dasharray", "6");
     svg.querySelector("#sf-marks").appendChild(hintBox);
     setTimeout(() => hintBox.remove(), 2500);
@@ -234,20 +223,17 @@
       const group = $(`item-${h.id}`);
       if (group) group.innerHTML = h.good;
     });
-    info("Ги прикажав сите преостанати опасности (означени со !). Проучи ги правилата и започни нова игра.", "bad");
+    info("Ги прикажав сите преостанати опасности (означени со !).", "bad");
   });
 
   function finish() {
     over = true;
-    info(`<b>Честитки! Ги најде сите ${active.length} опасности! 🎉</b><br>Играта е успешно завршена со ${wrong} грешки и ${hints} совети.`, "good");
+    info(`<b>Честитки! Ги најде сите ${active.length} опасности! 🎉</b>`, "good");
   }
 
   function start() {
     active = shuffle(H).slice(0, N_BAD);
-    found = new Set();
-    wrong = 0;
-    hints = 0;
-    over = false;
+    found = new Set(); wrong = 0; hints = 0; over = false;
     $("sf-list").replaceChildren();
     drawScene();
     counters();

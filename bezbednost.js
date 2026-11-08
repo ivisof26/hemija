@@ -91,7 +91,9 @@
       <rect x="560" y="146" width="54" height="9" rx="5" fill="#fff" opacity=".7"/><path d="M587 155v22M576 166h22" stroke="#1f9a56" stroke-width="7" stroke-linecap="round"/><path d="M587 155v22" stroke="#46c27f" stroke-width="2" opacity=".6"/>
       <rect x="581" y="181" width="12" height="3.4" rx="1.7" fill="#aab3ad"/></g>
     <!-- апарат за гаснење -->
-    <g><rect x="40" y="138" width="36" height="30" rx="3" fill="#000" opacity=".25" filter="url(#f-b2)" transform="translate(3 4)"/><rect x="38" y="136" width="36" height="30" rx="3" fill="#1f9a56"/><rect x="38" y="136" width="36" height="30" rx="3" fill="none" stroke="#fff" stroke-width="2"/><path d="M56 142c-8 8 -6 14 0 19c6 -5 8 -11 0 -19z" fill="#fff"/></g>
+    <g><rect x="40" y="136" width="34" height="34" rx="3" fill="#000" opacity=".25" filter="url(#f-b2)" transform="translate(3 4)"/><g transform="translate(38 132) scale(.36)"><rect width="100" height="100" rx="5" fill="#a61f1d"/><rect x="2.5" y="2.5" width="95" height="95" rx="4" fill="none" stroke="#fff" stroke-width="3"/>
+      <path d="M20 46Q20 38 30 35H42Q52 38 52 46V90H20Z" fill="#fff"/><rect x="28" y="22" width="16" height="12" fill="#fff"/><path d="M16 42V30Q16 24 24 20L32 12H48V20H36L26 28V42Z" fill="#fff"/><rect x="26" y="54" width="20" height="14" fill="#a61f1d"/>
+      <path d="M60 48Q74 50 80 36Q82 50 92 54V66Q72 66 60 48Z" fill="#fff"/><path d="M60 70Q74 70 84 58Q86 70 92 74V84Q72 84 60 70Z" fill="#fff"/><path d="M62 88Q72 84 80 78Q82 86 92 88V92H62Z" fill="#fff"/></g></g>
     <g><rect x="48" y="191" width="22" height="76" rx="9" fill="#000" opacity=".3" filter="url(#f-b2)" transform="translate(5 3)"/>
       <rect x="47" y="190" width="22" height="76" rx="9" fill="url(#g-red)"/><rect x="47" y="190" width="22" height="22" rx="9" fill="#000" opacity=".12"/><rect x="51" y="196" width="3" height="62" rx="1.5" fill="#fff" opacity=".42"/>
       <rect x="53" y="179" width="10" height="14" rx="2" fill="url(#g-metal)"/><path d="M49 179h18" stroke="#2c3238" stroke-width="4" stroke-linecap="round"/><path d="M65 183q16 0 18 16t-5 17" stroke="#16191c" stroke-width="3.4" fill="none"/>
@@ -168,8 +170,12 @@
 
   const BURNER = `<defs>${FLAME_DEFS}${lg("g-brass", 0, 0, 1, 0, [[0, "#6b4f1c"], [.3, "#e8c670"], [.55, "#b48a30"], [1, "#4d3510"]])}${lg("g-hose", 0, 0, 0, 1, [[0, "#2d4a3a"], [.4, "#59806a"], [1, "#1c2f24"]])}</defs>
     ${cast(150, 290, 20, .32)}${contact(150, 290, 24, .55)}
-    <path d="M160 288q22 4 38 -2t34 6" stroke="#0a120d" stroke-width="7" fill="none" stroke-linecap="round" opacity=".35" filter="url(#f-b2)" transform="translate(0 4)"/>
-    <path d="M160 286q22 4 38 -2t34 6" stroke="url(#g-hose)" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M160 284q22 4 38 -2t34 6" stroke="#9ec0ab" stroke-width="1.4" fill="none" opacity=".5" stroke-linecap="round"/>
+    ${cast(244, 262, 16, .3)}${contact(244, 262, 14, .55)}
+    <path d="M160 289C188 298 214 292 224 270C228 254 226 238 237 231" stroke="#0a120d" stroke-width="7" fill="none" stroke-linecap="round" opacity=".35" filter="url(#f-b2)" transform="translate(0 4)"/>
+    <path d="M160 287C188 296 214 290 224 268C228 252 226 236 237 229" stroke="url(#g-hose)" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M160 285C188 294 214 288 224 266C228 250 226 234 237 227" stroke="#9ec0ab" stroke-width="1.4" fill="none" opacity=".5" stroke-linecap="round"/>
+    <defs>${lg("g-gas", 0, 0, 1, 0, [[0, "#3c5d78"], [.35, "#7fb0d4"], [.6, "#4f7fa3"], [1, "#2b455b"]])}</defs>
+    <rect x="233" y="232" width="22" height="30" rx="5" fill="url(#g-gas)"/><rect x="233" y="244" width="22" height="9" fill="#f3f3ee" opacity=".9"/><path d="M233 244h22M233 253h22" stroke="#2b455b" stroke-width=".7" opacity=".6"/><rect x="236" y="236" width="3" height="22" rx="1.5" fill="#fff" opacity=".35"/>
+    <rect x="238.4" y="225" width="13" height="8" rx="2" fill="url(#g-brass)"/><rect x="241" y="220" width="8" height="6" rx="1.6" fill="#c4291b"/><rect x="234" y="226.6" width="6" height="4" rx="1.4" fill="url(#g-brass)"/>
     <ellipse cx="150" cy="288" rx="22" ry="5.4" fill="url(#g-metal)"/><ellipse cx="150" cy="286" rx="20" ry="4.6" fill="#8a96a1"/><ellipse cx="150" cy="284.4" rx="12" ry="3" fill="#cdd5dc"/>
     <rect x="145" y="246" width="10" height="40" rx="1.6" fill="url(#g-metal)"/><rect x="142" y="266" width="16" height="9" rx="1.6" fill="url(#g-brass)"/><path d="M142 270h16" stroke="#000" stroke-width=".8" opacity=".35"/>
     <ellipse cx="150" cy="246" rx="5.4" ry="1.7" fill="#2a2f35"/><ellipse cx="150" cy="245.6" rx="4" ry="1.1" fill="#0b0e11"/>
@@ -225,8 +231,8 @@
   const HEAD = tied => `<g>${FACE}${tied ? HAIR_FRONT_TIED + GOGGLES : HAIR_FRONT_LOOSE}</g>`;
   const HAIR_BACK = tied => `<g>${tied ? HAIR_BACK_TIED : HAIR_BACK_LOOSE}</g>`;
 
-  const HANDL = `<path d="M688 298C686 308 687 319 690 325C692 328.4 696 327 698 322C700 315 699 306 699 298Z" fill="url(#g-skin)"/><path d="M692.6 313V324M695.8 312.4L696 322.6" stroke="#b97c58" stroke-width=".7" fill="none" opacity=".6"/><path d="M699 301C701.6 307 701.6 313 699 318" stroke="#b97c58" stroke-width=".8" fill="none" opacity=".5"/>`;
-  const ARMBARE = `<path d="M693 234L707 239C705 258 702 278 700 299L688 298C689 280 691 256 693 234Z" fill="url(#g-skin)"/><path d="M697 258Q699 262 696 268" stroke="#b97c58" stroke-width="1" fill="none" opacity=".4"/>${HANDL}`;
+  const HANDL = `<path d="M689 289C688 302 687 312 689 321C690 327 694 330 697 328C700 326 701 321 701 316C702 309 701 301 700 289Z" fill="url(#g-skin)"/><path d="M700 300C704 304 705 311 703 317C702 320 700.6 321 700 320" fill="url(#g-skin)" stroke="#b97c58" stroke-width=".7"/><path d="M692.6 314V325M695.6 313.4L696 324.6" stroke="#b97c58" stroke-width=".7" fill="none" opacity=".6"/>`;
+  const ARMBARE = `<path d="M692 236L707 240C706 258 704 276 702 297L689 297C690 276 691 256 692 236Z" fill="url(#g-skin)"/><path d="M696 256Q698 262 696 268" stroke="#b97c58" stroke-width="1" fill="none" opacity=".35"/>${HANDL}`;
 
   const TORSO_BAD = `<g>${ARMBARE}${MIR(ARMBARE)}
     <path d="M722 181C712 183 703 187 697 193C692 201 689 216 688 232L709 240L710 252C706 266 702 280 701 294Q730 301 759 294C758 280 754 266 750 252L751 240L772 232C771 216 768 201 763 193C757 187 748 183 738 181Q730 194 722 181Z" fill="url(#g-tee)"/>
@@ -249,7 +255,7 @@
     <path d="M714 478.6H726M713.4 482H726.6M712.6 485.4H727.4" stroke="#e8e8e8" stroke-width="1.2" stroke-linecap="round"/><path d="M714 476Q720 474.4 726 476" stroke="#fff" stroke-width="1" fill="none" opacity=".35"/>`;
   const LEGS_GOOD = `<g>${FLOOR_SH}${TRS_L}${MIR(TRS_L)}${SHOE_F}${MIR(SHOE_F)}</g>`;
 
-  const COAT_SLEEVE = `<path d="M694 196C689 220 686 262 683 298L700 302C702 270 706 244 710 224Z" fill="url(#g-coat)" stroke="#c4ccd4" stroke-width="1"/><path d="M692 214C688 240 686 266 684 292" stroke="#fff" stroke-width="2" fill="none" opacity=".6" stroke-linecap="round"/><path d="M697 240Q701 250 699 262" stroke="#b9c3cc" stroke-width="1.2" fill="none" opacity=".6"/><path d="M683 293L700 297V304L683 300Z" fill="#e3e9ee" stroke="#c4ccd4" stroke-width=".8"/>${HANDL.replace(/684 298/, "684 301")}`;
+  const COAT_SLEEVE = `<g transform="translate(-1.5 2)">${HANDL}</g><path d="M694 196C689 220 686 262 683 298L700 302C702 270 706 244 710 224Z" fill="url(#g-coat)" stroke="#c4ccd4" stroke-width="1"/><path d="M692 214C688 240 686 266 684 292" stroke="#fff" stroke-width="2" fill="none" opacity=".6" stroke-linecap="round"/><path d="M697 240Q701 250 699 262" stroke="#b9c3cc" stroke-width="1.2" fill="none" opacity=".6"/><path d="M683 293L700 297V304L683 300Z" fill="#e3e9ee" stroke="#c4ccd4" stroke-width=".8"/>`;
   const TORSO_GOOD = `<g>
     <path d="M722 181C710 183 700 188 694 196C690 212 690 240 690 262C689 300 688 350 686 398Q730 407 774 398C772 350 771 300 770 262C770 240 770 212 766 196C760 188 750 183 738 181Q730 194 722 181Z" fill="url(#g-coat)"/>
     <path d="M766 200C770 240 770 300 774 396" stroke="#9aa6b1" stroke-width="3" fill="none" opacity=".25" filter="url(#f-b1)"/>
@@ -308,12 +314,12 @@
     <circle cx="524" cy="257" r="3.2" fill="url(#g-led)"/><circle cx="524" cy="257" r="7" fill="${good ? "#d62d20" : "#32d062"}" opacity=".25" filter="url(#f-b1)"/></g>`;
   
   const CABLE_BAD = `<g>
-    <path d="M542 258C568 262 572 278 562 300C554 330 550 380 553 423" stroke="#000" stroke-width="5" fill="none" stroke-linecap="round" opacity=".35" filter="url(#f-b2)" transform="translate(6 4)"/>
-    <path d="M542 258C568 262 572 278 562 300C554 330 550 380 553 423" stroke="#14171b" stroke-width="3.8" fill="none" stroke-linecap="round"/><path d="M542 257C567 261 571 277 561 299C553 329 549 379 552 422" stroke="#6b7480" stroke-width="1" fill="none" opacity=".6" stroke-linecap="round"/>
+    <path d="M542 258C568 262 572 278 562 300C554 330 549 384 556 414C558 424 564 428 574 427" stroke="#000" stroke-width="5" fill="none" stroke-linecap="round" opacity=".35" filter="url(#f-b2)" transform="translate(6 4)"/>
+    <path d="M542 258C568 262 572 278 562 300C554 330 549 384 556 414C558 424 564 428 574 427" stroke="#14171b" stroke-width="3.8" fill="none" stroke-linecap="round"/><path d="M542 257C567 261 571 277 561 299C553 329 548 383 555 413C557 423 563 427 573 426" stroke="#6b7480" stroke-width="1" fill="none" opacity=".6" stroke-linecap="round"/>
     <g transform="translate(0 50)"><defs>${lg("g-pud", 0, 0, 0, 1, [[0, "#d9f0fb", .8], [1, "#8cc4e4", .85]])}</defs>
     <ellipse cx="553" cy="380" rx="42" ry="9.4" fill="#1a2a35" opacity=".22" filter="url(#f-b2)"/><ellipse cx="553" cy="378" rx="40" ry="8.6" fill="url(#g-pud)"/><ellipse cx="553" cy="378" rx="40" ry="8.6" fill="none" stroke="#fff" stroke-width="1.4" opacity=".7"/>
     <path d="M526 376Q540 372 552 375" stroke="#fff" stroke-width="2.2" fill="none" opacity=".85" stroke-linecap="round"/><path d="M566 381Q576 380 582 377" stroke="#fff" stroke-width="1.4" fill="none" opacity=".6" stroke-linecap="round"/><ellipse cx="553" cy="375" rx="9" ry="2.2" fill="none" stroke="#fff" stroke-width=".9" opacity=".7"/>
-    <path d="M556 364l-4 7h5l-4 8" stroke="#fff6a8" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round" filter="url(#f-b1)"/><path d="M556 364l-4 7h5l-4 8" stroke="#ffe44d" stroke-width="1" fill="none" stroke-linejoin="round" stroke-linecap="round"/></g></g>`;
+    <rect x="571" y="371.4" width="13" height="8" rx="2.4" fill="#262a31" stroke="#0b0d10" stroke-width=".8"/><path d="M584 373.6h5M584 377.2h5" stroke="#d3d9de" stroke-width="1.6" stroke-linecap="round"/><path d="M590 370l-4 7h5l-4 8" stroke="#fff6a8" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round" filter="url(#f-b1)"/><path d="M590 370l-4 7h5l-4 8" stroke="#ffe44d" stroke-width="1" fill="none" stroke-linejoin="round" stroke-linecap="round"/></g></g>`;
   
   const CABLE_GOOD = `<g><path d="M581 242C579 252 562 257 542 258" stroke="#000" stroke-width="4.6" fill="none" stroke-linecap="round" opacity=".35" filter="url(#f-b2)" transform="translate(2 4)"/><path d="M581 242C579 252 562 257 542 258" stroke="#14171b" stroke-width="3.6" fill="none" stroke-linecap="round"/><path d="M581 241C579 251 562 256 542 257" stroke="#6b7480" stroke-width=".9" fill="none" opacity=".6"/>
     <rect x="572" y="223" width="20" height="19" rx="3.6" fill="#000" opacity=".3" filter="url(#f-b1)" transform="translate(1.5 2.5)"/><rect x="572" y="223" width="20" height="19" rx="3.6" fill="#e9e7e1" stroke="#b3ae9c" stroke-width="1"/><rect x="574" y="225" width="16" height="4" rx="2" fill="#fff" opacity=".7"/><rect x="577" y="237" width="8" height="7" rx="1.6" fill="#d9d6cc"/></g>`;
@@ -334,7 +340,7 @@
     <path d="M338 470l4 -9M352 470l6 -4" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".9"/><path d="M320 470l0 -6M317 467h6" stroke="#fff" stroke-width="1.2" opacity=".9"/><path d="M381 474l0 -5M378.5 471.5h5" stroke="#fff" stroke-width="1.1" opacity=".9"/>
     <path d="M308 492Q340 500 378 494" stroke="#bcd8e6" stroke-width="2.2" fill="none" opacity=".6" stroke-linecap="round"/></g>`;
   
-  const BOXES = `<g>${contact(78, 268, 60, .5)}<ellipse cx="78" cy="226" rx="52" ry="48" fill="#000" opacity=".18" filter="url(#f-b4)" transform="translate(16 6)"/>
+  const BOXES = `<g>
     ${box(32, 214, 82, 54, { d: 14 })}${box(40, 170, 68, 44, { d: 12, rot: -2 })}${box(50, 132, 56, 38, { d: 10, rot: 5 })}</g>`;
 
   const TXT = {

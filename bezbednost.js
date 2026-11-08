@@ -231,7 +231,6 @@
     <path d="M706 497Q706 495.6 709 495.6H731Q734 495.6 733.6 497.5Q733 499.4 730 499.4H709Q706 499.4 706 497Z" fill="#7b4a1c"/><path d="M709 496.2H731" stroke="#b07a42" stroke-width=".8" opacity=".8"/>
     <path d="M709.6 484Q720 480 730.4 484" stroke="#a86022" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M720 482V491" stroke="#a86022" stroke-width="1.8" stroke-linecap="round"/>`;
 
-  // Целосно затворени шорцеви без празнини и бели делови меѓу нозете
   const SHORTS = `<path d="M701 288Q730 298 759 288L763 360Q751 366 737 363L730 330Q729 330 723 363Q709 366 697 360Z" fill="url(#g-den)"/><path d="M699 358Q711 363 722 361M738 361Q750 363 761 358" stroke="#aac8e2" stroke-width="1.1" fill="none" stroke-dasharray="2 2" opacity=".8"/><path d="M730 296V320M714 304Q722 308 727 306M746 304Q738 308 733 306" stroke="#2c4e72" stroke-width="1.2" fill="none" opacity=".55"/>`;
   
   const FLOOR_SH = `<ellipse cx="730" cy="495" rx="40" ry="4" fill="#000" opacity=".3" filter="url(#f-b2)"/>`;
@@ -320,6 +319,172 @@
     <rect x="173" y="460" width="66" height="27" rx="9" fill="url(#g-bag2)"/><rect x="173" y="460" width="66" height="27" rx="9" filter="url(#f-fabric)" opacity=".4"/><path d="M178 462H234" stroke="#e7dfc9" stroke-width="2" stroke-dasharray="3 2.2"/><rect x="203" y="458" width="10" height="5" rx="1.5" fill="url(#g-metal)"/><circle cx="208" cy="476" r="3.4" fill="#e9dcb4" stroke="#8a7b4e" stroke-width=".8"/>
     <path d="M166 454Q170 448 178 446" stroke="#fff" stroke-width="2" fill="none" opacity=".35" stroke-linecap="round"/></g>`;
   
-  const SHARD = (pts, k) => { const p = pts.map(q => q.join(",")).join(" "); return `<polygon points="${pts.map(q => (q[0] + 3) + "," + (q[1] + 3)).join(" ")}" fill="#1a2a35" opacity=".28" filter="url(#f-b1)"/><polygon points="${p}" fill="url(#g-shard)" stroke="#fff" stroke-width=".9" stroke-opacity=".85"/><path d="M${pts[0][0]} ${pts[0][1]}L${pts[1][0]} ${pts[1][1]}" stroke="#fff" stroke-width="1.6" opacity="...`; }; // (останатиот дел со скршено стакло)
+  const SHARD = (pts) => { const p = pts.map(q => q.join(",")).join(" "); return `<polygon points="${pts.map(q => (q[0] + 3) + "," + (q[1] + 3)).join(" ")}" fill="#1a2a35" opacity=".28" filter="url(#f-b1)"/><polygon points="${p}" fill="url(#g-shard)" stroke="#fff" stroke-width=".9" stroke-opacity=".85"/><path d="M${pts[0][0]} ${pts[0][1]}L${pts[1][0]} ${pts[1][1]}" stroke="#fff" stroke-width="1.6" opacity=".9"/>`; };
   
-  // (продолжува остатокот од дефинициите и логиката на играта...)
+  const GLASS = `<g><defs>${lg("g-shard", 0, 0, 1, 1, [[0, "#f6fcff", .85], [.5, "#cfe7f2", .55], [1, "#9cc4d8", .7]])}</defs>
+    ${[[[303,486],[309,474],[321,467],[333,481],[324,489]], [[336,481],[343,468],[351,459],[364,477],[352,484]], [[366,487],[372,476],[380,471],[391,484],[381,490]], [[319,490],[327,484],[336,486],[331,492]], [[393,484],[399,476],[407,480],[404,488]], [[345,490],[352,485],[359,488],[353,493]], [[285,491],[292,485],[298,489],[291,494]], [[408,492],[414,488],[417,493]]].map(SHARD).join("")}
+    <path d="M338 470l4 -9M352 470l6 -4" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".9"/><path d="M320 470l0 -6M317 467h6" stroke="#fff" stroke-width="1.2" opacity=".9"/><path d="M381 474l0 -5M378.5 471.5h5" stroke="#fff" stroke-width="1.1" opacity=".9"/>
+    <path d="M308 492Q340 500 378 494" stroke="#bcd8e6" stroke-width="2.2" fill="none" opacity=".6" stroke-linecap="round"/></g>`;
+  
+  const BOXES = `<g>${contact(78, 268, 60, .5)}
+    ${box(32, 214, 82, 54, { d: 14 })}${box(40, 170, 68, 44, { d: 12, rot: -2 })}${box(50, 132, 56, 38, { d: 10, rot: 5 })}</g>`;
+
+  const TXT = {
+    "polica": { "name": "Тешко шише на работ од полицата", "why": "Тешко шише со киселина е на самиот раб од полицата и може да падне, да се скрши и да се излее.", "fix": "Тешките и опасни шишиња се чуваат ниско и позади, на полица со раб што ги задржува.", "ok": "Шишето е сигурно позади на полицата, зад заштитен раб." },
+    "aparat": { "name": "Блокиран апарат за гаснење", "why": "Апаратот за гаснење е закопан зад кутии. Во итна ситуација нема време за поместување.", "fix": "Патот до апаратот, тушот за итни случаи и излезот мора секогаш да се слободни.", "ok": "Апаратот за гаснење е на видливо место и пристапот е слободен." },
+    "etanol": { "name": "Отворен етанол покрај пламен", "why": "Шишето со лесно запалив етанол е отворено веднаш до запалена горелка. Пареите можат да се запалат.", "fix": "Запаливите течности се држат затворени и далеку од пламен. Горелката се пали само кога е потребна.", "ok": "Горелката е изгасната, а шишето со етанол е затворено." },
+    "hrana": { "name": "Храна и пијалок во лабораторија", "why": "Сендвич и чаша на работната маса. Храната може да се загади со хемикалии.", "fix": "Во лабораторија не се јаде, не се пие и не се чуваат прибор за јадење или храна.", "ok": "На масата има само тетратка и молив." },
+    "bezetiketa": { "name": "Шише без етикета и истурена течност", "why": "Шишето нема етикета, а од него се излева течност. Не се знае што е.", "fix": "Секое шише има етикета (име, концентрација, ознака за опасност), а излеаното се чисти веднаш по упатство.", "ok": "Шишето е затворено и означено." },
+    "kabel": { "name": "Кабел во локва вода", "why": "Кабел од грејач виси надолу и допира локва вода. Има опасност од струен удар и кратко спојување.", "fix": "Каблите се водат кон ѕидот, подалеку од вода, а излеаното се брише веднаш.", "ok": "Кабелот е кусо и уредно поврзан со штекер, подалеку од вода." },
+    "rabot": { "name": "Стаклен сад на работ на масата", "why": "Чашата е на самиот раб од масата и лесно може да падне и да се скрши.", "fix": "Садовите се ставаат на средина од масата, подалеку од работ.", "ok": "Чашата стои сигурно на маса, подалеку од работ." },
+    "torba": { "name": "Торба на подот во премин", "why": "Раниче на подот пред масата. Некој може да се сапне и да падне со хемикалии во рака.", "fix": "Торбите и јакните се оставаат на определено место, подалеку од работните површини и преминот.", "ok": "" },
+    "staklo": { "name": "Скршено стакло на подот", "why": "На подот има парчиња скршено стакло, а можат да нанесат посекотини.", "fix": "Стаклото не се собира со раце: се користи лопатка и четка, а се фрла во посебен сад за стаклен отпад.", "ok": "" },
+    "ocila": { "name": "Без заштитни очила и распуштена коса", "why": "Нема заштитни очила, а долгата коса е распуштена: може да влезе во пламен или во садови.", "fix": "Заштитните очила се носат цело време во лабораторија, а долгата коса се врзува.", "ok": "Носи заштитни очила, а косата е врзана." },
+    "mantil": { "name": "Без мантил, голи раце", "why": "Облечена е во кратка маица, без мантил. Прскање на хемикалија удира директно на кожата.", "fix": "Се носи долг, затворен мантил од памук со долги ракави.", "ok": "Носи долг, затворен мантил." },
+    "chevli": { "name": "Отворени сандали и шорцеви", "why": "Носи шорцеви и отворени сандали. Хемикалија или стакло што ќе падне на нога го повредува директно.", "fix": "Во лабораторија се носат затворени чевли и долги панталони.", "ok": "Носи затворени чевли и долги панталони." }
+  };
+  const T = id => TXT[id];
+  const H = [
+    { id: "polica", ...T("polica"), hot: [478, 56, 72, 66], hotGood: [418, 60, 60, 54], bad: `<g transform="rotate(10 530 108)">${H2SO4(514)}</g>`, good: H2SO4(428, 0) + `<g transform="translate(0 8)">${RAIL}</g>` },
+    { id: "aparat", ...T("aparat"), hot: [24, 138, 96, 156], hotGood: [24, 138, 86, 150], bad: BOXES, good: "" },
+    { id: "etanol", ...T("etanol"), hot: [96, 184, 150, 112], hotGood: [96, 196, 150, 100], bad: warm + FLAME(150, 248) + ETHANOL(true) + VAPOR + `<ellipse cx="238" cy="293" rx="8" ry="2.6" fill="#c04f2f"/><ellipse cx="238" cy="291.6" rx="8" ry="2.6" fill="#e0643f"/>`, good: ETHANOL(false) },
+    { id: "hrana", ...T("hrana"), hot: [258, 234, 98, 52], hotGood: [262, 240, 104, 54], bad: FOOD, good: NOTE },
+    { id: "bezetiketa", ...T("bezetiketa"), hot: [372, 222, 108, 92], hotGood: [372, 216, 50, 56], bad: UNLABELED, good: bottle(380, 222, 30, 46, { c: "#a9c3cf", liq: "#ead9a0", label: "HCl 1M", fs: 5.4, cap: "#1b1b1b", level: .55 }) },
+    { id: "kabel", ...T("kabel"), hot: [532, 258, 84, 190], hotGood: [440, 224, 150, 48], bad: HEATER(false) + CABLE_BAD, good: HEATER(true) + CABLE_GOOD },
+    { id: "rabot", ...T("rabot"), hot: [626, 238, 48, 52], hotGood: [598, 230, 44, 44], bad: beaker(634, 238, 30, 36, { rot: 9 }), good: beaker(604, 230, 30, 36) },
+    { id: "torba", ...T("torba"), hot: [124, 420, 160, 78], hotGood: null, bad: BAG, good: null },
+    { id: "staklo", ...T("staklo"), hot: [282, 456, 130, 44], hotGood: null, bad: GLASS, good: null },
+    { id: "ocila", ...T("ocila"), hot: [702, 100, 56, 80], hotGood: [702, 100, 56, 80], fig: true, bad: HEAD(false), good: HEAD(true) },
+    { id: "mantil", ...T("mantil"), hot: [680, 182, 100, 126], hotGood: [680, 182, 100, 226], fig: true, bad: TORSO_BAD, good: TORSO_GOOD },
+    { id: "chevli", ...T("chevli"), hot: [698, 330, 64, 168], hotGood: [698, 400, 64, 98], fig: true, bad: LEGS_BAD, good: LEGS_GOOD },
+  ];
+  
+  const SAFE = [
+    { name: "Прва помош", hot: [554, 142, 66, 52], ok: "Кутијата за прва помош е на видливо и достапно место: ова е во ред." },
+    { name: "Затворени шишиња на полица", hot: [270, 56, 134, 58], ok: "Затворени и означени шишиња на полица со раб: ова е во ред." },
+    { name: "Прозорец", hot: [88, 4, 180, 160], ok: "Прозорецот обезбедува светлина и проветрување: ова е во ред." },
+    { name: "Периоден систем", hot: [330, 122, 128, 54], ok: "Постерот со периодниот систем е на ѕидот за брза проверка: ова е во ред." },
+  ];
+
+  const N_BAD = 8;
+
+  let active = [], found = new Set(), wrong = 0, hints = 0, over = false, streak = 0;
+  const defs = DEFS + HEAD_DEFS + FIG_DEFS + FOOD_DEFS;
+
+  function draw() {
+    const bad = new Set(active.map(h => h.id));
+    let items = "";
+    items += HAIR_BACK(!bad.has("ocila"));
+    ["chevli", "mantil", "ocila"].forEach(id => { const h = H.find(x => x.id === id); items += bad.has(id) ? h.bad : (h.good || ""); });
+    H.filter(h => !h.fig).forEach(h => { items += bad.has(h.id) ? h.bad : (h.good || ""); });
+    svg.innerHTML = defs + BASE + BURNER + SHELF + `<g id="sf-items">${items}</g>${FX}<g id="sf-marks"></g>`;
+    svg.setAttribute("viewBox", "0 0 800 500");
+  }
+
+  function mark(h, cls) {
+    const [x, y, w, hh] = h.hot;
+    const g = document.createElementNS(NS, "g");
+    g.setAttribute("class", "sf-mark " + (cls || ""));
+    g.innerHTML = `<rect x="${x}" y="${y}" width="${w}" height="${hh}" rx="12"/><circle cx="${x + w}" cy="${y}" r="13"/><text x="${x + w}" y="${y + 5}" text-anchor="middle">${cls === "miss" ? "!" : "✓"}</text>`;
+    svg.querySelector("#sf-marks").appendChild(g);
+  }
+
+  function info(html, kind) {
+    const box = $("sf-info");
+    box.className = "sf-info " + (kind || "");
+    box.innerHTML = html;
+  }
+
+  function counters() {
+    $("sf-count").textContent = `Најдени: ${found.size} од ${active.length}`;
+    $("sf-wrong").textContent = `Погрешни кликови: ${wrong}  ·  Совети: ${hints}`;
+  }
+
+  function addToList(h, missed) {
+    const li = el("div", "sf-item" + (missed ? " missed" : ""));
+    li.innerHTML = `<b>${h.name}</b><span>${h.fix}</span>`;
+    $("sf-list").appendChild(li);
+  }
+
+  function point(e) {
+    const pt = svg.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    return pt.matrixTransform(svg.createSVGMatrix ? svg.createSVGMatrix().inverse() : svg.getScreenCTM().inverse());
+  }
+  const inRect = (p, r, pad = 0) => p.x >= r[0] - pad && p.x <= r[0] + r[2] + pad && p.y >= r[1] - pad && p.y <= r[1] + r[3] + pad;
+
+  function ripple(p, bad) {
+    const c = document.createElementNS(NS, "circle");
+    c.setAttribute("cx", p.x); c.setAttribute("cy", p.y); c.setAttribute("r", 6);
+    c.setAttribute("class", "sf-rip " + (bad ? "bad" : "ok"));
+    svg.querySelector("#sf-marks").appendChild(c);
+    setTimeout(() => c.remove(), 700);
+  }
+
+  svg.addEventListener("click", e => {
+    if (over) return;
+    const p = point(e);
+    const hits = active.filter(h => inRect(p, h.hot, 2)).sort((a, b) => a.hot[2] * a.hot[3] - b.hot[2] * b.hot[3]);
+    if (hits.length) {
+      const h = hits[0];
+      streak = 0;
+      if (found.has(h.id)) { info(`<b>${h.name}</b><br>${h.why}<br><i>Правилно: ${h.fix}</i>`, "bad"); return; }
+      found.add(h.id);
+      mark(h);
+      ripple(p, false);
+      info(`<b>Точно! ${h.name}</b><br>${h.why}<br><i>Правилно: ${h.fix}</i>`, "good");
+      addToList(h);
+      counters();
+      if (found.size === active.length) finish();
+      return;
+    }
+    const safeHit = H.filter(h => !active.includes(h) && h.hotGood && h.ok && inRect(p, h.hotGood, 2)).map(h => h.ok)
+      .concat(SAFE.filter(s => inRect(p, s.hot, 2)).map(s => s.ok));
+    wrong++; streak++;
+    ripple(p, true);
+    counters();
+    if (safeHit.length) info(`<b>Тука нема грешка.</b> ${safeHit[0]}`, "ok");
+    else info(`Тука нема опасност. Погледни добро: ${streak >= 4 ? "ако не знаеш каде, користи „Помош“." : "уште има грешки на сликата."}`, "ok");
+  });
+
+  $("sf-hint").addEventListener("click", () => {
+    if (over) return;
+    const left = active.filter(h => !found.has(h.id));
+    if (!left.length) return;
+    const h = left[Math.floor(Math.random() * left.length)];
+    hints++; counters();
+    const [x, y, w, hh] = h.hot;
+    const g = document.createElementNS(NS, "ellipse");
+    g.setAttribute("cx", x + w / 2); g.setAttribute("cy", y + hh / 2);
+    g.setAttribute("rx", Math.max(w, 50) * 0.8); g.setAttribute("ry", Math.max(hh, 50) * 0.8);
+    g.setAttribute("class", "sf-hint");
+    svg.querySelector("#sf-marks").appendChild(g);
+    setTimeout(() => g.remove(), 2600);
+    info("Погледни на означеното место…", "ok");
+  });
+
+  $("sf-reveal").addEventListener("click", () => {
+    if (over) return;
+    over = true;
+    active.filter(h => !found.has(h.id)).forEach(h => { mark(h, "miss"); addToList(h, true); });
+    info("Ги прикажав пропуштените опасности (со знак !). Погледни ги објаснувањата подолу и пробај нова игра.", "ok");
+  });
+
+  function finish() {
+    over = true;
+    const stars = wrong <= 2 && hints === 0 ? 3 : wrong <= 6 && hints <= 2 ? 2 : 1;
+    const s = "⭐".repeat(stars) + "☆".repeat(3 - stars);
+    info(`<b>Одлично! Ги најде сите ${active.length} опасности.</b><br>${s} · погрешни кликови: ${wrong}, совети: ${hints}.`, "good");
+  }
+
+  function start() {
+    active = shuffle(H).slice(0, N_BAD);
+    found = new Set(); wrong = 0; hints = 0; over = false; streak = 0;
+    $("sf-list").replaceChildren();
+    draw();
+    counters();
+    info(`На сликата има <b>${N_BAD}</b> опасни грешки (има и работи што се во ред). Кликни на она што е погрешно.`, "");
+  }
+  $("sf-new").addEventListener("click", start);
+  start();
+})();

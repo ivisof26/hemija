@@ -36,7 +36,7 @@
     ${lg("g-liq", 0, 0, 0, 1, [[0, "#8fcdf0", .85], [1, "#3f8fc9", .95]])}
     ${lg("g-refl", 0, 0, 0, 1, [[0, "#fff", .9], [.55, "#fff", 0]])}
     <mask id="m-refl" maskContentUnits="objectBoundingBox"><rect x="0" y="0" width="1" height="1" fill="url(#g-refl)"/></mask>
-    <clipPath id="c-top"><path d="M34 250H658L664 302H28Z"/></clipPath>
+    <clipPath id="c-top"><path d="M104 250H658L664 302H98Z"/></clipPath>
     ${rg("g-vig", .5, .5, .78, [[.55, "#1a1208", 0], [1, "#1a1208", .42]])}
     ${blur(1, 1)}${blur(2, 2)}${blur(3, 3.4)}${blur(4, 6)}${blur("bg", 1.5)}
     <filter id="f-grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="11"/><feColorMatrix type="matrix" values="0 0 0 0 .5  0 0 0 0 .5  0 0 0 0 .5  1.6 0 0 0 -.55"/><feComposite in2="SourceAlpha" operator="in"/></filter>
@@ -91,27 +91,22 @@
       <rect x="560" y="146" width="54" height="9" rx="5" fill="#fff" opacity=".7"/><path d="M587 155v22M576 166h22" stroke="#1f9a56" stroke-width="7" stroke-linecap="round"/><path d="M587 155v22" stroke="#46c27f" stroke-width="2" opacity=".6"/>
       <rect x="581" y="181" width="12" height="3.4" rx="1.7" fill="#aab3ad"/></g>
     <!-- апарат за гаснење -->
-    <g><rect x="40" y="136" width="34" height="34" rx="3" fill="#000" opacity=".25" filter="url(#f-b2)" transform="translate(3 4)"/><g transform="translate(38 132) scale(.36)"><rect width="100" height="100" rx="5" fill="#a61f1d"/><rect x="2.5" y="2.5" width="95" height="95" rx="4" fill="none" stroke="#fff" stroke-width="3"/>
+    <g><rect x="36" y="232" width="34" height="34" rx="3" fill="#000" opacity=".25" filter="url(#f-b2)" transform="translate(3 4)"/><g transform="translate(34 228) scale(.36)"><rect width="100" height="100" rx="5" fill="#a61f1d"/><rect x="2.5" y="2.5" width="95" height="95" rx="4" fill="none" stroke="#fff" stroke-width="3"/>
       <path d="M20 46Q20 38 30 35H42Q52 38 52 46V90H20Z" fill="#fff"/><rect x="28" y="22" width="16" height="12" fill="#fff"/><path d="M16 42V30Q16 24 24 20L32 12H48V20H36L26 28V42Z" fill="#fff"/><rect x="26" y="54" width="20" height="14" fill="#a61f1d"/>
       <path d="M60 48Q74 50 80 36Q82 50 92 54V66Q72 66 60 48Z" fill="#fff"/><path d="M60 70Q74 70 84 58Q86 70 92 74V84Q72 84 60 70Z" fill="#fff"/><path d="M62 88Q72 84 80 78Q82 86 92 88V92H62Z" fill="#fff"/></g></g>
-    <g><rect x="48" y="191" width="22" height="76" rx="9" fill="#000" opacity=".3" filter="url(#f-b2)" transform="translate(5 3)"/>
-      <rect x="47" y="190" width="22" height="76" rx="9" fill="url(#g-red)"/><rect x="47" y="190" width="22" height="22" rx="9" fill="#000" opacity=".12"/><rect x="51" y="196" width="3" height="62" rx="1.5" fill="#fff" opacity=".42"/>
-      <rect x="53" y="179" width="10" height="14" rx="2" fill="url(#g-metal)"/><path d="M49 179h18" stroke="#2c3238" stroke-width="4" stroke-linecap="round"/><path d="M65 183q16 0 18 16t-5 17" stroke="#16191c" stroke-width="3.4" fill="none"/>
-      <circle cx="58" cy="209" r="5.4" fill="#f3f3ee" stroke="#8b8f92" stroke-width="1.2"/><path d="M58 209l2.6 -2.6" stroke="#c4291b" stroke-width="1.2"/>
-      <rect x="50" y="228" width="16" height="16" rx="1.5" fill="#f8f6ee"/><path d="M58 231c-3 3 -2 6 0 9c3 -3 3 -6 0 -9z" fill="#c4291b"/>
-      <rect x="45" y="218" width="26" height="6" rx="2" fill="#2c3238"/></g>
+
     <!-- маса: фиоки и врати -->
-    <rect x="26" y="302" width="640" height="82" fill="url(#g-door)"/>
-    <rect x="26" y="302" width="640" height="82" fill="url(#g-cabsh)"/>
-    ${[38, 238, 438].map((x, i) => `<g><rect x="${x}" y="312" width="${i === 2 ? 204 : 190}" height="64" rx="2.5" fill="url(#g-door)" stroke="#7c8893" stroke-width="1.6"/><rect x="${x + 1}" y="313" width="${(i === 2 ? 204 : 190) - 2}" height="1.6" fill="#fff" opacity=".6"/><rect x="${x + (i === 2 ? 86 : 80)}" y="319" width="34" height="5" rx="2.5" fill="url(#g-metal)"/><rect x="${x + (i === 2 ? 86 : 80)}" y="324" width="34" height="2" rx="1" fill="#000" opacity=".25"/></g>`).join("")}
-    <rect x="26" y="384" width="640" height="8" fill="#2c3238"/><rect x="26" y="384" width="640" height="1.6" fill="#59636c"/>
-    <rect x="22" y="390" width="652" height="16" fill="#000" opacity=".34" filter="url(#f-b3)"/>
+    <rect x="96" y="302" width="570" height="82" fill="url(#g-door)"/>
+    <rect x="96" y="302" width="570" height="82" fill="url(#g-cabsh)"/>
+    ${[108, 278, 448].map((x, i) => `<g><rect x="${x}" y="312" width="${i === 2 ? 194 : 160}" height="64" rx="2.5" fill="url(#g-door)" stroke="#7c8893" stroke-width="1.6"/><rect x="${x + 1}" y="313" width="${(i === 2 ? 194 : 160) - 2}" height="1.6" fill="#fff" opacity=".6"/><rect x="${x + (i === 2 ? 80 : 63)}" y="319" width="34" height="5" rx="2.5" fill="url(#g-metal)"/><rect x="${x + (i === 2 ? 80 : 63)}" y="324" width="34" height="2" rx="1" fill="#000" opacity=".25"/></g>`).join("")}
+    <rect x="96" y="384" width="570" height="8" fill="#2c3238"/><rect x="96" y="384" width="570" height="1.6" fill="#59636c"/>
+    <rect x="92" y="390" width="582" height="16" fill="#000" opacity=".34" filter="url(#f-b3)"/>
     <!-- маса: плоча -->
-    <path d="M34 250H658L664 302H28Z" fill="url(#g-top)"/>
-    <path d="M34 250H658L664 302H28Z" fill="url(#g-topsheen)"/>
-    <path d="M34 250H658L664 302H28Z" filter="url(#f-grain)" opacity=".22"/>
-    <path d="M28 302H664V307H28Z" fill="url(#g-edge)"/><path d="M28 302H664" stroke="#fff" stroke-width="1.4" opacity=".85"/><path d="M28 307H664" stroke="#000" stroke-width="1" opacity=".3"/>
-    <path d="M34 250H658" stroke="#7c8791" stroke-width="1.4" opacity=".6"/>
+    <path d="M104 250H658L664 302H98Z" fill="url(#g-top)"/>
+    <path d="M104 250H658L664 302H98Z" fill="url(#g-topsheen)"/>
+    <path d="M104 250H658L664 302H98Z" filter="url(#f-grain)" opacity=".22"/>
+    <path d="M98 302H664V307H98Z" fill="url(#g-edge)"/><path d="M98 302H664" stroke="#fff" stroke-width="1.4" opacity=".85"/><path d="M98 307H664" stroke="#000" stroke-width="1" opacity=".3"/>
+    <path d="M104 250H658" stroke="#7c8791" stroke-width="1.4" opacity=".6"/>
     <!-- под -->
     <rect y="392" width="800" height="108" fill="url(#g-floor)"/>
     <rect y="392" width="800" height="108" fill="url(#g-flight)"/>
@@ -119,7 +114,14 @@
       <path d="M0 408H800M0 428H800M0 454H800M0 484H800"/>
       ${[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map(k => `<path d="M${400 + k * 44} 392L${400 + k * 150} 500"/>`).join("")}</g>
     <g stroke="#fff" stroke-width="1" opacity=".35" fill="none"><path d="M0 409.5H800M0 429.5H800M0 455.5H800M0 485.5H800"/></g>
-    <rect y="392" width="800" height="18" fill="url(#g-cabsh)" opacity=".7"/>`;
+    <rect y="392" width="800" height="18" fill="url(#g-cabsh)" opacity=".7"/>
+    <!-- апарат за гаснење (на подот, до ѕидот) -->
+    ${contact(52, 408, 16, .55)}<g transform="translate(2.7 181.9) scale(.85)"><rect x="48" y="191" width="22" height="76" rx="9" fill="#000" opacity=".3" filter="url(#f-b2)" transform="translate(5 3)"/>
+      <rect x="47" y="190" width="22" height="76" rx="9" fill="url(#g-red)"/><rect x="47" y="190" width="22" height="22" rx="9" fill="#000" opacity=".12"/><rect x="51" y="196" width="3" height="62" rx="1.5" fill="#fff" opacity=".42"/>
+      <rect x="53" y="179" width="10" height="14" rx="2" fill="url(#g-metal)"/><path d="M49 179h18" stroke="#2c3238" stroke-width="4" stroke-linecap="round"/><path d="M65 183q16 0 18 16t-5 17" stroke="#16191c" stroke-width="3.4" fill="none"/>
+      <circle cx="58" cy="209" r="5.4" fill="#f3f3ee" stroke="#8b8f92" stroke-width="1.2"/><path d="M58 209l2.6 -2.6" stroke="#c4291b" stroke-width="1.2"/>
+      <rect x="50" y="228" width="16" height="16" rx="1.5" fill="#f8f6ee"/><path d="M58 231c-3 3 -2 6 0 9c3 -3 3 -6 0 -9z" fill="#c4291b"/>
+      <rect x="45" y="218" width="26" height="6" rx="2" fill="#2c3238"/></g>`;
 
   const FX = `<rect width="800" height="500" fill="url(#g-vig)" pointer-events="none"/><rect width="800" height="500" filter="url(#f-grain)" opacity=".16" pointer-events="none"/>`;
 
@@ -269,9 +271,10 @@
 
   const H2SO4 = (x, rot) => bottle(x, 60, 30, 48, { c: "#6b3a1c", liq: "#a56a2a", label: "H₂SO₄", fs: 5.4, lc: "#9c1f18", stripe: "#d9422f", onShelf: 1, rot, level: .7 });
   const RAIL = `<rect x="424" y="92" width="3" height="8" fill="#7c8791"/><rect x="466" y="92" width="3" height="8" fill="#7c8791"/><rect x="424" y="92" width="45" height="2.6" rx="1.3" fill="url(#g-metal)"/>`;
-  const warm = `<ellipse cx="150" cy="284" rx="86" ry="14" fill="#ff9a3a" opacity=".3" filter="url(#f-b3)"/>`;
+  const warm = `<ellipse cx="158" cy="284" rx="62" ry="14" fill="#ff9a3a" opacity=".3" filter="url(#f-b3)"/>`;
   const VAPOR = `<path d="M204 240q-7 -9 0 -16t0 -14M214 238q-7 -9 0 -16t0 -14" stroke="#cfe6ee" stroke-width="2.6" fill="none" opacity=".5" stroke-linecap="round" filter="url(#f-b1)"/>`;
   const ETHANOL = open => bottle(192, 222, 32, 46, { c: "#e3eff3", liq: "#d4e9f0", label: "ЕТАНОЛ", fs: 5, lc: "#b3261e", stripe: "#d9422f", cap: "#c04f2f", open, level: .72 });
+  const ETHANOL_SHELF = bottle(480, 68, 26, 42, { c: "#e3eff3", liq: "#d4e9f0", label: "ЕТАНОЛ", fs: 4.4, lc: "#b3261e", stripe: "#d9422f", cap: "#c04f2f", onShelf: 1, level: .7 });
 
   const FOOD = `<g>${cast(300, 268, 36, .3)}
     <ellipse cx="292" cy="267" rx="34" ry="7.6" fill="#000" opacity=".3" filter="url(#f-b2)"/><ellipse cx="292" cy="265" rx="33" ry="7" fill="#f4f4f1"/><ellipse cx="292" cy="264.6" rx="26" ry="5" fill="#e4e4de"/><ellipse cx="292" cy="264" rx="33" ry="7" fill="none" stroke="#fff" stroke-width="1" opacity=".8"/>
@@ -341,12 +344,12 @@
     <path d="M308 492Q340 500 378 494" stroke="#bcd8e6" stroke-width="2.2" fill="none" opacity=".6" stroke-linecap="round"/></g>`;
   
   const BOXES = `<g>
-    ${box(32, 214, 82, 54, { d: 14 })}${box(40, 170, 68, 44, { d: 12, rot: -2 })}${box(50, 132, 56, 38, { d: 10, rot: 5 })}</g>`;
+    ${contact(54, 414, 46, .5)}${box(16, 372, 76, 42, { d: 14 })}${box(26, 334, 60, 38, { d: 12, rot: -2 })}${box(36, 300, 44, 34, { d: 10, rot: 4 })}</g>`;
 
   const TXT = {
     "polica": { "name": "Тешко шише на работ од полицата", "why": "Тешко шише со киселина е на самиот раб од полицата и може да падне, да се скрши и да се излее.", "fix": "Тешките шишиња и шишињата со опасни супстанции се чуваат на долните полици.", "ok": "Шишето е добро поставено на полицата." },
     "aparat": { "name": "Блокиран апарат за гаснење пожар", "why": "Апаратот за гаснење пожар е скриен зад кутии. Во итна ситуација нема време за поместување.", "fix": "Патот до апаратот, тушот за итни случаи и излезот мора секогаш да се слободни.", "ok": "Апаратот за гаснење е на видливо место и пристапот е слободен." },
-    "etanol": { "name": "Отворен етанол покрај пламен", "why": "Шишето со лесно запалив етанол е отворено веднаш до запален пламеник. Пареите можат да се запалат.", "fix": "Запаливите течности се чуваат затворени и далеку од пламен. Пламеникот се пали само кога е потребен.", "ok": "Горелката е изгасната, а шишето со етанол е затворено." },
+    "etanol": { "name": "Отворен етанол покрај пламен", "why": "Шишето со лесно запалив етанол е отворено веднаш до запален пламеник. Пареите можат да се запалат.", "fix": "Запаливите течности се чуваат затворени и далеку од пламеници и други извори на топлина, дури и кога пламеникот е изгасен. На работната маса се носат само кога се потребни и во мало количество.", "ok": "Етанолот е затворен и чуван на полицата, далеку од пламеникот." },
     "hrana": { "name": "Храна и пијалок во лабораторија", "why": "Сендвич и чаша на работната маса. Храната може да се загади со хемикалии.", "fix": "Во лабораторија не се јаде, не се пие и не се чуваат прибор за јадење или храна.", "ok": "На масата има само тетратка и молив." },
     "bezetiketa": { "name": "Шише без етикета и истурена течност", "why": "Шишето нема етикета, а од него се излева течност. Не се знае што е.", "fix": "Секое шише има етикета (име, концентрација, ознака за опасност), а излеаното се чисти веднаш по упатство.", "ok": "Шишето е затворено и означено." },
     "kabel": { "name": "Кабел во локва вода", "why": "Кабелот виси надолу и допира локва вода. Има опасност од струен удар и кратко спојување.", "fix": "Каблите се поставуваат покрај ѕидот, подалеку од вода, а излеаното се брише веднаш.", "ok": "Кабелот е уредно поврзан со штекер." },
@@ -360,8 +363,8 @@
   const T = id => TXT[id];
   const H = [
     { id: "polica", ...T("polica"), hot: [478, 56, 72, 66], hotGood: [418, 60, 60, 54], bad: H2SO4(507), good: H2SO4(428, 0) + `<g transform="translate(0 8)">${RAIL}</g>` },
-    { id: "aparat", ...T("aparat"), hot: [24, 138, 96, 156], hotGood: [24, 138, 86, 150], bad: BOXES, good: "" },
-    { id: "etanol", ...T("etanol"), hot: [96, 184, 150, 112], hotGood: [96, 196, 150, 100], bad: warm + FLAME(150, 248) + ETHANOL(true) + VAPOR + `<ellipse cx="238" cy="293" rx="8" ry="2.6" fill="#c04f2f"/><ellipse cx="238" cy="291.6" rx="8" ry="2.6" fill="#e0643f"/>`, good: ETHANOL(false) },
+    { id: "aparat", ...T("aparat"), hot: [12, 224, 94, 192], hotGood: [12, 224, 94, 192], bad: BOXES, good: "" },
+    { id: "etanol", ...T("etanol"), hot: [96, 184, 150, 112], hotGood: [478, 62, 32, 50], bad: warm + FLAME(150, 248) + ETHANOL(true) + VAPOR + `<ellipse cx="238" cy="293" rx="8" ry="2.6" fill="#c04f2f"/><ellipse cx="238" cy="291.6" rx="8" ry="2.6" fill="#e0643f"/>`, good: ETHANOL_SHELF },
     { id: "hrana", ...T("hrana"), hot: [258, 234, 98, 52], hotGood: [262, 240, 104, 54], bad: FOOD, good: NOTE },
     { id: "bezetiketa", ...T("bezetiketa"), hot: [372, 222, 108, 92], hotGood: [372, 216, 50, 56], bad: UNLABELED, good: bottle(380, 222, 30, 46, { c: "#a9c3cf", liq: "#ead9a0", label: "HCl 1M", fs: 5.4, cap: "#1b1b1b", level: .55 }) },
     { id: "kabel", ...T("kabel"), hot: [532, 258, 84, 190], hotGood: [440, 224, 150, 48], bad: HEATER(false) + CABLE_BAD, good: HEATER(true) + CABLE_GOOD },

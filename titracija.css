@@ -2,7 +2,7 @@
 .ti-svg { display: block; width: 100%; height: auto; max-height: 560px; }
 .ti-burliq { transition: transform .35s ease-out; }
 .ti-stop { transform-origin: 0 0; transition: transform .2s; }
-.ti-stop.open { transform: rotate(80deg); }
+.ti-stop.open { transform: scaleX(.22); }
 .ti-fliq { transform-origin: 150px 449px; transform: scaleY(0); transition: transform 1.3s ease, fill .5s, fill-opacity .5s; }
 .ti-pip { transform: translate(90px, -50px); opacity: 0; transition: transform .6s ease, opacity .4s; }
 .ti-pip.in { transform: none; opacity: 1; }

@@ -30,7 +30,7 @@
     },
     nh3: {
       id: "nh3", dir: -1, label: "NH₃ со HCl", Kb: 1.8e-5,
-      analyte: "раствор на амонијак (NH₃)", titrant: "хлороводородна киселина (HCl)", tshort: "HCl",
+      analyte: "амонијак (NH₃)", titrant: "хлороводородна киселина (HCl)", tshort: "HCl",
       data: "Слаба база (Kb = 1,8·10⁻⁵) титрирана со силна киселина.",
       eq: "NH₃ + HCl → NH₄Cl",
       eqnote: "Амониумовиот јон хидролизира (NH₄⁺ + H₂O ⇌ NH₃ + H₃O⁺), па во еквивалентната точка растворот е кисел."
@@ -121,10 +121,10 @@
   const stageCol = el("div", "in-stagecol");
   const stage = el("div", "in-stage");
   stage.innerHTML = `
-<svg id="ti-svg" class="ti-svg" viewBox="0 0 300 470" role="img" aria-label="Бирета и ерленмајерова колба">
+<svg id="ti-svg" class="ti-svg" viewBox="0 0 300 470" role="img" aria-label="Бирета и ерленмаер">
   <defs>
-    <clipPath id="ti-bclip"><rect x="139" y="44" width="22" height="218"/></clipPath>
-    <clipPath id="ti-fclip"><path d="M137 346 V380 L93 438 Q89 449 101 449 H199 Q211 449 207 438 L163 380 V346 Z"/></clipPath>
+    <clipPath id="ti-bclip"><rect x="136" y="44" width="28" height="218"/></clipPath>
+    <clipPath id="ti-fclip"><path d="M138 346 V372 L112 436 Q109 449 122 449 H178 Q191 449 188 436 L162 372 V346 Z"/></clipPath>
   </defs>
   <!-- статив -->
   <rect x="26" y="452" width="248" height="12" rx="3" fill="#4a3b4e"/>
@@ -135,24 +135,24 @@
   <g id="ti-bur">
     <g clip-path="url(#ti-bclip)">
       <g id="ti-burliq" class="ti-burliq" style="transform:translateY(230px)">
-        <rect x="139" y="60" width="22" height="230" fill="#8ec9ee" fill-opacity=".8"/>
-        <ellipse cx="150" cy="60" rx="10" ry="2.2" fill="#5b8db3" fill-opacity=".55"/>
+        <rect x="136" y="60" width="28" height="230" fill="#8ec9ee" fill-opacity=".8"/>
+        <ellipse cx="150" cy="60" rx="13" ry="2.4" fill="#5b8db3" fill-opacity=".55"/>
       </g>
     </g>
     <g id="ti-ticks"></g>
-    <rect x="138" y="44" width="24" height="218" rx="3" fill="none" stroke="#8fa6bd" stroke-width="2.5"/>
-    <path d="M141 266 H159 L156 276 H144 Z" fill="#e6eef5" stroke="#8fa6bd" stroke-width="2"/>
+    <rect x="135" y="44" width="30" height="218" rx="3" fill="none" stroke="#8fa6bd" stroke-width="2.5"/>
+    <path d="M139 266 H161 L157 276 H143 Z" fill="#e6eef5" stroke="#8fa6bd" stroke-width="2"/>
     <path d="M146 276 H154 L152.5 297 H147.5 Z" fill="#e6eef5" stroke="#8fa6bd" stroke-width="1.8"/>
     <g transform="translate(150 271)"><g id="ti-stop" class="ti-stop"><rect x="7" y="-3" width="24" height="6" rx="3" fill="#c2410c"/></g></g>
   </g>
   <!-- колба -->
   <g id="ti-flask" class="ti-flask">
     <g clip-path="url(#ti-fclip)">
-      <rect id="ti-fliq" class="ti-fliq" x="80" y="404" width="140" height="60" fill="rgb(207,230,245)" fill-opacity=".5"/>
+      <rect id="ti-fliq" class="ti-fliq" x="100" y="404" width="100" height="50" fill="rgb(207,230,245)" fill-opacity=".5"/>
     </g>
-    <path d="M137 346 V380 L93 438 Q89 449 101 449 H199 Q211 449 207 438 L163 380 V346" fill="none" stroke="#8fa6bd" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M132 346 H168" stroke="#8fa6bd" stroke-width="4" stroke-linecap="round"/>
-    <path d="M141 392 L110 436" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+    <path d="M138 346 V372 L112 436 Q109 449 122 449 H178 Q191 449 188 436 L162 372 V346" fill="none" stroke="#8fa6bd" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M133 346 H167" stroke="#8fa6bd" stroke-width="4" stroke-linecap="round"/>
+    <path d="M139 384 L122 430" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/>
   </g>
   <!-- пипета -->
   <g id="ti-pip" class="ti-pip">
@@ -168,7 +168,7 @@
   <g id="ti-idrops"></g>
 </svg>`;
   const meter = el("div", "in-meter");
-  const meterL = el("div", "in-meter-l", "Читање на биретата");
+  const meterL = el("div", "in-meter-l", "Отчитување од бирета");
   const meterV = el("div", "in-meter-v", "—");
   meter.append(meterL, meterV);
   stageCol.append(stage, meter);
@@ -185,9 +185,9 @@
     const g = $("ti-ticks");
     let h = "";
     for (let m = 0; m <= 50; m++) {
-      const y = BUR_Y0 + BUR_K * m, long = m % 5 === 0, w = long ? 9 : 5;
-      h += `<line x1="162" x2="${162 - w}" y1="${y}" y2="${y}" stroke="#64748b" stroke-width="${long ? 1.2 : .7}"/>`;
-      if (m % 10 === 0) h += `<text x="166" y="${y + 3}" font-size="9" font-weight="700" fill="#475569">${m}</text>`;
+      const y = BUR_Y0 + BUR_K * m, long = m % 5 === 0, w = long ? 11 : 6;
+      h += `<line x1="137" x2="${137 + w}" y1="${y}" y2="${y}" stroke="#334155" stroke-width="${long ? 1.2 : .8}"/>`;
+      if (m % 10 === 0) h += `<text x="151" y="${y + 3}" font-size="8.5" font-weight="700" fill="#1e293b">${m}</text>`;
     }
     g.innerHTML = h;
   })();
@@ -234,7 +234,7 @@
     secTask.innerHTML = "";
     secTask.appendChild(el("h4", "", "Задача"));
     const p = el("p", "");
-    p.innerHTML = `Во ерленмајерова колба има <b>${fmt(VA, 2)} mL</b> раствор на <b>${S.sys.analyte}</b> со непозната концентрација. Титрирај го со <b>${S.sys.titrant}</b>, c = <b>${fmt(CT, 4)} mol/L</b>. ${S.sys.data}`;
+    p.innerHTML = `Во ерленмаер има <b>${fmt(VA, 2)} mL</b> раствор на <b>${S.sys.analyte}</b> со непозната концентрација. Титрирај го со <b>${S.sys.titrant}</b>, c = <b>${fmt(CT, 4)} mol/L</b>. ${S.sys.data}`;
     const eq = el("div", "in-eq strong", S.sys.eq);
     const todo = el("ol", "ti-todo");
     ["Избери соодветен индикатор.", "Подготви ја колбата и биретата, па титрирај (барем две паралелни титрации).", "Пресметај ја концентрацијата на аналитот."].forEach(t => todo.appendChild(el("li", "", t)));
@@ -407,7 +407,7 @@
     S.v0 = S.r = randStart();
     burLiq.style.transition = reduce ? "none" : "transform 1.6s ease-in-out";
     setBur();
-    later(() => { S.prep.fill = true; S.active = true; S.busy = false; runMsg.textContent = `Почетно читање: ${fmt(S.v0 / 100, 2)} mL.`; runMsg.className = "in-msg"; updateSteps(); setFlaskColor(); }, 1700);
+    later(() => { S.prep.fill = true; S.active = true; S.busy = false; runMsg.textContent = `Почетно отчитување: ${fmt(S.v0 / 100, 2)} mL.`; runMsg.className = "in-msg"; updateSteps(); setFlaskColor(); }, 1700);
   }
   function dispense(a) {
     if (!S.active || S.busy) return;
@@ -454,7 +454,7 @@
     burLiq.style.transition = reduce ? "none" : "transform 1.2s ease-in-out";
     setBur(); fliq.style.transform = "scaleY(1)"; setFlaskColor();
     S.active = true; nextBtn.hidden = true;
-    runMsg.textContent = `Нова колба со индикатор, биретата е дополнета. Почетно читање: ${fmt(S.v0 / 100, 2)} mL.`; runMsg.className = "in-msg";
+    runMsg.textContent = `Нова колба со индикатор, биретата е дополнета. Почетно отчитување: ${fmt(S.v0 / 100, 2)} mL.`; runMsg.className = "in-msg";
     updateSteps();
   }
   function renderRuns() {

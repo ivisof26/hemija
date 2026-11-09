@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Теми – Сакам хемија</title>
+  <meta name="description" content="Атом, киселини и бази, хемиски врски и периоден систем – објаснето јасно, со анимации и мини квизови.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="teme.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#2d1b4e">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Хемија">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html">⚗️ Хемија<span>за сите</span></a>
+      <nav>
+        <a href="index.html">Почетна</a>
+        <a href="teme.html" class="active" aria-current="page">📚 Теми</a>
+        <a href="kvizovi.html">Квизови</a>
+        <a href="igri.html">Игри</a>
+        <a href="testovi.html">Тестови</a>
+        <a href="alatki.html">🧮 Алатки</a>
+        <a href="aplikacija.html">📱 Апликација</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="page-head">
+      <div class="container">
+        <h1>Теми</h1>
+        <p>Објаснето јасно, со анимации што можеш сам да ги пробаш.</p>
+      </div>
+    </section>
+
+    <section class="container section">
+      <div class="tabs" role="tablist" id="tabs">
+        <button class="tab active" role="tab" data-tab="atom">⚛️ Атом</button>
+        <button class="tab" role="tab" data-tab="kiselini">🧪 Киселини и бази</button>
+        <button class="tab" role="tab" data-tab="vrski">🔗 Хемиски врски</button>
+        <button class="tab" role="tab" data-tab="periodenSistem">📊 Периоден систем</button>
+      </div>
+
+      <!-- ===================== АТОМ ===================== -->
+      <div class="tab-panel" id="atom">
+        <p class="t-lead">Водата, воздухот, твоето тело, телефонот – сè е изградено од <b>атоми</b>. Атомот е толку мал што не може да се види ни со обичен микроскоп, а сепак целата хемија започнува од него.</p>
+
+        <div class="t-grid">
+          <div class="t-note"><h4>🟠 Протони (p⁺)</h4><p>Позитивни честички во јадрото. Нивниот број е <b>атомскиот број Z</b> и точно одредува за кој елемент станува збор.</p></div>
+          <div class="t-note"><h4>⚪ Неутрони (n⁰)</h4><p>Неутрални честички во јадрото. Заедно со протоните ја даваат масата на атомот (масен број A = p + n).</p></div>
+          <div class="t-note"><h4>🔵 Електрони (e⁻)</h4><p>Многу лесни, негативни честички што кружат околу јадрото во обвивки (енергетски нивоа).</p></div>
+        </div>
+
+        <h3 class="t-h">Изгради свој атом</h3>
+        <p class="section-sub">Менувај го бројот на честичките со + и −. Следи што се случува со името, масата и полнежот.</p>
+        <div class="t-box">
+          <svg id="atom-svg" viewBox="0 0 340 340" role="img" aria-label="Модел на атом"></svg>
+          <div class="legend"><span><i style="background:#e85d04"></i>протон</span><span><i style="background:#94a3b8"></i>неутрон</span><span><i style="background:#2563eb"></i>електрон</span></div>
+          <div class="t-row" id="atom-ctl"></div>
+          <div class="t-row" id="atom-presets"></div>
+          <p class="t-read" id="atom-read"></p>
+        </div>
+
+        <h3 class="t-h">Работи што вреди да се запамтат</h3>
+        <div class="t-grid">
+          <div class="t-note"><h4>⚖️ Неутрален атом</h4><p>Бројот на протони = бројот на електрони, па позитивниот и негативниот полнеж се поништуваат.</p></div>
+          <div class="t-note"><h4>➕➖ Јони</h4><p>Ако атомот изгуби електрон, станува позитивен јон (катјон, на пр. Na⁺). Ако прими електрон – негативен јон (анјон, на пр. Cl⁻).</p></div>
+          <div class="t-note"><h4>🧬 Изотопи</h4><p>Атоми од ист елемент со ист број протони, но различен број неутрони. На пример, јаглерод-12 и јаглерод-14.</p></div>
+          <div class="t-note"><h4>🎯 Обвивки</h4><p>Во првата обвивка најмногу 2 електрони, во втората најмногу 8. Последната обвивка (валентна) одлучува како атомот се врзува.</p></div>
+        </div>
+        <div class="t-fun"><b>💡 Знаеше ли?</b> Атомот е скоро цел празен простор. Кога би го зголемиле до големина на фудбалско игралиште, јадрото би било колку зрно грашок – а речиси целата маса е собрана токму таму.</div>
+        <div class="mq" data-quiz="atom"></div>
+      </div>
+
+      <!-- ===================== КИСЕЛИНИ И БАЗИ ===================== -->
+      <div class="tab-panel" id="kiselini" hidden>
+        <p class="t-lead">Лимонот е кисел, сапунот е „лигав“, а чистата вода е нешто меѓу нив. Хемичарите тоа го мерат со бројка – <b>pH вредност</b>.</p>
+
+        <div class="t-grid">
+          <div class="t-note"><h4>🍋 Киселини</h4><p>Во вода ослободуваат <b>H⁺</b> јони. Имаат кисел вкус и pH помало од 7. На пр. HCl, лимонска киселина, оцетна киселина.</p></div>
+          <div class="t-note"><h4>🧼 Бази</h4><p>Во вода даваат <b>OH⁻</b> јони. Се лизгави на допир и имаат pH поголемо од 7. На пр. NaOH, амонијак, сапун.</p></div>
+          <div class="t-note"><h4>💧 Неутрално</h4><p>Чистата вода има pH 7: H⁺ и OH⁻ јоните се во еднаква количина.</p></div>
+        </div>
+
+        <h3 class="t-h">pH скала: движи го лизгачот</h3>
+        <p class="section-sub">Гледај како се менува бојата на универзалниот индикатор и односот на H⁺ и OH⁻ јоните.</p>
+        <div class="t-box">
+          <svg id="ph-svg" viewBox="0 0 300 260" role="img" aria-label="Чаша со раствор и јони"></svg>
+          <div class="ph-big" id="ph-big">pH 7.0</div>
+          <p class="t-read" id="ph-read"></p>
+          <div class="t-row"><input class="ph-range" id="ph-range" type="range" min="0" max="14" step="0.1" value="7" aria-label="pH вредност"></div>
+          <div class="ph-bar" aria-hidden="true"></div>
+          <div class="legend"><span><i style="background:#e11d48"></i>H⁺ јон</span><span><i style="background:#2563eb"></i>OH⁻ јон</span></div>
+          <div class="t-row" id="ph-chips"></div>
+        </div>
+
+        <h3 class="t-h">Неутрализација</h3>
+        <p class="t-lead">Кога ќе се помешаат киселина и база, тие се „поништуваат“ една со друга: <b>киселина + база → сол + вода</b>. Пример: <b>HCl + NaOH → NaCl + H₂O</b> (кујнска сол и вода). Затоа сода бикарбона помага при горење во желудникот.</p>
+        <div class="t-box">
+          <p class="t-read" id="neu-read">Постави го лизгачот на киселина или база, па притисни на копчето.</p>
+          <div class="t-row"><button class="t-btn" id="neu-btn">⚗️ Неутрализирај</button></div>
+        </div>
+
+        <h3 class="t-h">Индикатори</h3>
+        <div class="t-grid">
+          <div class="t-note"><h4>🌈 Универзален индикатор</h4><p>Со бојата покажува приближна pH вредност: црвено (кисело) → зелено (неутрално) → виолетово (базно).</p></div>
+          <div class="t-note"><h4>🌸 Фенолфталеин</h4><p>Во кисела и неутрална средина е безбоен, а во базна станува розев.</p></div>
+          <div class="t-note"><h4>🥬 Црвено зелје</h4><p>Сокот од црвено зелје е домашен индикатор: во киселина е црвен, а во база син до зелен.</p></div>
+        </div>
+        <div class="t-fun"><b>💡 Знаеше ли?</b> pH скалата е логаритамска: секоја единица значи 10 пати повеќе (или помалку) H⁺ јони. Лимонов сок (pH ≈ 2) има околу 100 000 пати повеќе H⁺ јони од чиста вода!</div>
+        <div class="t-links"><a class="t-btn" href="alatki.html">🧮 pH калкулатор</a></div>
+        <div class="mq" data-quiz="kiselini"></div>
+      </div>
+
+      <!-- ===================== ХЕМИСКИ ВРСКИ ===================== -->
+      <div class="tab-panel" id="vrski" hidden>
+        <p class="t-lead">Атомите ретко остануваат сами. Тие се стремат да ја имаат <b>последната обвивка полна</b> – како благородните гасови (правило на октетот: 8 електрони, а за водородот 2). За да го постигнат тоа, градат <b>хемиски врски</b>.</p>
+
+        <div class="t-grid">
+          <div class="t-note"><h4>🧂 Јонска врска</h4><p>Метал + неметал. Металот <b>предава</b> електрон, неметалот го <b>прима</b>. Спротивно наелектризираните јони се привлекуваат. Пр. NaCl.</p></div>
+          <div class="t-note"><h4>🤝 Ковалентна врска</h4><p>Неметал + неметал. Атомите <b>споделуваат</b> електронски парови. Пр. H₂, O₂, H₂O, CO₂.</p></div>
+          <div class="t-note"><h4>🌊 Метална врска</h4><p>Метални атоми ги отпуштаат валентните електрони во заедничко „море“ од електрони што слободно се движат меѓу катјоните.</p></div>
+        </div>
+
+        <h3 class="t-h">1. Јонска врска: Na + Cl</h3>
+        <div class="t-box">
+          <svg id="ion-svg" viewBox="0 0 400 200" data-step="0" role="img" aria-label="Пренос на електрон од натриум на хлор">
+            <g transform="translate(110 100)"><g class="na">
+              <circle class="ring" r="44"/>
+              <circle r="22" fill="#fbbf24"/>
+              <text class="l0" y="5">Na</text>
+              <text class="l1" y="5">Na<tspan class="sup" dy="-7">+</tspan></text>
+            </g></g>
+            <circle id="ion-e" class="edot from" cx="154" cy="100" r="6"/>
+            <g transform="translate(290 100)"><g class="cl">
+              <circle class="ring" r="52"/>
+              <circle r="26" fill="#86efac"/>
+              <text class="l0" y="5">Cl</text>
+              <text class="l1" y="5">Cl<tspan class="sup" dy="-7">−</tspan></text>
+              <circle class="edot" cx="52" cy="0" r="5"/>
+              <circle class="edot" cx="36.8" cy="36.8" r="5"/>
+              <circle class="edot" cx="0" cy="52" r="5"/>
+              <circle class="edot" cx="-36.8" cy="36.8" r="5"/>
+              <circle class="edot" cx="-36.8" cy="-36.8" r="5"/>
+              <circle class="edot" cx="0" cy="-52" r="5"/>
+              <circle class="edot" cx="36.8" cy="-36.8" r="5"/>
+              <circle class="edot from new" cx="-52" cy="0" r="6"/>
+            </g></g>
+            <text class="attr" x="213" y="180" text-anchor="middle">привлекување + ⟷ −</text>
+          </svg>
+          <p class="t-read" id="ion-read"></p>
+          <div class="t-row"><button class="t-btn" id="ion-btn">▶ Прикажи</button></div>
+        </div>
+
+        <h3 class="t-h">2. Ковалентна врска: H + H</h3>
+        <div class="t-box">
+          <svg id="cov-svg" viewBox="0 0 400 200" data-step="0" role="img" aria-label="Два водородни атома споделуваат електронски пар">
+            <ellipse class="glow" cx="200" cy="100" rx="20" ry="15"/>
+            <g transform="translate(120 100)"><g class="h1">
+              <circle class="ring" r="40"/>
+              <circle r="16" fill="#fbbf24"/>
+              <text y="5">H</text>
+              <circle class="edot d1" cx="40" cy="0" r="6"/>
+            </g></g>
+            <g transform="translate(280 100)"><g class="h2">
+              <circle class="ring" r="40"/>
+              <circle r="16" fill="#fbbf24"/>
+              <text y="5">H</text>
+              <circle class="edot d2" cx="-40" cy="0" r="6"/>
+            </g></g>
+            <text class="pair" x="200" y="165" text-anchor="middle">заеднички електронски пар</text>
+          </svg>
+          <p class="t-read" id="cov-read"></p>
+          <div class="t-row"><button class="t-btn" id="cov-btn">▶ Прикажи</button></div>
+        </div>
+        <div class="t-grid">
+          <div class="t-note"><h4>H–H, Cl–Cl</h4><p>Една споделена двојка = <b>единечна</b> врска.</p></div>
+          <div class="t-note"><h4>O=O, O=C=O</h4><p>Две споделени двојки = <b>двојна</b> врска (во O₂ и CO₂).</p></div>
+          <div class="t-note"><h4>N≡N</h4><p>Три споделени двојки = <b>тројна</b> врска. Затоа азотот во воздухот е многу стабилен.</p></div>
+        </div>
+
+        <h3 class="t-h">3. Метална врска: море од електрони</h3>
+        <div class="t-box">
+          <svg id="met-svg" viewBox="0 0 400 220" role="img" aria-label="Метални катјони и слободни електрони"></svg>
+          <p class="t-read" id="met-read">Електроните слободно талкаат меѓу металните јони.</p>
+          <div class="t-row"><button class="t-btn" id="met-btn">🔋 Вклучи напон</button></div>
+        </div>
+
+        <h3 class="t-h">Како да ги препознаеш по својствата</h3>
+        <div class="t-grid">
+          <div class="t-note"><h4>Јонски соединенија</h4><p>Цврсти кристали со висока точка на топење. Струја спроведуваат растопени или растворени во вода.</p></div>
+          <div class="t-note"><h4>Ковалентни соединенија</h4><p>Често гасови или течности, ниска точка на топење. Повеќето не спроведуваат струја.</p></div>
+          <div class="t-note"><h4>Метали</h4><p>Сјајни, ковни, добро спроведуваат струја и топлина – благодарение на слободните електрони.</p></div>
+        </div>
+        <div class="t-fun"><b>💡 Знаеше ли?</b> Кујнската сол е јонски кристал: во секое зрнце милијарди Na⁺ и Cl⁻ јони се редат наизменично во правилна коцкеста решетка.</div>
+        <div class="mq" data-quiz="vrski"></div>
+      </div>
+
+      <!-- ===================== ПЕРИОДЕН СИСТЕМ ===================== -->
+      <div class="tab-panel" id="periodenSistem" hidden>
+        <p class="t-lead">Периодниот систем е „мапа“ на сите елементи. Подредени се по растечки атомски број така што елементите со слични својства завршуваат еден под друг.</p>
+
+        <div class="t-grid">
+          <div class="t-note"><h4>↔️ Периоди</h4><p>Хоризонтални редови (има 7). Бројот на периодата покажува колку електронски обвивки има атомот.</p></div>
+          <div class="t-note"><h4>↕️ Групи</h4><p>Вертикални колони (има 18). Елементите од иста група имаат ист број валентни електрони, па затоа слично се однесуваат.</p></div>
+          <div class="t-note"><h4>🔢 Атомски број</h4><p>Секој следен елемент има еден протон повеќе. Така се подредени од лево на десно.</p></div>
+        </div>
+
+        <h3 class="t-h">Истражи ги првите 36 елементи</h3>
+        <p class="section-sub">Допри елемент за повеќе информации, или избери група за да ја истакнеш.</p>
+        <div class="t-box">
+          <div class="t-row" id="pt-filters"></div>
+          <div class="pt-wrap"><div class="pt" id="pt"></div></div>
+          <div class="pt-leg" id="pt-leg"></div>
+          <div class="el-card" id="el-card"></div>
+        </div>
+
+        <h3 class="t-h">Правила во табелата</h3>
+        <div class="t-grid">
+          <div class="t-note"><h4>⬇️ Надолу во група</h4><p>Атомскиот радиус <b>расте</b> (повеќе обвивки), а металниот карактер е посилен.</p></div>
+          <div class="t-note"><h4>➡️ Надесно во периода</h4><p>Атомскиот радиус <b>опаѓа</b>, а електронегативноста („желба“ за електрони) <b>расте</b>.</p></div>
+          <div class="t-note"><h4>⚡ Валентни електрони</h4><p>Група 1 има 1, група 2 има 2, а групите 13–18 имаат 3 до 8 валентни електрони (хелиумот има 2).</p></div>
+        </div>
+        <div class="t-fun"><b>💡 Знаеше ли?</b> Мендељеев го подредил периодниот систем во 1869 година и оставил празни места за елементи што сѐ уште не биле откриени. Подоцна тие навистина биле пронајдени токму со предвидените својства!</div>
+        <div class="t-links"><a class="t-btn" href="alatki.html">📊 Целиот периоден систем (118 елементи)</a></div>
+        <div class="mq" data-quiz="periodenSistem"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">© <span id="year"></span> Сакам хемија · Изработил: Ивона Софрониевска</div>
+  </footer>
+
+  <script src="teme.js"></script>
+  <script src="app.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

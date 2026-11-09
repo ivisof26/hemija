@@ -1,8 +1,8 @@
 // Service worker: сајтот работи и без интернет откако еднаш ќе се отвори.
 // Кога менувате датотеки, сменете го бројот на верзијата подолу.
-const CACHE = "hemija-v10";
+const CACHE = "hemija-v12";
 const FILES = [
-  "./", "index.html", "kvizovi.html", "igri.html", "testovi.html", "test-kvalitativna.html", "test-organska.html", "aplikacija.html", "alatki.html", "alatki.css", "alatki.js", "ph.js", "imenuvanje.js", "imenuvanje-data.js", "imenuvanje.css", "reakcii.js", "epruveta.js", "model.js", "instrumentalna.js",
+  "./", "index.html", "teme.html", "teme.css", "teme.js", "kvizovi.html", "igri.html", "testovi.html", "test-kvalitativna.html", "test-organska.html", "aplikacija.html", "alatki.html", "alatki.css", "alatki.js", "ph.js", "imenuvanje.js", "imenuvanje-data.js", "imenuvanje.css", "reakcii.js", "epruveta.js", "model.js", "instrumentalna.js",
   "style.css", "app.js", "common.js", "chemists.js", "today.js",
   "questions.js", "quiz.js", "anagram-words.js", "anagram.js",
   "elements.js", "memory.js", "equations.js", "balance.js", "hangman.js",

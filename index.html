@@ -24,6 +24,8 @@
     #start .hub-list li:first-child { border-top: 0; }
     #start .hub-list li::before { content: ""; position: absolute; left: 2px; top: 11px; width: 6px; height: 6px; border-radius: 50%; background: var(--primary, #c2410c); }
     #start .hub-card .hub-go { margin-top: auto; }
+    a.topic-card { display: flex; flex-direction: column; color: inherit; text-decoration: none; }
+    a.topic-card .hub-go { margin-top: 12px; font-weight: 700; color: var(--primary); }
   </style>
 </head>
 <body>
@@ -33,6 +35,7 @@
       <a class="logo" href="index.html">⚗️ Хемија<span>за сите</span></a>
       <nav>
         <a href="index.html" class="active" aria-current="page">Почетна</a>
+        <a href="teme.html">📚 Теми</a>
         <a href="kvizovi.html">Квизови</a>
         <a href="igri.html">Игри</a>
         <a href="testovi.html">Тестови</a>
@@ -126,23 +129,28 @@
     <!-- ТЕМИ -->
     <section id="temi" class="container section">
       <h2>Теми</h2>
+      <p class="section-sub">Објаснето јасно, со анимации и мини квизови.</p>
       <div class="cards">
-        <article class="card">
+        <a class="card topic-card" href="teme.html#atom">
           <h3>⚛️ Атом</h3>
           <p>Протони, неутрони и електрони – градбата на материјата.</p>
-        </article>
-        <article class="card">
+          <span class="hub-go">Изгради свој атом →</span>
+        </a>
+        <a class="card topic-card" href="teme.html#kiselini">
           <h3>🧪 Киселини и бази</h3>
           <p>pH вредност, индикатори и неутрализација.</p>
-        </article>
-        <article class="card">
+          <span class="hub-go">Движи ја pH скалата →</span>
+        </a>
+        <a class="card topic-card" href="teme.html#vrski">
           <h3>🔗 Хемиски врски</h3>
           <p>Јонска, ковалентна и метална врска.</p>
-        </article>
-        <article class="card">
+          <span class="hub-go">Гледај како се врзуваат атомите →</span>
+        </a>
+        <a class="card topic-card" href="teme.html#periodenSistem">
           <h3>📊 Периоден систем</h3>
           <p>Елементи, групи и периоди.</p>
-        </article>
+          <span class="hub-go">Истражи ги елементите →</span>
+        </a>
       </div>
     </section>
 

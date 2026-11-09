@@ -40,19 +40,24 @@
   /* ---------- Индикатори ---------- */
   const WATER = [207, 230, 245, 0.5];
   const IND = [
-    { name: "Метил-портокалово", lo: 3.1, hi: 4.4, change: "црвена → жолта", a: [225, 40, 40, .6], m: [245, 130, 30, .6], b: [255, 205, 20, .6] },
-    { name: "Бромкрезол-зелено", lo: 3.8, hi: 5.4, change: "жолта → сина", a: [250, 215, 40, .6], m: [90, 175, 90, .6], b: [40, 100, 200, .65] },
-    { name: "Метил-црвено", lo: 4.4, hi: 6.2, change: "црвена → жолта", a: [215, 35, 40, .6], m: [240, 120, 40, .6], b: [255, 215, 10, .6] },
-    { name: "Бромтимол-сино", lo: 6.0, hi: 7.6, change: "жолта → сина", a: [250, 215, 40, .6], m: [90, 175, 90, .6], b: [40, 100, 200, .65] },
-    { name: "Фенолфталеин", lo: 8.2, hi: 10.0, change: "безбојна → розева", a: WATER, m: [240, 150, 200, .6], b: [233, 30, 140, .78] },
-    { name: "Тимолфталеин", lo: 9.3, hi: 10.5, change: "безбојна → сина", a: WATER, m: [150, 150, 230, .55], b: [30, 70, 200, .78] }
+    { name: "Метил-портокалово", lo: 3.1, hi: 4.4, change: "црвена → жолта", c: [[225, 35, 40, .62], [238, 80, 38, .62], [245, 130, 32, .62], [252, 175, 25, .62], [255, 212, 30, .62]] },
+    { name: "Бромкрезол-зелено", lo: 3.8, hi: 5.4, change: "жолта → сина", c: [[250, 215, 40, .6], [185, 205, 60, .6], [95, 175, 90, .62], [50, 140, 150, .64], [40, 100, 200, .66]] },
+    { name: "Метил-црвено", lo: 4.4, hi: 6.2, change: "црвена → жолта", c: [[215, 30, 40, .62], [232, 70, 40, .62], [243, 120, 35, .62], [250, 170, 25, .62], [255, 218, 20, .62]] },
+    { name: "Бромтимол-сино", lo: 6.0, hi: 7.6, change: "жолта → сина", c: [[250, 215, 40, .6], [185, 205, 60, .6], [95, 175, 90, .62], [50, 140, 150, .64], [40, 100, 200, .66]] },
+    { name: "Фенолфталеин", lo: 8.2, hi: 10.0, change: "безбојна → розева", c: [WATER, [247, 218, 234, .42], [241, 150, 200, .62], [233, 70, 160, .74], [215, 20, 120, .82]] },
+    { name: "Тимолфталеин", lo: 9.3, hi: 10.5, change: "безбојна → сина", c: [WATER, [190, 205, 240, .5], [120, 150, 230, .62], [60, 95, 215, .72], [25, 55, 190, .8]] }
   ];
+  IND.forEach(i => { i.a = i.c[0]; i.b = i.c[i.c.length - 1]; i.m = i.c[Math.floor(i.c.length / 2)]; });
   const mix = (c1, c2, t) => c1.map((v, i) => v + (c2[i] - v) * t);
   const css = c => `rgb(${Math.round(c[0])},${Math.round(c[1])},${Math.round(c[2])})`;
-  function frac(ind, pH) { return Math.max(0, Math.min(1, (pH - ind.lo) / (ind.hi - ind.lo))); }
+  // удел на базната форма на индикаторот (сигмоида околу средината на интервалот)
+  function alpha(ind, pH) {
+    const s = 1.9 / (ind.hi - ind.lo);
+    return 1 / (1 + Math.pow(10, -(pH - pk(ind)) * s));
+  }
   function indColor(ind, pH) {
-    const t = frac(ind, pH);
-    return t < .5 ? mix(ind.a, ind.m, t * 2) : mix(ind.m, ind.b, (t - .5) * 2);
+    const x = alpha(ind, pH) * (ind.c.length - 1), i = Math.min(ind.c.length - 2, Math.floor(x));
+    return mix(ind.c[i], ind.c[i + 1], x - i);
   }
   const pk = ind => (ind.lo + ind.hi) / 2;
 
@@ -156,12 +161,13 @@
   </g>
   <!-- пипета -->
   <g id="ti-pip" class="ti-pip">
-    <ellipse cx="150" cy="316" rx="8" ry="10" fill="#e6eef5" stroke="#8fa6bd" stroke-width="2"/>
-    <rect x="147" y="324" width="6" height="58" fill="#e6eef5" stroke="#8fa6bd" stroke-width="1.8"/>
-    <path d="M147 382 H153 L150.6 392 H149.4 Z" fill="#e6eef5" stroke="#8fa6bd" stroke-width="1.6"/>
-    <rect id="ti-pipliq" class="ti-pipliq" x="148.2" y="322" width="3.6" height="60" fill="#8cc4e8"/>
-    <rect x="146" y="344" width="8" height="2" fill="#2d1b4e"/>
+    <path d="M148.6 298 V312 C140 314 139 332 140 336 C141 342 146 344 148.6 346 V378 L149.6 386 H150.4 L151.4 378 V346 C154 344 159 342 160 336 C161 332 160 314 151.4 312 V298 Z" fill="#eef4f9" fill-opacity=".85" stroke="#8fa6bd" stroke-width="1.6" stroke-linejoin="round"/>
+    <g id="ti-pipliq" class="ti-pipliq">
+      <path d="M149.5 306 V313 C143 316 142 332 143 336 C144 341 147 343 149.5 345 V378 L150 383 L150.5 378 V345 C153 343 156 341 157 336 C158 332 157 316 150.5 313 V306 Z" fill="#8cc4e8"/>
+    </g>
+    <line x1="146" x2="154" y1="304" y2="304" stroke="#2d1b4e" stroke-width="1.6"/>
   </g>
+
   <!-- капка и млаз од биретата -->
   <rect id="ti-stream" x="149" y="297" width="2" height="108" fill="#8cc4e8" opacity="0"/>
   <circle id="ti-drop" cx="150" cy="298" r="2.8" fill="#8cc4e8" opacity="0"/>
@@ -253,7 +259,7 @@
       const b = el("button", "ti-ind");
       b.type = "button";
       const sw = el("span", "ti-sw");
-      sw.style.background = `linear-gradient(90deg, ${css(ind.a === WATER ? [235, 240, 245] : ind.a)}, ${css(ind.m)}, ${css(ind.b)})`;
+      sw.style.background = "linear-gradient(90deg, " + ind.c.map((c, k) => (c === WATER ? "rgb(235,240,245)" : css(c)) ).join(",") + ")";
       b.append(sw, el("span", "ti-in-n", ind.name), el("span", "ti-in-r", `pH ${fmt(ind.lo, 1)} – ${fmt(ind.hi, 1)}`), el("span", "ti-in-c", ind.change));
       b.addEventListener("click", () => {
         if (S.passed) return;
@@ -395,7 +401,7 @@
     if (S.busy || S.prep.ind || !S.prep.pip) return;
     S.busy = true; updateSteps();
     const ind = IND[S.picked];
-    const col = css(ind.b === WATER ? ind.m : (ind.a === WATER ? ind.b : ind.a));
+    const col = css(ind.a === WATER ? ind.c[2] : ind.a);
     for (let i = 0; i < 3; i++) later(() => fall(col, 158, 322, 402, 420, idrops), 250 + i * 380);
     later(() => { S.prep.ind = true; S.v0 = S.r = 0; setFlaskColor(); }, 1500);
     later(() => { S.busy = false; updateSteps(); }, 2100);
@@ -569,5 +575,5 @@
     secQ.hidden = true; renderQ();
   }
   start("");
-  window.__titracija = { SYS, IND, pHat, Veq, Vat, evalInd, getS: () => S };
+  window.__titracija = { indColor, css, SYS, IND, pHat, Veq, Vat, evalInd, getS: () => S };
 })();

@@ -7,6 +7,7 @@
   <meta name="description" content="Периоден систем, калкулатор за моларна маса, pH калкулатор, квалитативна анализа на катјони и виртуелни инструментални вежби.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="alatki.css">
+  <link rel="stylesheet" href="titracija.css">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#2d1b4e">
   <link rel="icon" type="image/png" href="icon-192.png">
@@ -45,6 +46,7 @@
         <button class="at-tab" role="tab" id="at-tab-calc" data-tab="calc" aria-selected="false" aria-controls="at-panel-calc" type="button">🧮 Калкулатор</button>
         <button class="at-tab" role="tab" id="at-tab-ph" data-tab="ph" aria-selected="false" aria-controls="at-panel-ph" type="button">⚗️ pH</button>
         <button class="at-tab" role="tab" id="at-tab-ep" data-tab="ep" aria-selected="false" aria-controls="at-panel-ep" type="button">🧪 Квалитативна анализа на катјони</button>
+        <button class="at-tab" role="tab" id="at-tab-tit" data-tab="tit" aria-selected="false" aria-controls="at-panel-tit" type="button">⚗️ Титрации (индикатор)</button>
         <button class="at-tab" role="tab" id="at-tab-inst" data-tab="inst" aria-selected="false" aria-controls="at-panel-inst" type="button">🔬 Инструментални методи</button>
       </div>
 
@@ -215,6 +217,12 @@
         <p class="at-note">Реакциите се од „Квалитативна аналитичка хемија. Практикум“. ★ = групен реагенс или реакција за идентификација. Равенките се јонски. Во режимот „Непознат раствор“ ★ и равенките не се гледаат додека не го дадеш одговорот.</p>
       </div>
 
+      <!-- ТИТРАЦИИ СО ИНДИКАТОР -->
+      <div class="at-panel" id="at-panel-tit" role="tabpanel" hidden>
+        <div id="tit-root"></div>
+        <p class="at-note">Симулацијата користи пресметани криви на титрација (силна киселина/база, слаба киселина и слаба база). Концентрацијата на непознатиот раствор е случајна во секоја задача.</p>
+      </div>
+
       <!-- ИНСТРУМЕНТАЛНИ МЕТОДИ: виртуелни лаборатории -->
       <div class="at-panel" id="at-panel-inst" role="tabpanel" hidden>
         <div id="inst-root"></div>
@@ -236,6 +244,7 @@
   <script src="epruveta.js"></script>
   <script src="model.js"></script>
   <script src="instrumentalna.js"></script>
+  <script src="titracija.js"></script>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 </body>
 </html>

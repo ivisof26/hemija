@@ -1,0 +1,36 @@
+/* Алатки: титрација со индикатор */
+.ti-svg { display: block; width: 100%; height: auto; max-height: 560px; }
+.ti-burliq { transition: transform .35s ease-out; }
+.ti-stop { transform-origin: 0 0; transition: transform .2s; }
+.ti-stop.open { transform: rotate(80deg); }
+.ti-fliq { transform-origin: 150px 449px; transform: scaleY(0); transition: transform 1.3s ease, fill .5s, fill-opacity .5s; }
+.ti-pip { transform: translate(90px, -50px); opacity: 0; transition: transform .6s ease, opacity .4s; }
+.ti-pip.in { transform: none; opacity: 1; }
+.ti-pipliq { transform-box: fill-box; transform-origin: 50% 100%; transition: transform 1.3s ease-in-out; }
+.ti-flask { transform-origin: 150px 449px; }
+.ti-flask.swirl { animation: tiSwirl .55s ease-in-out; }
+@keyframes tiSwirl { 0% { transform: rotate(0); } 25% { transform: rotate(2.5deg); } 75% { transform: rotate(-2.5deg); } 100% { transform: rotate(0); } }
+
+.ti-right { min-width: 0; }
+.ti-todo { margin: 8px 0 0; padding-left: 20px; color: var(--muted, #6b5b6e); }
+.ti-inds { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 8px; margin-bottom: 10px; }
+.ti-ind {
+  font: inherit; text-align: left; cursor: pointer; padding: 8px 10px; background: #fff; color: inherit;
+  border: 2px solid #eadfd6; border-radius: 10px; display: flex; flex-direction: column; gap: 2px;
+  transition: border-color .2s, background .2s, transform .15s;
+}
+.ti-ind:hover:not(:disabled) { border-color: var(--primary, #c2410c); transform: translateY(-2px); }
+.ti-ind.sel { border-color: var(--primary, #c2410c); background: var(--accent, #fff1e6); }
+.ti-ind:disabled { cursor: default; opacity: .75; }
+.ti-ind.sel:disabled { opacity: 1; }
+.ti-sw { display: block; height: 10px; border-radius: 5px; border: 1px solid rgba(0, 0, 0, .15); margin-bottom: 4px; }
+.ti-in-n { font-weight: 800; }
+.ti-in-r { font-size: .82rem; color: var(--muted, #6b5b6e); }
+.ti-in-c { font-size: .8rem; font-weight: 600; }
+.ti-chartbox { margin-top: 10px; }
+.ti-chart { width: 100%; max-width: 460px; height: auto; display: block; background: #fffdfa; border: 1px solid #eadfd6; border-radius: 10px; }
+.ti-chartbox:empty { display: none; }
+.in-stepbtns .btn.done { opacity: .6; }
+.ti-runs { margin-top: 12px; }
+.ti-ctl { margin-top: 12px; }
+@media (prefers-reduced-motion: reduce) { .ti-flask.swirl { animation: none; } .ti-fliq, .ti-pip, .ti-pipliq { transition: none; } }

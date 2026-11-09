@@ -262,7 +262,7 @@
     wn.addEventListener("change", () => setLam(clamp(Math.round(num(wn.value) / 5) * 5 || S.lam, 350, 800)));
     wl.append(wr, wn); wrow.appendChild(wl); c3.appendChild(wrow);
     const brow = el("div", "in-row");
-    const zeroB = btn(cfg.develop ? "⓪ Нулирај (слепа проба)" : "⓪ Нулирај (дестилирана вода)", "btn ghost", () => {
+    const zeroB = btn(cfg.develop ? "⓪ Подеси ја апсорбанцата на 0 (слепа проба)" : "⓪ Подеси ја апсорбанцата на 0 (дестилирана вода)", "btn ghost", () => {
       if (busy || adv) return;
       if (cfg.develop && !S.reagent) { msg3.textContent = "Слепата проба добива реагенси; додај ги прво реагенсите (чекор 2)."; msg3.className = "in-msg warn"; }
       S.zero = { lam: S.lam, A: cfg.develop && S.reagent ? M.REAGENT_BLANK : 0 }; S.last = { A: 0, f: "слепа проба" };
@@ -369,7 +369,7 @@
       cuvliq.style.fill = f ? css(f) : "none"; cuvg.classList.toggle("out", !f);
       lcd1.textContent = `λ = ${S.lam} nm`;
       lcd2.textContent = S.last ? `A = ${fmt(S.last.A, 3)}` : "A = –";
-      lcdw.textContent = S.last && S.last.fid !== undefined && !S.last.zeroed ? "⚠ нулирај на оваа λ" : (f ? "кивета: " + f.label : "избери тиквичка");
+      lcdw.textContent = S.last && S.last.fid !== undefined && !S.last.zeroed ? "⚠ Подеси ја апсорбанцата на 0 на оваа λ" : (f ? "кивета: " + f.label : "избери тиквичка");
       if (!busy) { setKnob(S.lam); }
       clkTxt.textContent = cfg.develop ? (S.reagent ? ` Од додавање на реагенсите: ${Math.round(S.t)} min` : " Реагенсите сè уште не се додадени") : "";
       clkHand.style.transform = `rotate(${(cfg.develop ? S.t : 0) * 12}deg)`; clock.hidden = !cfg.develop;
@@ -419,7 +419,7 @@
           const v = num(ins[f.k].value), t = truth[f.k], tol = Math.max(cfg.tol * t, cfg.abs[f.k] || 0), ok = isFinite(v) && Math.abs(v - t) <= tol; all = all && ok;
           out.appendChild(el("p", ok ? "in-fb-ok" : "in-fb-bad", `${ok ? "✅" : "❌"} ${f.label.split(" (")[0]}: ${isFinite(v) ? fmt(v, 2) : "–"} (вистинска вредност: ${fmt(t, 2)}, дозволено ±${fmt(tol, 2)})`));
         });
-        out.appendChild(el("p", all ? "in-fb-ok" : "in-msg", all ? "🎉 Точно определување!" : "Провери ги мерењата, нулирањето и стандардната крива, па обиди се повторно."));
+        out.appendChild(el("p", all ? "in-fb-ok" : "in-msg", all ? "🎉 Точно определување!" : "Провери ги мерењата, слепата проба и стандардната крива, па обиди се повторно."));
       });
       const sol = btn("🧮 Покажи ја пресметката", "btn ghost", () => {
         out.replaceChildren(); const L = steps(); L.forEach(t => out.appendChild(el("div", "in-eq", t)));

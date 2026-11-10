@@ -533,7 +533,7 @@
     secLab.appendChild(el("h4", "", "2. Титрација"));
     secLab.appendChild(el("p", "in-hint", "Следи ги чекорите по ред. Првата титрација може да ти биде ориентациона (додавај од титрантот побрзо); во следните при крајот титрирај капка по капка."));
     const sb = el("div", "in-stepbtns");
-    stepBtns.pip = btn("① Со одмерна пипета пренеси 25,00 mL од растоврот на аналитот во ерленмаерот", "btn", doPip);
+    stepBtns.pip = btn("① Со одмерна пипета пренеси 25,00 mL од растворот на аналитот во ерленмаерот", "btn", doPip);
     stepBtns.ind = btn(ind.self ? "② Закиселување со разредена H₂SO₄" : "② Додај 2–3 капки индикатор", "btn", doInd);
     stepBtns.fill = btn("③ Наполни ја биретата со титрант", "btn", doFill);
     sb.append(stepBtns.pip, stepBtns.ind, stepBtns.fill);

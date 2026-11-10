@@ -126,15 +126,15 @@
       qa: [["Како се менува бојата на фенолфталеинот кога базата се титрира со киселина?", "Од розова во безбојна: растворот се обезбојува кога pH ќе падне под околу 8."]] },
     { id: "hac", grp: "Киселинско-базни", label: "CH₃COOH со NaOH", sym: "CH₃COOH", sample: "раствор на оцетна киселина (CH₃COOH)", titrant: "натриум хидроксид (NaOH)", tshort: "NaOH",
       ct: 0.1, ctDec: 4, nu: 1, crange: [0.08, 0.14], dir: 1, sig: SG.ph, curve: weakAcid(1.8e-5, 0.1), inds: AB,
-      data: "Слаба киселина (Ka = 1,8·10⁻⁵) титрирана со силна база.", eq: "CH₃COOH + NaOH → CH₃COONa + H₂O", stoich: "n(CH₃COOH) = n(NaOH)",
+      data: "Слаба киселина (Ka = 1,8·10⁻⁵) се титрира со силна база.", eq: "CH₃COOH + NaOH → CH₃COONa + H₂O", stoich: "n(CH₃COOH) = n(NaOH)",
       eqnote: "Ацетатниот јон хидролизира (CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻), па во еквивалентната точка растворот е базен.", qa: [] },
     { id: "hcooh", grp: "Киселинско-базни", label: "HCOOH со NaOH", sym: "HCOOH", sample: "раствор на мравска киселина (HCOOH)", titrant: "натриум хидроксид (NaOH)", tshort: "NaOH",
       ct: 0.1, ctDec: 4, nu: 1, crange: [0.08, 0.14], dir: 1, sig: SG.ph, curve: weakAcid(1.8e-4, 0.1), inds: AB,
-      data: "Слаба киселина (Ka = 1,8·10⁻⁴), посилна од оцетната, титрирана со силна база.", eq: "HCOOH + NaOH → HCOONa + H₂O", stoich: "n(HCOOH) = n(NaOH)",
+      data: "Слаба киселина (Ka = 1,8·10⁻⁴), посилна од оцетната, се титрира со силна база.", eq: "HCOOH + NaOH → HCOONa + H₂O", stoich: "n(HCOOH) = n(NaOH)",
       eqnote: "Форматниот јон хидролизира (HCOO⁻ + H₂O ⇌ HCOOH + OH⁻), па во еквивалентната точка растворот е слабо базен.", qa: [] },
     { id: "nh3", grp: "Киселинско-базни", label: "NH₃ со HCl", sym: "NH₃", sample: "раствор на амонијак (NH₃)", titrant: "хлороводородна киселина (HCl)", tshort: "HCl",
       ct: 0.1, ctDec: 4, nu: 1, crange: [0.08, 0.14], dir: -1, sig: SG.ph, curve: weakBase(1.8e-5, 0.1), inds: AB,
-      data: "Слаба база (Kb = 1,8·10⁻⁵) титрирана со силна киселина.", eq: "NH₃ + HCl → NH₄Cl", stoich: "n(NH₃) = n(HCl)",
+      data: "Слаба база (Kb = 1,8·10⁻⁵) се титрира со силна киселина.", eq: "NH₃ + HCl → NH₄Cl", stoich: "n(NH₃) = n(HCl)",
       eqnote: "Амониумовиот јон хидролизира (NH₄⁺ + H₂O ⇌ NH₃ + H₃O⁺), па во еквивалентната точка растворот е кисел.", qa: [] },
     { id: "h2so4", grp: "Киселинско-базни", label: "H₂SO₄ со NaOH", sym: "H₂SO₄", sample: "раствор на сулфурна киселина (H₂SO₄)", titrant: "натриум хидроксид (NaOH)", tshort: "NaOH",
       ct: 0.1, ctDec: 4, nu: 0.5, crange: [0.04, 0.07], dir: 1, sig: SG.ph, curve: strongAcid(2, 0.1), inds: AB,
@@ -625,8 +625,8 @@
     if (!changed) { runMsg.textContent = "Бојата уште не се променила трајно. Продолжи со додавање титрант."; runMsg.className = "in-msg warn"; return; }
     const vis = Vat(s, S.ca, pk(ind)), over = V - vis;
     let note = "добро";
-    if (over > 0.30) note = `пре-титрирано (≈ +${fmt(over, 2)} mL)`;
-    else if (over > 0.12) note = `малку пре-титрирано (≈ +${fmt(over, 2)} mL)`;
+    if (over > 0.30) note = `претитрирано (≈ +${fmt(over, 2)} mL)`;
+    else if (over > 0.12) note = `малку претитрирано (≈ +${fmt(over, 2)} mL)`;
     S.runs.push({ start: S.v0 / 100, end: S.r / 100, cons: V, note });
     S.active = false;
     runMsg.textContent = over > 0.12 ? "Запишано. Ја помина завршната точка: следниот пат додавај по капка кога бојата почнува да се менува." : "Запишано. Добро определена завршна точка!";

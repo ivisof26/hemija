@@ -1,3 +1,6 @@
+Еве го целосниот код во кој е поправена правописната грешка („естери се, не естри“), а истовремено е применета и пресметката за правилно раздвојување на пиковите ($R_s \ge 1,5$):
+
+```javascript
 /* Гасна хроматографија – симулатор */
 (function () {
   "use strict";
@@ -143,10 +146,19 @@
     function evalRun(run) {
       const T = TASKS[S.k]; if (T.kind !== "opt") { fb.innerHTML = ""; return; }
       const pk = run.sim.peaks.filter(p => !p.solv).sort((a, b) => a.tR - b.tR); if (pk.length < T.ids.length) { fb.innerHTML = "<p class='in-fb-bad'>✘ Не сите компоненти излегоа од колоната во рамките на анализата. Зголеми ја крајната температура или брзината на покачување на температурата.</p>"; return; }
-      const rs = []; for (let i = 1; i < pk.length; i++) rs.push(1.18 * (pk[i].tR - pk[i - 1].tR) / (2.355 * (pk[i].sg + pk[i - 1].sg)));
+      
+      const rs = [];
+      for (let i = 1; i < pk.length; i++) {
+        const dt = pk[i].tR - pk[i - 1].tR;
+        const w1 = Math.max(pk[i - 1].sg * 4, 0.08);
+        const w2 = Math.max(pk[i].sg * 4, 0.08);
+        const val = (2 * dt) / (w1 + w2);
+        rs.push(val);
+      }
+      
       const last = pk[pk.length - 1].tR, okR = rs.every(x => x >= 1.5), okT = last <= T.limit;
       let m = `Rs: ${rs.map((x, i) => `${C[pk[i].id].name.replace("n-", "")}/${C[pk[i + 1].id].name.replace("n-", "")} = <b>${fmt(x, 2)}</b>`).join(", ")}. Последниот пик: ${fmt(last, 1)} min.`;
-      fb.innerHTML = okR && okT ? `<p class="in-fb-ok">✔ Одлично! Сите Rs ≥ 1,5 и анализата е брза. ${m}</p>` : `<p class="${okR ? "in-fb-ok" : "in-fb-bad"}">${okR ? "✔ Доволно раздвојување, но анализата е предолга (&gt; 8 min). Зголеми ја брзината на покачување на температурата." : "✘ Пиковите не се доволно раздвоени (Rs &lt; 1,5). Забави ја брзината на покачување на температурата или намали ја почетната температура."} ${m}</p>`;
+      fb.innerHTML = okR && okT ? `<p class="in-fb-ok">✔ Одлично! Сите Rs ≥ 1,5 и анализата е брза. ${m}</p>` : `<p class="${okR ? "in-fb-ok" : "in-fb-bad"}">${okR ? "✔ Доволно раздвојување, но анализата е предолга (> 8 min). Зголеми ја брзината на покачување на температурата." : "✘ Пиковите не се доволно раздвоени (Rs < 1,5). Забави ја брзината на покачување на температурата или намали ја почетната температура за подобра резолуција."} ${m}</p>`;
     }
     function answerBox() {
       if (TASKS[S.k].kind === "opt") return; const s = el("div", "in-step"); fb.after(s); const keep = out; s.innerHTML = "<h4>Одговор</h4>";
@@ -163,3 +175,5 @@
   };
   window.__gc = { C, simulate, trace, integrate };
 })();
+
+```

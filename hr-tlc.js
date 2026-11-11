@@ -155,7 +155,7 @@
         lanesList().forEach(l => { const b = el("button", "chr-opt" + (l.id === "M" ? " on" : ""), l.id === "M" ? l.name : "Стандард: " + l.name); b.type = "button";
           S.lanes[l.id] = l.id === "M"; b.onclick = () => { if (l.id === "M") return; S.lanes[l.id] = !S.lanes[l.id]; b.classList.toggle("on", S.lanes[l.id]); }; r.appendChild(b); });
         const tr = el("div", "chr-ctl"), rg = el("input"), o = el("output"); rg.type = "range"; rg.min = 1; rg.max = 5; rg.step = 1; rg.value = S.touch;
-        const hint = el("p", "chr-sub"); const up = () => { S.touch = +rg.value; o.textContent = S.touch + "×"; hint.textContent = S.touch === 1 ? "Малку материјал: петните можат слабо да се гледаат." : S.touch >= 4 ? "Многу материјал: петните ќе бидат големи и ќе се преклопуваат." : "Добра количина."; spotsDraw(); };
+        const hint = el("p", "chr-sub"); const up = () => { S.touch = +rg.value; o.textContent = S.touch + "×"; hint.textContent = S.touch === 1 ? "Малку материјал: петната можат слабо да се гледаат." : S.touch >= 4 ? "Многу материјал: петната ќе бидат големи и ќе се преклопуваат." : "Добра количина."; spotsDraw(); };
         rg.oninput = up; tr.append(el("span", "", "Допири со капилара"), rg, o);
         const go = el("button", "btn ghost", "💧 Нанеси"); go.type = "button"; lanesBox.append(r, tr, hint, go); up();
         go.onclick = () => { go.disabled = rg.disabled = true; r.querySelectorAll("button").forEach(b => b.disabled = true); spotsDraw(); laneLabels(); stepChamber(); };
@@ -180,7 +180,7 @@
     /* ---- развивање: корисникот одлучува кога да ја извади плочата ---- */
     function develop(sec) {
       S.stage = 3; const wet = S.sv.querySelector("#tl-wet"), clock = S.sv.querySelector("#tl-clock"); let t = 0, last = null, stopped = false;
-      const st = el("p", "in-hint", "Елуентот се качува по плочата со капиларни сили. <b>Извади ја плочата кога ќе процениш дека е време</b>: ако се извади прерано, петните се слабо раздвоени; ако фронтот стигне до врвот, плочата е изгубена."); sec.appendChild(st);
+      const st = el("p", "in-hint", "Елуентот се качува по плочата со капиларни сили. <b>Извади ја плочата кога ќе процениш дека е време</b>: ако се извади прерано, петната се слабо раздвоени; ако фронтот стигне до врвот, плочата е изгубена."); sec.appendChild(st);
       const stop = el("button", "btn primary", "⏹ Извади ја плочата"); stop.type = "button"; sec.appendChild(stop);
       const draw = () => { const x = Math.min(1, t / TDEV); S.F = LMAX * Math.sqrt(x); const h = S.F * PX; wet.setAttribute("y", Y0 - h); wet.setAttribute("height", h + 15); spotsDraw(); clock.textContent = "t = " + Math.round(25 * x) + " min"; };
       const fin = () => {
@@ -205,7 +205,7 @@
     function stepVis() {
       S.stage = 4; spotsDraw(); S.sv.querySelector("#tl-ruler").setAttribute("opacity", 1);
       const sec = el("div", "in-step keep"); right.appendChild(sec);
-      sec.innerHTML = "<h4>4. Визуелизација</h4><p class='in-hint'>Плочата е суво. Ако петните не се гледаат, пробај друг начин на откривање.</p>";
+      sec.innerHTML = "<h4>4. Визуелизација</h4><p class='in-hint'>Плочата е суво. Ако петната не се гледаат, пробај друг начин на откривање.</p>";
       const row = el("div", "chr-opts"); sec.appendChild(row);
       S.sc.modes.forEach(m => { const b = el("button", "chr-opt" + (m === S.mode ? " on" : ""), MODE[m]); b.type = "button";
         b.onclick = () => { S.mode = m; row.querySelectorAll("button").forEach(x => x.classList.remove("on")); b.classList.add("on"); spotsDraw(); }; row.appendChild(b); });
@@ -215,14 +215,14 @@
       lanesList().forEach(l => { if (!S.lanes[l.id]) return; const o = l.ids.map(comp).map(c => ({ c, r: rf(c) })).sort((a, b) => b.r - a.r);
         if (o.some(x => x.r < 0.1 || x.r > 0.9) && !bad.length) bad.push("Некои петна се залепени за стартот или фронтот (<i>R</i><sub>f</sub> надвор од 0,1–0,9).");
         for (let i = 1; i < o.length; i++) { const d1 = o[i - 1].r * S.F, d2 = o[i].r * S.F; const need = (spotR(d1).ry + spotR(d2).ry) / PX + 0.1;
-          if (d1 - d2 < need && !bad.length) bad.push(S.F < 4 ? "Плочата е извадена прерано: петните не се доволно оддалечени." : (S.touch >= 4 ? "Петните се преголеми (нанесено е премногу материјал) и се преклопуваат." : "Две петна се преклопуваат: елуентот не ги раздвојува доволно.")); } });
+          if (d1 - d2 < need && !bad.length) bad.push(S.F < 4 ? "Плочата е извадена прерано: петната не се доволно оддалечени." : (S.touch >= 4 ? "Петната се преголеми (нанесено е премногу материјал) и се преклопуваат." : "Две петна се преклопуваат: елуентот не ги раздвојува доволно.")); } });
       if (bad.length) { const m = el("p", "in-fb-bad", "✘ " + bad[0] + " Подготви нова плоча."); sec.appendChild(m); newPlate(sec); return; }
       stepMeasure();
     }
     function stepMeasure() {
       const sec = el("div", "in-step"); right.appendChild(sec);
       const ids = S.mixIds.map(comp).map(c => ({ c, r: rf(c) })).sort((a, b) => b.r - a.r);
-      sec.innerHTML = "<h4>5. Мерење и идентификација</h4><p class='in-hint'>Мерењата прави ги на првата лента (" + S.sc.mixName + ") во режим во кој петните се гледаат. <i>R</i><sub>f</sub> = растојание на петната / растојание на фронтот (двете од стартната линија).</p>";
+      sec.innerHTML = "<h4>5. Мерење и идентификација</h4><p class='in-hint'>Мерењата прави ги на првата лента (" + S.sc.mixName + ") во режим во кој петаита се гледаат. <i>R</i><sub>f</sub> = растојание на петната / растојание на фронтот (двете од стартната линија).</p>";
       const fr = el("div", "chr-ctl"); const fi = el("input", "chr-num"); fi.placeholder = "cm"; fr.append(el("span", "", "Фронт (cm)"), fi, el("span")); sec.appendChild(fr);
       const tb = el("table", "chr-tbl"); tb.innerHTML = "<tr><th>Петна (од горе)</th><th>Растојание (cm)</th><th><i>R</i><sub>f</sub></th>" + (S.sc.pens ? "" : "<th>Супстанца</th>") + "</tr>"; sec.appendChild(tb);
       const rows = ids.map((o, i) => { const tr = el("tr"); const d = el("input", "chr-num"), r = el("input", "chr-num"); const s = el("select", "chr-num"); s.style.width = "auto";

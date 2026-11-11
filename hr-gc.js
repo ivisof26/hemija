@@ -78,7 +78,7 @@
       ctl.innerHTML = "<h4>Параметри на гасниот хроматограф</h4>";
       const colS = el("select", "chr-num"); colS.style.width = "100%"; for (const k in COLS) { const o = el("option", "", COLS[k].name); o.value = k; if (k === M.col) o.selected = true; colS.appendChild(o); }
       colS.onchange = () => { M.col = colS.value; }; ctl.append(el("p", "in-hint", "Колона (30 m × 0,25 mm), гас носач: хелиум, детектор: FID"), colS);
-      [["flow", "Проток", 0.3, 3, 0.1, " mL/min"], ["T0", "Почетна T", 40, 200, 5, " °C"], ["hold", "Задржување", 0, 5, 0.5, " min"], ["ramp", "Нагорување", 0, 40, 1, " °C/min"], ["Tf", "Крајна T", 50, 300, 5, " °C"]].forEach(([k, l, mn, mx, st, u]) => {
+      [["flow", "Проток", 0.3, 3, 0.1, " mL/min"], ["T0", "Почетна T", 40, 200, 5, " °C"], ["hold", "Задржување", 0, 5, 0.5, " min"], ["ramp", "Загревање", 0, 40, 1, " °C/min"], ["Tf", "Крајна T", 50, 300, 5, " °C"]].forEach(([k, l, mn, mx, st, u]) => {
         const r = el("div", "chr-ctl"), s = el("input"), o = el("output"); s.type = "range"; s.min = mn; s.max = mx; s.step = st; s.value = M[k];
         const up = () => { M[k] = +s.value; o.textContent = (k === "ramp" && !M[k] ? "изотерма" : fmt(M[k], st < 1 ? 1 : 0) + u); }; s.oninput = up; up(); r.append(el("span", "", l), s, o); ctl.appendChild(r); });
       const vs = el("select", "chr-num"); vs.style.width = "100%"; vials.forEach((v, i) => { const o = el("option", "", v.name); o.value = i; vs.appendChild(o); }); vs.onchange = () => vialSel = +vs.value; vs.value = vialSel;
@@ -145,11 +145,11 @@
     }
     function evalRun(run) {
       const T = TASKS[S.k]; if (T.kind !== "opt") { fb.innerHTML = ""; return; }
-      const pk = run.sim.peaks.filter(p => !p.solv).sort((a, b) => a.tR - b.tR); if (pk.length < T.ids.length) { fb.innerHTML = "<p class='in-fb-bad'>✘ Не сите компоненти излегоа од колоната во рамките на анализата. Зголеми ја крајната температура или брзината на нагорување.</p>"; return; }
+      const pk = run.sim.peaks.filter(p => !p.solv).sort((a, b) => a.tR - b.tR); if (pk.length < T.ids.length) { fb.innerHTML = "<p class='in-fb-bad'>✘ Не сите компоненти излегоа од колоната во рамките на анализата. Зголеми ја крајната температура или брзината на загревање.</p>"; return; }
       const rs = []; for (let i = 1; i < pk.length; i++) rs.push(1.18 * (pk[i].tR - pk[i - 1].tR) / (2.355 * (pk[i].sg + pk[i - 1].sg)));
       const minRs = Math.min(...rs), last = pk[pk.length - 1].tR, okR = rs.every(x => x >= 1.5), okT = last <= T.limit;
       let m = `Rs: ${rs.map((x, i) => `${C[pk[i].id].name.replace("n-", "")}/${C[pk[i + 1].id].name.replace("n-", "")} = <b>${fmt(x, 2)}</b>`).join(", ")}. Последниот пик: ${fmt(last, 1)} min.`;
-      fb.innerHTML = okR && okT ? `<p class="in-fb-ok">${minRs >= 2 ? "✔ Одлично! Сите Rs ≥ 2 и анализата е брза." : "✔ Задоволително: сите Rs ≥ 1,5 (пиковите се раздвоени до основната линија), но некои се многу блиску еден до друг на хроматограмот (најмал Rs = " + fmt(minRs, 2) + "). Анализата е брза."} ${m}</p>` : `<p class="${okR ? "in-fb-ok" : "in-fb-bad"}">${okR ? "✔ Доволно раздвојување, но анализата е предолга (&gt; 8 min). Зголеми ја брзината на нагорување." : "✘ Пиковите не се доволно раздвоени (Rs &lt; 1,5). Забави го нагорувањето или намали ја почетната температура."} ${m}</p>`;
+      fb.innerHTML = okR && okT ? `<p class="in-fb-ok">${minRs >= 2 ? "✔ Одлично! Сите Rs ≥ 2 и анализата е брза." : "✔ Задоволително: сите Rs ≥ 1,5 (пиковите се раздвоени до основната линија), но некои се многу блиску еден до друг на хроматограмот (најмал Rs = " + fmt(minRs, 2) + "). Анализата е брза."} ${m}</p>` : `<p class="${okR ? "in-fb-ok" : "in-fb-bad"}">${okR ? "✔ Доволно раздвојување, но анализата е предолга (&gt; 8 min). Зголеми ја брзината на загревање." : "✘ Пиковите не се доволно раздвоени (Rs &lt; 1,5). Забави го загревањето или намали ја почетната температура."} ${m}</p>`;
     }
     function answerBox() {
       if (TASKS[S.k].kind === "opt") return; const s = el("div", "in-step"); fb.after(s); const keep = out; s.innerHTML = "<h4>Одговор</h4>";

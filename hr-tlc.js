@@ -222,7 +222,7 @@
     function stepMeasure() {
       const sec = el("div", "in-step"); right.appendChild(sec);
       const ids = S.mixIds.map(comp).map(c => ({ c, r: rf(c) })).sort((a, b) => b.r - a.r);
-      sec.innerHTML = "<h4>5. Мерење и идентификација</h4><p class='in-hint'>Мерењата прави ги на првата лента (" + S.sc.mixName + ") во режим во кој петната се гледаат. <i>R</i><sub>f</sub> = растојание на петната / растојание на фронтот (двете од стартната линија).</p>";
+      sec.innerHTML = "<h4>5. Мерење и идентификација</h4><p class='in-hint'>Мерењата прави ги од првата лента (" + S.sc.mixName + ") во режим во кој петната се гледаат (кликни на секое петно за да го измериш растојанието). <i>R</i><sub>f</sub> = растојание до петната / растојание на фронтот (двете од стартната линија). Запиши ги растојанијата во табелата по редослед од највисокото петно (најблиску до фронтот) кон најниското</p>";
       const fr = el("div", "chr-ctl"); const fi = el("input", "chr-num"); fi.placeholder = "cm"; fr.append(el("span", "", "Фронт (cm)"), fi, el("span")); sec.appendChild(fr);
       const tb = el("table", "chr-tbl"); tb.innerHTML = "<tr><th>Петна (од горе)</th><th>Растојание (cm)</th><th><i>R</i><sub>f</sub></th>" + (S.sc.pens ? "" : "<th>Супстанца</th>") + "</tr>"; sec.appendChild(tb);
       const rows = ids.map((o, i) => { const tr = el("tr"); const d = el("input", "chr-num"), r = el("input", "chr-num"); const s = el("select", "chr-num"); s.style.width = "auto";

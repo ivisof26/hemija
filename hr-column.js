@@ -7,13 +7,13 @@
   const SCN = [
     { name: "🍃 Пигменти од спанаќ", intro: "Екстракт од спанаќ (β-каротен, хлорофил a, ксантофили) се разделува на колона со <b>силика гел</b> (стационарна фаза).", elu: ELU_N,
       comps: [{ id: "car", name: "β-каротен", p: 0.5, col: [245, 158, 11] }, { id: "cha", name: "хлорофил a", p: 3.0, col: [15, 118, 110] }, { id: "xan", name: "ксантофили", p: 5.0, col: [234, 179, 8] }] },
-    { name: "🍅 Каротеноиди од домат", intro: "Екстракт од домат содржи ликопен, β-каротен и лутеин. Првите два се многу слично неполарни, па е потребен внимателен избор на мобилна фаза.", elu: ELU_N,
+    { name: "🍅 Каротеноиди од домат", intro: "Екстракт од домат содржи ликопен, β-каротен и лутеин. Првите два имаат многу слична поларност (неполарни се), па е потребен внимателен избор на мобилна фаза.", elu: ELU_N,
       comps: [{ id: "lyc", name: "ликопен", p: 0.3, col: [220, 38, 38] }, { id: "bca", name: "β-каротен", p: 1.2, col: [245, 158, 11] }, { id: "lut", name: "лутеин", p: 4.8, col: [234, 179, 8] }] },
     { name: "🍬 Бои од бонбони", intro: "Смеса од три синтетички бои (брилијантно сино E133, тартразин E102, азорубин E122). Тие се многу поларни, па мобилната фаза мора да е поларна.", elu: ELU_P,
       comps: [{ id: "e133", name: "брилијантно сино (E133)", p: 6.2, col: [29, 78, 216] }, { id: "e102", name: "тартразин (E102)", p: 7.8, col: [250, 204, 21] }, { id: "e122", name: "азорубин (E122)", p: 8.6, col: [220, 38, 38] }] }
 ,
-    { name: "🖍️ Бои од фломастер", intro: "Црниот фломастер е смеса од три бои (жолта, цијан и магента). Раздели ги на колона и собери ја секоја боја посебно.", elu: ELU_P,
-      comps: [{ id: "my", name: "жолта боја", p: 5.6, col: [250, 204, 21] }, { id: "mc", name: "цијан", p: 7.2, col: [6, 182, 212] }, { id: "mm", name: "магента", p: 8.4, col: [219, 39, 119] }] }
+    { name: "🖍️ Бои од фломастер", intro: "Црниот фломастер е смеса од три бои (жолта, сина и розова). Раздели ги на колона и собери ја секоја боја посебно.", elu: ELU_P,
+      comps: [{ id: "my", name: "жолта боја", p: 5.6, col: [250, 204, 21] }, { id: "mc", name: "сина", p: 7.2, col: [6, 182, 212] }, { id: "mm", name: "розова", p: 8.4, col: [219, 39, 119] }] }
   ];
   let COMPS = SCN[0].comps, ELU = SCN[0].elu;
   const V0 = 20, TUBE = 5, NT = 30, BED = 200;
@@ -110,7 +110,7 @@
         pools.forEach((p, i) => { const tr = el("tr"); const s = el("select", "chr-num"); s.style.width = "auto"; s.innerHTML = "<option value=''>— избери —</option>" + COMPS.map(c => `<option value="${c.id}"${p.who === c.id ? " selected" : ""}>${c.name}</option>`).join(""); s.onchange = () => p.who = s.value;
           const td = el("td"); td.appendChild(s); tr.append(el("td", "", `<span class="chr-badge">Ф${i + 1}</span>`), el("td", "", p.tubes.map(x => x.n).sort((a, b) => a - b).join(", ")), td); t.appendChild(tr); }); tbl.appendChild(t); }
       ev.onclick = () => {
-        if (!pools.length) { msg.innerHTML = "<p class='in-fb-bad'>Спој барем една фракција.</p>"; return; }
+        if (!pools.length) { msg.innerHTML = "<p class='in-fb-bad'>Комбинирај барем една фракција.</p>"; return; }
         const rows = []; let allOk = true;
         COMPS.forEach(c => { let best = null; pools.forEach((p, i) => { const tot = p.tubes.reduce((s, t) => s + COMPS.reduce((q, d) => q + t.a[d.id], 0), 0); const mine = p.tubes.reduce((s, t) => s + t.a[c.id], 0); const purity = tot > 0 ? mine / tot : 0; if (!best || mine > best.mine) best = { i, mine, purity, rec: mine }; });
           const ok = best && best.purity >= 0.95 && best.rec >= 0.7; if (!ok) allOk = false;

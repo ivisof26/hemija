@@ -14,9 +14,21 @@
         { id: "ibu", name: "ибупрофен", p: 2.0, vis: { uv254: "#1e293b", iodine: "#a16207" } },
         { id: "asp", name: "аспирин", p: 4.2, vis: { uv254: "#334155", iodine: "#d6a85c" } },
         { id: "caf", name: "кофеин", p: 5.0, vis: { uv254: "#1e293b", iodine: "#92400e" } },
-        { id: "par", name: "парацетамол", p: 6.0, vis: { uv254: "#0f172a", iodine: "#a16207" } }] }
+        { id: "par", name: "парацетамол", p: 6.0, vis: { uv254: "#0f172a", iodine: "#a16207" } }] },
+    dye: { name: "🍬 Бои во бонбони (E-бои)", intro: "Бонбона е обоена со 2–3 синтетички бои. Бидејќи боите се многу поларни, потребен е поларен елуент (етил ацетат / етанол). Определи кои бои ги содржи.",
+      modes: ["visible"], comps: [
+        { id: "e133", name: "бриљантно сино (E133)", p: 6.2, vis: { visible: "#1d4ed8" } },
+        { id: "e110", name: "жолто зајдисонце (E110)", p: 7.0, vis: { visible: "#f97316" } },
+        { id: "e102", name: "тартразин (E102)", p: 7.8, vis: { visible: "#facc15" } },
+        { id: "e122", name: "азорубин (E122)", p: 8.6, vis: { visible: "#dc2626" } }], def: ["eac", "eto", 40] },
+    amino: { name: "🧬 Аминокиселини (нинхидрин)", intro: "Хидролизат содржи 2–3 аминокиселини. Тие се безбојни и многу поларни; се откриваат со нинхидрин (виолетови дамки по загревање).",
+      modes: ["visible", "ninhydrin"], comps: [
+        { id: "leu", name: "леуцин", p: 7.0, vis: { ninhydrin: "#7c3aed" } },
+        { id: "ala", name: "аланин", p: 7.9, vis: { ninhydrin: "#8b5cf6" } },
+        { id: "gly", name: "глицин", p: 8.7, vis: { ninhydrin: "#a855f7" } },
+        { id: "lys", name: "лизин", p: 9.5, vis: { ninhydrin: "#6d28d9" } }], def: ["eto", "met", 30] }
   };
-  const MODE = { visible: "👁 Дневна светлина", uv254: "🔦 UV 254 nm", iodine: "🟤 Јодни пареи" };
+  const MODE = { visible: "👁 Дневна светлина", uv254: "🔦 UV 254 nm", iodine: "🟤 Јодни пареи", ninhydrin: "🟣 Нинхидрин (спреј + загревање)" };
   const Y0 = 270, PX = 30, L = 7.0, YT = 15, YB = 315;
 
   H.mods.tlc = function (root) {
@@ -27,16 +39,16 @@
     const top = el("div", "in-row"); top.appendChild(el("span", "", "<b>Задача:</b> ")); top.appendChild(sel);
     box.appendChild(top);
     const intro = el("p", "in-hint"); box.appendChild(intro);
-    const lay = el("div", "chr-big"); box.appendChild(lay);
+    const lay = el("div", "chr-big sticky"); box.appendChild(lay);
     const left = el("div"), right = el("div"); lay.appendChild(left); lay.appendChild(right);
     const svg = el("div"); left.appendChild(svg);
-    right.className = "chr-right";
+    right.className = "chr-right"; H.fold(right);
     sel.onchange = () => start(sel.value);
 
     function start(k) {
       const sc = SC[k]; S.sc = sc; S.attempt = (S.attempt || 0); S.p = null;
       S.mixIds = sc.fixedAll ? sc.comps.map(c => c.id) : H.shuffle(sc.comps.map(c => c.id)).slice(0, H.pick([2, 3]));
-      intro.textContent = sc.intro; S.A = "hex"; S.B = k === "pig" ? "ace" : "eac"; S.pct = 30;
+      intro.textContent = sc.intro; S.A = "hex"; S.B = k === "pig" ? "ace" : "eac"; S.pct = 30; if (sc.def) { S.A = sc.def[0]; S.B = sc.def[1]; S.pct = sc.def[2]; }
       S.lanes = {}; S.solv = null; S.mode = "visible"; S.prog = 0; S.stage = 0; S.reads = [];
       right.innerHTML = ""; svg.innerHTML = ""; S.attempt++;
       drawPlate(); stepEluent();
@@ -88,7 +100,7 @@
     /* ---- чекор 1: елуент ---- */
     function stepEluent() {
       const sec = el("div", "in-step"); right.appendChild(sec);
-      sec.innerHTML = "<h4>1. Избери елуент (подвижна фаза)</h4><p class='in-hint'>Неподвижна фаза: силикагел (поларен). Поларните супстанци се задржуваат посилно. Поларниот елуент ги носи подалеку; неполарниот помалку. Бараме Rf помеѓу ≈0,15 и 0,85 и јасно раздвоени дамки.</p>";
+      sec.innerHTML = "<h4>1. Избери елуент (мобилна фаза)</h4><p class='in-hint'>Стационарна фаза: силикагел (поларен). Поларните супстанци се задржуваат посилно на плочата. Поларниот елуент ги носи подалеку; неполарниот помалку. Бараме Rf помеѓу ≈0,15 и 0,85 и јасно раздвоени дамки.</p>";
       const mk = (v) => { const s = el("select", "chr-num"); s.style.width = "auto"; H.SOLV.forEach(o => { const op = el("option", "", `${o.name} (ε° ${o.s})`); op.value = o.id; if (o.id === v) op.selected = true; s.appendChild(op); }); return s; };
       const a = mk(S.A), b = mk(S.B);
       const r1 = el("div", "chr-ctl"); r1.append(el("span", "", "Растворувач A"), a, el("span")); 
@@ -151,7 +163,7 @@
     /* ---- визуелизација ---- */
     function stepVis() {
       S.stage = 4; spotsDraw(); S.sv.querySelector("#tl-ruler").setAttribute("opacity", 1);
-      const sec = el("div", "in-step"); right.appendChild(sec);
+      const sec = el("div", "in-step keep"); right.appendChild(sec);
       sec.innerHTML = "<h4>4. Визуелизација</h4><p class='in-hint'>Плочата е суво. Ако дамките не се гледаат, пробај друг начин на откривање.</p>";
       const row = el("div", "chr-opts"); sec.appendChild(row);
       S.sc.modes.concat(S.sc.modes.length < 2 ? [] : []).forEach(m => { const b = el("button", "chr-opt" + (m === S.mode ? " on" : ""), MODE[m]); b.type = "button";

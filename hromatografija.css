@@ -29,3 +29,14 @@
 .chr-run.cur td{background:var(--accent)}
 .chr-tlcnote{font-size:.9rem;color:var(--muted)}
 @media(prefers-reduced-motion:reduce){.chr-tube i b{transition:none}}
+
+.in-step.done:not(.open)>*:not(h4){display:none}
+.in-step.done h4{cursor:pointer;margin:0}
+.in-step.done h4::before{content:"✓ ";color:var(--good,#2e9e5b)}
+.in-step.done h4::after{content:" · кликни за преглед";font-weight:400;font-size:.8rem;color:var(--muted)}
+.in-step.done.open h4{margin-bottom:8px}
+.in-step.done.open h4::after{content:" · затвори"}
+@media(min-width:761px){.chr-big.sticky>:first-child{position:sticky;top:76px}}
+.chr-scroll{max-height:230px;overflow:auto;margin:6px 0}
+.chr-schem{width:100%;height:auto;display:block;margin:0 0 8px}
+.chr-sub{margin:4px 0 0;color:var(--muted);font-size:.85rem}

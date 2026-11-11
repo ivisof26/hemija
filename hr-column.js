@@ -2,19 +2,30 @@
 (function () {
   "use strict";
   const H = window.HRO, el = H.el, fmt = H.fmt;
-  const COMPS = [
-    { id: "car", name: "β-каротен", p: 0.5, col: [245, 158, 11] },
-    { id: "cha", name: "хлорофил a", p: 3.0, col: [15, 118, 110] },
-    { id: "xan", name: "ксантофили", p: 5.0, col: [234, 179, 8] }];
-  const ELU = [["Чист n-хексан", 0], ["Хексан : толуен (1:1)", 1.5], ["Чист толуен", 3.0], ["Толуен : ацетон (9:1)", 3.6], ["Толуен : ацетон (7:3)", 4.5], ["Чист ацетон", 5.9]];
+  const ELU_N = [["Чист n-хексан", 0], ["Хексан : толуен (1:1)", 1.5], ["Чист толуен", 3.0], ["Толуен : ацетон (9:1)", 3.6], ["Толуен : ацетон (7:3)", 4.5], ["Чист ацетон", 5.9]];
+  const ELU_P = [["Чист етил ацетат", 6.1], ["Етил ацетат : етанол (8:2)", 6.8], ["Етил ацетат : етанол (6:4)", 7.5], ["Етил ацетат : етанол (4:6)", 8.1], ["Чист етанол", 9.2], ["Етанол : метанол (1:1)", 9.6]];
+  const SCN = [
+    { name: "🍃 Пигменти од спанаќ", intro: "Екстракт од спанаќ (β-каротен, хлорофил a, ксантофили) се разделува на колона со <b>силикагел</b> (стационарна фаза).", elu: ELU_N,
+      comps: [{ id: "car", name: "β-каротен", p: 0.5, col: [245, 158, 11] }, { id: "cha", name: "хлорофил a", p: 3.0, col: [15, 118, 110] }, { id: "xan", name: "ксантофили", p: 5.0, col: [234, 179, 8] }] },
+    { name: "🍅 Каротеноиди од домат", intro: "Екстракт од домат содржи ликопен, β-каротен и лутеин. Првите два се многу слично неполарни, па е потребен внимателен избор на мобилна фаза.", elu: ELU_N,
+      comps: [{ id: "lyc", name: "ликопен", p: 0.3, col: [220, 38, 38] }, { id: "bca", name: "β-каротен", p: 1.2, col: [245, 158, 11] }, { id: "lut", name: "лутеин", p: 4.8, col: [234, 179, 8] }] },
+    { name: "🍬 Бои од бонбони", intro: "Смеса од три синтетички бои (бриљантно сино E133, тартразин E102, азорубин E122). Тие се многу поларни, па мобилната фаза мора да е поларна.", elu: ELU_P,
+      comps: [{ id: "e133", name: "бриљантно сино (E133)", p: 6.2, col: [29, 78, 216] }, { id: "e102", name: "тартразин (E102)", p: 7.8, col: [250, 204, 21] }, { id: "e122", name: "азорубин (E122)", p: 8.6, col: [220, 38, 38] }] }
+  ];
+  let COMPS = SCN[0].comps, ELU = SCN[0].elu;
   const V0 = 20, TUBE = 5, NT = 30, BED = 200;
 
-  H.mods.col = function (root) {
+  H.mods.col = function (host) {
+    const top = el("div", "in-row"), ss = el("select", "chr-num"); ss.style.width = "auto"; SCN.forEach((x, i) => { const o = el("option", "", x.name); o.value = i; ss.appendChild(o); });
+    top.append(el("span", "", "<b>Задача:</b> "), ss); host.appendChild(top); const holder = el("div"); host.appendChild(holder); let cur = 0;
+    const load = i => { cur = i; COMPS = SCN[i].comps; ELU = SCN[i].elu; holder.innerHTML = ""; body(holder, SCN[i]); }; ss.onchange = () => load(+ss.value); H.__colReload = () => load(cur); load(0);
+  };
+  function body(root, sc) {
     const S = { z: {}, cum: {}, tubes: [], sIdx: 0, vtot: 0 };
-    const intro = el("p", "in-hint", "Смеса од пигменти од спанаќ (β-каротен, хлорофил a, ксантофили) се разделува на колона со <b>силикагел</b>. Целта е да собереш чисти фракции од секоја супстанца. Подготви ја колоната, нанеси примерок, па елуирај со соодветни растворувачи (во чекори).");
+    const intro = el("p", "in-hint", sc.intro + " Целта е да собереш чисти фракции од секоја супстанца: подготви ја колоната, нанеси примерок, па елуирај со соодветни растворувачи (во чекори).");
     root.appendChild(intro);
-    const lay = el("div", "chr-big"); root.appendChild(lay);
-    const left = el("div"), right = el("div"); lay.append(left, right);
+    const lay = el("div", "chr-big sticky"); root.appendChild(lay);
+    const left = el("div"), right = el("div"); lay.append(left, right); H.fold(right);
     const sv = H.svg("svg", { viewBox: "0 0 200 380", class: "chr-svg" }, left);
     sv.innerHTML = `<rect x="70" y="20" width="60" height="${BED}" fill="#fff"/>
     <rect id="cl-bed" x="72" y="70" width="56" height="0" fill="#e5e7eb"/>
@@ -30,13 +41,13 @@
     const bed = sv.querySelector("#cl-bed"), liq = sv.querySelector("#cl-liq");
     const BTOP = 70, BBOT = 224; const BH = BBOT - BTOP;
     const secs = [];
-    function section(h, p) { const s = el("div", "in-step"); s.innerHTML = `<h4>${h}</h4>${p ? `<p class="in-hint">${p}</p>` : ""}`; right.appendChild(s); secs.push(s); return s; }
+    function section(h, p, keep) { const s = el("div", "in-step" + (keep ? " keep" : "")); s.innerHTML = `<h4>${h}</h4>${p ? `<p class="in-hint">${p}</p>` : ""}`; right.appendChild(s); secs.push(s); return s; }
 
     /* 1. пакување */
     const s1 = section("1. Пакување на колоната", "Како ја пакуваш колоната со силикагел?");
     const r1 = el("div", "chr-opts"), m1 = el("div"); s1.append(r1, m1);
     [["Суво насипување без тапкање", 1.5, "Остануваат воздушни џебови и пукнатини: каналирање. Лентите ќе бидат пошироки."],
-     ["Како каша (слурри) во почетниот растворувач, без воздух", 1.0, "Рамномерна и без меурчиња: тенки, остри ленти."],
+     ["Како каша (силикагел измешан со почетниот растворувач), без воздух", 1.0, "Рамномерна и без меурчиња: тенки, остри ленти."],
      ["Суво, па се остава да се исуши целосно", 2.0, "Засушената колона пука; разделувањето е лошо."]].forEach(o => {
       const b = el("button", "chr-opt", o[0]); b.type = "button"; b.onclick = () => { S.pack = o[1]; r1.querySelectorAll("button").forEach(x => { x.disabled = true; x.classList.remove("on"); }); b.classList.add("on");
         m1.innerHTML = `<p class="${o[1] === 1 ? "in-fb-ok" : "in-fb-bad"}">${o[1] === 1 ? "✔" : "✘"} ${o[2]}${o[1] === 1 ? "" : " (Продолжуваме, но ќе влијае на резултатот.)"}</p>`;
@@ -62,7 +73,7 @@
     /* 3. елуирање */
     let eluLab, volLab, tubesBox;
     function stepElute() {
-      const s = section("3. Елуирање", "Избери елуент, па собирај фракции од по 5 mL. Започни со неполарен растворувач, па постепено зголемувај ја поларноста (градиент по чекори) за да ги елуираш и посилно задржаните супстанци. Неповолно е веднаш да се започне со многу поларен елуент.");
+      const s = section("3. Елуирање", "Избери мобилна фаза (елуент), па собирај фракции од по 5 mL. Започни со неполарен растворувач, па постепено зголемувај ја поларноста (градиент по чекори) за да ги елуираш и посилно задржаните супстанци. Неповолно е веднаш да се започне со многу поларен елуент.", true);
       const row = el("div", "chr-opts"); s.appendChild(row);
       ELU.forEach((e, i) => { const b = el("button", "chr-opt" + (i === 0 ? " on" : ""), e[0]); b.type = "button"; b.onclick = () => { S.sIdx = i; row.querySelectorAll("button").forEach(x => x.classList.remove("on")); b.classList.add("on"); setLab(); }; row.appendChild(b); });
       volLab = sv.querySelector("#cl-vol"); eluLab = sv.querySelector("#cl-el"); const setLab = () => { eluLab.textContent = ELU[S.sIdx][0]; volLab.textContent = "Собрано: " + S.vtot + " mL"; }; setLab();
@@ -104,8 +115,8 @@
           const id = best && pools[best.i].who === c.id; if (!id) allOk = false; rows.push(`<tr><td>${c.name}</td><td>Ф${best ? best.i + 1 : "–"}</td><td>${best ? fmt(best.purity * 100, 0) : 0} %</td><td>${best ? fmt(best.rec * 100, 0) : 0} %</td><td>${ok ? "✔" : "✘"}</td><td>${id ? "✔" : "✘ непознато/погрешно"}</td></tr>`); });
         msg.innerHTML = `<table class="chr-tbl"><tr><th>Супстанца</th><th>Најдобра фракција</th><th>Чистота</th><th>Искористување</th><th>Цел</th><th>Идентификација</th></tr>${rows.join("")}</table>` +
           (allOk ? "<p class='in-fb-ok'>✔ Одлично! Сите три супстанци се чисти и добро собрани. Редоследот на елуирање е спротивен од поларноста: најнеполарниот β-каротен излегува прв, најполарните ксантофили последни.</p>"
-            : "<p class='in-hint'>Совет: промени го градиентот (пусти нова колона со „Нова колона“), намали го натоварувањето, пакувај како слурри, и не го мешај поларниот елуент предвреме. Ленти што се мешаат не може да се раздвојат со спојување на епрувети.</p>"); };
-      const nw = el("button", "btn ghost", "🔄 Нова колона"); nw.type = "button"; nw.onclick = () => { root.innerHTML = ""; delete H.mods.__c; H.mods.col(root); }; anaSec.appendChild(nw);
+            : "<p class='in-hint'>Совет: промени го градиентот (пусти нова колона со „Нова колона“), намали го натоварувањето, пакувај како каша, и не го мешај поларниот елуент предвреме. Ленти што се мешаат не може да се раздвојат со спојување на епрувети.</p>"); };
+      const nw = el("button", "btn ghost", "🔄 Нова колона"); nw.type = "button"; nw.onclick = () => H.__colReload(); anaSec.appendChild(nw);
     }
   };
 })();

@@ -26,6 +26,11 @@
   /* ретенциски фактор на силикагел: k = 10^(m(p - s)) */
   HRO.kSil = (p, s) => Math.pow(10, 0.5 * (p - s));
 
+  /* ги собира завршените чекори: само последниот чекор е отворен (помалку скролање) */
+  HRO.fold = function (box) {
+    const upd = () => { const st = [...box.children].filter(c => c.classList.contains("in-step")); st.forEach((c, i) => { if (i < st.length - 1 && !c.classList.contains("keep") && !c.dataset.f) { c.dataset.f = 1; c.classList.add("done"); const h = c.querySelector("h4"); if (h) { h.tabIndex = 0; h.onclick = () => c.classList.toggle("open"); } } }); };
+    new MutationObserver(upd).observe(box, { childList: true });
+  };
   const TABS = [["tlc", "🧫 ТСХ (тенкослојна)"], ["col", "🧪 Колонска"], ["gc", "🌫️ Гасна (GC)"]];
   function init() {
     const root = document.getElementById("chr-root"); if (!root) return;
@@ -35,7 +40,7 @@
       const b = HRO.el("button", "chr-tab" + (i ? "" : " on"), label); b.type = "button"; b.dataset.k = id; bar.appendChild(b);
       const p = HRO.el("div", "chr-panel"); p.hidden = !!i; panels[id] = p;
     });
-    root.appendChild(HRO.el("p", "in-hint", "Хроматографијата ги раздвојува компонентите на смеса, бидејќи тие различно се распределуваат помеѓу <b>подвижната</b> и <b>неподвижната</b> фаза. Избери метод и работи како во лабораторија."));
+    root.appendChild(HRO.el("p", "in-hint", "Хроматографијата ги раздвојува компонентите на смеса, бидејќи тие различно се распределуваат помеѓу <b>мобилната</b> и <b>стационарната</b> фаза. Избери метод и работи како во лабораторија."));
     root.appendChild(bar); TABS.forEach(([id]) => root.appendChild(panels[id]));
     function show(id) {
       bar.querySelectorAll(".chr-tab").forEach(b => b.classList.toggle("on", b.dataset.k === id));

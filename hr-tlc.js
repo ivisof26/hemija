@@ -240,7 +240,7 @@
         if (S.sc.pens && penSel.value !== S.pen.id) msgs.push("Фломастерот не е точен: упореди ги боите и <i>R</i><sub>f</sub> на секое петно на документот со лентите на фломастерите.");
         const all = okn === rows.length && !msgs.length;
         let extra = ""; if (all && S.variant) extra = ` Примерокот е <b>${S.variant.n}</b>.`; if (all && S.sc.pens) extra = ` Документот е пишуван со <b>фломастер ${S.pen.id}</b>: сите бои се совпаѓаат по боја и <i>R</i><sub>f</sub>.`;
-        fb.innerHTML = all ? `<p class="in-fb-ok">✔ Точно! <i>R</i><sub>f</sub> е карактеристичен за супстанцата при дадени услови.${extra}</p><p class="in-hint"><i>R</i><sub>f</sub> зависи од елуентот и плочата, па секогаш се споредува со стандарди на иста плоча.</p>` : `<p class="in-fb-bad">✘ ${msgs.slice(0, 4).join("<br>✘ ")}</p>`; };
+        fb.innerHTML = all ? `<p class="in-fb-ok">✔ Точно! <i>R</i><sub>f</sub> е карактеристичен за супстанцата при дадени услови.${extra}</p><p class="in-hint"><i>R</i><sub>f</sub> зависи од елуентот и TLC плочката, па секогаш се споредува со стандарди на иста плоча.</p>` : `<p class="in-fb-bad">✘ ${msgs.slice(0, 4).join("<br>✘ ")}</p>`; };
     }
     start("pig");
   };

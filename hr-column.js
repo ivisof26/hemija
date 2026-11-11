@@ -113,7 +113,7 @@
     let sel = new Set(), pools = [], anaSec;
     function toggle(t) { if (t.grp) return; if (sel.has(t)) { sel.delete(t); t.dom.classList.remove("sel"); } else { sel.add(t); t.dom.classList.add("sel"); } }
     function showAnalysis() {
-      if (anaSec) return; anaSec = section("4. Спојување на фракции и оцена", "Кликни ги епруветите што сакаш да ги споиш (избраните се означени), па „Спој“. Може да направиш до 3 споени фракции. Задача: секоја супстанца да е со чистота ≥ 95 % и искористување ≥ 70 %. Потоа определи ја секоја фракција.");
+      if (anaSec) return; anaSec = section("4. Спојување на фракции и оцена", "Кликни ги епруветите што сакаш да ги споиш (избраните се означени), па „Спој“. Може да направиш до 3 споени фракции. Задача: секоја супстанца да е со чистота ≥ 95 % и принос ≥ 70 %. Потоа определи ја секоја фракција.");
       const b = el("button", "btn ghost", "➕ Спој ги избраните"), ev = el("button", "btn ghost", "✔ Оцени"); b.type = ev.type = "button"; const msg = el("div"), tbl = el("div");
       anaSec.append(b, " ", ev, msg, tbl);
       b.onclick = () => { if (!sel.size) { msg.innerHTML = "<p class='in-fb-bad'>Прво избери епрувети.</p>"; return; } if (pools.length >= 3) { msg.innerHTML = "<p class='in-fb-bad'>Најмногу 3 споени фракции.</p>"; return; }
@@ -127,7 +127,7 @@
         COMPS.forEach(c => { let best = null; pools.forEach((p, i) => { const tot = p.tubes.reduce((s, t) => s + COMPS.reduce((q, d) => q + t.a[d.id], 0), 0); const mine = p.tubes.reduce((s, t) => s + t.a[c.id], 0); const purity = tot > 0 ? mine / tot : 0; if (!best || mine > best.mine) best = { i, mine, purity, rec: mine }; });
           const ok = best && best.purity >= 0.95 && best.rec >= 0.7; if (!ok) allOk = false;
           const id = best && pools[best.i].who === c.id; if (!id) allOk = false; rows.push(`<tr><td>${c.name}</td><td>Ф${best ? best.i + 1 : "–"}</td><td>${best ? fmt(best.purity * 100, 0) : 0} %</td><td>${best ? fmt(best.rec * 100, 0) : 0} %</td><td>${ok ? "✔" : "✘"}</td><td>${id ? "✔" : "✘ непознато/погрешно"}</td></tr>`); });
-        msg.innerHTML = `<table class="chr-tbl"><tr><th>Супстанца</th><th>Најдобра фракција</th><th>Чистота</th><th>Искористување</th><th>Цел</th><th>Идентификација</th></tr>${rows.join("")}</table>` +
+        msg.innerHTML = `<table class="chr-tbl"><tr><th>Супстанца</th><th>Најдобра фракција</th><th>Чистота</th><th>Принос</th><th>Цел</th><th>Идентификација</th></tr>${rows.join("")}</table>` +
           (allOk ? "<p class='in-fb-ok'>✔ Одлично! Сите три супстанци се чисти и добро собрани.</p>"
             : "<p class='in-hint'>Совет: промени го градиентот, нанесувањето и провери ја чистотата на фракциите.</p>"); };
       const nw = el("button", "btn ghost", "🔄 Нова колона"); nw.type = "button"; nw.onclick = () => H.__colReload(); anaSec.appendChild(nw);

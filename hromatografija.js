@@ -31,7 +31,7 @@
     const upd = () => { const st = [...box.children].filter(c => c.classList.contains("in-step")); st.forEach((c, i) => { if (i < st.length - 1 && !c.classList.contains("keep") && !c.dataset.f) { c.dataset.f = 1; c.classList.add("done"); const h = c.querySelector("h4"); if (h) { h.tabIndex = 0; h.onclick = () => c.classList.toggle("open"); } } }); };
     new MutationObserver(upd).observe(box, { childList: true });
   };
-  const TABS = [["tlc", "🧫 ТСХ (тенкослојна)"], ["col", "🧪 Колонска"], ["gc", "🌫️ Гасна (GC)"]];
+  const TABS = [["tlc", "🧫 ТLC (тенкослојна)"], ["col", "🧪 Колонска"], ["gc", "🌫️ Гасна (GC)"]];
   function init() {
     const root = document.getElementById("chr-root"); if (!root) return;
     const bar = HRO.el("div", "chr-tabs"); bar.setAttribute("role", "tablist");

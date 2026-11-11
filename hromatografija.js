@@ -40,7 +40,7 @@
       const b = HRO.el("button", "chr-tab" + (i ? "" : " on"), label); b.type = "button"; b.dataset.k = id; bar.appendChild(b);
       const p = HRO.el("div", "chr-panel"); p.hidden = !!i; panels[id] = p;
     });
-    root.appendChild(HRO.el("p", "in-hint", "Хроматографијата ги разделува компонентите на смеса, бидејќи тие различно се распределуваат помеѓу <b>мобилната</b> и <b>стационарната</b> фаза. Избери метод и работи како во лабораторија."));
+    root.appendChild(HRO.el("p", "in-hint", "Хроматографијата ги разделува компонентите од смеса, бидејќи тие различно се распределуваат помеѓу <b>мобилната</b> и <b>стационарната</b> фаза. Избери метод и пробај ја вежбата."));
     root.appendChild(bar); TABS.forEach(([id]) => root.appendChild(panels[id]));
     function show(id) {
       bar.querySelectorAll(".chr-tab").forEach(b => b.classList.toggle("on", b.dataset.k === id));

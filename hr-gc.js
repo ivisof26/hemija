@@ -1,4 +1,5 @@
 
+
 ```javascript
 /* Гасна хроматографија – симулатор */
 (function () {
@@ -77,8 +78,8 @@
     const M = { col: "np", flow: 1.2, T0: 60, hold: 1, ramp: 15, Tf: 250 };
     let vials = [], vialSel = 0, ans = null;
     
-    // Декларирање на излезните елементи на ниво на модулот
-    const tbl = el("div"), log = el("div"), fb = el("div");
+    // Декларирање на елементите за приказ
+    const view = el("div"), tbl = el("div"), log = el("div"), fb = el("div");
 
     function sliders() {
       ctl.innerHTML = "<h4>Параметри на гасниот хроматограф</h4>";
@@ -121,8 +122,8 @@
         g.setAttribute("x1", x); g.setAttribute("x2", x); g.setAttribute("opacity", 1); tx.setAttribute("x", Math.min(x + 4, 520)); tx.textContent = "t = " + fmt(t, 2) + " min, сигнал " + Math.round(S.cur.tr.y[ci] || 0); tx.setAttribute("opacity", 1); });
       sv.addEventListener("mouseleave", () => { sv.querySelector("#gcur").setAttribute("opacity", 0); sv.querySelector("#gctt").setAttribute("opacity", 0); }); S.sv = sv; sv.innerHTML = frame();
       
-      tbl.innerHTML = ""; fb.innerHTML = ""; log.innerHTML = "";
-      out.append(box, tbl, fb, log); 
+      view.innerHTML = ""; tbl.innerHTML = ""; fb.innerHTML = ""; log.innerHTML = "";
+      out.append(box, view, tbl, fb, log); 
       answerBox();
     }
     const frame = () => '<line x1="50" y1="225" x2="590" y2="225" stroke="#334155"/><line x1="50" y1="20" x2="50" y2="225" stroke="#334155"/><text x="320" y="262" font-size="11" text-anchor="middle" fill="#334155">време (min)</text><text x="14" y="125" font-size="11" fill="#334155" transform="rotate(-90 14 125)" text-anchor="middle">сигнал на детекторот</text><g id="gx"></g><clipPath id="gcl"><rect id="gclr" x="50" y="0" width="0" height="270"/></clipPath><path id="gp" fill="none" stroke="#c2410c" stroke-width="1.4" clip-path="url(#gcl)"/><g id="gl"></g><line id="gcur" x1="0" x2="0" y1="20" y2="225" stroke="#64748b" stroke-dasharray="3 3" opacity="0"/><text id="gctt" x="0" y="42" font-size="10" fill="#334155" opacity="0"></text><text id="gt" x="56" y="12" font-size="11" text-anchor="start" fill="#334155"></text>';

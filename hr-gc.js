@@ -1,4 +1,6 @@
-Еве го целосниот код во кој е поправена правописната грешка („естери се, не естри“), а истовремено е применета и пресметката за правилно раздвојување на пиковите ($R_s \ge 1,5$):
+Проблемот зошто ништо не се гледа кај гасната хроматографија (бел екран или празен простор) настанува поради тоа што функцијата `build()` во кодот ја брише содржината со `out.innerHTML = ""`, но пред тоа рефренсите за елементите (`tbl`, `log`, `fb`) остануваат врзани за стариот DOM елемент кој веќе е отстранет од страницата. Затоа, при исцртувањето или поставувањето на табелата и табовите, JavaScript паѓа во грешка (или не може да ја најде соодветната патека).
+
+Еве го целосно корегираниот код во кој променливите за излезните блокови (`view`, `tbl`, `log`, `fb`) се креираат и се ресетираат правилно при секое вчитување на задачата:
 
 ```javascript
 /* Гасна хроматографија – симулатор */
@@ -77,6 +79,10 @@
     const ctl = el("div", "in-step"), out = el("div"); lay.append(ctl, out);
     const M = { col: "np", flow: 1.2, T0: 60, hold: 1, ramp: 15, Tf: 250 };
     let vials = [], vialSel = 0, ans = null;
+    
+    // Декларирање на излезните елементи на ниво на модулот
+    const tbl = el("div"), log = el("div"), fb = el("div");
+
     function sliders() {
       ctl.innerHTML = "<h4>Параметри на гасниот хроматограф</h4>";
       const colS = el("select", "chr-num"); colS.style.width = "100%"; for (const k in COLS) { const o = el("option", "", COLS[k].name); o.value = k; if (k === M.col) o.selected = true; colS.appendChild(o); }
@@ -100,20 +106,27 @@
         { name: "Примерок + внатрешен стандард (1-пропанол 200 mg/L)", items: [{ id: "eto", c: S.cet }, { id: "eac", c: 150 }, { id: "pro", c: 200 }] }]; }
       sliders(); build();
     }
-    const view = el("div"), tbl = el("div"), log = el("div"), fb = el("div");
+    
     function build() {
-      out.innerHTML = ""; const box = el("div", "in-step"); box.innerHTML = "<h4>Хроматограм</h4>"; const sch = H.svg("svg", { viewBox: "0 0 600 74", class: "chr-schem" }, box);
+      out.innerHTML = ""; 
+      const box = el("div", "in-step"); 
+      box.innerHTML = "<h4>Хроматограм</h4>"; 
+      const sch = H.svg("svg", { viewBox: "0 0 600 74", class: "chr-schem" }, box);
       sch.innerHTML = `<rect x="2" y="8" width="70" height="46" rx="6" fill="#e2e8f0" stroke="#64748b"/><text x="37" y="25" font-size="11" text-anchor="middle">Гас носач</text><text x="37" y="38" font-size="10" text-anchor="middle">(He)</text><text x="37" y="50" font-size="9" text-anchor="middle">мобилна фаза</text>
       <rect x="100" y="8" width="64" height="46" rx="6" fill="#e2e8f0" stroke="#64748b"/><text x="132" y="28" font-size="11" text-anchor="middle">Инјектор</text><text x="132" y="44" font-size="10" text-anchor="middle">250 °C, 1 µL</text>
       <rect x="196" y="4" width="290" height="58" rx="8" fill="#fff1e6" stroke="#c2410c"/><path d="M212 33 q15 -22 30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0 t30 0" fill="none" stroke="#475569" stroke-width="3"/><text x="341" y="58" font-size="10" text-anchor="middle" fill="#9a3412">печка (колона = стационарна фаза)</text><text id="goven" x="341" y="17" font-size="12" font-weight="700" text-anchor="middle" fill="#c2410c"></text>
       <rect x="514" y="8" width="84" height="46" rx="6" fill="#e2e8f0" stroke="#64748b"/><text x="556" y="28" font-size="11" text-anchor="middle">Детектор</text><text x="556" y="44" font-size="10" text-anchor="middle">FID, 300 °C</text>
       <path d="M72 31 H100 M164 31 H196 M486 31 H514" stroke="#64748b" stroke-width="2" marker-end="url(#ar)"/>`;
+      
       const sv = H.svg("svg", { viewBox: "0 0 600 270", class: "chr-svg" }, box);
       sv.addEventListener("mousemove", e => { if (!S.cur) return; const r = sv.getBoundingClientRect(), x = (e.clientX - r.left) * 600 / r.width; if (x < 50 || x > 590) return;
         const t = (x - 50) / 540 * S.cur.tr.tEnd, ci = Math.round(t / S.cur.tr.dt), g = sv.querySelector("#gcur"), tx = sv.querySelector("#gctt");
         g.setAttribute("x1", x); g.setAttribute("x2", x); g.setAttribute("opacity", 1); tx.setAttribute("x", Math.min(x + 4, 520)); tx.textContent = "t = " + fmt(t, 2) + " min, сигнал " + Math.round(S.cur.tr.y[ci] || 0); tx.setAttribute("opacity", 1); });
       sv.addEventListener("mouseleave", () => { sv.querySelector("#gcur").setAttribute("opacity", 0); sv.querySelector("#gctt").setAttribute("opacity", 0); }); S.sv = sv; sv.innerHTML = frame();
-      out.append(box, tbl, fb, log); tbl.innerHTML = ""; fb.innerHTML = ""; log.innerHTML = ""; answerBox();
+      
+      tbl.innerHTML = ""; fb.innerHTML = ""; log.innerHTML = "";
+      out.append(box, tbl, fb, log); 
+      answerBox();
     }
     const frame = () => '<line x1="50" y1="225" x2="590" y2="225" stroke="#334155"/><line x1="50" y1="20" x2="50" y2="225" stroke="#334155"/><text x="320" y="262" font-size="11" text-anchor="middle" fill="#334155">време (min)</text><text x="14" y="125" font-size="11" fill="#334155" transform="rotate(-90 14 125)" text-anchor="middle">сигнал на детекторот</text><g id="gx"></g><clipPath id="gcl"><rect id="gclr" x="50" y="0" width="0" height="270"/></clipPath><path id="gp" fill="none" stroke="#c2410c" stroke-width="1.4" clip-path="url(#gcl)"/><g id="gl"></g><line id="gcur" x1="0" x2="0" y1="20" y2="225" stroke="#64748b" stroke-dasharray="3 3" opacity="0"/><text id="gctt" x="0" y="42" font-size="10" fill="#334155" opacity="0"></text><text id="gt" x="56" y="12" font-size="11" text-anchor="start" fill="#334155"></text>';
     function inject() {
@@ -161,7 +174,7 @@
       fb.innerHTML = okR && okT ? `<p class="in-fb-ok">✔ Одлично! Сите Rs ≥ 1,5 и анализата е брза. ${m}</p>` : `<p class="${okR ? "in-fb-ok" : "in-fb-bad"}">${okR ? "✔ Доволно раздвојување, но анализата е предолга (> 8 min). Зголеми ја брзината на покачување на температурата." : "✘ Пиковите не се доволно раздвоени (Rs < 1,5). Забави ја брзината на покачување на температурата или намали ја почетната температура за подобра резолуција."} ${m}</p>`;
     }
     function answerBox() {
-      if (TASKS[S.k].kind === "opt") return; const s = el("div", "in-step"); fb.after(s); const keep = out; s.innerHTML = "<h4>Одговор</h4>";
+      if (TASKS[S.k].kind === "opt") return; const s = el("div", "in-step"); fb.after(s); s.innerHTML = "<h4>Одговор</h4>";
       if (TASKS[S.k].kind === "id") { const row = el("div", "chr-opts"), sel = new Set(); TASKS[S.k].cands.forEach(id => { const b = el("button", "chr-opt", C[id].name); b.type = "button"; b.onclick = () => { sel.has(id) ? sel.delete(id) : sel.add(id); b.classList.toggle("on"); }; row.appendChild(b); });
         const go = el("button", "btn ghost", "✔ Провери"), m = el("div"); go.type = "button"; s.append(el("p", "in-hint", "Означи ги супстанците во непознатиот примерок (од " + TASKS[S.k].cands.length + " можни):"), row, go, m);
         go.onclick = () => { const ok = S.truth.length === sel.size && S.truth.every(x => sel.has(x)); const usedP = S.runs.some(r => r.m.col === "wax" && r.v.unk);

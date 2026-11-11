@@ -205,7 +205,7 @@
     function stepVis() {
       S.stage = 4; spotsDraw(); S.sv.querySelector("#tl-ruler").setAttribute("opacity", 1);
       const sec = el("div", "in-step keep"); right.appendChild(sec);
-      sec.innerHTML = "<h4>4. Визуелизација</h4><p class='in-hint'>Плочата е сува. Ако петната не се гледаат, пробај друг начин на откривање.</p>";
+      sec.innerHTML = "<h4>4. Визуелизација</h4><p class='in-hint'>Плочата е сува. Ако петната не се гледаат, пробај друг начин на визуелизација.</p>";
       const row = el("div", "chr-opts"); sec.appendChild(row);
       S.sc.modes.forEach(m => { const b = el("button", "chr-opt" + (m === S.mode ? " on" : ""), MODE[m]); b.type = "button";
         b.onclick = () => { S.mode = m; row.querySelectorAll("button").forEach(x => x.classList.remove("on")); b.classList.add("on"); spotsDraw(); }; row.appendChild(b); });

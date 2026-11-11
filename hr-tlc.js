@@ -24,7 +24,7 @@
         { id: "caf", name: "кофеин", p: 5.0, vis: { uv254: "#1e293b" } }, { id: "tph", name: "теофилин", p: 6.0, vis: { uv254: "#334155" } },
         { id: "tbr", name: "теобромин", p: 6.8, vis: { uv254: "#1e293b" } }, { id: "chl", name: "хлорогенска киселина", p: 8.0, vis: { uv254: "#0f172a" } }],
       variants: [{ n: "црн чај", ids: ["caf", "tph"] }, { n: "чоколадо", ids: ["caf", "tbr"] }, { n: "кафе", ids: ["caf", "chl"] }], def: ["eac", "eto", 20], mixName: "Примерок" },
-    dye: { name: "🍬 Бои во бонбони (E-бои)", intro: "Бонбона е обоена со 2–3 синтетички бои. Бидејќи боите се многу поларни, потребен е поларен елуент (етил ацетат / етанол). Определи кои бои ги содржи.",
+    dye: { name: "🍬 Бои во бонбони (E-бои)", intro: "Бонбона е боена со 2–3 синтетички бои. Бидејќи боите се многу поларни, потребен е поларен елуент (етил ацетат / етанол). Определи кои бои ги содржи.",
       modes: ["visible"], comps: [
         { id: "e133", name: "брилијантно сино (E133)", p: 6.2, vis: { visible: "#1d4ed8" } },
         { id: "e110", name: "жолто зајдисонце (E110)", p: 7.0, vis: { visible: "#f97316" } },
@@ -126,7 +126,7 @@
 
     function stepEluent() {
       const sec = el("div", "in-step"); right.appendChild(sec);
-      sec.innerHTML = "<h4>1. Избери елуент (мобилна фаза)</h4><p class='in-hint'>Стационарна фаза: силика гел (поларен). Поларните супстанци се задржуваат посилно на плочата. Поларниот елуент ги носи подалеку; неполарниот помалку. Бараме <i>R</i><sub>f</sub> помеѓу ≈0,1 и 0,9 и јасно раздвоени петна.</p>";
+      sec.innerHTML = "<h4>1. Избери елуент (мобилна фаза)</h4><p class='in-hint'>Стационарна фаза: силика гел (поларен). Поларните супстанци се задржуваат посилно на плочата. Поларниот елуент ги носи подалеку; неполарниот помалку. Бараме <i>R</i><sub>f</sub> помеѓу ≈0,05 и 0,95 и јасно раздвоени петна.</p>";
       const mk = v => { const s = el("select", "chr-num"); s.style.width = "auto"; H.SOLV.forEach(o => { const op = el("option", "", `${o.name} (ε° ${o.s})`); op.value = o.id; if (o.id === v) op.selected = true; s.appendChild(op); }); return s; };
       const a = mk(S.A), b = mk(S.B);
       const r1 = el("div", "chr-ctl"); r1.append(el("span", "", "Растворувач A"), a, el("span"));
@@ -213,7 +213,7 @@
       /* квалитет: сите споти во сите нанесени ленти */
       const bad = [];
       lanesList().forEach(l => { if (!S.lanes[l.id]) return; const o = l.ids.map(comp).map(c => ({ c, r: rf(c) })).sort((a, b) => b.r - a.r);
-        if (o.some(x => x.r < 0.1 || x.r > 0.9) && !bad.length) bad.push("Некои петна се залепени за стартот или фронтот (<i>R</i><sub>f</sub> надвор од 0,1–0,9).");
+        if (o.some(x => x.r < 0.05 || x.r > 0.95) && !bad.length) bad.push("Некои петна се премногу блиску до стартот или фронтот (<i>R</i><sub>f</sub> надвор од опсегот 0,05–0,95).");
         for (let i = 1; i < o.length; i++) { const d1 = o[i - 1].r * S.F, d2 = o[i].r * S.F; const need = (spotR(d1).ry + spotR(d2).ry) / PX + 0.1;
           if (d1 - d2 < need && !bad.length) bad.push(S.F < 4 ? "Плочата е извадена прерано: петната не се доволно оддалечени." : (S.touch >= 4 ? "Петната се преголеми (нанесено е премногу материјал) и се преклопуваат." : "Две петна се преклопуваат: елуентот не ги раздвојува доволно.")); } });
       if (bad.length) { const m = el("p", "in-fb-bad", "✘ " + bad[0] + " Подготви нова плоча."); sec.appendChild(m); newPlate(sec); return; }
@@ -222,7 +222,7 @@
     function stepMeasure() {
       const sec = el("div", "in-step"); right.appendChild(sec);
       const ids = S.mixIds.map(comp).map(c => ({ c, r: rf(c) })).sort((a, b) => b.r - a.r);
-      sec.innerHTML = "<h4>5. Мерење и идентификација</h4><p class='in-hint'>Мерењата прави ги на првата лента (" + S.sc.mixName + ") во режим во кој петаита се гледаат. <i>R</i><sub>f</sub> = растојание на петната / растојание на фронтот (двете од стартната линија).</p>";
+      sec.innerHTML = "<h4>5. Мерење и идентификација</h4><p class='in-hint'>Мерењата прави ги на првата лента (" + S.sc.mixName + ") во режим во кој петната се гледаат. <i>R</i><sub>f</sub> = растојание на петната / растојание на фронтот (двете од стартната линија).</p>";
       const fr = el("div", "chr-ctl"); const fi = el("input", "chr-num"); fi.placeholder = "cm"; fr.append(el("span", "", "Фронт (cm)"), fi, el("span")); sec.appendChild(fr);
       const tb = el("table", "chr-tbl"); tb.innerHTML = "<tr><th>Петна (од горе)</th><th>Растојание (cm)</th><th><i>R</i><sub>f</sub></th>" + (S.sc.pens ? "" : "<th>Супстанца</th>") + "</tr>"; sec.appendChild(tb);
       const rows = ids.map((o, i) => { const tr = el("tr"); const d = el("input", "chr-num"), r = el("input", "chr-num"); const s = el("select", "chr-num"); s.style.width = "auto";

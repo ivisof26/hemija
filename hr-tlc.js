@@ -4,7 +4,7 @@
   const H = window.HRO, el = H.el, fmt = H.fmt;
   const DYES = [
     { id: "dy", name: "жолта боја", p: 5.6, vis: { visible: "#facc15" } }, { id: "dm", name: "магента", p: 6.4, vis: { visible: "#db2777" } },
-    { id: "dc", name: "цијан", p: 7.2, vis: { visible: "#06b6d4" } }, { id: "do", name: "портокалова боја", p: 8.0, vis: { visible: "#f97316" } },
+    { id: "dc", name: "сина", p: 7.2, vis: { visible: "#06b6d4" } }, { id: "do", name: "портокалова боја", p: 8.0, vis: { visible: "#f97316" } },
     { id: "dv", name: "виолетова боја", p: 8.8, vis: { visible: "#7c3aed" } }];
   const SC = {
     pig: { name: "🍃 Пигменти од спанаќ (обоени)", intro: "Екстракт од лисја од спанаќ содржи повеќе пигменти. Раздели ги на силикагел плоча и определи го секој.",
@@ -13,7 +13,7 @@
         { id: "cha", name: "хлорофил a", p: 3.0, vis: { visible: "#0f766e" } },
         { id: "chb", name: "хлорофил b", p: 3.8, vis: { visible: "#84a328" } },
         { id: "xan", name: "ксантофили", p: 5.0, vis: { visible: "#eab308" } }], fixedAll: true, mixName: "Екстракт" },
-    drug: { name: "💊 Аналгетици (безбојни)", intro: "Таблета содржи 2–3 активни супстанци. Безбојните дамки се откриваат под UV светлина или со јод.",
+    drug: { name: "💊 Аналгетици (безбојни)", intro: "Таблета содржи 2–3 активни супстанци. Безбојните петна се откриваат под UV светлина или со јод.",
       modes: ["visible", "uv254", "iodine"], comps: [
         { id: "ibu", name: "ибупрофен", p: 2.0, vis: { uv254: "#1e293b", iodine: "#a16207" } },
         { id: "asp", name: "аспирин", p: 4.2, vis: { uv254: "#334155", iodine: "#d6a85c" } },
@@ -26,20 +26,20 @@
       variants: [{ n: "црн чај", ids: ["caf", "tph"] }, { n: "чоколадо", ids: ["caf", "tbr"] }, { n: "кафе", ids: ["caf", "chl"] }], def: ["eac", "eto", 20], mixName: "Примерок" },
     dye: { name: "🍬 Бои во бонбони (E-бои)", intro: "Бонбона е обоена со 2–3 синтетички бои. Бидејќи боите се многу поларни, потребен е поларен елуент (етил ацетат / етанол). Определи кои бои ги содржи.",
       modes: ["visible"], comps: [
-        { id: "e133", name: "бриљантно сино (E133)", p: 6.2, vis: { visible: "#1d4ed8" } },
+        { id: "e133", name: "брилијантно сино (E133)", p: 6.2, vis: { visible: "#1d4ed8" } },
         { id: "e110", name: "жолто зајдисонце (E110)", p: 7.0, vis: { visible: "#f97316" } },
         { id: "e102", name: "тартразин (E102)", p: 7.8, vis: { visible: "#facc15" } },
         { id: "e122", name: "азорубин (E122)", p: 8.6, vis: { visible: "#dc2626" } }], def: ["eac", "eto", 40], mixName: "Бонбона" },
-    amino: { name: "🧬 Аминокиселини (нинхидрин)", intro: "Хидролизат содржи 2–3 аминокиселини. Тие се безбојни и многу поларни; се откриваат со нинхидрин (виолетови дамки по загревање).",
+    amino: { name: "🧬 Аминокиселини (нинхидрин)", intro: "Хидролизат содржи 2–3 аминокиселини. Тие се безбојни и многу поларни; се откриваат со нинхидрин (виолетови петна по загревање).",
       modes: ["visible", "ninhydrin"], comps: [
         { id: "leu", name: "леуцин", p: 7.0, vis: { ninhydrin: "#7c3aed" } }, { id: "ala", name: "аланин", p: 7.9, vis: { ninhydrin: "#8b5cf6" } },
         { id: "gly", name: "глицин", p: 8.7, vis: { ninhydrin: "#a855f7" } }, { id: "lys", name: "лизин", p: 9.5, vis: { ninhydrin: "#6d28d9" } }], def: ["eto", "met", 30], mixName: "Хидролизат" },
-    bev: { name: "🥤 Адитиви во пијалок (UV)", intro: "Три пијалоци: кола, лимонада и енергетски пијалок. Секој содржи различни адитиви (кофеин, бензоева киселина, сорбинска киселина, аспартам). Определи кој пијалок е примерокот.",
+    bev: { name: "🥤 Адитиви во пијалак (UV)", intro: "Три пијалаци: кола, лимонада и енергетски пијалак. Секој содржи различни адитиви (кофеин, бензоева киселина, сорбинска киселина, аспартам). Определи кој пијалак е примерокот.",
       modes: ["visible", "uv254"], comps: [
         { id: "bz", name: "бензоева киселина", p: 3.4, vis: { uv254: "#1e293b" } }, { id: "so", name: "сорбинска киселина", p: 4.2, vis: { uv254: "#334155" } },
         { id: "cf", name: "кофеин", p: 5.0, vis: { uv254: "#1e293b" } }, { id: "as", name: "аспартам", p: 6.6, vis: { uv254: "#0f172a" } }],
-      variants: [{ n: "кола (кофеин + бензоева киселина)", ids: ["cf", "bz"] }, { n: "лимонада (бензоева + сорбинска киселина)", ids: ["bz", "so"] }, { n: "енергетски пијалок (кофеин + сорбинска киселина + аспартам)", ids: ["cf", "so", "as"] }], def: ["hex", "eac", 70], mixName: "Пијалок" },
-    pen: { name: "🕵️ Криминалистика: чии е фломастерот?", intro: "На фалсификуван документ е пишувано со еден од 4 фломастери (A–D). Секое мастило е смеса од бои. Нанеси го мастилото од документот и од сите фломастери и најди го совпаѓањето.",
+      variants: [{ n: "кола (кофеин + бензоева киселина)", ids: ["cf", "bz"] }, { n: "лимонада (бензоева + сорбинска киселина)", ids: ["bz", "so"] }, { n: "енергетски пијалак (кофеин + сорбинска киселина + аспартам)", ids: ["cf", "so", "as"] }], def: ["hex", "eac", 70], mixName: "Пијалак" },
+    pen: { name: "🕵️ Криминалистика: чиј е фломастерот?", intro: "На фалсификуван документ е пишувано со еден од 4 фломастери (A–D). Секое мастило е смеса од бои. Нанеси го мастилото од документот и од сите фломастери и најди го совпаѓањето.",
       modes: ["visible"], comps: DYES, pens: [{ id: "A", ids: ["dy", "dm", "dc"] }, { id: "B", ids: ["dy", "dc", "do"] }, { id: "C", ids: ["dm", "do", "dv"] }, { id: "D", ids: ["dy", "dm", "dv"] }], def: ["eac", "eto", 40], mixName: "Документ" }
   };
   const MODE = { visible: "👁 Дневна светлина", uv254: "🔦 UV 254 nm", iodine: "🟤 Јодни пареи", ninhydrin: "🟣 Нинхидрин (спреј + загревање)" };
@@ -52,7 +52,11 @@
     for (const k in SC) { const o = el("option", "", SC[k].name); o.value = k; sel.appendChild(o); }
     const top = el("div", "in-row"); top.appendChild(el("span", "", "<b>Задача:</b> ")); top.appendChild(sel);
     box.appendChild(top);
-    const intro = el("p", "in-hint"); box.appendChild(intro);
+    
+    // Вовед со цел, што се прави и објаснување за ТСХ и Rf
+    const introText = `Целта на оваа вежба е да се запознаете со принципот на раздвојување и идентификација на компонентите од смеса со помош на <b>тенкослојна хроматографија</b> (ТСХ). Раздвојувањето се заснова на различниот афинитет на компонентите кон стационарната фаза (тенок слој силикагел нанесен на плочка) и мобилната фаза (соодветен растворувач). Преку виртуелна симулација ќе ги проследите нанесувањето на примерокот, развивањето на хроматограмот и раздвојувањето на компонентите во одделни петна. Ќе се запознаете и со определувањето на ретенциониот фактор (<i>R</i><sub>f</sub>), кој се користи за карактеризација и споредба на компонентите.`;
+    const intro = el("p", "in-hint", introText); box.appendChild(intro);
+
     const lay = el("div", "chr-big sticky"); box.appendChild(lay);
     const left = el("div"), right = el("div"); lay.appendChild(left); lay.appendChild(right);
     const svg = el("div"); left.appendChild(svg);
@@ -64,7 +68,10 @@
       if (sc.variants) { S.variant = H.pick(sc.variants); S.mixIds = S.variant.ids.slice(); }
       else if (sc.pens) { S.pen = H.pick(sc.pens); S.mixIds = S.pen.ids.slice(); }
       else S.mixIds = sc.fixedAll ? sc.comps.map(c => c.id) : H.shuffle(sc.comps.map(c => c.id)).slice(0, H.pick([2, 3]));
-      intro.textContent = sc.intro; S.A = "hex"; S.B = k === "pig" ? "ace" : "eac"; S.pct = 30; if (sc.def) { S.A = sc.def[0]; S.B = sc.def[1]; S.pct = sc.def[2]; }
+      
+      intro.innerHTML = `${introText}<br><br><b>Задача:</b> ${sc.intro}`;
+      
+      S.A = "hex"; S.B = k === "pig" ? "ace" : "eac"; S.pct = 30; if (sc.def) { S.A = sc.def[0]; S.B = sc.def[1]; S.pct = sc.def[2]; }
       S.lanes = {}; S.mode = "visible"; S.F = 0; S.stage = 0; S.touch = 2; S.await = null;
       clearTimeout(S.tm); cancelAnimationFrame(S.raf);
       right.innerHTML = ""; svg.innerHTML = ""; drawPlate(); stepEluent();
@@ -119,7 +126,7 @@
 
     function stepEluent() {
       const sec = el("div", "in-step"); right.appendChild(sec);
-      sec.innerHTML = "<h4>1. Избери елуент (мобилна фаза)</h4><p class='in-hint'>Стационарна фаза: силикагел (поларен). Поларните супстанци се задржуваат посилно на плочата. Поларниот елуент ги носи подалеку; неполарниот помалку. Бараме Rf помеѓу ≈0,1 и 0,9 и јасно раздвоени дамки.</p>";
+      sec.innerHTML = "<h4>1. Избери елуент (мобилна фаза)</h4><p class='in-hint'>Стационарна фаза: силикагел (поларен). Поларните супстанци се задржуваат посилно на плочата. Поларниот елуент ги носи подалеку; неполарниот помалку. Бараме <i>R</i><sub>f</sub> помеѓу ≈0,1 и 0,9 и јасно раздвоени петна.</p>";
       const mk = v => { const s = el("select", "chr-num"); s.style.width = "auto"; H.SOLV.forEach(o => { const op = el("option", "", `${o.name} (ε° ${o.s})`); op.value = o.id; if (o.id === v) op.selected = true; s.appendChild(op); }); return s; };
       const a = mk(S.A), b = mk(S.B);
       const r1 = el("div", "chr-ctl"); r1.append(el("span", "", "Растворувач A"), a, el("span"));
@@ -148,7 +155,7 @@
         lanesList().forEach(l => { const b = el("button", "chr-opt" + (l.id === "M" ? " on" : ""), l.id === "M" ? l.name : "Стандард: " + l.name); b.type = "button";
           S.lanes[l.id] = l.id === "M"; b.onclick = () => { if (l.id === "M") return; S.lanes[l.id] = !S.lanes[l.id]; b.classList.toggle("on", S.lanes[l.id]); }; r.appendChild(b); });
         const tr = el("div", "chr-ctl"), rg = el("input"), o = el("output"); rg.type = "range"; rg.min = 1; rg.max = 5; rg.step = 1; rg.value = S.touch;
-        const hint = el("p", "chr-sub"); const up = () => { S.touch = +rg.value; o.textContent = S.touch + "×"; hint.textContent = S.touch === 1 ? "Малку материјал: дамките можат слабо да се гледаат." : S.touch >= 4 ? "Многу материјал: дамките ќе бидат големи и ќе се преклопуваат." : "Добра количина."; spotsDraw(); };
+        const hint = el("p", "chr-sub"); const up = () => { S.touch = +rg.value; o.textContent = S.touch + "×"; hint.textContent = S.touch === 1 ? "Малку материјал: петните можат слабо да се гледаат." : S.touch >= 4 ? "Многу материјал: петните ќе бидат големи и ќе се преклопуваат." : "Добра количина."; spotsDraw(); };
         rg.oninput = up; tr.append(el("span", "", "Допири со капилара"), rg, o);
         const go = el("button", "btn ghost", "💧 Нанеси"); go.type = "button"; lanesBox.append(r, tr, hint, go); up();
         go.onclick = () => { go.disabled = rg.disabled = true; r.querySelectorAll("button").forEach(b => b.disabled = true); spotsDraw(); laneLabels(); stepChamber(); };
@@ -173,15 +180,15 @@
     /* ---- развивање: корисникот одлучува кога да ја извади плочата ---- */
     function develop(sec) {
       S.stage = 3; const wet = S.sv.querySelector("#tl-wet"), clock = S.sv.querySelector("#tl-clock"); let t = 0, last = null, stopped = false;
-      const st = el("p", "in-hint", "Елуентот се качува по плочата со капиларни сили. <b>Извади ја плочата кога ќе процениш дека е време</b>: ако се извади прерано, дамките се слабо раздвоени; ако фронтот стигне до врвот, плочата е изгубена."); sec.appendChild(st);
+      const st = el("p", "in-hint", "Елуентот се качува по плочата со капиларни сили. <b>Извади ја плочата кога ќе процениш дека е време</b>: ако се извади прерано, петните се слабо раздвоени; ако фронтот стигне до врвот, плочата е изгубена."); sec.appendChild(st);
       const stop = el("button", "btn primary", "⏹ Извади ја плочата"); stop.type = "button"; sec.appendChild(stop);
       const draw = () => { const x = Math.min(1, t / TDEV); S.F = LMAX * Math.sqrt(x); const h = S.F * PX; wet.setAttribute("y", Y0 - h); wet.setAttribute("height", h + 15); spotsDraw(); clock.textContent = "t = " + Math.round(25 * x) + " min"; };
       const fin = () => {
         if (stopped) return; stopped = true; cancelAnimationFrame(S.raf); stop.disabled = true; if (adv) adv.disabled = true;
-        if (S.F >= LMAX - 0.03) { st.innerHTML = "<span class='in-fb-bad'>✘ Фронтот стигна до врвот на плочата! Не може да се одреди каде бил фронтот, па Rf не може да се пресмета. Подготви нова плоча и извади ја порано.</span>"; newPlate(sec); return; }
+        if (S.F >= LMAX - 0.03) { st.innerHTML = "<span class='in-fb-bad'>✘ Фронтот стигна до врвот на плочата! Не може да се одреди каде бил фронтот, па <i>R</i><sub>f</sub> не може да се пресмета. Подготви нова плоча и извади ја порано.</span>"; newPlate(sec); return; }
         S.sv.querySelector("#tl-jar").setAttribute("opacity", 0); st.textContent = "Плочата е извадена. Брзо, пред да испари елуентот:";
         S.await = "front"; const m = el("p", "in-fb-bad", "✏️ Означи го фронтот на елуентот со молив: кликни на плочата на границата на навлажнетиот дел."); m.style.background = "var(--accent)"; m.style.color = "inherit"; m.style.borderColor = "var(--primary)"; m.id = "tl-fmsg"; sec.appendChild(m);
-        if (!H.reduced) { wet.style.transition = "opacity 40s linear"; wet.setAttribute("opacity", 0.02); S.tm = setTimeout(() => { if (S.await === "front") { S.await = null; m.className = "in-fb-bad"; m.textContent = "✘ Елуентот испари пред да го означиш фронтот. Rf не може да се определи. Подготви нова плоча и означи го фронтот веднаш."; newPlate(sec); } }, 40000); }
+        if (!H.reduced) { wet.style.transition = "opacity 40s linear"; wet.setAttribute("opacity", 0.02); S.tm = setTimeout(() => { if (S.await === "front") { S.await = null; m.className = "in-fb-bad"; m.textContent = "✘ Елуентот испари пред да го означиш фронтот. <i>R</i><sub>f</sub> не може да се определи. Подготви нова плоча и означи го фронтот веднаш."; newPlate(sec); } }, 40000); }
       };
       stop.onclick = fin; let adv = null;
       if (H.reduced) { adv = el("button", "btn ghost", "⏩ Чекај 2 min"); adv.type = "button"; sec.appendChild(adv); adv.onclick = () => { t += TDEV * 2 / 25; draw(); if (t >= TDEV) fin(); }; draw(); }
@@ -198,7 +205,7 @@
     function stepVis() {
       S.stage = 4; spotsDraw(); S.sv.querySelector("#tl-ruler").setAttribute("opacity", 1);
       const sec = el("div", "in-step keep"); right.appendChild(sec);
-      sec.innerHTML = "<h4>4. Визуелизација</h4><p class='in-hint'>Плочата е суво. Ако дамките не се гледаат, пробај друг начин на откривање.</p>";
+      sec.innerHTML = "<h4>4. Визуелизација</h4><p class='in-hint'>Плочата е суво. Ако петните не се гледаат, пробај друг начин на откривање.</p>";
       const row = el("div", "chr-opts"); sec.appendChild(row);
       S.sc.modes.forEach(m => { const b = el("button", "chr-opt" + (m === S.mode ? " on" : ""), MODE[m]); b.type = "button";
         b.onclick = () => { S.mode = m; row.querySelectorAll("button").forEach(x => x.classList.remove("on")); b.classList.add("on"); spotsDraw(); }; row.appendChild(b); });
@@ -206,18 +213,18 @@
       /* квалитет: сите споти во сите нанесени ленти */
       const bad = [];
       lanesList().forEach(l => { if (!S.lanes[l.id]) return; const o = l.ids.map(comp).map(c => ({ c, r: rf(c) })).sort((a, b) => b.r - a.r);
-        if (o.some(x => x.r < 0.1 || x.r > 0.9) && !bad.length) bad.push("Некои дамки се залепени за стартот или фронтот (Rf надвор од 0,1–0,9).");
+        if (o.some(x => x.r < 0.1 || x.r > 0.9) && !bad.length) bad.push("Некои петна се залепени за стартот или фронтот (<i>R</i><sub>f</sub> надвор од 0,1–0,9).");
         for (let i = 1; i < o.length; i++) { const d1 = o[i - 1].r * S.F, d2 = o[i].r * S.F; const need = (spotR(d1).ry + spotR(d2).ry) / PX + 0.1;
-          if (d1 - d2 < need && !bad.length) bad.push(S.F < 4 ? "Плочата е извадена прерано: дамките не се доволно оддалечени." : (S.touch >= 4 ? "Дамките се преголеми (нанесено е премногу материјал) и се преклопуваат." : "Две дамки се преклопуваат: елуентот не ги раздвојува доволно.")); } });
+          if (d1 - d2 < need && !bad.length) bad.push(S.F < 4 ? "Плочата е извадена прерано: петните не се доволно оддалечени." : (S.touch >= 4 ? "Петните се преголеми (нанесено е премногу материјал) и се преклопуваат." : "Две петна се преклопуваат: елуентот не ги раздвојува доволно.")); } });
       if (bad.length) { const m = el("p", "in-fb-bad", "✘ " + bad[0] + " Подготви нова плоча."); sec.appendChild(m); newPlate(sec); return; }
       stepMeasure();
     }
     function stepMeasure() {
       const sec = el("div", "in-step"); right.appendChild(sec);
       const ids = S.mixIds.map(comp).map(c => ({ c, r: rf(c) })).sort((a, b) => b.r - a.r);
-      sec.innerHTML = "<h4>5. Мерење и идентификација</h4><p class='in-hint'>Мерењата прави ги на првата лента (" + S.sc.mixName + ") во режим во кој дамките се гледаат. Rf = растојание на дамката / растојание на фронтот (двете од стартната линија).</p>";
+      sec.innerHTML = "<h4>5. Мерење и идентификација</h4><p class='in-hint'>Мерењата прави ги на првата лента (" + S.sc.mixName + ") во режим во кој петните се гледаат. <i>R</i><sub>f</sub> = растојание на петната / растојание на фронтот (двете од стартната линија).</p>";
       const fr = el("div", "chr-ctl"); const fi = el("input", "chr-num"); fi.placeholder = "cm"; fr.append(el("span", "", "Фронт (cm)"), fi, el("span")); sec.appendChild(fr);
-      const tb = el("table", "chr-tbl"); tb.innerHTML = "<tr><th>Дамка (од горе)</th><th>Растојание (cm)</th><th>Rf</th>" + (S.sc.pens ? "" : "<th>Супстанца</th>") + "</tr>"; sec.appendChild(tb);
+      const tb = el("table", "chr-tbl"); tb.innerHTML = "<tr><th>Петна (од горе)</th><th>Растојание (cm)</th><th><i>R</i><sub>f</sub></th>" + (S.sc.pens ? "" : "<th>Супстанца</th>") + "</tr>"; sec.appendChild(tb);
       const rows = ids.map((o, i) => { const tr = el("tr"); const d = el("input", "chr-num"), r = el("input", "chr-num"); const s = el("select", "chr-num"); s.style.width = "auto";
         s.innerHTML = "<option value=''>— избери —</option>" + S.sc.comps.map(c => `<option value="${c.id}">${c.name}</option>`).join("");
         const t1 = el("td", "", "#" + (i + 1)), t2 = el("td"), t3 = el("td"); t2.appendChild(d); t3.appendChild(r); tr.append(t1, t2, t3); if (!S.sc.pens) { const t4 = el("td"); t4.appendChild(s); tr.appendChild(t4); } tb.appendChild(tr); return { o, d, r, s }; });
@@ -227,13 +234,13 @@
         fb.innerHTML = ""; const F = H.num(fi.value); let okn = 0, msgs = [];
         if (!isFinite(F) || Math.abs(F - S.F) > 0.15) msgs.push("Растојанието на фронтот не е точно измерено (провери со клик на плочата).");
         rows.forEach((r, i) => { const rr = H.num(r.r.value), tr = rf(r.o.c); let g = true;
-          if (!isFinite(rr) || Math.abs(rr - tr) > 0.04) { g = false; msgs.push(`Дамка #${i + 1}: Rf не е точно (провери: Rf = растојание дамка / растојание фронт).`); }
-          if (!S.sc.pens && r.s.value !== r.o.c.id) { g = false; msgs.push(`Дамка #${i + 1}: идентификацијата не е точна: спореди со стандардите на иста висина (и боја).`); }
+          if (!isFinite(rr) || Math.abs(rr - tr) > 0.04) { g = false; msgs.push(`Петна #${i + 1}: <i>R</i><sub>f</sub> не е точно (провери: <i>R</i><sub>f</sub> = растојание петна / растојание фронт).`); }
+          if (!S.sc.pens && r.s.value !== r.o.c.id) { g = false; msgs.push(`Петна #${i + 1}: идентификацијата не е точна: спореди со стандардите на иста висина (и боја).`); }
           if (g) okn++; });
-        if (S.sc.pens && penSel.value !== S.pen.id) msgs.push("Фломастерот не е точен: упореди ги боите и Rf на секоја дамка на документот со лентите на фломастерите.");
+        if (S.sc.pens && penSel.value !== S.pen.id) msgs.push("Фломастерот не е точен: упореди ги боите и <i>R</i><sub>f</sub> на секое петно на документот со лентите на фломастерите.");
         const all = okn === rows.length && !msgs.length;
-        let extra = ""; if (all && S.variant) extra = ` Примерокот е <b>${S.variant.n}</b>.`; if (all && S.sc.pens) extra = ` Документот е пишуван со <b>фломастер ${S.pen.id}</b>: сите бои се совпаѓаат по боја и Rf.`;
-        fb.innerHTML = all ? `<p class="in-fb-ok">✔ Точно! Rf е карактеристичен за супстанцата при дадени услови.${extra}</p><p class="in-hint">Rf зависи од елуентот и плочата, па секогаш се споредува со стандарди на иста плоча.</p>` : `<p class="in-fb-bad">✘ ${msgs.slice(0, 4).join("<br>✘ ")}</p>`; };
+        let extra = ""; if (all && S.variant) extra = ` Примерокот е <b>${S.variant.n}</b>.`; if (all && S.sc.pens) extra = ` Документот е пишуван со <b>фломастер ${S.pen.id}</b>: сите бои се совпаѓаат по боја и <i>R</i><sub>f</sub>.`;
+        fb.innerHTML = all ? `<p class="in-fb-ok">✔ Точно! <i>R</i><sub>f</sub> е карактеристичен за супстанцата при дадени услови.${extra}</p><p class="in-hint"><i>R</i><sub>f</sub> зависи од елуентот и плочата, па секогаш се споредува со стандарди на иста плоча.</p>` : `<p class="in-fb-bad">✘ ${msgs.slice(0, 4).join("<br>✘ ")}</p>`; };
     }
     start("pig");
   };

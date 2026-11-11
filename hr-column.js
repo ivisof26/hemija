@@ -25,7 +25,7 @@
   };
   function body(root, sc) {
     const S = { z: {}, cum: {}, tubes: [], sIdx: 0, vtot: 0 };
-    const intro = el("p", "in-hint", sc.intro + " Целта е да собереш чисти фракции од секоја супстанца: подготви ја колоната, нанеси примерок, па елуирај со соодветни растворувачи (во чекори).");
+    const intro = el("p", "in-hint", sc.intro + " Целта е да собереш чисти фракции од секоја супстанца преку колона со силикагел: подготви ја колоната, нанеси примерок, па елуирај со соодветни растворувачи.");
     root.appendChild(intro);
     const lay = el("div", "chr-big sticky"); root.appendChild(lay);
     const left = el("div"), right = el("div"); lay.append(left, right); H.fold(right);
@@ -46,16 +46,15 @@
     const secs = [];
     function section(h, p, keep) { const s = el("div", "in-step" + (keep ? " keep" : "")); s.innerHTML = `<h4>${h}</h4>${p ? `<p class="in-hint">${p}</p>` : ""}`; right.appendChild(s); secs.push(s); return s; }
 
-    /* 1. пакување */
+    /* 1. пакување (поедноставено на 2 опции) */
     const s1 = section("1. Пакување на колоната", "Како ја пакуваш колоната со силикагел?");
     const r1 = el("div", "chr-opts"), m1 = el("div"); s1.append(r1, m1);
-    [["Суво насипување без тапкање", 1.5, "Остануваат воздушни џебови и пукнатини: каналирање. Лентите ќе бидат пошироки."],
-     ["Како каша (силикагел измешан со почетниот растворувач), без воздух", 1.0, "Рамномерна и без меурчиња: тенки, остри ленти."],
-     ["Суво, па се остава да се исуши целосно", 2.0, "Засушената колона пука; разделувањето е лошо."]].forEach(o => {
+    [["1. Суво пакување", 1.5, "Сувиот силикагел се внесува директно во колоната, а потоа постепено се додава почетниот растворувач. Потребно е внимателно набивање за да се спречат воздушни џебови и пукнатини (каналирање)."],
+     ["2. Влажно пакување (метод на каша)", 1.0, "Силикагелот претходно се меша со почетниот растворувач во хомогена суспензија (каша) и така се внесува во колоната. Ова е правилниот лабораториски метод кој овозможува рамномерно таложење и чисти, остри ленти."]].forEach(o => {
       const b = el("button", "chr-opt", o[0]); b.type = "button"; b.onclick = () => { S.pack = o[1]; r1.querySelectorAll("button").forEach(x => { x.disabled = true; x.classList.remove("on"); }); b.classList.add("on");
-        m1.innerHTML = `<p class="${o[1] === 1 ? "in-fb-ok" : "in-fb-bad"}">${o[1] === 1 ? "✔" : "✘"} ${o[2]}${o[1] === 1 ? "" : " (Продолжуваме, но ќе влијае на резултатот.)"}</p>`;
+        m1.innerHTML = `<p class="${o[1] === 1 ? "in-fb-ok" : "in-fb-bad"}">${o[1] === 1 ? "✔" : "✘"} ${o[2]}${o[1] === 1 ? "" : " (Потребно е внимателно додавање за да се избегнат пукнатини.)"}</p>`;
         bed.setAttribute("y", BTOP); bed.style.transition = H.reduced ? "none" : "height 1s"; bed.setAttribute("height", BH);
-        if (o[1] > 1) bed.setAttribute("fill", "#d6d3d1"); S.lvl = 1; liq.setAttribute("y", 30); liq.setAttribute("height", BTOP - 30); stepLoad(); }; r1.appendChild(b); });
+        if (o[1] > 1.2) bed.setAttribute("fill", "#d6d3d1"); S.lvl = 1; liq.setAttribute("y", 30); liq.setAttribute("height", BTOP - 30); stepLoad(); }; r1.appendChild(b); });
 
     /* 2. нанесување */
     function stepLoad() {
@@ -76,7 +75,7 @@
     /* 3. елуирање */
     let eluLab, volLab, tubesBox;
     function stepElute() {
-      const s = section("3. Елуирање", "Избери мобилна фаза (елуент), па собирај фракции од по 5 mL. Започни со неполарен растворувач, па постепено зголемувај ја поларноста (градиент по чекори) за да ги елуираш и посилно задржаните супстанци. Неповолно е веднаш да се започне со многу поларен елуент.", true);
+      const s = section("3. Елуирање", "Избери мобилна фаза (елуент), па собирај фракции од по 5 mL. Започни со неполарен растворувач, па постепено зголемувај ја поларноста (градиент по чекори) за да ги елуираш и посилно задржаните супстанци.", true);
       const row = el("div", "chr-opts"); s.appendChild(row);
       ELU.forEach((e, i) => { const b = el("button", "chr-opt" + (i === 0 ? " on" : ""), e[0]); b.type = "button"; b.onclick = () => { S.sIdx = i; row.querySelectorAll("button").forEach(x => x.classList.remove("on")); b.classList.add("on"); setLab(); }; row.appendChild(b); });
       volLab = sv.querySelector("#cl-vol"); eluLab = sv.querySelector("#cl-el"); const setLab = () => { eluLab.textContent = ELU[S.sIdx][0]; volLab.textContent = "Собрано: " + S.vtot + " mL"; }; setLab();
@@ -117,8 +116,8 @@
           const ok = best && best.purity >= 0.95 && best.rec >= 0.7; if (!ok) allOk = false;
           const id = best && pools[best.i].who === c.id; if (!id) allOk = false; rows.push(`<tr><td>${c.name}</td><td>Ф${best ? best.i + 1 : "–"}</td><td>${best ? fmt(best.purity * 100, 0) : 0} %</td><td>${best ? fmt(best.rec * 100, 0) : 0} %</td><td>${ok ? "✔" : "✘"}</td><td>${id ? "✔" : "✘ непознато/погрешно"}</td></tr>`); });
         msg.innerHTML = `<table class="chr-tbl"><tr><th>Супстанца</th><th>Најдобра фракција</th><th>Чистота</th><th>Искористување</th><th>Цел</th><th>Идентификација</th></tr>${rows.join("")}</table>` +
-          (allOk ? "<p class='in-fb-ok'>✔ Одлично! Сите три супстанци се чисти и добро собрани. Редоследот на елуирање е спротивен од поларноста: најнеполарниот β-каротен излегува прв, најполарните ксантофили последни.</p>"
-            : "<p class='in-hint'>Совет: промени го градиентот (пусти нова колона со „Нова колона“), намали го натоварувањето, пакувај како каша, и не го мешај поларниот елуент предвреме. Ленти што се мешаат не може да се раздвојат со спојување на епрувети.</p>"); };
+          (allOk ? "<p class='in-fb-ok'>✔ Одлично! Сите три супстанци се чисти и добро собрани.</p>"
+            : "<p class='in-hint'>Совет: промени го градиентот, нанесувањето и провери ја чистотата на фракциите.</p>"); };
       const nw = el("button", "btn ghost", "🔄 Нова колона"); nw.type = "button"; nw.onclick = () => H.__colReload(); anaSec.appendChild(nw);
     }
   };

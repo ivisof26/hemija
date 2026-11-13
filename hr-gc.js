@@ -115,7 +115,7 @@
     }
     const view = el("div"), tbl = el("div"), log = el("div"), fb = el("div");
     function build() {
-      out.innerHTML = ""; const box = el("div", "in-step"); box.innerHTML = "<h4>Хроматограм</h4>"; const sch = H.svg("svg", { viewBox: "0 -66 600 380", class: "chr-schem" }, box); sch.style.cssText = "width:100%;height:auto;max-height:none;display:block";
+      out.innerHTML = ""; const box = el("div", "in-step"); box.innerHTML = "<h4>Гасен хроматограф</h4>"; const sch = H.svg("svg", { viewBox: "0 -66 600 380", class: "chr-schem" }, box); sch.style.cssText = "width:100%;height:auto;max-height:none;display:block";
       const colD = colPathD();
       sch.innerHTML = `<defs><linearGradient id="gs-cyl" x1="0" x2="1"><stop offset="0" stop-color="#e2e8f0"/><stop offset=".5" stop-color="#f8fafc"/><stop offset="1" stop-color="#94a3b8"/></linearGradient>
         <linearGradient id="gs-int" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4b5058"/><stop offset="1" stop-color="#2f343b"/></linearGradient>
@@ -151,7 +151,7 @@
       S.sch = sch; S.G = { col: sch.querySelector("#gs-col"), syr: sch.querySelector("#gs-syr"), plg: sch.querySelector("#gs-plg"), bar: sch.querySelector("#gs-bar"), fl: sch.querySelector("#gs-fl"), glow: sch.querySelector("#gs-glow"), fan: sch.querySelector("#gs-fan"), led: sch.querySelector("#gs-led"), puff: sch.querySelector("#gs-puff"), fds: sch.querySelectorAll(".gs-fd"), bands: sch.querySelector("#gs-bands"), leg: sch.querySelector("#gs-leg") };
       const ctr = el("div", "in-row"), rp = el("button", "btn ghost", "🔁 Повтори ја анимацијата"), sp = el("select", "chr-num"); rp.type = "button"; sp.style.width = "auto"; sp.setAttribute("aria-label", "Брзина на анимацијата");
       [[0.5, "бавно"], [1, "нормално"], [2, "брзо"], [4, "многу брзо"]].forEach(([v, l]) => { const o = el("option", "", "Брзина: " + l); o.value = v; if (v === S.spd) o.selected = true; sp.appendChild(o); });
-      sp.onchange = () => { S.spd = +sp.value; }; rp.onclick = () => { if (S.cur) draw(S.cur, true); }; ctr.style.cssText = "display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0"; ctr.append(rp, sp); box.appendChild(ctr);
+      sp.onchange = () => { S.spd = +sp.value; }; rp.onclick = () => { if (S.cur) draw(S.cur, true); }; ctr.style.cssText = "display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0"; ctr.append(rp, sp); box.appendChild(ctr); box.appendChild(el("h4", "", "Хроматограм"));
       const sv = H.svg("svg", { viewBox: "0 0 600 270", class: "chr-svg" }, box);
       sv.addEventListener("mousemove", e => { if (!S.cur) return; const r = sv.getBoundingClientRect(), x = (e.clientX - r.left) * 600 / r.width; if (x < 50 || x > 590) return;
         const t = (x - 50) / 540 * S.cur.tr.tEnd, ci = Math.round(t / S.cur.tr.dt), g = sv.querySelector("#gcur"), tx = sv.querySelector("#gctt");

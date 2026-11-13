@@ -204,7 +204,7 @@
     }
     function table(run) {
       let h = `<h4>Интегрирање (Run #${run.n}: ${run.v.name}), притисок ≈ ${Math.round(run.P)} bar</h4><table class="chr-tbl"><tr><th>Пик</th><th>tR (min)</th><th>Површина (mAU·min)</th><th>Висина (mAU)</th></tr>`;
-      run.pk.forEach((p, i) => h += `<tr><td>${i + 1}${i === 0 && Math.abs(p.t - run.sim.t0) < 0.1 ? " (t₀, незадржана)" : ""}</td><td>${fmt(p.t, 3)}</td><td>${fmt(p.area, 2)}</td><td>${fmt(p.h, 1)}</td></tr>`); tbl.innerHTML = "<div class='chr-scroll'>" + h + "</table></div>";
+      run.pk.forEach((p, i) => h += `<tr><td>${i + 1}${i === 0 && Math.abs(p.t - run.sim.t0) < 0.1 ? " (t₀, мртво време)" : ""}</td><td>${fmt(p.t, 3)}</td><td>${fmt(p.area, 2)}</td><td>${fmt(p.h, 1)}</td></tr>`); tbl.innerHTML = "<div class='chr-scroll'>" + h + "</table></div>";
     }
     function runsLog() {
       let h = "<h4>Дневник на анализи</h4><table class='chr-tbl'><tr><th>#</th><th>Примерок</th><th>Метода</th></tr>";

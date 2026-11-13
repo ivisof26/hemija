@@ -72,7 +72,7 @@
       const mkSel = (opts, val, f) => { const s = el("select", "chr-num"); s.style.width = "100%"; opts.forEach(([v, t]) => { const o = el("option", "", t); o.value = v; if (String(v) === String(val)) o.selected = true; s.appendChild(o); }); s.onchange = () => f(s.value); return s; };
       ctl.append(el("p", "in-hint", "<b>Стационарна фаза (колона):</b>"), mkSel(Object.keys(COLS).map(k => [k, COLS[k]]), M.col, v => M.col = v));
       ctl.append(el("p", "in-hint", "<b>Мобилна фаза:</b> A = вода (пуфер), B = органски растворувач"), mkSel([["acn", "B: ацетонитрил (ACN)"], ["met", "B: метанол (MeOH)"]], M.org, v => M.org = v),
-        mkSel(PHS, M.pH, v => M.pH = +v), mkSel([["iso", "Изократно (постојан состав)"], ["grad", "Градиент (состав се менува)"]], M.mode, v => { M.mode = v; mkCtl(); }));
+        mkSel(PHS, M.pH, v => M.pH = +v), mkSel([["iso", "Изократно (постојан состав)"], ["grad", "Градиентно (составот се менува)"]], M.mode, v => { M.mode = v; mkCtl(); }));
       ui.box = el("div"); ctl.appendChild(ui.box); mkCtl();
       const vs = mkSel(vials.map((v, i) => [i, v.name]), vialSel, v => vialSel = +v);
       ctl.append(el("p", "in-hint", "Шишенце за инјектирање (10 µL):"), vs);
@@ -222,7 +222,7 @@
       const minRs = Math.min(...rs), last = pk[pk.length - 1].tR, okR = rs.every(x => x >= 1.5), okT = last <= T.limit;
       const msg = `<i>R</i><sub>s</sub>: ${rs.map((x, i) => `${CMP[pk[i].id].name}/${CMP[pk[i + 1].id].name} = <b>${fmt(x, 2)}</b>`).join("; ")}. Последниот пик: ${fmt(last, 1)} min.`;
       fb.innerHTML = okR && okT ? `<p class="in-fb-ok">✔ ${minRs >= 2 ? "Одлично!" : "Задоволително."} Сите <i>R</i><sub>s</sub> ≥ 1,5 и анализата е доволно брза. ${msg}</p>` :
-        `<p class="${okR ? "in-fb-ok" : "in-fb-bad"}">${okR ? "✔ Доволно разделување, но анализата е предолга (&gt; " + T.limit + " min). Зголеми го % B или протокот, или користи градиент." : "✘ Пиковите не се доволно разделени (<i>R</i><sub>s</sub> &lt; 1,5). Промени го составот на мобилната фаза (% B, ACN/MeOH, pH) или користи градиент."} ${msg}</p>`;
+        `<p class="${okR ? "in-fb-ok" : "in-fb-bad"}">${okR ? "✔ Доволно разделување, но анализата е предолга (&gt; " + T.limit + " min). Зголеми го % B или протокот, или користи градиентно елуирање." : "✘ Пиковите не се доволно разделени (<i>R</i><sub>s</sub> &lt; 1,5). Промени го составот на мобилната фаза (% B, ACN/MeOH, pH) или користи градиент."} ${msg}</p>`;
     }
     function methodKey(m) { return [m.col, m.org, m.pH, m.mode, m.p0, m.p1, m.tG, m.hold, m.flow, m.T, m.wl].join("|"); }
     function calib(run) {

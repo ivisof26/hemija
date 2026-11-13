@@ -14,6 +14,8 @@
     ben: { id: "ben", name: "бензен", np: [0.19, 34], wax: [0.10, 31], rf: 1.0 },
     ebz: { id: "ebz", name: "етилбензен", np: [1.45, 42], wax: [0.38, 38], rf: 1.0 },
     pxy: { id: "pxy", name: "p-ксилен", np: [1.52, 42], wax: [0.40, 38], rf: 1.0 },
+    mxy: { id: "mxy", name: "m-ксилен", np: [1.53, 42], wax: [0.435, 38], rf: 1.0 },
+    oxy: { id: "oxy", name: "o-ксилен", np: [1.95, 42.5], wax: [0.62, 39], rf: 1.0 },
     met: { id: "met", name: "метанол", np: [0.03, 26], wax: [0.9, 40], rf: 0.25 },
     ipr: { id: "ipr", name: "2-пропанол", np: [0.115, 32], wax: [1.6, 43], rf: 0.5 },
     pin: { id: "pin", name: "α-пинен", np: [1.0, 41], wax: [0.45, 38], rf: 1.0 },
@@ -26,28 +28,51 @@
     hac: { id: "hac", name: "хексил ацетат", np: [1.9, 41], wax: [1.0, 39], rf: 0.7 },
     but: { id: "but", name: "1-бутанол", np: [0.60, 39], wax: [4.0, 48], rf: 0.6 }
   };
-  const COLS = { np: { name: "Неполарна (100 % диметилполисилоксан), max 300 °C", max: 300 }, wax: { name: "Поларна (полиетилен гликол, WAX), max 250 °C", max: 250 } };
+  /* стационарна фаза: поларноста (w) е тежина помеѓу неполарна (PDMS) и многу поларна (PEG) */
+  const COLS = {
+    np: { name: "DB-1: 100 % диметилполисилоксан (неполарна), max 300 °C", short: "DB-1 (неполарна)", w: 0, max: 300 },
+    db5: { name: "DB-5: 5 % фенил / 95 % диметилполисилоксан (слабо поларна), max 320 °C", short: "DB-5 (слабо поларна)", w: 0.12, max: 320 },
+    mid: { name: "DB-1701: 14 % цијанопропил-фенил (средно поларна), max 280 °C", short: "DB-1701 (средно поларна)", w: 0.5, max: 280 },
+    wax: { name: "WAX: полиетилен гликол (поларна), max 250 °C", short: "WAX (поларна)", w: 1, max: 250 }
+  };
   const TASKS = {
     A: { kind: "opt", name: "1. Оптимизација: н-алкани C10–C14 и изомер", ids: ["C10", "C11", "C12", "iC12", "C13", "C14"], limit: 8, ok: "Подеси ја програмата така што сите соседни пикови имаат Rs ≥ 1,5, а последниот пик излегува за ≤ 8 min." },
     D: { kind: "opt", name: "2. Оптимизација: бензен, толуен, етилбензен, p-ксилен", ids: ["ben", "tol", "ebz", "pxy"], limit: 8, ok: "Ароматични јаглеводороди од бензин. Етилбензенот и p-ксиленот се слични. Постигни Rs ≥ 1,5 за сите соседни пикови, а последниот пик да излезе за ≤ 8 min." },
     B: { kind: "id", name: "3. Идентификација: растворувачи (избор на колона)", cands: ["ace", "eto", "eac", "tol"], must: ["eto", "eac"], ok: "Непознат примерок содржи неколку од: ацетон, етанол, етил ацетат, толуен. Инјектирај стандарди и примерок, па определи." },
     E: { kind: "id", name: "4. Идентификација: алкохоли", cands: ["met", "eto", "ipr", "pro", "but"], must: [], ok: "Непознат примерок содржи 2–3 алкохоли. Инјектирај стандарди и примерок на иста колона и програма, па спореди ги времињата на задржување." },
-    F: { kind: "id", name: "E. Етерично масло: од што е?", cands: ["pin", "lim", "lin", "men", "crv"], must: [], variants: [{ n: "лимон", ids: ["lim", "pin"] }, { n: "нане", ids: ["men", "lim"] }, { n: "лаванда", ids: ["lin", "pin"] }, { n: "ким", ids: ["crv", "lim"] }],
+    F: { kind: "id", name: "5. Етерично масло: од што е?", cands: ["pin", "lim", "lin", "men", "crv"], must: [], variants: [{ n: "лимон", ids: ["lim", "pin"] }, { n: "нане", ids: ["men", "lim"] }, { n: "лаванда", ids: ["lin", "pin"] }, { n: "ким", ids: ["crv", "lim"] }],
       ok: "Непознато етерично масло (лимон, нане, лаванда или ким). Терпените имаат високи точки на вриење, па е потребно температурно програмирање. Инјектирај стандарди и примерок, па определи ги составките." },
-    H: { kind: "id", name: "7. 🍌 Естери во овошна арома", cands: ["eac", "iaa", "ebu", "hac"], must: [], variants: [{ n: "банана (изоамил ацетат + етил ацетат)", ids: ["iaa", "eac"] }, { n: "ананас (етил бутират + етил ацетат)", ids: ["ebu", "eac"] }, { n: "јаболко (хексил ацетат + етил бутират)", ids: ["hac", "ebu"] }],
+    H: { kind: "id", name: "6. 🍌 Естери во овошна арома", cands: ["eac", "iaa", "ebu", "hac"], must: [], variants: [{ n: "банана (изоамил ацетат + етил ацетат)", ids: ["iaa", "eac"] }, { n: "ананас (етил бутират + етил ацетат)", ids: ["ebu", "eac"] }, { n: "јаболко (хексил ацетат + етил бутират)", ids: ["hac", "ebu"] }],
       ok: "Вештачка овошна арома содржи мирисни естери. Инјектирај стандарди и примерок и определи што мирише: банана, ананас или јаболко." },
-    Cq: { kind: "quant", fac: 1, unit: "mg/L", name: "5. Квантификација со внатрешен стандард", ok: "Одреди ја концентрацијата на етанол во примерок со внатрешен стандард 1-пропанол (200 mg/L)." },
-    G: { kind: "quant", fac: 1000, unit: "g/L", name: "6. 🚗 Алкохол во крв на возач (внатрешен стандард)", ok: "Полицијата зема крв од возач (анализа на пареи над примерокот). Содржината на етанол се одредува со внатрешен стандард 1-пропанол (0,5 g/L). Во крвта има и ацетон. Дали возачот ја надминува дозволената граница од 0,5 g/L?" }
+    X: { kind: "opt", name: "9. 🧪 Критичен пар: m- и p-ксилен (избор на стационарна фаза)", ids: ["ebz", "pxy", "mxy", "oxy"], limit: 20, ok: "Етилбензенот и трите ксилена имаат речиси исти точки на вриење. m- и p-ксиленот се речиси исти и на неполарна колона не се раздвојуваат воопшто. Пробај друга <b>стационарна фаза</b> (поларна), подолга колона или поинаква дебелина на филмот, па постигни Rs ≥ 1,5 за сите соседни пикови за ≤ 20 min." },
+    Cq: { kind: "quant", fac: 1, unit: "mg/L", name: "7. Квантификација со внатрешен стандард", ok: "Одреди ја концентрацијата на етанол во примерок со внатрешен стандард 1-пропанол (200 mg/L)." },
+    G: { kind: "quant", fac: 1000, unit: "g/L", name: "8. 🚗 Алкохол во крв на возач (внатрешен стандард)", ok: "Полицијата зема крв од возач (анализа на пареи над примерокот). Содржината на етанол се одредува со внатрешен стандард 1-пропанол (0,5 g/L). Во крвта има и ацетон. Дали возачот ја надминува дозволената граница од 0,5 g/L?" }
   };
   C.iC12.np = [C.C12.np[0] * 0.92, C.C12.np[1]]; C.iC12.wax = [C.C12.wax[0] * 0.92, C.C12.wax[1]];
-  function kT(c, col, T) { const p = c[col]; return p[0] * Math.exp(p[1] * 1000 / R * (1 / (T + 273.15) - 1 / T0K)); }
-  function Tof(m, t) { return t < m.hold ? m.T0 : (m.ramp > 0 ? Math.min(m.Tf, m.T0 + m.ramp * (t - m.hold)) : m.T0); }
+  function kT(c, col, T, film) { const w = COLS[col].w, a = c.np, b = c.wax; const k100 = Math.exp(Math.log(a[0]) + w * (Math.log(b[0]) - Math.log(a[0]))), dH = a[1] + w * (b[1] - a[1]);
+    return k100 * (film / 0.25) * Math.exp(dH * 1000 / R * (1 / (T + 273.15) - 1 / T0K)); }
+  /* температурен програм: почетно задржување → рампа 1 → задржување → рампа 2 → задржување */
+  function progPts(m) {
+    const P = [[0, m.T0]]; if (!(m.ramp > 0)) { P.push([Math.max(1, m.hold), m.T0]); return P; }
+    let t = m.hold; if (t > 0) P.push([t, m.T0]);
+    t += Math.max(0, m.Tf - m.T0) / m.ramp; P.push([t, Math.max(m.Tf, m.T0)]);
+    if (m.hF > 0) { t += m.hF; P.push([t, m.Tf]); }
+    if (m.ramp2 > 0 && m.T2 > m.Tf) { t += (m.T2 - m.Tf) / m.ramp2; P.push([t, m.T2]); if (m.h2 > 0) { t += m.h2; P.push([t, m.T2]); } }
+    return P;
+  }
+  function Tof(m, t) { const P = progPts(m); if (t <= 0) return P[0][1]; for (let i = 1; i < P.length; i++) { if (t <= P[i][0]) { const a = P[i - 1], b = P[i]; return b[0] === a[0] ? b[1] : a[1] + (b[1] - a[1]) * (t - a[0]) / (b[0] - a[0]); } } return P[P.length - 1][1]; }
+  function progStr(m) {
+    if (!(m.ramp > 0)) return m.T0 + " °C (изотерма)";
+    let s = m.T0 + " °C/" + m.hold + " min → " + m.Tf + " °C @ " + m.ramp + " °C/min" + (m.hF > 0 ? " (" + m.hF + " min)" : "");
+    if (m.ramp2 > 0 && m.T2 > m.Tf) s += " → " + m.T2 + " °C @ " + m.ramp2 + " °C/min" + (m.h2 > 0 ? " (" + m.h2 + " min)" : "");
+    return s;
+  }
   function simulate(m, items) {
-    const tM = VCOL / m.flow, u = LCM / (tM * 60), Hh = 1.8 * (0.08 + 2.4 / u + 0.003 * u), N = LCM * 10 / Hh;
+    const len = m.len || 30, film = m.film || 0.25, LC = len * 100, tM = VCOL * (len / 30) / m.flow, u = LC / (tM * 60), Hh = 1.8 * (0.75 + film) * (0.08 + 2.4 / u + 0.003 * u), N = LC * 10 / Hh;
     const peaks = [{ id: "solv", tR: tM * 1.02, sg: 0.01 + tM * 0.02, A: 40, solv: true }];
     items.forEach(it => { const c = C[it.id]; let z = 0, t = 0, dt = 0.004; const mx = 45;
-      while (z < 1 && t < mx) { z += dt / (tM * (1 + kT(c, m.col, Tof(m, t)))); t += dt; }
-      if (t >= mx) return; const ke = kT(c, m.col, Tof(m, t));
+      while (z < 1 && t < mx) { z += dt / (tM * (1 + kT(c, m.col, Tof(m, t), film))); t += dt; }
+      if (t >= mx) return; const ke = kT(c, m.col, Tof(m, t), film);
       const sg = Math.sqrt(Math.pow(tM * (1 + ke) / Math.sqrt(N), 2) + 0.008 * 0.008);
       peaks.push({ id: it.id, tR: t, sg, A: it.c * c.rf * 0.5 * (1 + 0.01 * (Math.random() - .5) * 2) }); });
     return { peaks, tM, N };
@@ -65,6 +90,7 @@
       let a = 0; for (let k = l; k <= r; k++) a += y[k] * tr.dt; return { t: i * tr.dt, h: y[i], area: a }; });
   }
 
+  const INTRO = `Целта на оваа вежба е да се запознаете со принципот на <b>гасна хроматографија</b> (GC): раздвојување на испарливи супстанци што се носат со <b>гас носач</b> (мобилна фаза, хелиум) низ долга капиларна колона обложена со тенок филм од <b>стационарна фаза</b> (течен полимер). Супстанциите кои повеќе се растворуваат во стационарната фаза (повисока точка на вриење, слична поларност) излегуваат подоцна. Ќе го менувате изборот на стационарна фаза, должината на колоната, програмата на температура и протокот, а ќе ги следите хроматограмот (времиња на задржување <i>t</i><sub>R</sub>, површини на пиковите) и раздвојувањето (резолуција <i>R</i><sub>s</sub>).<br><b>Правило:</b> слично се раствора во слично: поларните супстанци (алкохоли) посилно се задржуваат на поларна стационарна фаза (WAX), а неполарните (јаглеводороди) на неполарна (DB-1).`;
   H.mods.gc = function (root) {
     const S = { runs: [], cur: null };
     const top = el("div", "in-row"), ts = el("select", "chr-num"); ts.style.width = "auto"; for (const k in TASKS) { const o = el("option", "", TASKS[k].name); o.value = k; ts.appendChild(o); }
@@ -72,21 +98,35 @@
     const intro = el("p", "in-hint"); root.appendChild(intro);
     const lay = el("div", "chr-big"); root.appendChild(lay);
     const ctl = el("div", "in-step"), out = el("div"); lay.append(ctl, out);
-    const M = { col: "np", flow: 1.2, T0: 60, hold: 1, ramp: 15, Tf: 250 };
+    const M = { col: "np", len: 30, film: 0.25, flow: 1.2, T0: 60, hold: 1, ramp: 15, Tf: 250, hF: 0, ramp2: 0, T2: 280, h2: 0 };
     let vials = [], vialSel = 0, ans = null;
     function sliders() {
       ctl.innerHTML = "<h4>Параметри на гасниот хроматограф</h4>";
       const colS = el("select", "chr-num"); colS.style.width = "100%"; for (const k in COLS) { const o = el("option", "", COLS[k].name); o.value = k; if (k === M.col) o.selected = true; colS.appendChild(o); }
-      colS.onchange = () => { M.col = colS.value; }; ctl.append(el("p", "in-hint", "Колона (30 m × 0,25 mm), гас носач: хелиум, детектор: FID"), colS);
-      [["flow", "Проток", 0.3, 3, 0.1, " mL/min"], ["T0", "Почетна T", 40, 200, 5, " °C"], ["hold", "Задржување", 0, 5, 0.5, " min"], ["ramp", "Загревање", 0, 40, 1, " °C/min"], ["Tf", "Крајна T", 50, 300, 5, " °C"]].forEach(([k, l, mn, mx, st, u]) => {
-        const r = el("div", "chr-ctl"), s = el("input"), o = el("output"); s.type = "range"; s.min = mn; s.max = mx; s.step = st; s.value = M[k];
-        const up = () => { M[k] = +s.value; o.textContent = (k === "ramp" && !M[k] ? "изотерма" : fmt(M[k], st < 1 ? 1 : 0) + u); }; s.oninput = up; up(); r.append(el("span", "", l), s, o); ctl.appendChild(r); });
+      colS.onchange = () => { M.col = colS.value; };
+      const lenS = el("select", "chr-num"), filmS = el("select", "chr-num"); lenS.style.width = filmS.style.width = "100%";
+      [15, 30, 60].forEach(v => { const o = el("option", "", "Должина: " + v + " m"); o.value = v; if (v === M.len) o.selected = true; lenS.appendChild(o); });
+      [0.1, 0.25, 1.0].forEach(v => { const o = el("option", "", "Дебелина на филмот на стационарната фаза: " + fmt(v, v < 0.2 ? 2 : (v === 1 ? 1 : 2)) + " µm"); o.value = v; if (v === M.film) o.selected = true; filmS.appendChild(o); });
+      lenS.onchange = () => M.len = +lenS.value; filmS.onchange = () => M.film = +filmS.value;
+      ctl.append(el("p", "in-hint", "<b>Колона</b> (внатрешен дијаметар 0,25 mm), гас носач: хелиум, детектор: FID. Избери <b>стационарна фаза</b>:"), colS, lenS, filmS);
+      const rows = {}, prev = el("div", "chr-prog");
+      const draw0 = () => { const P = progPts(M), tm = Math.max(...P.map(a => a[0]), 1), Tm = Math.max(...P.map(a => a[1])), Tn = Math.min(...P.map(a => a[1])); const W = 300, Hh = 70, X = t => 28 + (W - 36) * t / tm, Y = T => Hh - 14 - (Hh - 26) * (T - (Tn - 10)) / ((Tm + 10) - (Tn - 10));
+        const bad = Math.max(...P.map(a => a[1])) > COLS[M.col].max;
+        prev.innerHTML = `<svg viewBox="0 0 ${W} ${Hh}" class="chr-schem" role="img" aria-label="Температурен програм"><line x1="28" y1="${Hh - 14}" x2="${W - 6}" y2="${Hh - 14}" stroke="#334155"/><line x1="28" y1="6" x2="28" y2="${Hh - 14}" stroke="#334155"/><polyline fill="none" stroke="${bad ? "#dc2626" : "#c2410c"}" stroke-width="2" points="${P.map(a => X(a[0]).toFixed(1) + "," + Y(a[1]).toFixed(1)).join(" ")}"/><text x="${W - 6}" y="${Hh - 3}" font-size="9" text-anchor="end" fill="#334155">време: ${fmt(tm, 1)} min</text><text x="30" y="${Y(Tm).toFixed(1) - 2}" font-size="9" fill="#334155">${Math.round(Tm)} °C</text><text x="30" y="${Hh - 3}" font-size="9" fill="#334155">${Math.round(P[0][1])} °C</text></svg>`; };
+      const vis = () => { const iso = !(M.ramp > 0); rows.hold.style.display = iso ? "none" : ""; rows.Tf.style.display = rows.hF.style.display = rows.ramp2.style.display = iso ? "none" : "";
+        const two = !iso && M.ramp2 > 0; rows.T2.style.display = rows.h2.style.display = two ? "" : "none"; draw0(); };
+      ctl.appendChild(el("p", "in-hint", "<b>Температурен програм на печката:</b> почни на ниска T (задржување), загревај со рампа 1, по желба задржи, па додај втора рампа за потешките супстанции. Рампа 0 = изотерма."));
+      ctl.appendChild(prev);
+      [["flow", "Проток", 0.3, 3, 0.1, " mL/min"], ["T0", "Почетна T", 40, 200, 5, " °C"], ["hold", "Почетно задржување", 0, 5, 0.5, " min"], ["ramp", "Рампа 1", 0, 40, 1, " °C/min"], ["Tf", "T по рампа 1", 50, 300, 5, " °C"], ["hF", "Задржување на T по рампа 1", 0, 10, 0.5, " min"], ["ramp2", "Рампа 2", 0, 60, 1, " °C/min"], ["T2", "Крајна T (рампа 2)", 60, 320, 5, " °C"], ["h2", "Крајно задржување", 0, 10, 0.5, " min"]].forEach(([k, l, mn, mx, st, u]) => {
+        const r = el("div", "chr-ctl"), s = el("input"), o = el("output"); s.type = "range"; s.min = mn; s.max = mx; s.step = st; s.value = M[k]; rows[k] = r;
+        const up = () => { M[k] = +s.value; o.textContent = ((k === "ramp" || k === "ramp2") && !M[k] ? (k === "ramp" ? "изотерма" : "нема") : fmt(M[k], st < 1 ? 1 : 0) + u); if (rows.h2) vis(); }; s.oninput = up; up(); r.append(el("span", "", l), s, o); ctl.appendChild(r); });
+      colS.addEventListener("change", vis); vis();
       const vs = el("select", "chr-num"); vs.style.width = "100%"; vials.forEach((v, i) => { const o = el("option", "", v.name); o.value = i; vs.appendChild(o); }); vs.onchange = () => vialSel = +vs.value; vs.value = vialSel;
       ctl.append(el("p", "in-hint", "Шишенце за инјектирање (1 µL):"), vs);
       const go = el("button", "btn primary", "💉 Инјектирај"); go.type = "button"; ctl.appendChild(go); go.onclick = inject;
     }
     function newTask(k) {
-      S.k = k; S.runs = []; S.cur = null; ans = null; vialSel = 0; intro.textContent = TASKS[k].ok; out.innerHTML = "";
+      S.k = k; S.runs = []; S.cur = null; ans = null; vialSel = 0; intro.innerHTML = INTRO + "<br><br><b>Задача:</b> " + TASKS[k].ok; out.innerHTML = "";
       const T = TASKS[k];
       if (T.kind === "opt") vials = [{ name: "Смеса: " + T.ids.map(id => C[id].name.replace("n-", "")).join(", "), items: T.ids.map(id => ({ id, c: 200 })) }];
       if (T.kind === "id") { if (T.variants) { const v = H.pick(T.variants); S.vname = v.n; S.truth = v.ids.slice(); } else { S.vname = null; } const extra = H.shuffle(T.cands.filter(x => !T.must.includes(x))); const n = T.must.length ? H.pick([0, 1, 1]) : H.pick([2, 3, 3]); if (!T.variants) { S.truth = T.must.concat(extra.slice(0, n)); if (S.truth.length < 2) S.truth.push(extra[0]); }
@@ -114,7 +154,7 @@
     }
     const frame = () => '<line x1="50" y1="225" x2="590" y2="225" stroke="#334155"/><line x1="50" y1="20" x2="50" y2="225" stroke="#334155"/><text x="320" y="262" font-size="11" text-anchor="middle" fill="#334155">време (min)</text><text x="14" y="125" font-size="11" fill="#334155" transform="rotate(-90 14 125)" text-anchor="middle">сигнал на детекторот</text><g id="gx"></g><clipPath id="gcl"><rect id="gclr" x="50" y="0" width="0" height="270"/></clipPath><path id="gp" fill="none" stroke="#c2410c" stroke-width="1.4" clip-path="url(#gcl)"/><g id="gl"></g><line id="gcur" x1="0" x2="0" y1="20" y2="225" stroke="#64748b" stroke-dasharray="3 3" opacity="0"/><text id="gctt" x="0" y="42" font-size="10" fill="#334155" opacity="0"></text><text id="gt" x="56" y="12" font-size="11" text-anchor="start" fill="#334155"></text>';
     function inject() {
-      const m = Object.assign({}, M); if (Math.max(m.T0, m.Tf) > COLS[m.col].max) { fb.innerHTML = `<p class="in-fb-bad">✘ Температурата надминува ${COLS[m.col].max} °C – неподвижната фаза се распаѓа („крвари“). Намали ја температурата.</p>`; return; }
+      const m = Object.assign({}, M); if (m.ramp <= 0) { m.ramp2 = 0; m.hF = 0; } if (m.ramp2 > 0 && m.T2 <= m.Tf) { fb.innerHTML = "<p class='in-fb-bad'>Крајната температура на рампа 2 мора да е поголема од T по рампа 1 (или стави рампа 2 на „нема“).</p>"; return; } if (Math.max(...progPts(m).map(a => a[1])) > COLS[m.col].max) { fb.innerHTML = `<p class="in-fb-bad">✘ Програмата достигнува температура над ${COLS[m.col].max} °C за оваа стационарна фаза: фазата се распаѓа („крвари“) и колоната се оштетува. Намали ја температурата или избери друга колона.</p>`; return; }
       if (m.ramp > 0 && m.Tf < m.T0) { fb.innerHTML = "<p class='in-fb-bad'>Крајната температура мора да е поголема од почетната.</p>"; return; }
       const v = vials[vialSel]; const sim = simulate(m, v.items), tr = trace(sim), pk = integrate(tr);
       const run = { n: S.runs.length + 1, m, v, sim, tr, pk }; S.runs.push(run); S.cur = run; fb.innerHTML = ""; draw(run, true); runsLog();
@@ -130,7 +170,7 @@
         if (lvl) H.svg("line", { x1: x, x2: x, y1: ly + 2, y2: top - 1, stroke: "#94a3b8", "stroke-width": 0.6 }, gl);
         const tx = H.svg("text", { x, y: ly, "font-size": 9.5, "text-anchor": "middle", fill: "#475569" }, gl); tx.textContent = fmt(p.t, 2); });
       const clr = sv.querySelector("#gclr"), tt = sv.querySelector("#gt"); gl.setAttribute("opacity", 0);
-      const fin = () => { clr.setAttribute("width", 540); gl.setAttribute("opacity", 1); tt.textContent = `${run.m.col === "np" ? "неполарна" : "поларна"} колона, ${fmt(run.m.flow, 1)} mL/min, N ≈ ${Math.round(run.sim.N / 1000)}·10³`; table(run); evalRun(run); const ov = document.getElementById('goven'); if (ov) ov.textContent = Math.round(Tof(run.m, tr.tEnd)) + ' °C'; };
+      const fin = () => { clr.setAttribute("width", 540); gl.setAttribute("opacity", 1); tt.textContent = `${COLS[run.m.col].short}, ${run.m.len || 30} m, ${fmt(run.m.film || 0.25, 2)} µm, ${fmt(run.m.flow, 1)} mL/min, N ≈ ${Math.round(run.sim.N / 1000)}·10³`; table(run); evalRun(run); const ov = document.getElementById('goven'); if (ov) ov.textContent = Math.round(Tof(run.m, tr.tEnd)) + ' °C'; };
       if (!anim || H.reduced) { fin(); return; } const T = 2800; let t0 = null;
       requestAnimationFrame(function f(ts) { if (t0 == null) t0 = ts; const x = Math.min(1, (ts - t0) / T); clr.setAttribute("width", 540 * x); const tc = Math.round(Tof(run.m, x * tr.tEnd)); tt.textContent = `T печка: ${tc} °C · t = ${fmt(x * tr.tEnd, 1)} min`; const ov = document.getElementById('goven'); if (ov) ov.textContent = tc + ' °C'; if (x < 1) requestAnimationFrame(f); else fin(); });
     }
@@ -140,7 +180,7 @@
     }
     function runsLog() {
       let h = "<h4>Дневник на анализи</h4><table class='chr-tbl'><tr><th>#</th><th>Примерок</th><th>Колона</th><th>Програма</th></tr>";
-      S.runs.forEach(r => h += `<tr class="chr-run${r === S.cur ? " cur" : ""}" data-n="${r.n}"><td>${r.n}</td><td>${r.v.name}</td><td>${r.m.col === "np" ? "неполарна" : "поларна"}</td><td>${r.m.T0} °C/${r.m.hold} min${r.m.ramp ? " → " + r.m.Tf + " °C @ " + r.m.ramp : " (изотерма)"}, ${fmt(r.m.flow, 1)} mL/min</td></tr>`);
+      S.runs.forEach(r => h += `<tr class="chr-run${r === S.cur ? " cur" : ""}" data-n="${r.n}"><td>${r.n}</td><td>${r.v.name}</td><td>${COLS[r.m.col].short}, ${r.m.len || 30} m, ${fmt(r.m.film || 0.25, 2)} µm</td><td>${progStr(r.m)}, ${fmt(r.m.flow, 1)} mL/min</td></tr>`);
       log.innerHTML = "<div class='chr-scroll'>" + h + "</table></div>"; log.querySelectorAll(".chr-run").forEach(tr => tr.onclick = () => { S.cur = S.runs[+tr.dataset.n - 1]; draw(S.cur, false); runsLog(); });
     }
     function evalRun(run) {
@@ -149,14 +189,14 @@
       const rs = []; for (let i = 1; i < pk.length; i++) rs.push(1.18 * (pk[i].tR - pk[i - 1].tR) / (2.355 * (pk[i].sg + pk[i - 1].sg)));
       const minRs = Math.min(...rs), last = pk[pk.length - 1].tR, okR = rs.every(x => x >= 1.5), okT = last <= T.limit;
       let m = `Rs: ${rs.map((x, i) => `${C[pk[i].id].name.replace("n-", "")}/${C[pk[i + 1].id].name.replace("n-", "")} = <b>${fmt(x, 2)}</b>`).join(", ")}. Последниот пик: ${fmt(last, 1)} min.`;
-      fb.innerHTML = okR && okT ? `<p class="in-fb-ok">${minRs >= 2 ? "✔ Одлично! Сите Rs ≥ 2 и анализата е брза." : "✔ Задоволително: сите Rs ≥ 1,5 (пиковите се раздвоени до основната линија), но некои се многу блиску еден до друг на хроматограмот (најмал Rs = " + fmt(minRs, 2) + "). Анализата е брза."} ${m}</p>` : `<p class="${okR ? "in-fb-ok" : "in-fb-bad"}">${okR ? "✔ Доволно раздвојување, но анализата е предолга (&gt; 8 min). Зголеми ја брзината на загревање." : "✘ Пиковите не се доволно раздвоени (Rs &lt; 1,5). Забави го загревањето или намали ја почетната температура."} ${m}</p>`;
+      fb.innerHTML = okR && okT ? `<p class="in-fb-ok">${minRs >= 2 ? "✔ Одлично! Сите Rs ≥ 2 и анализата е брза." : "✔ Задоволително: сите Rs ≥ 1,5 (пиковите се раздвоени до основната линија), но некои се многу блиску еден до друг на хроматограмот (најмал Rs = " + fmt(minRs, 2) + "). Анализата е брза."} ${m}</p>` : `<p class="${okR ? "in-fb-ok" : "in-fb-bad"}">${okR ? "✔ Доволно раздвојување, но анализата е предолга (&gt; " + T.limit + " min). Зголеми ја брзината на загревање или протокот." : "✘ Пиковите не се доволно раздвоени (Rs &lt; 1,5). Забави го загревањето или намали ја почетната температура."} ${m}</p>`;
     }
     function answerBox() {
       if (TASKS[S.k].kind === "opt") return; const s = el("div", "in-step"); fb.after(s); const keep = out; s.innerHTML = "<h4>Одговор</h4>";
       if (TASKS[S.k].kind === "id") { const row = el("div", "chr-opts"), sel = new Set(); TASKS[S.k].cands.forEach(id => { const b = el("button", "chr-opt", C[id].name); b.type = "button"; b.onclick = () => { sel.has(id) ? sel.delete(id) : sel.add(id); b.classList.toggle("on"); }; row.appendChild(b); });
         const go = el("button", "btn ghost", "✔ Провери"), m = el("div"); go.type = "button"; s.append(el("p", "in-hint", "Означи ги супстанците во непознатиот примерок (од " + TASKS[S.k].cands.length + " можни):"), row, go, m);
-        go.onclick = () => { const ok = S.truth.length === sel.size && S.truth.every(x => sel.has(x)); const usedP = S.runs.some(r => r.m.col === "wax" && r.v.unk);
-          m.innerHTML = ok ? `<p class="in-fb-ok">✔ Точно!${S.vname ? " Примерокот е " + S.vname + "." : ""} ${S.k !== "B" ? "Идентификацијата се прави со споредба на времињата на задржување со стандарди под исти услови." : usedP ? "Поларната колона го раздвои етанолот од етил ацетатот." : "Внимавај: на неполарна колона етанолот и етил ацетатот речиси се совпаѓаат (слични точки на вриење); за сигурна идентификација треба втора, поларна колона."}</p>` : "<p class='in-fb-bad'>✘ Не е точно. Спореди ги tR на примерокот со стандардите (на иста колона и иста програма). Ако два пика се преклопуваат, пробај поларна колона.</p>"; }; }
+        go.onclick = () => { const ok = S.truth.length === sel.size && S.truth.every(x => sel.has(x)); const usedP = S.runs.some(r => COLS[r.m.col].w >= 0.5 && r.v.unk);
+          m.innerHTML = ok ? `<p class="in-fb-ok">✔ Точно!${S.vname ? " Примерокот е " + S.vname + "." : ""} ${S.k !== "B" ? "Идентификацијата се прави со споредба на времињата на задржување со стандарди под исти услови." : usedP ? "Поларната стационарна фаза го раздвои етанолот од етил ацетатот." : "Внимавај: на неполарна колона етанолот и етил ацетатот речиси се совпаѓаат (слични точки на вриење); за сигурна идентификација треба втора колона со поларна стационарна фаза."}</p>` : "<p class='in-fb-bad'>✘ Не е точно. Спореди ги tR на примерокот со стандардите (на иста колона и иста програма). Ако два пика се преклопуваат, пробај друга стационарна фаза.</p>"; }; }
       else { const T = TASKS[S.k], i = el("input", "chr-num"); i.placeholder = T.unit; const go = el("button", "btn ghost", "✔ Провери"), m = el("div"); go.type = "button";
         s.append(el("p", "in-hint", "Концентрација на етанол во примерокот (" + T.unit + "). Формула: RRF = (A<sub>етанол</sub>/A<sub>IS</sub>) / (c<sub>етанол</sub>/c<sub>IS</sub>) од стандардот; c<sub>x</sub> = (A<sub>x</sub>/A<sub>IS</sub>) · c<sub>IS</sub> / RRF. Во примерокот има и друга испарлива компонента: внимавај на колоната и на пиковите!"), i, go, m);
         go.onclick = () => { const v = H.num(i.value), tr = S.cet / T.fac; const ok = isFinite(v) && Math.abs(v - tr) / tr < 0.04;

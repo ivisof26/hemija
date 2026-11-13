@@ -31,7 +31,7 @@
     const upd = () => { const st = [...box.children].filter(c => c.classList.contains("in-step")); st.forEach((c, i) => { if (i < st.length - 1 && !c.classList.contains("keep") && !c.dataset.f) { c.dataset.f = 1; c.classList.add("done"); const h = c.querySelector("h4"); if (h) { h.tabIndex = 0; h.onclick = () => c.classList.toggle("open"); } } }); };
     new MutationObserver(upd).observe(box, { childList: true });
   };
-  const TABS = [["tlc", "🧫 ТLC (тенкослојна)"], ["col", "🧪 Колонска"], ["gc", "🌫️ Гасна (GC)"]];
+  const TABS = [["tlc", "🧫 TLC (тенкослојна)"], ["col", "🧪 Колонска"], ["gc", "🌫️ Гасна (GC)"], ["lc", "💧 Течна (HPLC)"]];
   function init() {
     const root = document.getElementById("chr-root"); if (!root) return;
     const bar = HRO.el("div", "chr-tabs"); bar.setAttribute("role", "tablist");
@@ -42,6 +42,7 @@
     });
     root.appendChild(HRO.el("p", "in-hint", "Хроматографијата ги разделува компонентите од смеса, бидејќи тие различно се распределуваат помеѓу <b>мобилната</b> и <b>стационарната</b> фаза. Избери метод и пробај ја вежбата."));
     root.appendChild(bar); TABS.forEach(([id]) => root.appendChild(panels[id]));
+    root.appendChild(HRO.el("p", "at-note", "ℹ️ <b>Колку е реално?</b> Супстанците, редоследот на излегување и принципите се реални: ε° и <i>R</i><sub>f</sub> на силика гел, влијанието на % органски растворувач, pH и бранова должина во HPLC, температурата и стационарната фаза во GC. Бројките (<i>R</i><sub>f</sub>, <i>t</i><sub>R</sub>, поларности) се поедноставени и подесени за учење: не се измерени податоци. Реалните вредности зависат од точната плоча, колона и услови."));
     function show(id) {
       bar.querySelectorAll(".chr-tab").forEach(b => b.classList.toggle("on", b.dataset.k === id));
       for (const k in panels) panels[k].hidden = k !== id;

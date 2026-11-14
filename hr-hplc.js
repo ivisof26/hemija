@@ -55,7 +55,24 @@
     return pk.map(i => { let l = i, r = i; const th = y[i] * 0.002; while (l > 0 && y[l - 1] < y[l] && y[l] > th) l--; while (r < y.length - 1 && y[r + 1] < y[r] && y[r] > th) r++;
       let a = 0; for (let k = l; k <= r; k++) a += y[k] * tr.dt; return { t: i * tr.dt, h: y[i], area: a }; });
   }
-  const INTRO = `Целта на оваа вежба е да се запознаете со принципот на <b>високоефикасна течна хроматографија</b> (HPLC) и да научите како составот на <b>мобилната фаза</b> и изборот на стационарната фаза влијаат на разделувањето. Се користи <b>реверзно-фазна</b> хроматографија: <b>стационарната фаза</b> е неполарна (C18 — јаглеводородни низи сврзани на силика гел), а <b>мобилната фаза</b> е поларна смеса од вода (пуфер) и органски растворувач (ацетонитрил, ACN, или метанол, MeOH). Тука супстанците ќе се елуираат по обратен редослед отколку при TLC на силика гел: <b>поларните супстанци излегуваат први</b>, а неполарните се задржуваат подолго. Со зголемување на уделот на органскиот растворувач сите супстанци побрзо излегуваат (се елуираат). Може да се менува: органскиот растворувач, % органски растворувач (изократно или градиентно), pH на пуферот (влијае на јонизацијата), стационарна фаза, протокот, температурата и брановата должина на UV детекторот. Треба да се следи и <b>притисокот</b> на системот (максимум 400 bar).`;
+
+  /* UV спектри: збир на Гаусови ленти [центар nm, ширина σ, амплитуда, м=моделирана (нема литературна вредност)]. Максимумите се од литература; обликот е моделиран. */
+  const SPEC = {
+    mp: { b: [[194, 16, 1.723], [256, 14, 1.013]], n: "Литература (SIELC, кисела подвижна фаза): максимуми на 194 и 256 nm." },
+    ep: { b: [[196, 16, 1.485], [256, 14, 1.012]], n: "Литература (SIELC): максимуми на 196 и 256 nm." },
+    pp: { b: [[196, 16, 1.485], [256, 14, 1.012]], n: "Литература (SIELC): максимуми на 196 и 256 nm." },
+    bp: { b: [[196, 16, 1.485, 1], [256, 14, 1.012, 1]], n: "За бутил парабен не најдов нумеричка вредност; максимумите (196 и 256 nm) се пренесени од пропил парабен, бидејќи имаат ист хромофор (п-хидроксибензоат)." },
+    par: { b: [[196, 16, 1.432], [244, 15, 1.031]], n: "Литература (SIELC): максимуми на 196 и 244 nm." },
+    caf: { b: [[206, 16, 1.135], [272, 14, 1.167]], n: "Литература (SIELC): максимуми на 206 и 272 nm." },
+    asa: { b: [[226, 12, 1.515, 1], [276, 12, 0.142]], n: "Литература (SIELC): максимуми на 192 и 276 nm. Лентата околу 226 nm е моделирана." },
+    ibu: { b: [[222, 9, 1.188, 1], [264, 5, 0.0115], [272, 5, 0.0143]], n: "Литература (Ph. Eur.): рамо на 258 nm и максимуми на 264 и 272 nm (слаби). Силната лента во далечна UV (≈222 nm) е моделирана." },
+    ben: { b: [[230, 12, 2.529], [274, 12, 0.151]], n: "Литература (SIELC): максимуми на 194, 230 и 274 nm." },
+    sor: { b: [[194, 16, 1.963], [262, 13, 1.108]], n: "Литература (SIELC, калиум сорбат): 194, 238, 262 и 280 nm. Моделот е поедноставен (две ленти)." },
+    asp: { b: [[205, 12, 1.06, 1], [247, 2.2, 0.0025], [252, 2.2, 0.0041], [258, 2.2, 0.0053], [264, 2.2, 0.0037]], n: "Литература (Ph. Eur.): слаби максимуми на 247, 252, 258 и 264 nm (од фенилаланинот). Јакиот пораст под 220 nm е моделиран." },
+    sac: { b: [[202, 14, 0.866, 1], [264, 8, 0.478]], n: "Литература (Frontiers in Nutrition, 2025): максимум на 264 nm. Лентата во далечна UV е моделирана." }
+  };
+  const specY = (id, l) => SPEC[id].b.reduce((a, q) => a + q[2] * Math.exp(-(l - q[0]) * (l - q[0]) / (2 * q[1] * q[1])), 0);
+  const INTRO = `Целта на оваа вежба е да се запознаете со принципот на <b>високоефикасна течна хроматографија</b> (HPLC) и да научите како составот на <b>мобилната фаза</b> и изборот на стационарната фаза влијаат на разделувањето. Се користи <b>реверзно-фазна</b> хроматографија: <b>стационарната фаза</b> е неполарна (C18 — јаглеводородни вериги сврзани на силика гел), а <b>мобилната фаза</b> е поларна смеса од вода (пуфер) и органски растворувач (ацетонитрил, ACN, или метанол, MeOH). Тука супстанците ќе се елуираат по обратен редослед отколку при TLC на силика гел: <b>поларните супстанци излегуваат први</b>, а неполарните се задржуваат подолго. Со зголемување на уделот на органскиот растворувач сите супстанци побрзо излегуваат (се елуираат). Може да се менува: органскиот растворувач, % органски растворувач (изократно или градиентно), pH на пуферот (влијае на јонизацијата), стационарна фаза, протокот, температурата и брановата должина на UV детекторот. Треба да се следи и <b>притисокот</b> на системот (максимум 400 bar).`;
 
   H.mods.lc = function (root) {
     const S = { runs: [], cur: null, cal: [], tok: 0, spd: 1 };
@@ -72,7 +89,7 @@
       const mkSel = (opts, val, f) => { const s = el("select", "chr-num"); s.style.width = "100%"; opts.forEach(([v, t]) => { const o = el("option", "", t); o.value = v; if (String(v) === String(val)) o.selected = true; s.appendChild(o); }); s.onchange = () => f(s.value); return s; };
       ctl.append(el("p", "in-hint", "<b>Стационарна фаза (колона):</b>"), mkSel(Object.keys(COLS).map(k => [k, COLS[k]]), M.col, v => M.col = v));
       ctl.append(el("p", "in-hint", "<b>Мобилна фаза:</b> A = вода (пуфер), B = органски растворувач"), mkSel([["acn", "B: ацетонитрил (ACN)"], ["met", "B: метанол (MeOH)"]], M.org, v => M.org = v),
-        mkSel(PHS, M.pH, v => M.pH = +v), mkSel([["iso", "Изократно (постојан состав)"], ["grad", "Градиентно (составот се менува)"]], M.mode, v => { M.mode = v; mkCtl(); }));
+        mkSel(PHS, M.pH, v => M.pH = +v), mkSel([["iso", "Изократно (постојан состав)"], ["grad", "Градиент (состав се менува)"]], M.mode, v => { M.mode = v; mkCtl(); }));
       ui.box = el("div"); ctl.appendChild(ui.box); mkCtl();
       const vs = mkSel(vials.map((v, i) => [i, v.name]), vialSel, v => vialSel = +v);
       ctl.append(el("p", "in-hint", "Шишенце за инјектирање (10 µL):"), vs);
@@ -140,11 +157,14 @@
       [[0.5, "бавно"], [1, "нормално"], [2, "брзо"], [4, "многу брзо"]].forEach(([v, l]) => { const o = el("option", "", "Брзина: " + l); o.value = v; if (v === S.spd) o.selected = true; sp.appendChild(o); });
       sp.onchange = () => { S.spd = +sp.value; }; rp.onclick = () => { if (S.cur) draw(S.cur, true); }; ctr.style.cssText = "display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0"; ctr.append(rp, sp); box.appendChild(ctr); box.appendChild(el("h4", "", "Хроматограм"));
       const sv = H.svg("svg", { viewBox: "0 0 600 270", class: "chr-svg" }, box); S.sv = sv; S.sch = sch;
-      sv.innerHTML = '<line x1="50" y1="225" x2="590" y2="225" stroke="#334155"/><line x1="50" y1="20" x2="50" y2="225" stroke="#334155"/><text x="320" y="262" font-size="11" text-anchor="middle" fill="#334155">време (min)</text><text x="14" y="125" font-size="11" fill="#334155" transform="rotate(-90 14 125)" text-anchor="middle">сигнал</text><g id="gx"></g><clipPath id="gcl"><rect id="gclr" x="50" y="0" width="0" height="270"/></clipPath><path id="gp" fill="none" stroke="#1d4ed8" stroke-width="1.4" clip-path="url(#gcl)"/><g id="gl"></g><line id="gcur" x1="0" x2="0" y1="20" y2="225" stroke="#64748b" stroke-dasharray="3 3" opacity="0"/><text id="gctt" x="0" y="42" font-size="10" fill="#334155" opacity="0"></text><text id="gt" x="56" y="12" font-size="11" fill="#334155"></text>';
+      sv.innerHTML = '<line x1="50" y1="225" x2="590" y2="225" stroke="#334155"/><line x1="50" y1="20" x2="50" y2="225" stroke="#334155"/><text x="320" y="262" font-size="11" text-anchor="middle" fill="#334155">време (min)</text><text x="14" y="125" font-size="11" fill="#334155" transform="rotate(-90 14 125)" text-anchor="middle">апсорбанција (mAU)</text><g id="gx"></g><clipPath id="gcl"><rect id="gclr" x="50" y="0" width="0" height="270"/></clipPath><path id="gp" fill="none" stroke="#1d4ed8" stroke-width="1.4" clip-path="url(#gcl)"/><g id="gl"></g><line id="gcur" x1="0" x2="0" y1="20" y2="225" stroke="#64748b" stroke-dasharray="3 3" opacity="0"/><text id="gctt" x="0" y="42" font-size="10" fill="#334155" opacity="0"></text><text id="gt" x="56" y="12" font-size="11" fill="#334155"></text>';
       sv.addEventListener("mousemove", e => { if (!S.cur) return; const r = sv.getBoundingClientRect(), x = (e.clientX - r.left) * 600 / r.width; if (x < 50 || x > 590) return;
         const t = (x - 50) / 540 * S.cur.tr.tEnd, ci = Math.round(t / S.cur.tr.dt); sv.querySelector("#gcur").setAttribute("x1", x); sv.querySelector("#gcur").setAttribute("x2", x); sv.querySelector("#gcur").setAttribute("opacity", 1);
         const tx = sv.querySelector("#gctt"); tx.setAttribute("x", Math.min(x + 4, 500)); tx.textContent = "t = " + fmt(t, 2) + " min, " + fmt(S.cur.tr.y[ci] || 0, 1) + " mAU"; tx.setAttribute("opacity", 1); });
       sv.addEventListener("mouseleave", () => { sv.querySelector("#gcur").setAttribute("opacity", 0); sv.querySelector("#gctt").setAttribute("opacity", 0); });
+      S.spc = el("div", "chr-spec"); box.appendChild(S.spc);
+      sv.addEventListener("click", e => { if (!S.cur) return; const r = sv.getBoundingClientRect(), x = (e.clientX - r.left) * 600 / r.width; if (x < 50 || x > 590) return; pickPeak(S.cur, (x - 50) / 540 * S.cur.tr.tEnd); });
+      sv.style.cursor = "pointer";
       out.append(box, tbl, fb, log); tbl.innerHTML = fb.innerHTML = log.innerHTML = ""; answerBox();
     }
     function status(m, tcur, p) { const phi = phiAt(m, tcur); S.sch.querySelector("#lb").textContent = Math.round(phi * 100) + " % B"; S.sch.querySelector("#lp").textContent = Math.round(p * (visc(m, phi) / Math.max(0.3, visc(m, Math.max(m.p0, m.p1) / 100)))) + " bar"; S.sch.querySelector("#lw").textContent = m.wl + " nm"; }
@@ -184,7 +204,32 @@
       const lv = .88 - .06 * x; G.la.setAttribute("y", 48 + 62 * (1 - lv / .88)); G.la.setAttribute("height", 62 * lv / .88); const lv2 = .88 - .06 * x * Math.max(.2, phi) * 1.5; G.lbt.setAttribute("y", 48 + 62 * (1 - lv2 / .88)); G.lbt.setAttribute("height", 62 * lv2 / .88);
       const wh = 4 + 28 * (.1 + .9 * x); G.wl.setAttribute("y", 322 - wh); G.wl.setAttribute("height", wh); G.drip.setAttribute("cy", (268 + ((el0 / 80) % 12)).toFixed(1)); G.drip.setAttribute("opacity", ".85");
     }
+
+    const specHint = () => { S.spc.innerHTML = "<p class='in-hint'>🔬 Кликни на пик во хроматограмот (или на ред во табелата) за да го видиш неговиот <b>UV спектар</b>.</p>"; };
+    function pickPeak(run, t) {
+      let best = null, bd = 1e9; run.pk.forEach((q, i) => { const d = Math.abs(q.t - t); if (d < bd) { bd = d; best = i; } });
+      if (best == null || bd > 0.04 * run.tr.tEnd) { specHint(); return; }
+      const q = run.pk[best]; let sp = null, sd = 1e9; run.sim.peaks.forEach(p => { const d = Math.abs(p.tR - q.t); if (d < sd) { sd = d; sp = p; } });
+      showSpec(run, q, sp, best);
+    }
+    function showSpec(run, q, sp, idx) {
+      if (!sp || sp.solv || !SPEC[sp.id]) { S.spc.innerHTML = `<h4>UV спектар, пик ${idx + 1} (tR = ${fmt(q.t, 2)} min)</h4><p class='in-hint'>Ова е пикот на нередржаните компоненти (t₀). Тој не е супстанца од примерокот, па нема карактеристичен спектар.</p>`; return; }
+      const unk = !!run.v.unk, id = sp.id, W0 = 190, W1 = 320, X = l => 50 + 540 * (l - W0) / (W1 - W0);
+      const ys = []; for (let l = W0; l <= W1; l += 1) ys.push(specY(id, l)); const ym = Math.max(...ys), Y = v => 165 - 135 * v / ym;
+      const tail = Math.max(...ys.filter((v, i) => W0 + i >= 245 && W0 + i <= 300)), mag = tail / ym < 0.08 ? Math.max(2, Math.round(0.3 * ym / tail / 5) * 5) : 1;
+      let g = `<line x1="50" y1="165" x2="590" y2="165" stroke="#334155"/><line x1="50" y1="25" x2="50" y2="165" stroke="#334155"/>`;
+      for (let l = 200; l <= 320; l += 20) g += `<line x1="${X(l)}" x2="${X(l)}" y1="165" y2="170" stroke="#334155"/><text x="${X(l)}" y="182" font-size="10" text-anchor="middle" fill="#334155">${l}</text>`;
+      g += `<text x="320" y="197" font-size="11" text-anchor="middle" fill="#334155">бранова должина (nm)</text><text x="14" y="95" font-size="11" fill="#334155" transform="rotate(-90 14 95)" text-anchor="middle">релативна апсорпција</text>`;
+      WL.forEach(w => { const on = w === run.m.wl, yy = Y(specY(id, w)); g += `<line x1="${X(w)}" x2="${X(w)}" y1="25" y2="165" stroke="${on ? "#e11d48" : "#94a3b8"}" stroke-dasharray="${on ? "" : "4 3"}" stroke-width="${on ? 1.3 : 0.8}"/><circle cx="${X(w)}" cy="${yy.toFixed(1)}" r="3.2" fill="${on ? "#e11d48" : "#64748b"}"/><text x="${X(w) + 3}" y="20" font-size="10" fill="${on ? "#e11d48" : "#64748b"}" font-weight="${on ? 700 : 400}">${w} nm</text>`; });
+      if (mag > 1) { let d = ""; for (let l = 244; l <= 300; l++) d += (l === 244 ? "M" : "L") + X(l).toFixed(1) + " " + Y(specY(id, l) * mag).toFixed(1); g += `<path d="${d}" fill="none" stroke="#2563eb" stroke-width="1" stroke-dasharray="3 2" opacity="0.8"/><text x="${X(272)}" y="${Y(tail * mag) - 10}" font-size="10" text-anchor="middle" fill="#2563eb">слабите ленти × ${mag}</text>`; }
+      let d = ""; ys.forEach((v, i) => d += (i ? "L" : "M") + X(W0 + i).toFixed(1) + " " + Y(v).toFixed(1)); g += `<path d="${d}" fill="none" stroke="#1d4ed8" stroke-width="1.8"/>`;
+      const mx = []; for (let i = 1; i < ys.length - 1; i++) if (ys[i] > ys[i - 1] && ys[i] >= ys[i + 1] && ys[i] > 0.1 * ym) mx.push(W0 + i);
+      const ttl = unk ? `Непознат пик (tR = ${fmt(q.t, 2)} min)` : `${CMP[id].name} (tR = ${fmt(q.t, 2)} min)`;
+      const cap = unk ? `Максимуми на кривата: <b>${mx.join(", ") || "—"} nm</b>. Спореди го обликот со спектрите на стандардите (инјектирај ги стандардите и кликни на нивните пикови) за да ја откриеш супстанцата.` : `<b>${SPEC[id].n}</b>`;
+      S.spc.innerHTML = `<h4>UV спектар: ${ttl}</h4><svg viewBox="0 0 600 202" class="chr-svg" role="img" aria-label="UV спектар">${g}</svg><p class="in-hint">${cap}${unk ? "" : " Кривата е <b>моделирана</b> од литературните максимуми, не е мерена."} Точките ја покажуваат апсорпцијата на 214, 254 и 280 nm (црвено = избраната бранова должина).</p><details class="chr-src"><summary>Извори</summary><p class="in-hint">SIELC Technologies (UV-Vis спектри на соединенија, кисела подвижна фаза); Европска фармакопеја (ибупрофен, аспартам); Frontiers in Nutrition 2025, doi:10.3389/fnut.2025.1645604 (сахарин). Нумеричките вредности на симулаторот (3 бранови должини по супстанца) се поедноставени, па може малку да отстапуваат од реалните спектри.</p></details>`;
+    }
     function draw(run, anim) {
+      specHint();
       const sv = S.sv, tr = run.tr, m = run.m; const ymax = Math.max(...tr.y) * 1.12;
       const drift = ymax * 0.1 * (m.wl === 214 ? (m.org === "met" ? 1 : 0.35) : m.wl === 254 ? 0.12 : 0.05);
       const X = t => 50 + 540 * t / tr.tEnd, Y = v => 225 - 195 * v / (ymax + drift);
@@ -204,7 +249,7 @@
     }
     function table(run) {
       let h = `<h4>Интегрирање (Run #${run.n}: ${run.v.name}), притисок ≈ ${Math.round(run.P)} bar</h4><table class="chr-tbl"><tr><th>Пик</th><th>tR (min)</th><th>Површина (mAU·min)</th><th>Висина (mAU)</th></tr>`;
-      run.pk.forEach((p, i) => h += `<tr><td>${i + 1}${i === 0 && Math.abs(p.t - run.sim.t0) < 0.1 ? " (t₀, мртво време)" : ""}</td><td>${fmt(p.t, 3)}</td><td>${fmt(p.area, 2)}</td><td>${fmt(p.h, 1)}</td></tr>`); tbl.innerHTML = "<div class='chr-scroll'>" + h + "</table></div>";
+      run.pk.forEach((p, i) => h += `<tr class="chr-pk" data-i="${i}" style="cursor:pointer" title="Кликни за UV спектар"><td>${i + 1}${i === 0 && Math.abs(p.t - run.sim.t0) < 0.1 ? " (t₀, неретинирана)" : ""}</td><td>${fmt(p.t, 3)}</td><td>${fmt(p.area, 2)}</td><td>${fmt(p.h, 1)}</td></tr>`); tbl.innerHTML = "<div class='chr-scroll'>" + h + "</table></div>"; tbl.querySelectorAll(".chr-pk").forEach(r => r.onclick = () => { const q = run.pk[+r.dataset.i]; pickPeak(run, q.t); });
     }
     function runsLog() {
       let h = "<h4>Дневник на анализи</h4><table class='chr-tbl'><tr><th>#</th><th>Примерок</th><th>Метода</th></tr>";
@@ -222,7 +267,7 @@
       const minRs = Math.min(...rs), last = pk[pk.length - 1].tR, okR = rs.every(x => x >= 1.5), okT = last <= T.limit;
       const msg = `<i>R</i><sub>s</sub>: ${rs.map((x, i) => `${CMP[pk[i].id].name}/${CMP[pk[i + 1].id].name} = <b>${fmt(x, 2)}</b>`).join("; ")}. Последниот пик: ${fmt(last, 1)} min.`;
       fb.innerHTML = okR && okT ? `<p class="in-fb-ok">✔ ${minRs >= 2 ? "Одлично!" : "Задоволително."} Сите <i>R</i><sub>s</sub> ≥ 1,5 и анализата е доволно брза. ${msg}</p>` :
-        `<p class="${okR ? "in-fb-ok" : "in-fb-bad"}">${okR ? "✔ Доволно разделување, но анализата е предолга (&gt; " + T.limit + " min). Зголеми го % B или протокот, или користи градиентно елуирање." : "✘ Пиковите не се доволно разделени (<i>R</i><sub>s</sub> &lt; 1,5). Промени го составот на мобилната фаза (% B, ACN/MeOH, pH) или користи градиент."} ${msg}</p>`;
+        `<p class="${okR ? "in-fb-ok" : "in-fb-bad"}">${okR ? "✔ Доволно разделување, но анализата е предолга (&gt; " + T.limit + " min). Зголеми го % B или протокот, или користи градиент." : "✘ Пиковите не се доволно разделени (<i>R</i><sub>s</sub> &lt; 1,5). Промени го составот на мобилната фаза (% B, ACN/MeOH, pH) или користи градиент."} ${msg}</p>`;
     }
     function methodKey(m) { return [m.col, m.org, m.pH, m.mode, m.p0, m.p1, m.tG, m.hold, m.flow, m.T, m.wl].join("|"); }
     function calib(run) {

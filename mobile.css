@@ -5,7 +5,7 @@ a, button, .tab, .hub-card, .topic-card { -webkit-tap-highlight-color: transpare
 button, .tab, a.topic-card, .hub-card { touch-action: manipulation; }
 .bottom-nav { display: none; }
 
-@media (max-width: 760px) {
+@media (max-width: 760px), (pointer: coarse) and (max-height: 500px) {
   body { padding-bottom: calc(var(--bn-h) + env(safe-area-inset-bottom, 0px)); overscroll-behavior-y: none; }
 
   /* Компактно горно мени: само логото, лепливо */
@@ -46,9 +46,9 @@ button, .tab, a.topic-card, .hub-card { touch-action: manipulation; }
   /* Широки табели и SVG: лизгање наместо кршење на страницата */
   .chr-scroll, .pt-wrap, .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
-  /* Анаграм и бесилка: буквите секогаш во еден ред, се намалуваат за подолги зборови */
-  .ana-slots, .ana-pool { flex-wrap: nowrap; gap: 4px; }
-  .ana-slots .slot, .ana-pool .letter { flex: 1 1 0; min-width: 0; max-width: 44px; width: auto; height: auto; aspect-ratio: 5 / 6; padding: 0; font-size: min(1.4rem, 4.6vw); }
+  /* Анаграм: удобни плочки (како Wordle/Wordscapes), подолгите зборови се прелеваат во избалансирани редови */
+  .ana-slots, .ana-pool { flex-wrap: wrap; gap: 6px; margin-left: auto; margin-right: auto; }
+  .ana-slots .slot, .ana-pool .letter { flex: 0 0 auto; width: var(--tw, 42px); height: calc(var(--tw, 42px) * 1.2); padding: 0; font-size: calc(var(--tw, 42px) * .55); }
   .ana-pool .letter { border-bottom-width: 4px; }
   .ana-controls .btn, .ana-controls button { flex: 1 1 auto; }
 
@@ -64,6 +64,17 @@ button, .tab, a.topic-card, .hub-card { touch-action: manipulation; }
   select, input, textarea { max-width: 100%; box-sizing: border-box; }
   table { max-width: 100%; }
   img, svg, canvas { max-width: 100%; }
+}
+
+/* Телефон на страна (хоризонтално): пониска лента, поголема работна површина */
+@media (pointer: coarse) and (max-height: 500px) {
+  :root { --bn-h: 46px; }
+  .site-header { position: static; }
+  .bottom-nav a { flex-direction: row; gap: 6px; font-size: .78rem; }
+  .bottom-nav a .bn-i { font-size: 1.1rem; }
+  .page-head { padding: 10px 0 12px !important; }
+  .pt-cell { height: 30px; }
+  .pt-grid { max-width: 760px; margin: 0 auto; }
 }
 
 /* Инсталирана апликација: без линк „Апликација“ и со безбедни рабови */

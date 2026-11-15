@@ -178,7 +178,7 @@
       go.onclick = () => { go.disabled = true; row.querySelectorAll("button").forEach(b => b.disabled = true);
         if (lvl === 2) { msg.innerHTML = "<p class='in-fb-bad'>✘ Нивото на елуентот е над стартната линија: примероците се измиле во растворот. Подготви нова плоча.</p>";
           const w = S.sv.querySelector("#tl-spots"); w.style.transition = "opacity 2s"; w.style.opacity = 0; newPlate(sec); return; }
-        const lid = S.sv.querySelector("#tl-lid"); msg.innerHTML = "<p class='in-hint'>🔒 Комората е затворена: парите на елуентот ја заситуваат атмосферата, па фронтот се движи рамномерно.</p>";
+        const lid = S.sv.querySelector("#tl-lid"); msg.innerHTML = "<p class='in-hint'>🔒 Комората е затворена — пареите на елуентот ја заситуваат атмосферата за фронтот да се движи рамномерно.</p>";
         if (H.reduced) { lid.style.transition = "none"; lid.style.transform = "translate(0,0)"; develop(sec); return; }
         lid.style.transform = "translate(0,0)"; setTimeout(() => develop(sec), 750); };
     }
@@ -195,7 +195,7 @@
     /* ---- развивање: корисникот одлучува кога да ја извади плочата ---- */
     function develop(sec) {
       S.stage = 3; const wet = S.sv.querySelector("#tl-wet"), clock = S.sv.querySelector("#tl-clock"); let t = 0, last = null, stopped = false;
-      const st = el("p", "in-hint", "Елуентот се качува по плочата со капиларни сили. <b>Извади ја плочата кога ќе процениш дека е време</b>: ако се извади прерано, петната се слабо раздвоени; ако фронтот стигне до врвот, плочата е изгубена."); sec.appendChild(st);
+      const st = el("p", "in-hint", "Под дејство на капиларни сили, елуентот се искачува по плочата. <b>Внимавај на вистинскиот момент</b>: ако ја извадиш плочата прерано, компонентите нема да се раздвојат доволно; ако фронтот стигне до самиот врв, хроматограмот е неупотреблив."); sec.appendChild(st);
       const stop = el("button", "btn primary", "⏹ Извади ја плочата"); stop.type = "button"; sec.appendChild(stop);
       const draw = () => { const x = Math.min(1, t / TDEV); S.F = LMAX * Math.sqrt(x); const h = S.F * PX; wet.setAttribute("y", Y0 - h); wet.setAttribute("height", h + 15); spotsDraw(); clock.textContent = "t = " + Math.round(25 * x) + " min"; };
       const fin = () => {

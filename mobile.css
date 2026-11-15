@@ -36,13 +36,32 @@ button, .tab, a.topic-card, .hub-card { touch-action: manipulation; }
 
   /* Помали секции, поголеми допири */
   .hero { padding-top: 28px; padding-bottom: 28px; }
-  .page-hero, .hero-small { padding: 22px 0; }
+  .page-head { padding: 16px 0 18px !important; }
+  .page-head h1 { font-size: 1.7rem; margin-bottom: 4px; }
+  .page-head p { font-size: .95rem; margin: 0; }
   button, .btn, select, input[type="text"], input[type="number"], input[type="search"], input:not([type]) { min-height: 44px; }
   input, select, textarea { font-size: 16px !important; } /* спречува автоматско зумирање на iPhone */
   .site-footer { padding-bottom: 12px; }
 
   /* Широки табели и SVG: лизгање наместо кршење на страницата */
   .chr-scroll, .pt-wrap, .tbl-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* Анаграм и бесилка: буквите секогаш во еден ред, се намалуваат за подолги зборови */
+  .ana-slots, .ana-pool { flex-wrap: nowrap; gap: 4px; }
+  .ana-slots .slot, .ana-pool .letter { flex: 1 1 0; min-width: 0; max-width: 44px; width: auto; height: auto; aspect-ratio: 5 / 6; padding: 0; font-size: min(1.4rem, 4.6vw); }
+  .ana-pool .letter { border-bottom-width: 4px; }
+  .ana-controls .btn, .ana-controls button { flex: 1 1 auto; }
+
+  /* Периоден систем: целиот се гледа на екранот (допри елемент за детали) */
+  .pt-scroll { overflow-x: visible; padding: 2px 0 8px; margin: 0 -2vw; }
+  .pt-grid { min-width: 0 !important; gap: 1.5px; grid-template-columns: repeat(18, minmax(0, 1fr)); }
+  .pt-cell { padding: 0; border-width: 1px; border-radius: 3px; aspect-ratio: auto; width: 100%; min-width: 0; height: 26px; overflow: hidden; box-sizing: border-box; }
+  .pt-cell .pt-n, .pt-cell .pt-nm { display: none !important; }
+  .pt-cell .pt-s { font-size: clamp(.42rem, 2.5vw, .8rem); font-weight: 800; letter-spacing: -.02em; }
+  .pt-cell:hover { transform: none; }
+  .pt-cell.sel { transform: scale(1.35); }
+  .pt-rowlabel { font-size: .55rem; padding-right: 2px; }
+  select, input, textarea { max-width: 100%; box-sizing: border-box; }
   table { max-width: 100%; }
   img, svg, canvas { max-width: 100%; }
 }

@@ -17,4 +17,11 @@
     nav.appendChild(a);
   });
   document.body.appendChild(nav);
+  // Активниот таб се центрира кога ќе се допре (табовите се лизгаат настрана)
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest(".tab, .at-tab, .chr-sub, [role=tab]");
+    if (b && b.parentElement && b.parentElement.scrollWidth > b.parentElement.clientWidth) {
+      setTimeout(function () { try { b.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" }); } catch (_) {} }, 30);
+    }
+  });
 })();

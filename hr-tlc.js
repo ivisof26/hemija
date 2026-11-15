@@ -89,19 +89,24 @@
 
     function drawPlate() {
       svg.innerHTML = "";
-      const sv = H.svg("svg", { viewBox: "0 0 250 345", class: "chr-svg" }, svg); S.sv = sv;
-      sv.innerHTML = `<rect id="tl-bg" x="30" y="${YT}" width="210" height="300" rx="3" fill="#f1f5f9" stroke="#94a3b8"/>
-      <g id="tl-jar" opacity="0"><rect x="22" y="150" width="226" height="170" rx="6" fill="none" stroke="#64748b" stroke-width="2"/><rect id="tl-solv" x="24" y="290" width="222" height="28" fill="#bae6fd" opacity=".55"/></g>
+      const sv = H.svg("svg", { viewBox: "-4 -34 262 379", class: "chr-svg" }, svg); S.sv = sv;
+      sv.innerHTML = `<g id="tl-plate" style="transition:transform .55s ease"><rect id="tl-bg" x="30" y="${YT}" width="210" height="300" rx="3" fill="#f1f5f9" stroke="#94a3b8"/>
       <rect id="tl-wet" x="31" y="${Y0}" width="208" height="0" fill="#7dd3fc" opacity=".3"/>
       <line id="tl-start" x1="30" x2="240" y1="${Y0}" y2="${Y0}" stroke="#475569" stroke-width="1.2" opacity="0"/>
       <line id="tl-front" x1="30" x2="240" y1="0" y2="0" stroke="#475569" stroke-width="1.2" stroke-dasharray="4 3" opacity="0"/>
       <g id="tl-ruler" opacity="0"></g><g id="tl-spots"></g><g id="tl-lab"></g><g id="tl-cur"></g>
-      <text id="tl-clock" x="235" y="30" font-size="11" text-anchor="end" fill="#475569"></text>`;
+      <text id="tl-clock" x="235" y="30" font-size="11" text-anchor="end" fill="#475569"></text></g>
+      <g id="tl-jar" opacity="0" style="transition:opacity .7s ease;pointer-events:none">
+        <rect id="tl-solv" x="21" y="290" width="228" height="34" fill="#7dd3fc" opacity=".45"/>
+        <rect x="20" y="2" width="230" height="322" rx="6" fill="#bae6fd" fill-opacity=".14" stroke="#64748b" stroke-width="2.2"/>
+        <path d="M26 10V300" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+        <g id="tl-lid" style="transition:transform .7s ease;transform:translate(26px,-18px)"><rect x="14" y="-9" width="242" height="12" rx="3" fill="#94a3b8" stroke="#64748b" stroke-width="1.5"/><rect x="117" y="-17" width="16" height="9" rx="3" fill="#64748b"/></g>
+      </g>`;
       const rl = sv.querySelector("#tl-ruler");
       for (let i = 0; i <= 17; i++) { const y = Y0 - i * PX / 2; if (y < YT) break; H.svg("line", { x1: 30, x2: i % 2 ? 36 : 42, y1: y, y2: y, stroke: "#334155" }, rl);
         if (i % 2 == 0) { const tx = H.svg("text", { x: 46, y: y + 3, "font-size": 8, fill: "#334155" }, rl); tx.textContent = i / 2; } }
       sv.addEventListener("click", ev => {
-        const r = sv.getBoundingClientRect(), y = (ev.clientY - r.top) * 345 / r.height, d = (Y0 - y) / PX;
+        const r = sv.getBoundingClientRect(), y = -34 + (ev.clientY - r.top) * 379 / r.height, d = (Y0 - y) / PX;
         if (S.await === "front") { markFront(d, y); return; }
         if (S.stage < 4) return; const g = sv.querySelector("#tl-cur"); g.innerHTML = "";
         H.svg("line", { x1: 30, x2: 240, y1: y, y2: y, stroke: "#dc2626", "stroke-dasharray": "3 3" }, g);
@@ -168,12 +173,22 @@
       const opts = [["≈ 0,5 cm (под стартната линија)", 300], ["≈ 1,0 cm (под стартната линија)", 285], ["≈ 2,0 cm (над стартната линија)", 255]];
       const row = el("div", "chr-opts"); let lvl = null; const go = el("button", "btn ghost", "▶ Стави ја плочата и затвори"); go.type = "button"; go.disabled = true;
       opts.forEach((o, i) => { const b = el("button", "chr-opt", o[0]); b.type = "button"; b.onclick = () => { lvl = i; row.querySelectorAll("button").forEach(x => x.classList.remove("on")); b.classList.add("on"); go.disabled = false;
-        S.sv.querySelector("#tl-jar").setAttribute("opacity", 1); const s = S.sv.querySelector("#tl-solv"); s.setAttribute("y", o[1]); s.setAttribute("height", 318 - o[1]); }; row.appendChild(b); });
+        S.sv.querySelector("#tl-jar").setAttribute("opacity", 1); const s = S.sv.querySelector("#tl-solv"); s.setAttribute("y", o[1]); s.setAttribute("height", 324 - o[1]); }; row.appendChild(b); });
       const msg = el("div"); sec.append(row, go, msg);
       go.onclick = () => { go.disabled = true; row.querySelectorAll("button").forEach(b => b.disabled = true);
         if (lvl === 2) { msg.innerHTML = "<p class='in-fb-bad'>✘ Нивото на елуентот е над стартната линија: примероците се измиле во растворот. Подготви нова плоча.</p>";
           const w = S.sv.querySelector("#tl-spots"); w.style.transition = "opacity 2s"; w.style.opacity = 0; newPlate(sec); return; }
-        develop(sec); };
+        const lid = S.sv.querySelector("#tl-lid"); msg.innerHTML = "<p class='in-hint'>🔒 Комората е затворена: парите на елуентот ја заситуваат атмосферата, па фронтот се движи рамномерно.</p>";
+        if (H.reduced) { lid.style.transition = "none"; lid.style.transform = "translate(0,0)"; develop(sec); return; }
+        lid.style.transform = "translate(0,0)"; setTimeout(() => develop(sec), 750); };
+    }
+    /* отворање на комората и вадење на плочата (капакот се лизга, плочата се крене и се спушта на маса) */
+    function openChamber() {
+      const jar = S.sv.querySelector("#tl-jar"), lid = S.sv.querySelector("#tl-lid"), pl = S.sv.querySelector("#tl-plate");
+      if (H.reduced) { jar.setAttribute("opacity", 0); return; }
+      lid.style.transform = "translate(26px,-18px)";
+      setTimeout(() => { pl.style.transform = "translateY(-26px)"; }, 500);
+      setTimeout(() => { jar.setAttribute("opacity", 0); pl.style.transform = "translateY(0)"; }, 1150);
     }
     function newPlate(sec) { const nb = el("button", "btn ghost", "🔄 Нова плоча"); nb.type = "button"; nb.onclick = () => start(sel.value); sec.appendChild(nb); }
 
@@ -185,8 +200,8 @@
       const draw = () => { const x = Math.min(1, t / TDEV); S.F = LMAX * Math.sqrt(x); const h = S.F * PX; wet.setAttribute("y", Y0 - h); wet.setAttribute("height", h + 15); spotsDraw(); clock.textContent = "t = " + Math.round(25 * x) + " min"; };
       const fin = () => {
         if (stopped) return; stopped = true; cancelAnimationFrame(S.raf); stop.disabled = true; if (adv) adv.disabled = true;
-        if (S.F >= LMAX - 0.03) { st.innerHTML = "<span class='in-fb-bad'>✘ Фронтот стигна до врвот на плочата! Не може да се одреди каде бил фронтот, па <i>R</i><sub>f</sub> не може да се пресмета. Подготви нова плоча и извади ја порано.</span>"; newPlate(sec); return; }
-        S.sv.querySelector("#tl-jar").setAttribute("opacity", 0); st.textContent = "Плочата е извадена. Брзо, пред да испари елуентот:";
+        if (S.F >= LMAX - 0.03) { st.innerHTML = "<span class='in-fb-bad'>✘ Фронтот стигна до врвот на плочата! Не може да се одреди каде бил фронтот, па <i>R</i><sub>f</sub> не може да се пресмета. Подготви нова плоча и извади ја порано.</span>"; openChamber(); newPlate(sec); return; }
+        openChamber(); st.textContent = "Плочата е извадена. Брзо, пред да испари елуентот:";
         S.await = "front"; const m = el("p", "in-fb-bad", "✏️ Означи го фронтот на елуентот со молив: кликни на плочата на границата на навлажнетиот дел."); m.style.background = "var(--accent)"; m.style.color = "inherit"; m.style.borderColor = "var(--primary)"; m.id = "tl-fmsg"; sec.appendChild(m);
         if (!H.reduced) { wet.style.transition = "opacity 40s linear"; wet.setAttribute("opacity", 0.02); S.tm = setTimeout(() => { if (S.await === "front") { S.await = null; m.className = "in-fb-bad"; m.textContent = "✘ Елуентот испари пред да го означиш фронтот. <i>R</i><sub>f</sub> не може да се определи. Подготви нова плоча и означи го фронтот веднаш."; newPlate(sec); } }, 40000); }
       };

@@ -34,6 +34,8 @@
 .ti-runs { margin-top: 12px; }
 .ti-ctl { margin-top: 12px; }
 @media (prefers-reduced-motion: reduce) { .ti-flask.swirl { animation: none; } .ti-fliq, .ti-pip, .ti-pipliq { transition: none; } }
-.ti-dropper { transform: translateY(-28px); opacity: 0; transition: transform .5s ease, opacity .35s; }
+.ti-dropper { transform: translate(38px, -12px); opacity: 0; transition: transform .6s ease, opacity .4s; }
+.ti-bulb { transform-box: fill-box; transform-origin: 50% 100%; transition: transform .12s ease-out; }
+.ti-bulb.sq { transform: scale(1.1, .78); }
 .ti-dropper.in { transform: none; opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .ti-dropper { transition: none; } }

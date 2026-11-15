@@ -339,11 +339,16 @@
       <line x1="-5" x2="5" y1="-202" y2="-202" stroke="#2d1b4e" stroke-width="1.5"/>
     </g>
   </g>
-  <!-- капалка за индикатор -->
+  <!-- капалка (стаклена пипета со гумена гушка) за индикатор: држена накривено од десно, врвот над ерленмаерот -->
   <g id="ti-dropper" class="ti-dropper">
-    <ellipse cx="150" cy="310" rx="5.5" ry="8" fill="#7c2d12"/>
-    <rect x="146" y="316" width="8" height="3" rx="1" fill="#4a3b4e"/>
-    <path d="M148 319 H152 V334 L150.6 341 H149.4 L148 334 Z" fill="#eef4f9" stroke="#8fa6bd" stroke-width="1.4" stroke-linejoin="round"/>
+    <g transform="translate(150 339) rotate(40) scale(.92)">
+      <clipPath id="ti-dclip"><path d="M-0.9 0 V-13 L-4.2 -30 V-66 H4.2 V-30 L0.9 -13 V0 Z"/></clipPath>
+      <path d="M-0.9 0 V-13 L-4.2 -30 V-66 H4.2 V-30 L0.9 -13 V0 Z" fill="#f4f8fb" fill-opacity=".9" stroke="#8fa6bd" stroke-width="1.3" stroke-linejoin="round"/>
+      <g clip-path="url(#ti-dclip)"><rect id="ti-dliq" x="-6" y="-46" width="12" height="48" fill="#c2410c" fill-opacity=".85"/></g>
+      <path d="M-2.4 -60 V-34" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".7"/>
+      <rect x="-5.6" y="-70" width="11.2" height="5" rx="1.6" fill="#4a3b4e"/>
+      <g id="ti-bulb" class="ti-bulb"><path d="M-5 -70 C-9.5 -78 -8.5 -92 0 -94 C8.5 -92 9.5 -78 5 -70 Z" fill="#7c2d12"/><path d="M-3.2 -74 C-5.2 -79 -4.6 -86 -2.2 -89" stroke="#fff" stroke-width="1.4" stroke-linecap="round" fill="none" opacity=".35"/></g>
+    </g>
   </g>
   <!-- капка и млаз од биретата -->
   <rect id="ti-stream" x="149" y="297" width="2" height="108" fill="#8cc4e8" opacity="0"/>
@@ -581,8 +586,13 @@
     const ind = S.sys.inds[S.picked];
     const init = S.sys.dir > 0 ? ind.c[0] : ind.c[ind.c.length - 1];
     const col = ind.self ? "rgb(150,190,215)" : css(init === WATER ? ind.c[3] : init);
+    const dl = $("ti-dliq"), bulb = $("ti-bulb"); if (dl) dl.setAttribute("fill", ind.self ? "rgb(150,190,215)" : col);
     dropper.classList.add("in");
-    for (let i = 0; i < 3; i++) later(() => fall(col, 150, 342, 408, 380, idrops), 700 + i * 420);
+    for (let i = 0; i < 3; i++) {
+      later(() => { if (bulb) bulb.classList.add("sq"); }, 620 + i * 420);
+      later(() => { if (bulb) bulb.classList.remove("sq"); }, 760 + i * 420);
+      later(() => fall(col, 150, 342, 408, 380, idrops), 700 + i * 420);
+    }
     later(() => { S.prep.ind = true; S.v0 = S.r = 0; setFlaskColor(); }, 1900);
     later(() => dropper.classList.remove("in"), 2300);
     later(() => { S.busy = false; updateSteps(); }, 2800);

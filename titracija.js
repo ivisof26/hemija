@@ -334,12 +334,12 @@
   <path id="ti-pwall" d="M160.6 368 L161.3 372 L174 405" stroke="#8cc4e8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0"/></g>
   <!-- одмерна колба со примерок (од каде се полни пипетата) -->
   <g id="ti-samp" class="ti-samp">
-    <clipPath id="ti-vclip"><path d="M77 372 V401.3 A24 24 0 1 0 85 401.3 V372 Z"/></clipPath>
-    <g clip-path="url(#ti-vclip)"><rect x="70" y="384" width="24" height="70" fill="#8cc4e8" fill-opacity=".6"/></g>
-    <path d="M77 372 V401.3 A24 24 0 1 0 85 401.3 V372" fill="#eef4f9" fill-opacity=".3" stroke="#8fa6bd" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <clipPath id="ti-vclip"><path d="M77 372 V394 C77 405 58 410 57 430 Q57 449 63 449 H99 Q105 449 105 430 C104 410 85 405 85 394 V372 Z"/></clipPath>
+    <g clip-path="url(#ti-vclip)"><rect x="50" y="384" width="62" height="70" fill="#8cc4e8" fill-opacity=".6"/></g>
+    <path d="M77 372 V394 C77 405 58 410 57 430 Q57 449 63 449 H99 Q105 449 105 430 C104 410 85 405 85 394 V372" fill="#eef4f9" fill-opacity=".3" stroke="#8fa6bd" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M74.5 372 H87.5" stroke="#8fa6bd" stroke-width="2.6" stroke-linecap="round"/>
-    <path d="M75.6 384 H86.4" stroke="#2d1b4e" stroke-width="1.4"/>
-    <path d="M62 418 C60 428 63 436 68 440" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".6"/>
+    <path d="M75.4 384 H86.6" stroke="#2d1b4e" stroke-width="1.4"/>
+    <path d="M64 420 C62.5 430 63.5 438 67 443" stroke="#fff" stroke-width="2.6" stroke-linecap="round" fill="none" opacity=".6"/>
   </g>
   <!-- одмерна пипета: се држи вертикално (врвот на дното од цртежот) -->
   <g id="ti-pip" class="ti-pip" style="transform:translate(81px,330px)">

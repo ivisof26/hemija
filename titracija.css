@@ -4,8 +4,12 @@
 .ti-stop { transform-origin: 0 0; transition: transform .2s; }
 .ti-stop.open { transform: scaleX(.22); }
 .ti-fliq { transform-origin: 150px 449px; transform: scaleY(0); transition: transform 1.3s ease, fill .5s, fill-opacity .5s; }
-.ti-pip { transform: translate(90px, -50px); opacity: 0; transition: transform .6s ease, opacity .4s; }
-.ti-pip.in { transform: none; opacity: 1; }
+.ti-pip { opacity: 0; transition: transform .8s ease-in-out, opacity .4s; }
+.ti-pip.in { opacity: 1; }
+.ti-ftilt { transform-origin: 185px 449px; transition: transform .8s ease-in-out; }
+.ti-fcr { transform-origin: 185px 449px; transition: transform .8s ease-in-out; }
+.ti-samp { opacity: 0; transition: opacity .4s; }
+.ti-samp.in { opacity: 1; }
 .ti-pipliq { transition: transform 1.4s ease-in; }
 .ti-flask { transform-origin: 150px 449px; }
 .ti-flask.swirl { animation: tiSwirl .55s ease-in-out; }

@@ -323,22 +323,29 @@
     <g transform="translate(150 271)"><g id="ti-stop" class="ti-stop"><rect x="7" y="-3" width="24" height="6" rx="3" fill="#c2410c"/></g></g>
   </g>
   <!-- ерленмаер -->
-  <g id="ti-flask" class="ti-flask">
-    <g clip-path="url(#ti-fclip)">
+  <g id="ti-ftilt" class="ti-ftilt"><g id="ti-flask" class="ti-flask">
+    <g clip-path="url(#ti-fclip)"><g id="ti-fcr" class="ti-fcr">
       <rect id="ti-fliq" class="ti-fliq" x="100" y="404" width="100" height="50" fill="rgb(207,230,245)" fill-opacity=".5"/>
-    </g>
+    </g></g>
     <path d="M138 346 V372 L112 436 Q109 449 122 449 H178 Q191 449 188 436 L162 372 V346" fill="none" stroke="#8fa6bd" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
     <path d="M133 346 H167" stroke="#8fa6bd" stroke-width="4" stroke-linecap="round"/>
     <path d="M139 384 L122 430" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+  </g></g>
+  <!-- чаша со примерок (од каде се полни пипетата) -->
+  <g id="ti-samp" class="ti-samp">
+    <path d="M56 392 V446 Q56 449 59 449 H103 Q106 449 106 446 V392" fill="#eef4f9" fill-opacity=".35" stroke="#8fa6bd" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M57.2 414 H104.8 V446 Q104.8 447.8 103 447.8 H59 Q57.2 447.8 57.2 446 Z" fill="#8cc4e8" fill-opacity=".6"/>
   </g>
-  <!-- одмерна пипета (држена накривено, врвот во ерленмаерот) -->
-  <g id="ti-pip" class="ti-pip">
-    <g transform="translate(146 380) rotate(14)">
+  <!-- одмерна пипета: се држи вертикално (врвот на дното од цртежот) -->
+  <g id="ti-pip" class="ti-pip" style="transform:translate(81px,372px)">
+    <g transform="scale(.8)">
       <path d="M-1.7 -215 V-176 C-12 -173 -11 -127 -1.7 -124 V-12 L-0.8 0 H0.8 L1.7 -12 V-124 C11 -127 12 -173 1.7 -176 V-215 Z" fill="#eef4f9" fill-opacity=".85" stroke="#8fa6bd" stroke-width="1.5" stroke-linejoin="round"/>
       <g clip-path="url(#ti-pclip)"><g id="ti-pipliq" class="ti-pipliq"><rect x="-12" y="-202" width="24" height="204" fill="#8cc4e8"/></g></g>
       <line x1="-5" x2="5" y1="-202" y2="-202" stroke="#2d1b4e" stroke-width="1.5"/>
     </g>
   </g>
+  <path id="ti-pwall" d="M213.6 374 L195.5 405.5" stroke="#8cc4e8" stroke-width="2.2" stroke-linecap="round" opacity="0"/>
+  <text id="ti-pnote" x="150" y="22" font-size="11.5" font-weight="700" text-anchor="middle" fill="#7c2d12" stroke="#fff" stroke-width="3.5" paint-order="stroke" opacity="0"></text>
   <!-- капалка (стаклена пипета со гумена гушка) за индикатор: држена накривено од десно, врвот над ерленмаерот -->
   <g id="ti-dropper" class="ti-dropper">
     <g transform="translate(150 339) rotate(40) scale(.92)">
@@ -367,7 +374,7 @@
 
   const $ = id => root.querySelector("#" + id);
   const burLiq = $("ti-burliq"), stopEl = $("ti-stop"), fliq = $("ti-fliq"), flask = $("ti-flask");
-  const pip = $("ti-pip"), pipLiq = $("ti-pipliq"), dropper = $("ti-dropper"), stream = $("ti-stream"), drop = $("ti-drop"), idrops = $("ti-idrops");
+  const pip = $("ti-pip"), ftilt = $("ti-ftilt"), fcr = $("ti-fcr"), samp = $("ti-samp"), pwall = $("ti-pwall"), pnote = $("ti-pnote"), pipLiq = $("ti-pipliq"), dropper = $("ti-dropper"), stream = $("ti-stream"), drop = $("ti-drop"), idrops = $("ti-idrops");
   (function ticks() {
     let h = "";
     for (let m = 0; m <= 50; m++) {
@@ -384,8 +391,10 @@
     stopEl.classList.remove("open");
     fliq.style.transform = "scaleY(0)";
     fliq.style.fill = css(WATER); fliq.style.fillOpacity = WATER[3];
-    pipLiq.style.transform = "translateY(0)";
-    pip.classList.remove("in"); dropper.classList.remove("in");
+    pipLiq.style.transition = "none"; pipLiq.style.transform = "translateY(206px)";
+    pip.classList.remove("in"); pip.style.transition = "none"; pip.style.transform = "translate(81px,372px)";
+    ftilt.style.transform = ""; fcr.style.transform = ""; samp.classList.remove("in"); pwall.setAttribute("opacity", 0); pnote.setAttribute("opacity", 0);
+    dropper.classList.remove("in");
     stream.setAttribute("opacity", 0); drop.setAttribute("opacity", 0);
     idrops.innerHTML = "";
     meterV.textContent = "—";
@@ -572,13 +581,38 @@
     dispBtns.forEach(b => (b.disabled = !S.active || S.busy));
     finBtn.disabled = !S.active || S.busy;
   }
+  /* Пипетирање со одмерна пипета: полнење од чашата, пренос, слободно истекување по ѕидот на накривен ерленмаер,
+     чекање ≈15 s со допрен врв, последната капка останува во пипетата (не се издувува) */
   function doPip() {
     if (S.busy || S.prep.pip) return;
     S.busy = true; updateSteps();
-    pip.classList.add("in");
-    later(() => { pipLiq.style.transform = "translateY(206px)"; fliq.style.transform = "scaleY(1)"; }, 700);
-    later(() => { pip.classList.remove("in"); }, 2100);
-    later(() => { S.prep.pip = true; S.busy = false; updateSteps(); }, 2600);
+    const note = t => { pnote.textContent = t; pnote.setAttribute("opacity", t ? 1 : 0); };
+    const move = (x, y, ms) => { pip.style.transition = reduce ? "none" : `transform ${ms}ms ease-in-out, opacity .4s`; pip.style.transform = `translate(${x}px,${y}px)`; };
+    if (reduce) {
+      fliq.style.transition = "none"; fliq.style.transform = "scaleY(1)"; S.prep.pip = true; S.busy = false; updateSteps(); return;
+    }
+    // 1) пипетата се спушта во примерокот и се полни до цртата
+    samp.classList.add("in"); pip.style.transition = "none"; pip.style.transform = "translate(81px,360px)"; pip.getBoundingClientRect();
+    pip.classList.add("in"); move(81, 436, 700); note("① Полнење од примерокот до цртата");
+    later(() => { pipLiq.style.transition = "transform 1.1s ease-out"; pipLiq.style.transform = "translateY(0)"; }, 800);
+    later(() => note("② Менискусот точно на цртата"), 2000);
+    // 2) се подига и се носи над накривениот ерленмаер
+    later(() => { move(81, 300, 500); samp.classList.remove("in"); }, 3000);
+    later(() => { ftilt.style.transform = "translateX(12px) rotate(30deg)"; fcr.style.transform = "rotate(-30deg)"; note("③ Накривен ерленмаер, вертикална пипета"); }, 3200);
+    later(() => move(213, 330, 900), 3500);
+    later(() => move(213, 373, 500), 4400);
+    // 3) слободно истекување по ѕидот
+    later(() => {
+      note("④ Слободно истекување по ѕидот");
+      pwall.setAttribute("opacity", 1);
+      pipLiq.style.transition = "transform 3.4s linear"; pipLiq.style.transform = "translateY(199px)";
+      fliq.style.transition = "transform 3.4s linear, fill .5s, fill-opacity .5s"; fliq.style.transform = "scaleY(1)";
+    }, 5000);
+    later(() => { pwall.setAttribute("opacity", 0); note("⑤ Чекање ≈ 15 s, врвот допира на ѕидот"); }, 8500);
+    later(() => note("⑥ Последната капка останува во врвот"), 9800);
+    // 4) пипетата се вади, ерленмаерот се враќа
+    later(() => { pip.classList.remove("in"); move(213, 330, 600); note(""); ftilt.style.transform = ""; fcr.style.transform = ""; }, 11200);
+    later(() => { fliq.style.transition = ""; S.prep.pip = true; S.busy = false; updateSteps(); }, 12100);
   }
   function doInd() {
     if (S.busy || S.prep.ind || !S.prep.pip) return;

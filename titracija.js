@@ -334,12 +334,12 @@
   <path id="ti-pwall" d="M160.6 368 L161.3 372 L174 405" stroke="#8cc4e8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0"/></g>
   <!-- одмерна колба со примерок (од каде се полни пипетата) -->
   <g id="ti-samp" class="ti-samp">
-    <clipPath id="ti-vclip"><path d="M77 372 V394 C77 405 58 410 57 430 Q57 449 63 449 H99 Q105 449 105 430 C104 410 85 405 85 394 V372 Z"/></clipPath>
-    <g clip-path="url(#ti-vclip)"><rect x="50" y="384" width="62" height="70" fill="#8cc4e8" fill-opacity=".6"/></g>
-    <path d="M77 372 V394 C77 405 58 410 57 430 Q57 449 63 449 H99 Q105 449 105 430 C104 410 85 405 85 394 V372" fill="#eef4f9" fill-opacity=".3" stroke="#8fa6bd" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M74.5 372 H87.5" stroke="#8fa6bd" stroke-width="2.6" stroke-linecap="round"/>
-    <path d="M75.4 384 H86.6" stroke="#2d1b4e" stroke-width="1.4"/>
-    <path d="M64 420 C62.5 430 63.5 438 67 443" stroke="#fff" stroke-width="2.6" stroke-linecap="round" fill="none" opacity=".6"/>
+    <clipPath id="ti-vclip"><path d="M77.5 334 V398 C77.5 410 62 418 62 434 Q62 449 70 449 H92 Q100 449 100 434 C100 418 84.5 410 84.5 398 V334 Z"/></clipPath>
+    <g clip-path="url(#ti-vclip)"><rect x="55" y="352" width="52" height="100" fill="#8cc4e8" fill-opacity=".6"/></g>
+    <path d="M77.5 334 V398 C77.5 410 62 418 62 434 Q62 449 70 449 H92 Q100 449 100 434 C100 418 84.5 410 84.5 398 V334" fill="#eef4f9" fill-opacity=".3" stroke="#8fa6bd" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M75.2 334 H86.8" stroke="#8fa6bd" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M75.6 352 H86.4" stroke="#2d1b4e" stroke-width="1.4"/>
+    <path d="M66 425 C64.5 432 65.5 439 69 443" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".6"/>
   </g>
   <!-- одмерна пипета: се држи вертикално (врвот на дното од цртежот) -->
   <g id="ti-pip" class="ti-pip" style="transform:translate(81px,330px)">
@@ -596,12 +596,12 @@
       fliq.style.transition = "none"; fliq.style.transform = "scaleY(1)"; S.prep.pip = true; S.busy = false; updateSteps(); return;
     }
     // 1) пипетата се спушта во примерокот и се полни до цртата
-    samp.classList.add("in"); pip.style.transition = "none"; pip.style.transform = "translate(81px,320px)"; pip.getBoundingClientRect();
-    pip.classList.add("in"); move(81, 396, 700); note("① Полнење од одмерната колба");
+    samp.classList.add("in"); pip.style.transition = "none"; pip.style.transform = "translate(81px,290px)"; pip.getBoundingClientRect();
+    pip.classList.add("in"); move(81, 374, 700); note("① Полнење од одмерната колба");
     later(() => { pipLiq.style.transition = "transform 1.1s ease-out"; pipLiq.style.transform = "translateY(0)"; }, 800);
     later(() => note("② Менискусот точно на цртата"), 2000);
     // 2) се подига и се носи над накривениот ерленмаер
-    later(() => { move(81, 310, 500); samp.classList.remove("in"); }, 3000);
+    later(() => { move(81, 290, 500); samp.classList.remove("in"); }, 3000);
     later(() => { ftilt.style.transform = "translateX(30px) rotate(14deg)"; fcr.style.transform = "rotate(-14deg)"; note("③ Вертикална пипета, ерленмаер малку накривен"); }, 3200);
     later(() => move(212, 330, 900), 3500);
     later(() => move(212, 366, 500), 4400);

@@ -1,15 +1,14 @@
 // ---------- заедничка епрувета (SVG) ----------
-// Геометрија (viewBox 40 0 200 428): пипета над епруветата, епрувета во дрвен држач.
+// Геометрија (viewBox 40 14 200 414): пипета над епруветата, епрувета што минува низ дрвен држач.
 const GEO = { cx: 140, tip: 160, mouth: 186, surf: 262, bot: 356, base: 377 };
 
 function buildTube(svg, P) {
   const i = n => P + "-" + n;
   const { mouth, surf, bot, base } = GEO;
-  svg.setAttribute("viewBox", "40 0 200 428");
+  svg.setAttribute("viewBox", "40 14 200 414");
   svg.innerHTML = `
   <defs>
     <clipPath id="${i("clip")}"><path d="M122.2 ${mouth} V${bot} A17.8 17.8 0 0 0 157.8 ${bot} V${mouth} Z"/></clipPath>
-    <clipPath id="${i("fclip")}"><path d="M122.2 ${surf} V${mouth} L106 120 H174 L157.8 ${mouth} V${surf} Z"/></clipPath>
     <linearGradient id="${i("glassg")}" x1="0" x2="1">
       <stop offset="0" stop-color="#9dbbd4" stop-opacity=".5"/><stop offset=".18" stop-color="#ffffff" stop-opacity=".25"/>
       <stop offset=".5" stop-color="#ffffff" stop-opacity=".03"/><stop offset=".82" stop-color="#ffffff" stop-opacity=".12"/>
@@ -22,12 +21,15 @@ function buildTube(svg, P) {
     <linearGradient id="${i("depth")}" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#0a1840" stop-opacity=".3"/>
     </linearGradient>
+    <linearGradient id="${i("gasg")}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a0522d" stop-opacity=".32"/><stop offset="1" stop-color="#a0522d" stop-opacity=".92"/>
+    </linearGradient>
     <linearGradient id="${i("rubber")}" x1="0" x2="1">
       <stop offset="0" stop-color="#6e1f06"/><stop offset=".3" stop-color="#d9531a"/><stop offset=".6" stop-color="#b8400f"/><stop offset="1" stop-color="#5c1904"/>
     </linearGradient>
     <linearGradient id="${i("pglass")}" x1="0" x2="1">
-      <stop offset="0" stop-color="#8fa6bd" stop-opacity=".75"/><stop offset=".3" stop-color="#fff" stop-opacity=".75"/>
-      <stop offset=".7" stop-color="#eef6fb" stop-opacity=".4"/><stop offset="1" stop-color="#8fa6bd" stop-opacity=".75"/>
+      <stop offset="0" stop-color="#8fa6bd" stop-opacity=".8"/><stop offset=".3" stop-color="#fff" stop-opacity=".8"/>
+      <stop offset=".7" stop-color="#eef6fb" stop-opacity=".4"/><stop offset="1" stop-color="#8fa6bd" stop-opacity=".8"/>
     </linearGradient>
     <linearGradient id="${i("metal")}" x1="0" x2="1">
       <stop offset="0" stop-color="#4a3b4e"/><stop offset=".35" stop-color="#9a8a9e"/><stop offset="1" stop-color="#3b2d3f"/>
@@ -39,17 +41,17 @@ function buildTube(svg, P) {
       <stop offset="0" stop-color="#8f6538"/><stop offset=".5" stop-color="#bf935c"/><stop offset="1" stop-color="#8a6034"/>
     </linearGradient>
     <filter id="${i("blur")}" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.6"/></filter>
-    <filter id="${i("blur2")}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.6"/></filter>
+    <filter id="${i("blur2")}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.4"/></filter>
   </defs>
 
-  <!-- држач за епрувета (позади) -->
+  <!-- држач: страници, подлога и горна полица (позади епруветата) -->
   <ellipse cx="140" cy="${base + 14}" rx="68" ry="5" fill="#2d1b4e" opacity=".16"/>
   <rect x="82" y="224" width="8" height="${base - 224}" fill="url(#${i("woodv")})"/>
   <rect x="190" y="224" width="8" height="${base - 224}" fill="url(#${i("woodv")})"/>
   <rect x="76" y="${base}" width="128" height="12" rx="4" fill="url(#${i("wood")})"/>
   <rect x="76" y="${base}" width="128" height="2" rx="1" fill="#fff" opacity=".25"/>
-  <rect x="78" y="220" width="124" height="12" rx="3" fill="url(#${i("wood")})"/>
-  <rect x="78" y="220" width="124" height="2" rx="1" fill="#fff" opacity=".3"/>
+  <path d="M88 215 H192 L202 222 H78 Z" fill="#d9b684"/>
+  <ellipse cx="140" cy="218.5" rx="21" ry="3.2" fill="#5e4122" opacity=".75"/>
 
   <g id="${i("tube")}">
     <g id="${i("body")}" style="transform-origin:140px ${bot + 20}px">
@@ -60,8 +62,9 @@ function buildTube(svg, P) {
         <rect id="${i("ring")}" x="110" y="${surf + 24}" width="60" height="9" fill="#7a4a22" opacity="0" filter="url(#${i("blur")})"/>
         <rect id="${i("turb")}" x="110" y="${surf}" width="60" height="140" fill="#fff" opacity="0"/>
         <g id="${i("ppt")}"></g>
+        <rect id="${i("gas")}" x="110" y="${mouth}" width="60" height="${surf - mouth}" fill="url(#${i("gasg")})" opacity="0"/>
         <g id="${i("bubbles")}"></g>
-        <rect x="110" y="${surf}" width="60" height="140" fill="url(#${i("sheen")})"/>
+        <rect x="110" y="${mouth}" width="60" height="${surf - mouth + 140}" fill="url(#${i("sheen")})"/>
       </g>
       <!-- површина на течноста -->
       <ellipse cx="140" cy="${surf}" rx="17.8" ry="2.6" fill="#fff" fill-opacity=".4" stroke="#4d7ba0" stroke-opacity=".55" stroke-width=".9"/>
@@ -77,24 +80,27 @@ function buildTube(svg, P) {
       <path d="M126 ${bot + 10} q2 9 9 14" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" opacity=".5"/>
       <path d="M155 ${mouth + 20} V${surf + 30}" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity=".35"/>
     </g>
-    <!-- преден раб на отворот во држачот: епруветата минува низ него -->
-    <path d="M119 231.5 Q140 238 161 231.5" fill="none" stroke="#6f4a26" stroke-width="1.4" stroke-linecap="round" opacity=".6"/>
 
-    <!-- пареи: излегуваат од површината на течноста низ отворот на епруветата -->
-    <g clip-path="url(#${i("fclip")})"><g id="${i("fume")}" filter="url(#${i("blur2")})"></g></g>
+    <!-- предна страна на полицата: епруветата минува низ неа -->
+    <rect x="78" y="222" width="124" height="12" rx="2.5" fill="url(#${i("wood")})"/>
+    <rect x="78" y="222" width="124" height="1.8" fill="#fff" opacity=".3"/>
+    <rect x="78" y="232" width="124" height="2" fill="#5e4122" opacity=".35"/>
 
-    <!-- ПИПЕТА: гумено балонче, стаклено грло, долга тенка цевка -->
+    <!-- гас што се прелева преку работ (NO₂ е потежок од воздухот) -->
+    <g id="${i("fume")}" filter="url(#${i("blur2")})"></g>
+
+    <!-- ПИПЕТА: мало гумено балонче, стаклена цевка -->
     <g id="${i("dropper")}">
-      <g id="${i("bulbg")}" style="transform-origin:140px 52px">
-        <path d="M128 52 C122 36 121 20 131 12 C135 7 145 7 149 12 C159 20 158 36 152 52 Z" fill="url(#${i("rubber")})"/>
-        <path d="M132 40 C129 30 130 21 135 15" stroke="#fff" stroke-width="2.4" stroke-linecap="round" fill="none" opacity=".45"/>
+      <g id="${i("bulbg")}" style="transform-origin:140px 56px">
+        <path d="M134 56 C132 50 131.5 42 132 35 C132.5 28 147.5 28 148 35 C148.5 42 148 50 146 56 Z" fill="url(#${i("rubber")})"/>
+        <path d="M135.5 48 C134.5 43 134.5 38 136 33" stroke="#fff" stroke-width="1.8" stroke-linecap="round" fill="none" opacity=".45"/>
       </g>
-      <rect x="123" y="50" width="34" height="9" rx="3.5" fill="#5c1904"/>
-      <rect x="124.5" y="50.9" width="31" height="1.8" rx=".9" fill="#fff" opacity=".18"/>
-      <path d="M129.5 59 h21 l-3 14 h-15 z" fill="url(#${i("pglass")})" stroke="#8fa6bd" stroke-width="1.1" stroke-linejoin="round"/>
-      <path d="M135.5 73 H144.5 V135 L141.7 150 L141 160 H139 L138.3 150 L135.5 135 Z" fill="url(#${i("pglass")})" stroke="#8fa6bd" stroke-width="1.1" stroke-linejoin="round"/>
-      <path id="${i("pipliq")}" d="M137 98 H143 V135 L141 152 H139 L137 135 Z" fill="#b9d9ef" fill-opacity=".9"/>
-      <path d="M137.4 78 V132" stroke="#fff" stroke-width="1.3" stroke-linecap="round" opacity=".9"/>
+      <rect x="133" y="55" width="14" height="7" rx="2" fill="#5c1904"/>
+      <rect x="134" y="55.8" width="12" height="1.4" rx=".7" fill="#fff" opacity=".2"/>
+      <path d="M134.5 62 h11 l-2.3 9 h-6.4 z" fill="url(#${i("pglass")})" stroke="#8fa6bd" stroke-width="1" stroke-linejoin="round"/>
+      <path d="M137.2 71 H142.8 V135 L140.8 150 L140.7 160 H139.3 L139.2 150 L137.2 135 Z" fill="url(#${i("pglass")})" stroke="#8fa6bd" stroke-width="1" stroke-linejoin="round"/>
+      <path id="${i("pipliq")}" d="M138.2 104 H141.8 V135 L140.4 152 H139.6 L138.2 135 Z" fill="#b9d9ef" fill-opacity=".9"/>
+      <path d="M138.4 75 V131" stroke="#fff" stroke-width="1.1" stroke-linecap="round" opacity=".9"/>
     </g>
 
     <g id="${i("drops")}"></g>
@@ -127,7 +133,7 @@ function initLab(P, D) {
   const liquid = $(P + "-liquid"), turb = $(P + "-turb"), pptG = $(P + "-ppt"), bubG = $(P + "-bubbles");
   const dropsG = $(P + "-drops"), tubeScene = $(P + "-tube"), flameScene = $(P + "-flamescene");
   const layerEl = $(P + "-layer"), ringEl = $(P + "-ring"), fumeG = $(P + "-fume"), bodyG = $(P + "-body");
-  const pipLiq = $(P + "-pipliq"), bulbG = $(P + "-bulbg");
+  const pipLiq = $(P + "-pipliq"), bulbG = $(P + "-bulbg"), gasEl = $(P + "-gas"), gasG = $(P + "-gasg");
   const flameOut = $(P + "-flame-out"), flameIn = $(P + "-flame-in"), label = $(P + "-label");
   const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   const T = ms => (reduce ? Math.min(ms, 60) : ms);
@@ -200,7 +206,7 @@ function initLab(P, D) {
     token++; timers.forEach(clearTimeout); timers = [];
     pptG.replaceChildren(); bubG.replaceChildren(); dropsG.replaceChildren();
     turb.style.opacity = 0;
-    [layerEl, ringEl].forEach(e => { e.getAnimations().forEach(a => a.cancel()); e.style.opacity = 0; });
+    [layerEl, ringEl, gasEl].forEach(e => { e.getAnimations().forEach(a => a.cancel()); e.style.opacity = 0; });
     fumeG.replaceChildren();
     tubeScene.style.display = ""; flameScene.style.display = "none";
     const [c, o] = baseColor();
@@ -222,7 +228,7 @@ function initLab(P, D) {
       const a = c.animate([
         { transform: "translateY(0) scale(.2)", opacity: 0 },
         { transform: "translateY(0) scale(1)", opacity: 1, offset: 0.3 },
-        { transform: "translateY(${surf - tip - 5}px) scale(1,1.15)", opacity: 1 }],
+        { transform: `translateY(${surf - tip - 5}px) scale(1,1.15)`, opacity: 1 }],
         { duration: T(620), delay, easing: "cubic-bezier(.5,0,.9,.6)", fill: "forwards" });
       a.onfinish = () => { c.remove(); ripple(); };
     }
@@ -262,9 +268,9 @@ function initLab(P, D) {
     return parts;
   }
 
-  function bubbles(n) {
+  function bubbles(n, tint) {
     for (let i = 0; i < n; i++) {
-      const c = sv("circle", { cx: rnd(124, 156), cy: bot + 6, r: rnd(1, 2.4), fill: "rgba(255,255,255,.75)", stroke: "rgba(255,255,255,.95)", "stroke-width": 0.6 });
+      const c = sv("circle", { cx: rnd(124, 156), cy: bot + 6, r: rnd(1, 2.4), fill: tint || "rgba(255,255,255,.75)", "fill-opacity": tint ? 0.45 : 1, stroke: "rgba(255,255,255,.95)", "stroke-width": 0.6 });
       bubG.appendChild(c);
       c.animate([{ transform: "translateY(0)", opacity: 0 }, { opacity: 1, offset: 0.1 }, { transform: `translateY(${-rnd(bot - surf - 20, bot - surf)}px)`, opacity: 0 }],
         { duration: T(rnd(1400, 2400)), delay: T(rnd(0, 1800)), iterations: 3 });
@@ -286,18 +292,21 @@ function initLab(P, D) {
       { duration: T(2200), fill: "forwards", easing: "ease-out" });
   }
   function fumes(col) {
-    // почнуваат од површината на течноста, се дигаат низ епруветата и излегуваат низ отворот
-    const h = surf - mouth + 8;
-    for (let k = 0; k < 40; k++) {
-      const c = sv("circle", { cx: rnd(126, 154), cy: rnd(surf - 12, surf - 2), r: rnd(3, 6), fill: col });
+    // 1) гасот го исполнува горниот дел од епруветата (густ при течноста, редок кон отворот)
+    [...gasG.children].forEach(st => st.setAttribute("stop-color", col));
+    gasEl.animate([{ opacity: 0 }, { opacity: 1 }], { duration: T(4200), delay: T(700), fill: "forwards", easing: "ease-in" });
+    // 2) потежок од воздухот: малку се прелева преку работ и тоне покрај надворешната страна
+    for (let k = 0; k < 16; k++) {
+      const side = k % 2 ? 1 : -1;
+      const c = sv("circle", { cx: 140 + side * rnd(6, 14), cy: mouth - 2, r: rnd(2.5, 4.5), fill: col });
+      c.style.transformBox = "fill-box"; c.style.transformOrigin = "center";
       fumeG.appendChild(c);
-      const dx = rnd(-22, 22), out = rnd(45, 90);
+      const out = side * rnd(14, 22), down = rnd(30, 56);
       c.animate([
-        { transform: "translate(0,0) scale(.6)", opacity: 0 },
-        { transform: `translate(${rnd(-3, 3)}px,${-h * 0.5}px) scale(.9)`, opacity: 0.42, offset: 0.25 },
-        { transform: `translate(${rnd(-4, 4)}px,${-h}px) scale(1.1)`, opacity: 0.4, offset: 0.5 },
-        { transform: `translate(${dx}px,${-h - out}px) scale(1.7)`, opacity: 0 }],
-        { duration: T(rnd(2400, 3600)), delay: T(rnd(0, 3000)), iterations: 3, easing: "ease-out" });
+        { transform: "translate(0,0) scale(.7)", opacity: 0 },
+        { transform: `translate(${out * 0.6}px,-3px) scale(1)`, opacity: 0.4, offset: 0.25 },
+        { transform: `translate(${out}px,${down}px) scale(1.5)`, opacity: 0 }],
+        { duration: T(rnd(2200, 3400)), delay: T(rnd(2600, 6000)), iterations: 2, easing: "ease-in" });
     }
   }
 
@@ -334,7 +343,7 @@ function initLab(P, D) {
       if (x.kind === "soln") { setLiquid(x.soln || x.hex, 0.93); }
       if (x.kind === "layer") layerAnim(x);
       if (x.kind === "ring") ringAnim(x);
-      if (x.gas || x.kind === "gas") bubbles(26);
+      if (x.gas || x.kind === "gas") bubbles(x.fume ? 18 : 26, x.fume);
       if (x.fume) fumes(x.fume);
       reacted = true;
       later(() => showInfo(x), 700);

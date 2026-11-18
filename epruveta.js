@@ -62,7 +62,7 @@ function buildTube(svg, P) {
         <rect id="${i("ring")}" x="110" y="${surf + 24}" width="60" height="9" fill="#7a4a22" opacity="0" filter="url(#${i("blur")})"/>
         <rect id="${i("turb")}" x="110" y="${surf}" width="60" height="140" fill="#fff" opacity="0"/>
         <g id="${i("ppt")}"></g>
-        <rect id="${i("gas")}" x="110" y="${mouth}" width="60" height="${surf - mouth}" fill="url(#${i("gasg")})" opacity="0"/>
+        <rect id="${i("gas")}" x="110" y="${mouth}" width="60" height="${surf - mouth}" fill="url(#${i("gasg")})" opacity="0" filter="url(#${i("blur")})"/>
         <g id="${i("bubbles")}"></g>
         <rect x="110" y="${mouth}" width="60" height="${surf - mouth + 140}" fill="url(#${i("sheen")})"/>
       </g>
@@ -273,7 +273,7 @@ function initLab(P, D) {
       const c = sv("circle", { cx: rnd(124, 156), cy: bot + 6, r: rnd(1, 2.4), fill: tint || "rgba(255,255,255,.75)", "fill-opacity": tint ? 0.45 : 1, stroke: "rgba(255,255,255,.95)", "stroke-width": 0.6 });
       bubG.appendChild(c);
       c.animate([{ transform: "translateY(0)", opacity: 0 }, { opacity: 1, offset: 0.1 }, { transform: `translateY(${-rnd(bot - surf - 20, bot - surf)}px)`, opacity: 0 }],
-        { duration: T(rnd(1400, 2400)), delay: T(rnd(0, 1800)), iterations: 3 });
+        { duration: T(rnd(1400, 2400)), delay: T(rnd(0, 1800)), iterations: 3, fill: "backwards" });
     }
   }
 
@@ -294,20 +294,10 @@ function initLab(P, D) {
   function fumes(col) {
     // 1) гасот го исполнува горниот дел од епруветата (густ при течноста, редок кон отворот)
     [...gasG.children].forEach(st => st.setAttribute("stop-color", col));
-    gasEl.animate([{ opacity: 0 }, { opacity: 1 }], { duration: T(4200), delay: T(700), fill: "forwards", easing: "ease-in" });
-    // 2) потежок од воздухот: малку се прелева преку работ и тоне покрај надворешната страна
-    for (let k = 0; k < 16; k++) {
-      const side = k % 2 ? 1 : -1;
-      const c = sv("circle", { cx: 140 + side * rnd(6, 14), cy: mouth - 2, r: rnd(2.5, 4.5), fill: col });
-      c.style.transformBox = "fill-box"; c.style.transformOrigin = "center";
-      fumeG.appendChild(c);
-      const out = side * rnd(14, 22), down = rnd(30, 56);
-      c.animate([
-        { transform: "translate(0,0) scale(.7)", opacity: 0 },
-        { transform: `translate(${out * 0.6}px,-3px) scale(1)`, opacity: 0.4, offset: 0.25 },
-        { transform: `translate(${out}px,${down}px) scale(1.5)`, opacity: 0 }],
-        { duration: T(rnd(2200, 3400)), delay: T(rnd(2600, 6000)), iterations: 2, easing: "ease-in" });
-    }
+    // гасот се создава во растворот и се дига нагоре: слојот расте од површината кон отворот
+    gasEl.style.transformBox = "fill-box"; gasEl.style.transformOrigin = "50% 100%";
+    gasEl.animate([{ transform: "scaleY(.04)", opacity: 0 }, { transform: "scaleY(.2)", opacity: 1, offset: 0.12 }, { transform: "scaleY(1)", opacity: 1 }],
+      { duration: T(5400), delay: T(400), fill: "forwards", easing: "ease-out" });
   }
 
   function flame(hex) {

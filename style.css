@@ -96,12 +96,10 @@ nav a.active { color: var(--primary); }
 .tiles .part { display: flex; gap: 6px; }
 .tiles .row.long { gap: 6px; }
 
-/* Smaller secondary version (used in the "I LOVE CHEMISTRY" band) */
 .tiles.small { margin: 0; gap: 6px; }
 .tiles.small .tile { --size: clamp(30px, 4.4vw, 44px); }
 .tiles.small .nm { display: none; }
 
-/* Two-letter element symbols: the letter we spell with is dark, the rest is pale */
 .tile .sym.two { font-size: calc(var(--size) * .48); letter-spacing: -.02em; }
 .tile .sym .lt { opacity: .4; font-weight: 700; }
 
@@ -122,7 +120,6 @@ nav a.active { color: var(--primary); }
   50%      { transform: scale(1.14); }
 }
 
-/* "I LOVE CHEMISTRY" band */
 .love-band {
   background: linear-gradient(135deg, #2d1b4e, #6a2c70);
   padding: 44px 0 48px;
@@ -140,7 +137,7 @@ nav a.active { color: var(--primary); }
   to   { opacity: 1; transform: none; }
 }
 
-/* Почетна: полиња за Квизови, Игри, Тестови */
+/* Hub section */
 .hub-section { margin-top: -40px; padding-top: 0; position: relative; z-index: 2; }
 .hub { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
 .hub-card {
@@ -155,32 +152,11 @@ nav a.active { color: var(--primary); }
 .hub-card p { margin: 0 0 14px; color: var(--muted); }
 .hub-go { color: var(--primary); font-weight: 800; }
 
-/* Врска назад кон листата */
 .back-wrap { margin: 0 0 14px; }
 .back-link { color: var(--primary); font-weight: 700; text-decoration: none; }
 .back-link:hover { text-decoration: underline; }
 .tests-list { margin-top: 0; }
 
-/* Апликација */
-.app-banner-wrap { padding-bottom: 8px; }
-.app-banner {
-  display: flex; align-items: center; gap: 14px; text-decoration: none; color: var(--text);
-  background: var(--accent); border: 2px dashed #e3b48c; border-radius: var(--radius); padding: 14px 18px;
-  transition: transform .2s, box-shadow .2s;
-}
-.app-banner:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-.app-banner-ico { font-size: 2rem; }
-.app-banner .hub-go { margin-left: auto; white-space: nowrap; }
-.app-intro { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 22px; }
-.app-intro > div { flex: 1 1 280px; }
-.app-intro h2 { margin: 0 0 8px; font-size: 1.5rem; }
-.app-intro p { margin: 0 0 14px; color: var(--muted); }
-.app-icon { border-radius: 22px; box-shadow: var(--shadow); }
-.platforms .card.me { outline: 3px solid var(--primary); }
-.steps { margin: 8px 0 0; padding-left: 20px; color: var(--muted); }
-.steps li { margin-bottom: 6px; }
-
-/* Наслов на внатрешните страници */
 .page-head { background: linear-gradient(135deg, #2d1b4e, #6a2c70); color: #fff; text-align: center; padding: 34px 0 38px; }
 .page-head h1 { margin: 0 0 6px; font-size: clamp(1.7rem, 5vw, 2.4rem); }
 .page-head p { margin: 0; opacity: .9; }
@@ -196,25 +172,10 @@ nav a.active { color: var(--primary); }
 .card p { margin: 0; color: var(--muted); }
 .hint { color: var(--muted); font-size: .9rem; margin-top: 16px; }
 
-/* Today in chemistry */
-.today-date { font-size: 1rem; font-weight: 600; color: var(--primary); margin-left: 8px; }
-.today { display: grid; gap: 16px; }
-.today-card {
-  background: var(--card); border-left: 6px solid var(--primary);
-  border-radius: var(--radius); box-shadow: var(--shadow); padding: 22px 24px;
-}
-.today-card.muted { border-left-color: var(--muted); }
-.today-card h3 { margin: 6px 0 8px; font-size: 1.4rem; }
-.today-card p { margin: 0; color: var(--muted); }
-.today-year {
-  display: inline-block; background: var(--accent); color: var(--primary-dark);
-  padding: 2px 12px; border-radius: 999px; font-size: .85rem; font-weight: 700;
-}
-
 /* Quiz */
 .quiz {
   background: var(--card); border-radius: var(--radius);
-  box-shadow: var(--shadow); padding: 28px; max-width: 700px; margin: 0 auto;
+  box-shadow: var(--shadow); padding: 28px; max-width: 650px; margin: 0 auto;
   overflow: hidden;
 }
 .progress { height: 8px; background: var(--accent); border-radius: 99px; overflow: hidden; }
@@ -223,10 +184,8 @@ nav a.active { color: var(--primary); }
   transition: width .5s ease;
 }
 .quiz-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: .9rem; margin: 10px 0 18px; }
-
 .stage { min-height: 320px; }
 
-/* Transitions between questions */
 .slide { animation: slideIn .45s ease both; }
 .slide.leaving { animation: slideOut .3s ease both; }
 
@@ -240,7 +199,6 @@ nav a.active { color: var(--primary); }
 }
 
 .question { font-size: 1.3rem; margin: 0 0 18px; }
-
 .options { display: grid; gap: 10px; }
 .option {
   text-align: left; font: inherit; padding: 14px 16px;
@@ -258,14 +216,6 @@ nav a.active { color: var(--primary); }
   75% { transform: translateX(6px); }
 }
 
-.explain {
-  margin-top: 16px; padding: 12px 14px; border-radius: 10px;
-  background: var(--accent); color: var(--text);
-  opacity: 0; transform: translateY(8px);
-  transition: opacity .3s, transform .3s;
-}
-.explain.show { opacity: 1; transform: translateY(0); }
-
 .actions { margin-top: 18px; text-align: right; min-height: 46px; }
 
 /* Result */
@@ -275,7 +225,7 @@ nav a.active { color: var(--primary); }
 .result p { color: var(--muted); }
 
 /* ==========================================
-   АНАГРАМ И БЕСИЛКА (ПОПРАВЕН РАСПОРЕД)
+   КОНЕЧНО РЕШЕНИЕ ЗА АНАГРАМ И БЕСИЛКА
    ========================================== */
 .section-sub { color: var(--muted); margin: -10px 0 18px; }
 .ana-hint {
@@ -293,18 +243,19 @@ nav a.active { color: var(--primary); }
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   gap: 6px;
   width: 100%;
-  max-width: 680px;
-  margin: 0 auto;
+  max-width: 520px;
+  margin: 0 auto 20px auto;
 }
 .ana-slots { margin-bottom: 22px; }
 .ana-pool { margin-bottom: 20px; }
 
 .slot {
-  width: 36px; height: 44px; display: grid; place-items: center;
+  width: 34px; height: 40px; display: grid; place-items: center;
   border: 2px dashed #d9c9bd; border-radius: 6px;
-  font-size: 1.15rem; font-weight: 800;
+  font-size: 1.1rem; font-weight: 800;
   flex-shrink: 0;
   transition: background .2s, border-color .2s;
 }
@@ -314,10 +265,12 @@ nav a.active { color: var(--primary); }
 .slot.revealed { border-color: var(--muted); background: #f3ece6; }
 
 .letter {
-  width: 38px; height: 44px; font: inherit; font-size: 1.15rem; font-weight: 800;
+  width: 36px; height: 42px; font: inherit; font-size: 1.1rem; font-weight: 800;
   background: #fff; color: var(--text); cursor: pointer;
   border: 2px solid #e3d6cb; border-bottom-width: 4px; border-radius: 6px;
   flex-shrink: 0;
+  display: grid; place-items: center;
+  padding: 0;
   transition: transform .15s, opacity .2s, border-color .2s;
 }
 .letter:hover:not(:disabled) { transform: translateY(-3px); border-color: var(--primary); }
@@ -327,7 +280,22 @@ nav a.active { color: var(--primary); }
 .btn.ghost { background: var(--accent); color: var(--primary-dark); padding: 8px 14px; font-size: .85rem; }
 .btn.ghost:disabled { opacity: .4; cursor: default; transform: none; box-shadow: none; }
 
-/* Тест по квалитативна анализа */
+/* Бесилка подесувања */
+.hm-svg { display: block; width: 120px; height: 140px; margin: 0 auto 4px; color: var(--text); }
+.hm-lives { text-align: center; color: var(--muted); margin: 0 0 14px; }
+.hm-keys {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin: 0 auto 16px;
+  max-width: 520px;
+}
+.letter.key { width: 34px; height: 40px; font-size: .95rem; }
+.letter.key.hit:disabled { opacity: 1; background: var(--good-bg); border-color: var(--good); }
+.letter.key.miss:disabled { opacity: .7; background: var(--bad-bg); border-color: var(--bad); }
+
+/* Остатоци од апликацијата (тестови, балансирање, итн.) */
 .qa-q { white-space: pre-line; }
 .qa-q2 { margin: 0 0 14px; }
 .qa-img {
@@ -340,7 +308,6 @@ nav a.active { color: var(--primary); }
 .btn.good { background: var(--good); color: #fff; }
 .btn.bad { background: var(--bad); color: #fff; }
 
-/* Тест: сите прашања на една страница */
 #qa-quiz { overflow: visible; }
 #qa-quiz .stage { min-height: 0; }
 .qa-sticky { position: sticky; top: 60px; z-index: 6; background: var(--card); padding: 10px 0 1px; margin-top: -10px; }
@@ -363,4 +330,88 @@ nav a.active { color: var(--primary); }
 .qa-summary { text-align: center; background: var(--accent); border-radius: var(--radius); padding: 18px 16px 14px; margin: 14px 0 4px; scroll-margin-top: 150px; }
 .qa-summary .big { font-size: 3rem; margin: 0; }
 .qa-summary h3 { font-size: 1.6rem; margin: 4px 0; }
-.qa-summary p { margin: 6px 0; color
+.qa-summary p { margin: 6px 0; color: var(--muted); }
+.qa-jump { font: inherit; font-weight: 700; color: var(--primary); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; }
+#qa-quiz .actions { margin-top: 24px; }
+
+#qa-quiz { max-width: 940px; }
+.qa-part { margin: 14px 0 8px; font-weight: 600; }
+.qa-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 6px; }
+.qa-tools-label { color: var(--muted); font-weight: 700; font-size: .9rem; }
+.qa-tools .btn.ghost { padding: 6px 14px; font-size: .9rem; }
+.qa-tools-hint { flex-basis: 100%; color: var(--muted); font-size: .85rem; }
+
+.qa-fill {
+  border: 0; border-bottom: 2px solid #222; background: #fff3e8; color: var(--text);
+  font-family: inherit; font-weight: 700; text-align: center; outline: none;
+  border-radius: 4px 4px 0 0; box-sizing: border-box; min-width: 0;
+}
+.qa-fill:focus { background: #ffe0c4; border-bottom-color: var(--primary); }
+.qa-fill.ok { background: var(--good-bg); border-bottom-color: var(--good); }
+.qa-fill.fmt { background: #fff6cc; border-bottom-color: #d4a017; }
+.qa-fill.bad { background: var(--bad-bg); border-bottom-color: var(--bad); }
+.qa-fill:disabled { color: var(--text); opacity: 1; }
+.qa-fill.inline { position: static; width: min(260px, 100%); font-size: 1.15rem; padding: 6px 8px; }
+.qa-ions { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+.qa-ion { display: flex; align-items: center; gap: 8px; font-weight: 700; }
+.qa-ion-wide { margin-bottom: 6px; }
+
+.qa-scheme-scroll { overflow-x: auto; background: #fff; border: 1px solid #eadfd6; border-radius: 10px; }
+.qa-scheme { position: relative; min-width: 760px; width: 100%; }
+.qa-svg { display: block; width: 100%; height: auto; }
+.qa-svg text { font-family: Arial, Helvetica, sans-serif; font-size: 26px; fill: #111; }
+.qa-scheme .qa-fill { position: absolute; font-size: calc(var(--s, .6) * 24px); padding: 0; }
+.qa-yn { display: flex; gap: 10px; }
+.qa-yn .btn.ghost { padding: 8px 22px; }
+.qa-yn .good-pick { outline: 3px solid var(--good); }
+.qa-yn .bad-pick { outline: 3px solid var(--bad); }
+
+.dz-body { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; min-height: 52px; padding: 8px; border-radius: 10px; }
+.dz-pool { background: var(--accent); border: 2px dashed #e3c9b0; }
+.dnd-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin-top: 14px; }
+.dz-group { background: #fff; border: 2px solid #eadfd6; border-radius: 12px; padding: 8px 8px 10px; }
+.dz-group h4 { margin: 0 0 6px 4px; font-size: .95rem; color: var(--primary-dark); }
+.dz-group .dz-body { border: 2px dashed #d9c9bd; }
+.dz-body.over { background: #ffe9d6; border-color: var(--primary); }
+.chip {
+  padding: 8px 14px; background: #fff; border: 2px solid #e3d6cb; border-bottom-width: 4px;
+  border-radius: 10px; font: inherit; font-weight: 700; color: var(--text);
+  cursor: grab; user-select: none; touch-action: none;
+}
+.chip.tog { cursor: pointer; touch-action: auto; }
+.chip.tog.on { background: var(--accent); border-color: var(--primary); }
+.chip.sel { border-color: var(--primary); background: #ffe9d6; }
+.chip.dragging { opacity: .3; }
+.chip.ghost { position: fixed; z-index: 1000; pointer-events: none; margin: 0; box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.chip.ok { border-color: var(--good); background: var(--good-bg); }
+.chip.bad { border-color: var(--bad); background: var(--bad-bg); }
+.chip.missing { border-color: var(--bad); border-style: dashed; }
+.qa-result { margin-right: auto; align-self: center; font-weight: 700; color: var(--muted); }
+
+/* Tabs */
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.tab {
+  font: inherit; font-weight: 700; padding: 10px 18px; border-radius: 999px;
+  border: 2px solid #eadfd6; background: var(--card); color: var(--muted); cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s, transform .15s;
+}
+.tab:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-2px); }
+.tab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.tab-panel[hidden] { display: none; }
+.game-title { font-size: 1.35rem; margin: 0 0 6px; }
+
+/* Memory */
+.mem-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.mem-card {
+  position: relative; font: inherit; font-weight: 800; padding: 2px;
+  font-size: clamp(.65rem, 2.8vw, 1.05rem); overflow-wrap: anywhere;
+  aspect-ratio: 1 / .85; color: transparent; background: var(--primary);
+  border: 2px solid var(--primary-dark); border-bottom-width: 5px; border-radius: 10px;
+  cursor: pointer; transition: transform .15s, background .2s;
+}
+.mem-card::before {
+  content: "?"; position: absolute; inset: 0; display: grid; place-items: center;
+  color: #fff; font-size: 1.5rem;
+}
+.mem-card:hover:not(.open):not(.done) { transform: translateY(-3px); }
+.mem-card.open, .mem-card.done { background: #fff; color: var(--

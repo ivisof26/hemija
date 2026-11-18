@@ -229,7 +229,7 @@ function initLab(P, D) {
         { transform: "translateY(0) scale(.2)", opacity: 0 },
         { transform: "translateY(0) scale(1)", opacity: 1, offset: 0.3 },
         { transform: `translateY(${surf - tip - 5}px) scale(1,1.15)`, opacity: 1 }],
-        { duration: T(620), delay, easing: "cubic-bezier(.5,0,.9,.6)", fill: "forwards" });
+        { duration: T(620), delay, easing: "cubic-bezier(.5,0,.9,.6)", fill: "both" });
       a.onfinish = () => { c.remove(); ripple(); };
     }
     later(() => { pipLiq.style.fill = WATER; done(); }, n * 380 + 660);
@@ -298,6 +298,19 @@ function initLab(P, D) {
     gasEl.style.transformBox = "fill-box"; gasEl.style.transformOrigin = "50% 100%";
     gasEl.animate([{ transform: "scaleY(.04)", opacity: 0 }, { transform: "scaleY(.2)", opacity: 1, offset: 0.12 }, { transform: "scaleY(1)", opacity: 1 }],
       { duration: T(5400), delay: T(400), fill: "forwards", easing: "ease-out" });
+    // 2) дури кога епруветата ќе се наполни: тежок гас (потежок од воздухот) малку се прелева преку работ и тоне
+    for (let k = 0; k < 14; k++) {
+      const side = k % 2 ? 1 : -1;
+      const c = sv("circle", { cx: 140 + side * rnd(6, 14), cy: mouth - 2, r: rnd(2.5, 4.5), fill: col, opacity: 0 });
+      c.style.transformBox = "fill-box"; c.style.transformOrigin = "center";
+      fumeG.appendChild(c);
+      const out = side * rnd(14, 22), down = rnd(30, 56);
+      c.animate([
+        { transform: "translate(0,0) scale(.7)", opacity: 0 },
+        { transform: `translate(${out * 0.6}px,-3px) scale(1)`, opacity: 0.4, offset: 0.25 },
+        { transform: `translate(${out}px,${down}px) scale(1.5)`, opacity: 0 }],
+        { duration: T(rnd(2400, 3600)), delay: T(rnd(6200, 9500)), iterations: 2, easing: "ease-in", fill: "backwards" });
+    }
   }
 
   function flame(hex) {

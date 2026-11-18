@@ -1,12 +1,119 @@
-// Виртуелна лабораторија: епрувета со катјон + реагенс (податоците се во reakcii.js)
-(function () {
+// ---------- заедничка епрувета (SVG) ----------
+// Тенка стаклена епрувета (надворешен дијаметар 40, ѕид 2.2) и стаклена пипета со гумено балонче.
+// Пипетата стои НАД епруветата (не се преклопува со неа); капките паѓаат од врвот директно во растворот.
+function buildTube(svg, P) {
+  const i = n => P + "-" + n;
+  svg.setAttribute("viewBox", "50 0 180 380");
+  svg.innerHTML = `
+  <defs>
+    <clipPath id="${i("clip")}"><path d="M122.2 122 V308 A17.8 17.8 0 0 0 157.8 308 V122 Z"/></clipPath>
+    <linearGradient id="${i("glassg")}" x1="0" x2="1">
+      <stop offset="0" stop-color="#9dbbd4" stop-opacity=".5"/><stop offset=".18" stop-color="#ffffff" stop-opacity=".25"/>
+      <stop offset=".5" stop-color="#ffffff" stop-opacity=".04"/><stop offset=".82" stop-color="#ffffff" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#8fb0cc" stop-opacity=".5"/>
+    </linearGradient>
+    <linearGradient id="${i("sheen")}" x1="0" x2="1">
+      <stop offset="0" stop-color="#000" stop-opacity=".22"/><stop offset=".25" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset=".6" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/>
+    </linearGradient>
+    <linearGradient id="${i("depth")}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#0a1840" stop-opacity=".22"/>
+    </linearGradient>
+    <linearGradient id="${i("rubber")}" x1="0" x2="1">
+      <stop offset="0" stop-color="#6e1f06"/><stop offset=".3" stop-color="#d9531a"/><stop offset=".6" stop-color="#b8400f"/><stop offset="1" stop-color="#5c1904"/>
+    </linearGradient>
+    <linearGradient id="${i("pglass")}" x1="0" x2="1">
+      <stop offset="0" stop-color="#8fa6bd" stop-opacity=".7"/><stop offset=".3" stop-color="#fff" stop-opacity=".7"/>
+      <stop offset=".7" stop-color="#eef6fb" stop-opacity=".35"/><stop offset="1" stop-color="#8fa6bd" stop-opacity=".7"/>
+    </linearGradient>
+    <linearGradient id="${i("metal")}" x1="0" x2="1">
+      <stop offset="0" stop-color="#4a3b4e"/><stop offset=".35" stop-color="#9a8a9e"/><stop offset="1" stop-color="#3b2d3f"/>
+    </linearGradient>
+    <linearGradient id="${i("wood")}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c79a63"/><stop offset="1" stop-color="#8f6538"/>
+    </linearGradient>
+    <filter id="${i("blur")}" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.6"/></filter>
+    <filter id="${i("blur2")}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="4"/></filter>
+  </defs>
+
+  <!-- сенка и држач -->
+  <ellipse cx="140" cy="343" rx="46" ry="5" fill="#2d1b4e" opacity=".16"/>
+  <rect x="96" y="331" width="88" height="11" rx="4" fill="url(#${i("wood")})"/>
+  <path d="M116 331 q24 10 48 0 v-4 h-48z" fill="#7a5530" opacity=".55"/>
+
+  <g id="${i("tube")}">
+    <!-- ПИПЕТА (Пастерова): гумено балонче, стаклено грло, тенка цевка -->
+    <g id="${i("dropper")}">
+      <g id="${i("bulbg")}" style="transform-origin:140px 46px">
+        <path d="M129 46 C125 32 124 18 132 11 C136 6 144 6 148 11 C156 18 155 32 151 46 Z" fill="url(#${i("rubber")})"/>
+        <path d="M133 36 C131 28 132 20 136 14" stroke="#fff" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".45"/>
+      </g>
+      <rect x="126" y="44" width="28" height="7" rx="3" fill="#5c1904"/>
+      <rect x="127" y="44.8" width="26" height="1.6" rx=".8" fill="#fff" opacity=".18"/>
+      <path d="M130.5 51 h19 l-2 12 h-15 z" fill="url(#${i("pglass")})" stroke="#8fa6bd" stroke-width="1.1" stroke-linejoin="round"/>
+      <path d="M135.5 63 h9 v24 l-3.4 17 h-2.2 l-3.4 -17 z" fill="url(#${i("pglass")})" stroke="#8fa6bd" stroke-width="1.1" stroke-linejoin="round"/>
+      <path id="${i("pipliq")}" d="M137 74 h6 v13 l-2.6 16 h-.8 l-2.6 -16 z" fill="#cfe6f5" fill-opacity=".85"/>
+      <path d="M137.4 66 V88" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".85"/>
+    </g>
+
+    <g id="${i("body")}" style="transform-origin:140px 329px">
+      <g clip-path="url(#${i("clip")})">
+        <rect id="${i("liquid")}" x="110" y="205" width="60" height="140" fill="#cfe6f5" fill-opacity=".55"/>
+        <rect x="110" y="205" width="60" height="140" fill="url(#${i("depth")})"/>
+        <rect id="${i("layer")}" x="110" y="276" width="60" height="60" fill="#fff" opacity="0"/>
+        <rect id="${i("ring")}" x="110" y="229" width="60" height="9" fill="#7a4a22" opacity="0" filter="url(#${i("blur")})"/>
+        <rect id="${i("turb")}" x="110" y="205" width="60" height="140" fill="#fff" opacity="0"/>
+        <g id="${i("ppt")}"></g>
+        <g id="${i("bubbles")}"></g>
+        <rect x="110" y="205" width="60" height="140" fill="url(#${i("sheen")})"/>
+      </g>
+      <!-- менискус -->
+      <ellipse cx="140" cy="205" rx="17.8" ry="2.4" fill="#fff" fill-opacity=".38" stroke="#fff" stroke-opacity=".75" stroke-width=".8"/>
+      <!-- стакло -->
+      <path d="M120 122 V308 A20 20 0 0 0 160 308 V122 Z" fill="url(#${i("glassg")})"/>
+      <path d="M120 122 V308 A20 20 0 0 0 160 308 V122" fill="none" stroke="#7f9bb5" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M122.2 128 V308 A17.8 17.8 0 0 0 157.8 308 V128" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width=".9"/>
+      <!-- обрач (заоблен раб) -->
+      <ellipse cx="140" cy="122" rx="22" ry="3.8" fill="#fff" fill-opacity=".14" stroke="#7f9bb5" stroke-width="2.2"/>
+      <ellipse cx="140" cy="122" rx="18" ry="2.6" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1"/>
+      <!-- одблесоци -->
+      <path d="M125 136 V292" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity=".7"/>
+      <path d="M126 304 q2 9 9 14" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none" opacity=".5"/>
+      <path d="M155 142 V262" stroke="#fff" stroke-width="1.4" stroke-linecap="round" opacity=".35"/>
+    </g>
+    <g id="${i("fume")}" filter="url(#${i("blur2")})"></g>
+    <g id="${i("drops")}"></g>
+    <text id="${i("label")}" x="140" y="368" text-anchor="middle" font-size="20" font-weight="800" fill="#2d1b4e"></text>
+  </g>
+
+  <!-- пламен -->
+  <g id="${i("flamescene")}" style="display:none">
+    <ellipse cx="140" cy="338" rx="46" ry="6" fill="#2d1b4e" opacity=".18"/>
+    <rect x="128" y="296" width="24" height="38" rx="4" fill="url(#${i("metal")})"/>
+    <rect x="124" y="288" width="32" height="10" rx="3" fill="#6b5b6e"/>
+    <rect x="112" y="332" width="56" height="10" rx="5" fill="#4a3b4e"/>
+    <path id="${i("flame-out")}" d="M140 288 C108 260 112 216 140 148 C168 216 172 260 140 288 Z" fill="#f5c518" style="transform-box:fill-box;transform-origin:50% 100%"/>
+    <path id="${i("flame-in")}" d="M140 288 C126 272 128 248 140 220 C152 248 154 272 140 288 Z" fill="#fff6d8" style="transform-box:fill-box;transform-origin:50% 100%"/>
+    <text x="140" y="368" text-anchor="middle" font-size="16" font-weight="700" fill="#6b5b6e">проба на пламен</text>
+  </g>`;
+}
+
+// Виртуелна лабораторија: епрувета со јон + реагенс.
+// Една логика за два модула: катјони (податоци во reakcii.js) и анјони (податоци во anjoni-data.js).
+// initLab(P, D): P = префикс на id-јата во HTML (ep / an), D = податоци и текстови за модулот.
+function initLab(P, D) {
   const $ = id => document.getElementById(id);
-  const catBox = $("ep-cations");
-  if (!catBox || typeof REAKCII === "undefined") return;
-  const reagBox = $("ep-reagents"), info = $("ep-info"), svg = $("ep-svg");
-  const liquid = $("ep-liquid"), turb = $("ep-turb"), pptG = $("ep-ppt"), bubG = $("ep-bubbles");
-  const dropsG = $("ep-drops"), tubeScene = $("ep-tube"), flameScene = $("ep-flamescene");
-  const flameOut = $("ep-flame-out"), flameIn = $("ep-flame-in"), label = $("ep-label");
+  const catBox = $(P + "-cations");
+  if (!catBox) return;
+  buildTube($(P + "-svg"), P);
+  const root = $("at-panel-" + P) || document;
+  const KATJONI = D.ions, GRUPI = D.groups, REAGENSI = D.reag, REAKCII = D.reactions, N = D.t;
+  const reagBox = $(P + "-reagents"), info = $(P + "-info"), svg = $(P + "-svg");
+  const liquid = $(P + "-liquid"), turb = $(P + "-turb"), pptG = $(P + "-ppt"), bubG = $(P + "-bubbles");
+  const dropsG = $(P + "-drops"), tubeScene = $(P + "-tube"), flameScene = $(P + "-flamescene");
+  const layerEl = $(P + "-layer"), ringEl = $(P + "-ring"), fumeG = $(P + "-fume"), bodyG = $(P + "-body");
+  const pipLiq = $(P + "-pipliq"), bulbG = $(P + "-bulbg");
+  const flameOut = $(P + "-flame-out"), flameIn = $(P + "-flame-in"), label = $(P + "-label");
   const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   const T = ms => (reduce ? Math.min(ms, 60) : ms);
 
@@ -15,8 +122,8 @@
   let cat = null, rg = null, cur = null, token = 0, reacted = false, timers = [];
 
   // режим „непознат раствор“
-  const learnBox = $("ep-learn"), quizSetup = $("ep-quizsetup"), quizBox = $("ep-quiz"), rgHead = $("ep-rg-h");
-  const modeBtns = document.querySelectorAll(".ep-mode"), grpSel = $("ep-group-sel"), newBtn = $("ep-new");
+  const learnBox = $(P + "-learn"), quizSetup = $(P + "-quizsetup"), quizBox = $(P + "-quiz"), rgHead = $(P + "-rg-h");
+  const modeBtns = root.querySelectorAll(".ep-mode"), grpSel = $(P + "-group-sel"), newBtn = $(P + "-new");
   let mode = "learn", unknown = null, log = [], answers = {}, sel = "", done = false, lastId = null;
 
   const find = (i, r) => REAKCII.find(x => x.ion === i && x.r === r);
@@ -26,7 +133,7 @@
   const rnd = (a, b) => a + Math.random() * (b - a);
 
   // ---------- избор на катјон ----------
-  const order = ["I", "IIa", "IIb", "III", "IV", "V", "VI"];
+  const order = D.order;
   const catBtns = {};
   order.forEach(g => {
     const wrap = el("div", "ep-group");
@@ -58,7 +165,7 @@
 
   function buildReagents() {
     reagBox.replaceChildren();
-    GRUPI[cat.group].reagents.forEach(r => {
+    (D.reagentsFor ? D.reagentsFor(cat) : GRUPI[cat.group].reagents).forEach(r => {
       const x = find(cat.id, r);
       const b = el("button", "ep-rg" + (x ? "" : " muted") + (x && x.star ? " star" : ""));
       b.type = "button";
@@ -77,42 +184,53 @@
     token++; timers.forEach(clearTimeout); timers = [];
     pptG.replaceChildren(); bubG.replaceChildren(); dropsG.replaceChildren();
     turb.style.opacity = 0;
+    [layerEl, ringEl].forEach(e => { e.getAnimations().forEach(a => a.cancel()); e.style.opacity = 0; });
+    fumeG.replaceChildren();
     tubeScene.style.display = ""; flameScene.style.display = "none";
     const [c, o] = baseColor();
     setLiquid(c, o);
     label.textContent = mode === "quiz" ? (unknown ? "?" : "") : (cat ? cat.ion : "");
     cur = null; reacted = false;
-    document.querySelectorAll(".ep-rg").forEach(b => b.classList.remove("active"));
+    root.querySelectorAll(".ep-rg").forEach(b => b.classList.remove("active"));
   }
 
   function drops(color, n, done) {
+    pipLiq.style.fill = color;
     for (let i = 0; i < n; i++) {
-      const c = sv("circle", { cx: 140, cy: 108, r: 4.5, fill: color, stroke: "#6f9bc2", "stroke-width": 1 });
+      const delay = T(i * 380);
+      // балончето се стиска и капката се издува на врвот на пипетата
+      bulbG.animate([{ transform: "scale(1,1)" }, { transform: "scale(1.1,.86)" }, { transform: "scale(1,1)" }], { duration: T(300), delay, easing: "ease-in-out" });
+      const c = sv("circle", { cx: 140, cy: 106, r: 2.4, fill: color, stroke: "#6f9bc2", "stroke-width": 0.7 });
+      c.style.transformBox = "fill-box"; c.style.transformOrigin = "50% 0%";
       dropsG.appendChild(c);
-      const a = c.animate([{ transform: "translateY(0)", opacity: 0 }, { opacity: 1, offset: 0.15 }, { transform: "translateY(68px)", opacity: 1 }],
-        { duration: T(520), delay: T(i * 300), easing: "ease-in", fill: "forwards" });
+      const a = c.animate([
+        { transform: "translateY(0) scale(.2)", opacity: 0 },
+        { transform: "translateY(0) scale(1)", opacity: 1, offset: 0.3 },
+        { transform: "translateY(97px) scale(1,1.15)", opacity: 1 }],
+        { duration: T(620), delay, easing: "cubic-bezier(.5,0,.9,.6)", fill: "forwards" });
       a.onfinish = () => { c.remove(); ripple(); };
     }
-    later(done, n * 300 + 560);
+    later(() => { pipLiq.style.fill = WATER; done(); }, n * 380 + 660);
   }
   function ripple() {
-    const r = sv("ellipse", { cx: 140, cy: 176, rx: 4, ry: 1.5, fill: "none", stroke: "#ffffff", "stroke-width": 1.2 });
+    const r = sv("ellipse", { cx: 140, cy: 206, rx: 2, ry: 0.7, fill: "none", stroke: "#ffffff", "stroke-width": 0.9 });
+    r.style.transformBox = "fill-box"; r.style.transformOrigin = "center";
     dropsG.appendChild(r);
-    const a = r.animate([{ transform: "scale(1)", opacity: 0.9 }, { transform: "scale(9,3)", opacity: 0 }], { duration: T(600), transformOrigin: "140px 176px" });
+    const a = r.animate([{ transform: "scale(1)", opacity: 0.9 }, { transform: "scale(8,3)", opacity: 0 }], { duration: T(600) });
     a.onfinish = () => r.remove();
   }
 
   function precipitate(hex, stages) {
-    const N = 110, parts = [];
+    const N = 80, parts = [];
     turb.style.fill = hex;
     turb.style.opacity = 0;
     turb.animate([{ opacity: 0 }, { opacity: 0.55, offset: 0.2 }, { opacity: 0.1 }], { duration: T(4200), fill: "forwards" });
     for (let i = 0; i < N; i++) {
-      const r = rnd(2.6, 5.2);
-      const y1 = rnd(285, 312);                                   // каде паѓа
-      const hw = y1 > 270 ? Math.sqrt(Math.max(0, 45 * 45 - (y1 - 270) ** 2)) : 45;
+      const r = rnd(1.3, 2.9);
+      const y1 = rnd(296, 324);                                   // каде паѓа
+      const hw = y1 > 308 ? Math.sqrt(Math.max(0, 17.8 * 17.8 - (y1 - 308) ** 2)) : 17.8;
       const x1 = rnd(140 - hw + r, 140 + hw - r);
-      const x0 = rnd(103, 177), y0 = rnd(182, 262);
+      const x0 = rnd(124, 156), y0 = rnd(212, 286);
       const c = sv("circle", { cx: x0, cy: y0, r, fill: hex, stroke: "rgba(0,0,0,.18)", "stroke-width": 0.6 });
       c.style.transition = "fill 1.2s";
       c.style.opacity = 0;
@@ -130,10 +248,34 @@
 
   function bubbles(n) {
     for (let i = 0; i < n; i++) {
-      const c = sv("circle", { cx: rnd(108, 172), cy: 300, r: rnd(1.8, 4), fill: "rgba(255,255,255,.75)", stroke: "rgba(255,255,255,.95)", "stroke-width": 0.6 });
+      const c = sv("circle", { cx: rnd(124, 156), cy: 300, r: rnd(1, 2.4), fill: "rgba(255,255,255,.75)", stroke: "rgba(255,255,255,.95)", "stroke-width": 0.6 });
       bubG.appendChild(c);
-      c.animate([{ transform: "translateY(0)", opacity: 0 }, { opacity: 1, offset: 0.1 }, { transform: `translateY(${-rnd(120, 150)}px)`, opacity: 0 }],
+      c.animate([{ transform: "translateY(0)", opacity: 0 }, { opacity: 1, offset: 0.1 }, { transform: `translateY(${-rnd(80, 98)}px)`, opacity: 0 }],
         { duration: T(rnd(1400, 2400)), delay: T(rnd(0, 1800)), iterations: 3 });
+    }
+  }
+
+  function layerAnim(x) {
+    layerEl.style.fill = x.hex;
+    bodyG.animate([{ transform: "rotate(0)" }, { transform: "rotate(-4deg)" }, { transform: "rotate(4deg)" }, { transform: "rotate(-3deg)" }, { transform: "rotate(2deg)" }, { transform: "rotate(0)" }],
+      { duration: T(1100) });
+    turb.style.fill = x.hex;
+    turb.animate([{ opacity: 0 }, { opacity: 0.55, offset: 0.35 }, { opacity: 0 }], { duration: T(1800) });
+    layerEl.animate([{ opacity: 0, transform: "translateY(16px)" }, { opacity: 0, offset: 0.45 }, { opacity: 0.93, transform: "translateY(0)" }],
+      { duration: T(2400), fill: "forwards", easing: "ease-out" });
+  }
+  function ringAnim(x) {
+    ringEl.style.fill = x.hex;
+    ringEl.animate([{ opacity: 0, transform: "translateY(6px) scaleY(.4)" }, { opacity: 0.95, transform: "translateY(0) scaleY(1)" }],
+      { duration: T(2200), fill: "forwards", easing: "ease-out" });
+  }
+  function fumes(col) {
+    for (let k = 0; k < 16; k++) {
+      const c = sv("circle", { cx: rnd(128, 152), cy: rnd(188, 204), r: rnd(5, 10), fill: col });
+      fumeG.appendChild(c);
+      const up = rnd(90, 160), dx = rnd(-14, 14);
+      c.animate([{ transform: "translate(0,0) scale(.6)", opacity: 0 }, { opacity: 0.55, offset: 0.25 }, { transform: `translate(${dx}px,${-up}px) scale(1.8)`, opacity: 0 }],
+        { duration: T(rnd(2400, 3800)), delay: T(rnd(0, 2200)), iterations: 2, easing: "ease-out" });
     }
   }
 
@@ -150,7 +292,7 @@
   // ---------- реакција ----------
   function badge(x) {
     const k = x ? x.kind : "none";
-    const txt = { ppt: "Талог", soln: "Промена на боја", gas: "Гас", flame: "Пламен", none: "Нема промена" }[k];
+    const txt = { ppt: "Талог", soln: "Промена на боја", gas: "Гас", flame: "Пламен", layer: "Органски слој", ring: "Кафеав прстен", none: "Нема промена" }[k];
     return el("span", "ep-badge " + k, txt);
   }
 
@@ -158,17 +300,20 @@
     if (!cat) return;
     resetTube();
     rg = r;
-    document.querySelectorAll(".ep-rg").forEach(b => b.classList.toggle("active", b.dataset.r === r));
+    root.querySelectorAll(".ep-rg").forEach(b => b.classList.toggle("active", b.dataset.r === r));
     const x = find(cat.id, r);
     cur = x;
     info.replaceChildren(el("p", "ep-hint", "Се додава реагенсот…"));
     if (x && x.kind === "flame") { later(() => { flame(x.hex); showInfo(x); }, 100); return; }
-    drops("#cfe6f5", 5, () => {
+    drops((x && x.dropc) || "#cfe6f5", 5, () => {
       if (!x) { showInfo(null); return; }
       if (x.soln) setLiquid(x.soln, 0.82);
       if (x.kind === "ppt") { precipitate(x.hex, x.stages); }
       if (x.kind === "soln") { setLiquid(x.soln || x.hex, 0.85); }
+      if (x.kind === "layer") layerAnim(x);
+      if (x.kind === "ring") ringAnim(x);
       if (x.gas || x.kind === "gas") bubbles(26);
+      if (x.fume) fumes(x.fume);
       reacted = true;
       later(() => showInfo(x), 700);
     });
@@ -194,6 +339,7 @@
       let obs = x.obs;
       if (!obs) obs = x.kind === "ppt" ? `Се образува ${x.col} талог од ${x.prod}.` : x.kind === "soln" ? `Растворот добива ${x.col} боја (${x.prod}).` : x.kind === "gas" ? `Се ослободува гас (${x.gas}).` : "";
       box.appendChild(el("p", "ep-obs", obs));
+      if (x.warn) box.appendChild(el("p", "ep-warn", "⚠️ " + x.warn));
       if (x.eq.length) {
         const eqs = el("div", "ep-eqs");
         x.eq.forEach(e => eqs.appendChild(el("div", "ep-eq", e)));
@@ -212,7 +358,7 @@
     clr.type = "button";
     clr.addEventListener("click", () => { resetTube(); rg = null; info.replaceChildren(el("p", "ep-hint", `Епруветата е исчистена: повторно има раствор на ${cat.ion}.`)); });
     row.appendChild(clr);
-    row.appendChild(el("span", "ep-src", `Извор: Практикум, ${GRUPI[cat.group].table} (${GRUPI[cat.group].name})`));
+    row.appendChild(el("span", "ep-src", `Извор: Практикум, ${cat.sec || GRUPI[cat.group].table} (${GRUPI[cat.group].name})`));
     box.appendChild(row);
     info.replaceChildren(box);
   }
@@ -222,7 +368,12 @@
     btn.disabled = true;
     drops("#cfe6f5", 5, () => {
       const parts = [...pptG.children];
-      if (ex.kind === "dissolve") {
+      if (ex.bubbles) bubbles(22);
+      if (ex.kind === "fade") {
+        layerEl.animate([{ opacity: 0.93 }, { opacity: 0 }], { duration: T(1800), fill: "forwards" });
+      } else if (ex.kind === "none") {
+        /* без промена */
+      } else if (ex.kind === "dissolve") {
         parts.forEach(c => c.animate([{ opacity: 1 }, { opacity: 0 }], { duration: T(rnd(1200, 2200)), delay: T(rnd(0, 500)), fill: "forwards" }));
         turb.animate([{ opacity: 0.1 }, { opacity: 0 }], { duration: T(1500), fill: "forwards" });
         const [c, o] = ex.soln ? [ex.soln, 0.85] : baseColor();
@@ -234,7 +385,7 @@
       later(() => {
         const box = el("div", "ep-after");
         if (mode === "quiz") {
-          const t = ex.kind === "dissolve" ? "Талогот се раствора." : "Талогот ја менува бојата.";
+          const t = ex.kind === "dissolve" ? "Талогот се раствора." : ex.kind === "fade" ? "Бојата на органскиот слој исчезнува." : ex.kind === "none" ? "Нема видлива промена." : "Талогот ја менува бојата.";
           box.appendChild(el("p", "ep-obs", t));
           const en = log.find(e => e.x === x);
           if (en) { en.excess = t; renderQuiz(); }
@@ -268,7 +419,7 @@
   }
 
   // Категории на реагенси (за да нема многу скролање)
-  const RG_CATS = [
+  const RG_CATS = D.rgcats || [
     ["Киселини", ["HCl", "H2SO4", "HClO4", "H2S", "tartaric"]],
     ["Бази", ["NaOH", "NH4OH"]],
     ["Соли: халогениди, цијаниди", ["KI", "NH4Br", "HgCl2", "SnCl2", "KCN", "KSCN", "NH4SCN"]],
@@ -333,13 +484,17 @@
     renderReagents();
   }
   function markUsed() {
-    document.querySelectorAll(".ep-rg").forEach(b => b.classList.toggle("used", log.some(e => e.r === b.dataset.r)));
+    root.querySelectorAll(".ep-rg").forEach(b => b.classList.toggle("used", log.some(e => e.r === b.dataset.r)));
     if (!rgTools.hidden) renderChips();
   }
 
   // Набљудување без да се открие катјонот или формулата
   function neutralObs(x) {
     if (!x) return "Нема видлива промена.";
+    if (x.nobs) return x.nobs;
+    if (x.kind === "none") return "Нема видлива промена.";
+    if (x.kind === "layer") return `Органскиот слој (на дното) се обојува ${x.col}.`;
+    if (x.kind === "ring") return `На границата меѓу двата слоја се појавува ${x.col} прстен.`;
     if (x.kind === "flame") return x.obs;
     if (x.kind === "ppt") return `Се образува ${x.col} талог` + (x.gas ? " и се ослободува гас." : ".");
     if (x.kind === "soln") return x.col ? `Растворот добива ${x.col} боја.` : "Растворот ја менува бојата.";
@@ -361,12 +516,12 @@
     resetTube();
     if (m === "learn") {
       rgHead.textContent = "2. Избери реагенс";
-      reagBox.replaceChildren(el("p", "ep-hint small", "Прво избери катјон."));
-      info.appendChild(el("p", "ep-hint", "1. Избери катјон од списокот. 2. Избери реагенс и погледни што се случува во епруветата. Затемнетите полиња од практикумот се означени со ★."));
+      reagBox.replaceChildren(el("p", "ep-hint small", N.pickFirst));
+      info.appendChild(el("p", "ep-hint", N.learnHint));
     } else {
       rgHead.textContent = "Реагенси";
       reagBox.replaceChildren(el("p", "ep-hint small", "Притисни „Нов непознат раствор“ за да почнеш."));
-      info.appendChild(el("p", "ep-hint", "Добиваш епрувета со непознат раствор што содржи еден катјон. Додавај реагенси, набљудувај и запишувај. На крај погоди го катјонот и напиши ги формулите на талозите."));
+      info.appendChild(el("p", "ep-hint", N.quizHint));
     }
   }
 
@@ -381,7 +536,7 @@
     buildAllReagents();
     info.replaceChildren(
       el("p", "ep-hint", "Во епруветата е непознат раствор. Додавај реагенси еден по еден (секој пат се користи свеж дел од растворот)."),
-      el("p", "ep-hint small", g === "all" ? "Катјонот може да биде од која било група." : `Катјонот е од: ${GRUPI[g].name}.`)
+      el("p", "ep-hint small", g === "all" ? N.anyGroup : N.inGroup + GRUPI[g].name + ".")
     );
     renderQuiz();
   }
@@ -451,9 +606,9 @@
     // --- одговор
     const ans = el("div", "ep-answer");
     ans.appendChild(el("h3", "ep-h", "🎯 Твој одговор"));
-    ans.appendChild(el("label", "ep-lab", "Катјонот во растворот е:"));
+    ans.appendChild(el("label", "ep-lab", N.answerLab));
     const s = el("select", "calc-num ep-sel");
-    s.appendChild(new Option("— избери катјон —", ""));
+    s.appendChild(new Option(N.selPlaceholder, ""));
     order.forEach(g => {
       const og = document.createElement("optgroup");
       og.label = GRUPI[g].name;
@@ -496,7 +651,7 @@
     function showSolution(whoGaveUp) {
       done = true;
       markUsed();
-      document.querySelectorAll(".ep-rg").forEach(b => (b.disabled = true));
+      root.querySelectorAll(".ep-rg").forEach(b => (b.disabled = true));
       s.value = unknown.id; s.disabled = true; ck.disabled = true; rv.disabled = true;
       Object.keys(inputs).forEach(r => inputs[r].disabled = true);
       const d = el("div", "ep-sol");
@@ -518,7 +673,7 @@
     function check() {
       fb.replaceChildren();
       if (!log.length) { fb.appendChild(el("p", "ep-fb-bad", "Прво додај барем еден реагенс и запиши што набљудуваш.")); return; }
-      if (!sel) { fb.appendChild(el("p", "ep-fb-bad", "Избери кој катјон мислиш дека е.")); return; }
+      if (!sel) { fb.appendChild(el("p", "ep-fb-bad", N.selErr)); return; }
       let allOk = true;
       ppts.forEach(e => {
         const ok = sameFormula(answers[e.r], e.x.prod);
@@ -528,14 +683,14 @@
       });
       const catOK = sel === unknown.id;
       if (!catOK) {
-        fb.appendChild(el("p", "ep-fb-bad", "❌ Катјонот не е точен. Пробај со уште реагенси или размисли што укажуваат набљудувањата." + (allOk ? "" : " Формулите означени со ✗ исто така не се точни.")));
+        fb.appendChild(el("p", "ep-fb-bad", N.wrong + " Пробај со уште реагенси или размисли што укажуваат набљудувањата." + (allOk ? "" : " Формулите означени со ✗ исто така не се точни.")));
         return;
       }
       if (allOk) {
-        fb.appendChild(el("p", "ep-fb-ok", `✅ Точно! Катјонот е ${unknown.ion}, а сите формули се точни. Искористени реагенси: ${log.length}.`));
+        fb.appendChild(el("p", "ep-fb-ok", `✅ Точно! ${N.the} е ${unknown.ion}, а сите формули се точни. Искористени реагенси: ${log.length}.`));
         showSolution();
       } else {
-        fb.appendChild(el("p", "ep-fb-bad", "✅ Катјонот е точен, но некои формули на талозите (означени со ✗) не се точни. Поправи ги и провери повторно."));
+        fb.appendChild(el("p", "ep-fb-bad", "✅ " + N.the + " е точен, но некои формули на талозите (означени со ✗) не се точни. Поправи ги и провери повторно."));
       }
     }
     ck.addEventListener("click", check);
@@ -551,4 +706,24 @@
 
   // почетна состојба
   setMode("learn");
-})();
+}
+
+if (typeof REAKCII !== "undefined") {
+  initLab("ep", {
+    ions: KATJONI, groups: GRUPI, reag: REAGENSI, reactions: REAKCII,
+    order: ["I", "IIa", "IIb", "III", "IV", "V", "VI"],
+    t: {
+      pickFirst: "Прво избери катјон.",
+      learnHint: "1. Избери катјон од списокот. 2. Избери реагенс и погледни што се случува во епруветата. Затемнетите полиња од практикумот се означени со ★.",
+      quizHint: "Добиваш епрувета со непознат раствор што содржи еден катјон. Додавај реагенси, набљудувај и запишувај. На крај погоди го катјонот и напиши ги формулите на талозите.",
+      anyGroup: "Катјонот може да биде од која било група.",
+      inGroup: "Катјонот е од: ",
+      answerLab: "Катјонот во растворот е:",
+      selPlaceholder: "— избери катјон —",
+      selErr: "Избери кој катјон мислиш дека е.",
+      wrong: "❌ Катјонот не е точен.",
+      the: "Катјонот"
+    }
+  });
+}
+if (typeof ANLAB !== "undefined") initLab("an", ANLAB);

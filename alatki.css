@@ -181,8 +181,8 @@ select.calc-num { width: 100%; }
   background: linear-gradient(180deg, #eef3f8, #dbe5ee); border: 2px solid #eadfd6; border-radius: 16px; padding: 10px 6px 4px;
   box-shadow: var(--shadow, 0 4px 18px rgba(20, 50, 70, .08));
 }
-#ep-svg { display: block; width: 100%; height: auto; max-height: 520px; }
-#ep-liquid { transition: fill 1.2s, fill-opacity 1.2s; }
+.ep-stage svg { display: block; width: 100%; height: auto; max-height: 520px; }
+.ep-stage [id$="-liquid"] { transition: fill 1.2s, fill-opacity 1.2s; }
 .ep-h { margin: 0 0 8px; font-size: 1.05rem; }
 .ep-h:not(:first-child) { margin-top: 18px; }
 .ep-group { margin-bottom: 10px; }
@@ -413,3 +413,11 @@ select.calc-num { width: 100%; }
 }
 
 .in-flask.sel { background: #fff; }
+
+.ep-badge.layer { background: #efe3ff; color: #5a2a8a; }
+.ep-badge.ring { background: #f4e6d6; color: #7a4a22; }
+.ep-warn { margin: 0 0 10px; padding: 8px 12px; border-radius: 10px; background: #fdecea; border: 1px solid #f3b8b1; color: #8a1c12; font-size: .9rem; font-weight: 600; }
+.ep-layout > * { min-width: 0; }
+.ep-title { overflow-wrap: anywhere; }
+.ep-rg-f, .ep-rg-n { overflow-wrap: anywhere; }
+@media (max-width: 560px) { .ep-reagents { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); } }

@@ -485,7 +485,7 @@
   const GEN = { mol: qMol, base: qBase, nitro: qNitro, loss: qLoss, halo: qHalo, frag: qFrag, id: qId };
 
   // ---------- состојба и приказ ----------
-  const st = { tab: "ex", level: 0, type: "all", ok: 0, n: 0, streak: 0, cur: null, done: false, dcl: "all", dok: 0, dn: 0, draw: null, strokes: [] };
+  const st = { tab: "ex", level: 0, type: "all", ok: 0, n: 0, streak: 0, cur: null, done: false, dcl: "all", dok: 0, dn: 0, draw: null, mol: { atoms: [], bonds: [], hist: [] } };
   root.textContent = "";
   const tabs = el("div", "ms-tabs");
   const body = el("div", "ms-body");
@@ -561,7 +561,162 @@
     body.appendChild(el("p", "ms-hint", "Совет: прво најди го M⁺•, потоа основниот пик, па разликите меѓу пиковите."));
   }
 
-  // ---------- вежба: нацртај го соединението ----------
+  // ---------- едноставен уредувач на структури (како ChemDraw) ----------
+  const BL = 44;                                   // должина на врска
+  const VAL = { C: 4, N: 3, O: 2, S: 2, F: 1, Cl: 1, Br: 1, I: 1 };
+  function buildEditor(m) {
+    // m = { atoms:[{x,y,e}], bonds:[{a,b,o}], hist:[] } — состојбата се чува надвор, за да не се губи при менување на табови
+    const W = 800, H = 360;
+    const wrap = el("div", "ms-editor");
+    const tools = el("div", "ms-tools");
+    const svg = sv("svg", { viewBox: `0 0 ${W} ${H}`, class: "ms-esvg", role: "img", "aria-label": "Уредувач на структурни формули" });
+    let tool = "bond", prev = null, drag = null;
+    const toolDefs = [["bond", "╱ Врска"], ["C", "C"], ["O", "O"], ["N", "N"], ["S", "S"], ["F", "F"], ["Cl", "Cl"], ["Br", "Br"], ["I", "I"],
+      ["benz", "⌬ Бензен"], ["hex", "⬡ Циклохексан"], ["pent", "⬠ Циклопентан"], ["er", "🧽 Гума"]];
+    const btns = {};
+    toolDefs.forEach(([k, t]) => {
+      const b = el("button", "ms-tool" + (k === tool ? " on" : ""), t); b.type = "button"; btns[k] = b;
+      b.addEventListener("click", () => { tool = k; Object.keys(btns).forEach(x => btns[x].classList.toggle("on", x === k)); });
+      tools.appendChild(b);
+    });
+    const bUn = el("button", "ms-tool", "↶ Врати"), bCl = el("button", "ms-tool", "🗑 Избриши");
+    bUn.type = bCl.type = "button";
+    tools.append(bUn, bCl);
+    const snap = () => m.hist.push(JSON.stringify({ atoms: m.atoms, bonds: m.bonds }));
+    bUn.addEventListener("click", () => { const s = m.hist.pop(); if (s) { const o = JSON.parse(s); m.atoms = o.atoms; m.bonds = o.bonds; draw(); } });
+    bCl.addEventListener("click", () => { if (m.atoms.length) { snap(); m.atoms = []; m.bonds = []; draw(); } });
+
+    const pt = e => { const r = svg.getBoundingClientRect(); return [(e.clientX - r.left) * W / r.width, (e.clientY - r.top) * H / r.height]; };
+    const nbrs = i => m.bonds.filter(b => b.a === i || b.b === i).map(b => b.a === i ? b.b : b.a);
+    const atomAt = (x, y, r) => { let best = -1, bd = r || 16; m.atoms.forEach((a, i) => { const d = Math.hypot(a.x - x, a.y - y); if (d < bd) { bd = d; best = i; } }); return best; };
+    const bondAt = (x, y) => {
+      let best = -1, bd = 9;
+      m.bonds.forEach((b, i) => {
+        const A = m.atoms[b.a], B = m.atoms[b.b], dx = B.x - A.x, dy = B.y - A.y, t = Math.max(0, Math.min(1, ((x - A.x) * dx + (y - A.y) * dy) / (dx * dx + dy * dy)));
+        const d = Math.hypot(A.x + t * dx - x, A.y + t * dy - y); if (d < bd) { bd = d; best = i; }
+      });
+      return best;
+    };
+    const getAtom = (x, y, e) => { const i = atomAt(x, y, 9); if (i >= 0) return i; m.atoms.push({ x, y, e: e || "C" }); return m.atoms.length - 1; };
+    const addBond = (a, b) => { if (a === b) return; const ex = m.bonds.find(k => (k.a === a && k.b === b) || (k.a === b && k.b === a)); if (ex) ex.o = ex.o % 3 + 1; else m.bonds.push({ a, b, o: 1 }); };
+    const ang = (a, b) => Math.atan2(b.y - a.y, b.x - a.x);
+    const snapAng = a => Math.round(a / (Math.PI / 6)) * Math.PI / 6;
+    const norm = a => { while (a > Math.PI) a -= 2 * Math.PI; while (a < -Math.PI) a += 2 * Math.PI; return a; };
+    // автоматски правец на нова врска од атом
+    function autoDir(i) {
+      const a = m.atoms[i], ns = nbrs(i).map(j => ang(a, m.atoms[j]));
+      if (!ns.length) return 0;
+      if (ns.length === 1) {
+        const c = [norm(ns[0] + 2 * Math.PI / 3), norm(ns[0] - 2 * Math.PI / 3)];
+        return Math.cos(c[0]) >= Math.cos(c[1]) ? c[0] : c[1];
+      }
+      let best = 0, bs = -1;
+      for (let k = 0; k < 12; k++) { const t = -Math.PI + k * Math.PI / 6; const s = Math.min(...ns.map(n => Math.abs(norm(t - n)))); if (s > bs + 1e-6) { bs = s; best = t; } }
+      return best;
+    }
+    function placeRing(n, x, y, aromatic) {
+      const R = BL / (2 * Math.sin(Math.PI / n));
+      let cx = x, cy = y, a0 = -Math.PI / 2;
+      const hit = atomAt(x, y, 14);
+      if (hit >= 0) {
+        const A = m.atoms[hit], ns = nbrs(hit).map(j => ang(A, m.atoms[j]));
+        let dir = 0; if (ns.length) { const sx = ns.reduce((s, t) => s + Math.cos(t), 0), sy = ns.reduce((s, t) => s + Math.sin(t), 0); dir = snapAng(Math.atan2(-sy, -sx)); }
+        cx = A.x + R * Math.cos(dir); cy = A.y + R * Math.sin(dir); a0 = dir + Math.PI;
+      }
+      const ids = [];
+      for (let k = 0; k < n; k++) { const t = a0 + k * 2 * Math.PI / n; ids.push(getAtom(cx + R * Math.cos(t), cy + R * Math.sin(t))); }
+      for (let k = 0; k < n; k++) {
+        const a = ids[k], b = ids[(k + 1) % n];
+        if (!m.bonds.some(q => (q.a === a && q.b === b) || (q.a === b && q.b === a))) m.bonds.push({ a, b, o: aromatic && k % 2 === 0 ? 2 : 1 });
+      }
+    }
+    function endpoint(i, x, y) { const a = m.atoms[i], t = snapAng(Math.atan2(y - a.y, x - a.x)); return [a.x + BL * Math.cos(t), a.y + BL * Math.sin(t)]; }
+
+    svg.addEventListener("pointerdown", e => {
+      e.preventDefault(); svg.setPointerCapture(e.pointerId);
+      const [x, y] = pt(e), ai = atomAt(x, y), bi = ai < 0 ? bondAt(x, y) : -1;
+      if (tool === "er") { if (ai >= 0 || bi >= 0) { snap(); if (ai >= 0) { m.bonds = m.bonds.filter(b => b.a !== ai && b.b !== ai).map(b => ({ a: b.a > ai ? b.a - 1 : b.a, b: b.b > ai ? b.b - 1 : b.b, o: b.o })); m.atoms.splice(ai, 1); } else m.bonds.splice(bi, 1); draw(); } return; }
+      if (tool === "benz" || tool === "hex" || tool === "pent") { snap(); placeRing(tool === "pent" ? 5 : 6, x, y, tool === "benz"); draw(); return; }
+      if (tool !== "bond") {                       // ознака за елемент
+        snap();
+        if (ai >= 0) m.atoms[ai].e = tool; else m.atoms.push({ x, y, e: tool });
+        draw(); return;
+      }
+      drag = { ai, bi, x0: x, y0: y, moved: false };
+    });
+    svg.addEventListener("pointermove", e => {
+      if (!drag) return;
+      const [x, y] = pt(e);
+      if (!drag.moved && Math.hypot(x - drag.x0, y - drag.y0) < 8) return;
+      drag.moved = true;
+      if (drag.ai < 0 && !drag.start) { drag.start = [drag.x0, drag.y0]; }
+      const from = drag.ai >= 0 ? [m.atoms[drag.ai].x, m.atoms[drag.ai].y] : drag.start;
+      const t = snapAng(Math.atan2(y - from[1], x - from[0]));
+      drag.end = [from[0] + BL * Math.cos(t), from[1] + BL * Math.sin(t)]; drag.from = from;
+      draw();
+    });
+    const finish = e => {
+      if (!drag) return; const d = drag; drag = null;
+      snap();
+      if (!d.moved) {
+        if (d.ai >= 0) { const t = autoDir(d.ai), A = m.atoms[d.ai]; const j = getAtom(A.x + BL * Math.cos(t), A.y + BL * Math.sin(t)); addBond(d.ai, j); }
+        else if (d.bi >= 0) { m.bonds[d.bi].o = m.bonds[d.bi].o % 3 + 1; }
+        else m.atoms.push({ x: d.x0, y: d.y0, e: "C" });
+      } else if (d.end) {
+        const a = d.ai >= 0 ? d.ai : getAtom(d.from[0], d.from[1]);
+        const b = getAtom(d.end[0], d.end[1]);
+        addBond(a, b);
+      }
+      draw();
+    };
+    svg.addEventListener("pointerup", finish);
+    svg.addEventListener("pointercancel", () => { drag = null; draw(); });
+
+    function hCount(i) { const a = m.atoms[i]; const v = VAL[a.e]; const s = m.bonds.filter(b => b.a === i || b.b === i).reduce((t, b) => t + b.o, 0); return Math.max(0, v - s); }
+    function drawInto(s, preview) {
+      s.textContent = "";
+      s.appendChild(sv("rect", { x: 0, y: 0, width: W, height: H, fill: "#fff" }));
+      const lab = i => m.atoms[i].e !== "C" || nbrs(i).length === 0;
+      m.bonds.forEach(b => {
+        const A = m.atoms[b.a], B = m.atoms[b.b];
+        let x1 = A.x, y1 = A.y, x2 = B.x, y2 = B.y; const L = Math.hypot(x2 - x1, y2 - y1) || 1, ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+        if (lab(b.a)) { x1 += ux * 11; y1 += uy * 11; } if (lab(b.b)) { x2 -= ux * 11; y2 -= uy * 11; }
+        const nx = -uy, ny = ux, off = b.o === 1 ? [0] : b.o === 2 ? [-3.5, 3.5] : [-6, 0, 6];
+        off.forEach(o => s.appendChild(sv("line", { x1: x1 + nx * o, y1: y1 + ny * o, x2: x2 + nx * o, y2: y2 + ny * o, stroke: "#2a1f2d", "stroke-width": 2.4, "stroke-linecap": "round" })));
+      });
+      m.atoms.forEach((a, i) => {
+        if (!lab(i)) return;
+        const h = hCount(i); let t = a.e;
+        const g = sv("g", {});
+        const txt = sv("text", { x: a.x, y: a.y + 6, "text-anchor": "middle", "font-size": 20, "font-weight": 700, "font-family": "Arial, sans-serif", fill: { O: "#d62828", N: "#2457d6", S: "#a07a00", Cl: "#2e8b3d", Br: "#8b3a1a", I: "#6b2fa0", F: "#2e8b3d" }[a.e] || "#2a1f2d" });
+        txt.appendChild(document.createTextNode(t));
+        if (h > 0) {
+          const hs = sv("tspan", {}, "H"); txt.appendChild(hs);
+          if (h > 1) txt.appendChild(sv("tspan", { "font-size": 14, dy: 5 }, String(h)));
+        }
+        s.appendChild(sv("circle", { cx: a.x, cy: a.y, r: 11, fill: "#fff" })); s.appendChild(txt);
+      });
+      if (preview && drag && drag.moved && drag.end) {
+        s.appendChild(sv("line", { x1: drag.from[0], y1: drag.from[1], x2: drag.end[0], y2: drag.end[1], stroke: "#c2410c", "stroke-width": 2.4, "stroke-dasharray": "5 4" }));
+        s.appendChild(sv("circle", { cx: drag.end[0], cy: drag.end[1], r: 4, fill: "#c2410c" }));
+      }
+      if (!m.atoms.length && preview) s.appendChild(sv("text", { x: W / 2, y: H / 2, "text-anchor": "middle", "font-size": 20, fill: "#b8aaa0" }, "Кликни или повлечи за да нацрташ врска"));
+    }
+    function draw() { drawInto(svg, true); }
+    draw();
+    wrap.append(tools, el("div", "ms-pad"));
+    wrap.lastChild.appendChild(svg);
+    wrap.appendChild(el("p", "ms-hint", "Повлечи за да нацрташ врска (аглите се порамнуваат сами). Кликни на атом за нова врска, на врска за двојна/тројна. Одбери O, N, Cl… па кликни на атом за да го смениш."));
+    return {
+      node: wrap,
+      dataURL() {
+        const s = sv("svg", { xmlns: NS, viewBox: `0 0 ${W} ${H}`, width: W, height: H }); drawInto(s, false);
+        return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(new XMLSerializer().serializeToString(s));
+      }
+    };
+  }
+
+  // ---------- вежба: погоди го соединението ----------
   const ISO_LBL = (f, k) => {
     const c = parseF(f);
     if (k === 1) return "M+1: изотопот ¹³C";
@@ -600,7 +755,7 @@
     const smi = window.MS_SMILES && window.MS_SMILES[d.id];
     if (!smi || typeof SmilesDrawer === "undefined") { svg.appendChild(sv("text", { x: w / 2, y: h / 2, "text-anchor": "middle", "font-size": 22 }, sub(d.f))); return svg; }
     try {
-      const dr = new SmilesDrawer.SvgDrawer({ width: w, height: h, padding: 14, bondThickness: 1.6, bondLength: 26, fontSizeLarge: 7, fontSizeSmall: 5 });
+      const dr = new SmilesDrawer.SvgDrawer({ width: w, height: h, padding: 14, compactDrawing: false, bondThickness: 1.6, bondLength: 26, fontSizeLarge: 7, fontSizeSmall: 5 });
       SmilesDrawer.parse(smi, tree => dr.draw(tree, svg, "light"), () => svg.appendChild(sv("text", { x: w / 2, y: h / 2, "text-anchor": "middle", "font-size": 22 }, sub(d.f))));
     } catch (e) { svg.appendChild(sv("text", { x: w / 2, y: h / 2, "text-anchor": "middle", "font-size": 22 }, sub(d.f))); }
     return svg;
@@ -621,7 +776,7 @@
     let d, tries = 0;
     do { d = pick(pool); tries++; } while (st.draw && d === st.draw.d && pool.length > 1 && tries < 8);
     st.draw = { d, shown: false, hint: false };
-    st.strokes = [];
+    st.mol = { atoms: [], bonds: [], hist: [] };
   }
 
   function renderDraw() {
@@ -655,40 +810,10 @@
     card.append(hintBtn, hintTx);
     if (q.hint) hintBtn.click();
 
-    // табла за цртање
-    card.appendChild(el("h4", "ms-h4", "Твоето цртање"));
-    const tools = el("div", "ms-tools");
-    let tool = "pen";
-    const mkT = (t, k) => { const b = el("button", "ms-tool" + (k === "pen" ? " on" : ""), t); b.type = "button"; b.dataset.k = k; return b; };
-    const bPen = mkT("✏️ Пенкало", "pen"), bEr = mkT("🧽 Гума", "er"), bUn = mkT("↶ Врати", "undo"), bCl = mkT("🗑 Избриши", "clr");
-    tools.append(bPen, bEr, bUn, bCl);
-    card.appendChild(tools);
-    const cv = document.createElement("canvas"); cv.className = "ms-canvas"; cv.width = 800; cv.height = 360;
-    cv.setAttribute("aria-label", "Табла за цртање на структурна формула");
-    const ctx = cv.getContext("2d");
-    const redraw = () => {
-      ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, cv.width, cv.height);
-      st.strokes.forEach(s => {
-        ctx.strokeStyle = s.er ? "#fff" : "#2a1f2d"; ctx.lineWidth = s.er ? 26 : 3.2; ctx.lineCap = "round"; ctx.lineJoin = "round";
-        ctx.beginPath(); s.p.forEach((pt, i) => i ? ctx.lineTo(pt[0], pt[1]) : ctx.moveTo(pt[0], pt[1]));
-        if (s.p.length === 1) ctx.lineTo(s.p[0][0] + 0.1, s.p[0][1]);
-        ctx.stroke();
-      });
-    };
-    redraw();
-    let cur = null;
-    const pos = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * cv.width / r.width, (e.clientY - r.top) * cv.height / r.height]; };
-    cv.addEventListener("pointerdown", e => { e.preventDefault(); cv.setPointerCapture(e.pointerId); cur = { er: tool === "er", p: [pos(e)] }; st.strokes.push(cur); redraw(); });
-    cv.addEventListener("pointermove", e => { if (!cur) return; e.preventDefault(); cur.p.push(pos(e)); redraw(); });
-    const end = () => { cur = null; };
-    cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", end);
-    const setTool = k => { tool = k; bPen.classList.toggle("on", k === "pen"); bEr.classList.toggle("on", k === "er"); cv.classList.toggle("er", k === "er"); };
-    bPen.addEventListener("click", () => setTool("pen")); bEr.addEventListener("click", () => setTool("er"));
-    bUn.addEventListener("click", () => { st.strokes.pop(); redraw(); });
-    bCl.addEventListener("click", () => { st.strokes = []; redraw(); });
-    const pad = el("div", "ms-pad"); pad.appendChild(cv);
-    card.appendChild(pad);
-    card.appendChild(el("p", "ms-hint", "Цртај со прст, пенкало или глувче. Структурата нема да се проверува автоматски: по одговорот ја гледаш точната и ја споредуваш со твојата."));
+    // уредувач за цртање
+    card.appendChild(el("h4", "ms-h4", "Нацртај ја структурата"));
+    const ed = buildEditor(st.mol);
+    card.appendChild(ed.node);
 
     // одговор
     const sel = document.createElement("input"); sel.type = "text"; sel.className = "ms-sel ms-ans"; sel.placeholder = "Напиши го името на соединението (на пр. пропан-2-ол)";
@@ -724,7 +849,7 @@
       a1.appendChild(el("p", "ms-note", d.n + " — " + sub(d.f)));
       cmp.appendChild(a1);
       const a2 = el("div", "ms-cmp-c"); a2.appendChild(el("h4", "ms-h4", "Твоето цртање"));
-      const img = document.createElement("img"); img.className = "ms-mine"; img.alt = "Твоето цртање"; img.src = cv.toDataURL("image/png");
+      const img = document.createElement("img"); img.className = "ms-mine"; img.alt = "Твоето цртање"; img.src = ed.dataURL();
       a2.appendChild(img); cmp.appendChild(a2);
       out.appendChild(cmp);
 

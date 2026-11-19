@@ -485,12 +485,12 @@
   const GEN = { mol: qMol, base: qBase, nitro: qNitro, loss: qLoss, halo: qHalo, frag: qFrag, id: qId };
 
   // ---------- состојба и приказ ----------
-  const st = { tab: "ex", level: 0, type: "all", ok: 0, n: 0, streak: 0, cur: null, done: false };
+  const st = { tab: "ex", level: 0, type: "all", ok: 0, n: 0, streak: 0, cur: null, done: false, dcl: "all", dok: 0, dn: 0, draw: null, strokes: [] };
   root.textContent = "";
   const tabs = el("div", "ms-tabs");
   const body = el("div", "ms-body");
   root.append(tabs, body);
-  [["ex", "🎯 Вежби"], ["lib", "📚 Спектри"], ["ref", "📋 Референца"]].forEach(([k, t]) => {
+  [["ex", "🎯 Вежби"], ["draw", "🔍 Погоди го соединението"], ["lib", "📚 Спектри"], ["ref", "📋 Референца"]].forEach(([k, t]) => {
     const b = el("button", "ms-tab" + (k === st.tab ? " on" : ""), t); b.type = "button";
     b.addEventListener("click", () => { st.tab = k; [...tabs.children].forEach(x => x.classList.toggle("on", x === b)); render(); });
     tabs.appendChild(b);
@@ -507,7 +507,7 @@
 
   function render() {
     body.textContent = "";
-    if (st.tab === "ex") renderEx(); else if (st.tab === "lib") renderLib(); else renderRef();
+    if (st.tab === "ex") renderEx(); else if (st.tab === "draw") renderDraw(); else if (st.tab === "lib") renderLib(); else renderRef();
   }
 
   function renderEx() {
@@ -559,6 +559,197 @@
     if (st.done) { /* по ново цртање (промена на табот) — прикажи нова задача */ newQ(); return render(); }
     body.appendChild(card);
     body.appendChild(el("p", "ms-hint", "Совет: прво најди го M⁺•, потоа основниот пик, па разликите меѓу пиковите."));
+  }
+
+  // ---------- вежба: нацртај го соединението ----------
+  const ISO_LBL = (f, k) => {
+    const c = parseF(f);
+    if (k === 1) return "M+1: изотопот ¹³C";
+    if (k === 2) return c.Cl ? "M+2: изотопот ³⁷Cl" : c.Br ? "M+2: изотопот ⁸¹Br" : c.S ? "M+2: изотопот ³⁴S" : "M+2: два ¹³C или ¹⁸O";
+    if (k === 3) return "M+3: ³⁷Cl/⁸¹Br + ¹³C";
+    return k === 4 ? "M+4: два изотопи ³⁷Cl/⁸¹Br" : "изотопски пик (+" + k + ")";
+  };
+  // објаснување за секој пик во спектарот
+  function explainPeaks(d) {
+    const S = spectrum(d), M = S.M, map = {};
+    d.fr.forEach(a => {
+      const m0 = nomMass(parseF(a[0])), pat = pattern(a[0]);
+      for (const k in pat) { const mz = m0 + +k; (map[mz] = map[mz] || []).push({ k: +k, a, c: pat[k] * a[1] / 100 }); }
+    });
+    return S.peaks.map(([mz, v]) => {
+      const list = (map[mz] || []).slice().sort((x, y) => y.c - x.c), t = list[0];
+      let ion = "", how = "";
+      if (t) {
+        const a = t.a, base = a[2] || (sub(a[0]) + "⁺");
+        if (t.k === 0) {
+          ion = base;
+          if (mz === M && a === d.fr[0]) how = "молекулски јон (молекулата без еден електрон)";
+          else if (a[3]) how = "M⁺• − " + (LOSS_TXT[a[3]] || a[3]).replace(/ \(M.*$/, "") + " (−" + (M - mz) + ")";
+          else how = "фрагмент (M − " + (M - mz) + ")";
+        } else {
+          ion = "изотопски пик на " + base.replace(/ \(.*\)$/, "");
+          how = ISO_LBL(a[0], t.k);
+        }
+      }
+      return { mz, v, ion, how, base: mz === S.base };
+    });
+  }
+
+  function drawStructure(d, w, h) {
+    const svg = sv("svg", { width: w, height: h, viewBox: `0 0 ${w} ${h}`, class: "ms-struct" });
+    const smi = window.MS_SMILES && window.MS_SMILES[d.id];
+    if (!smi || typeof SmilesDrawer === "undefined") { svg.appendChild(sv("text", { x: w / 2, y: h / 2, "text-anchor": "middle", "font-size": 22 }, sub(d.f))); return svg; }
+    try {
+      const dr = new SmilesDrawer.SvgDrawer({ width: w, height: h, padding: 14, bondThickness: 1.6, bondLength: 26, fontSizeLarge: 7, fontSizeSmall: 5 });
+      SmilesDrawer.parse(smi, tree => dr.draw(tree, svg, "light"), () => svg.appendChild(sv("text", { x: w / 2, y: h / 2, "text-anchor": "middle", "font-size": 22 }, sub(d.f))));
+    } catch (e) { svg.appendChild(sv("text", { x: w / 2, y: h / 2, "text-anchor": "middle", "font-size": 22 }, sub(d.f))); }
+    return svg;
+  }
+
+  // споредба на имиња: без разлика на големи/мали букви, празни места, цртички и запирки; важи и името во заграда
+  const normN = t => String(t).toLowerCase().replace(/[\s\-–,.′']/g, "").replace(/ј/g, "ј");
+  const nameVariants = d => {
+    const v = [d.n], m = d.n.match(/^(.*?)\s*\((.*)\)\s*$/);
+    if (m) v.push(m[1], m[2]);
+    return v.map(normN);
+  };
+  const nameOk = (d, t) => nameVariants(d).indexOf(normN(t)) >= 0;
+  const findByName = t => D.find(x => nameOk(x, t));
+
+  function pickDraw() {
+    const pool = D.filter(d => st.dcl === "all" || d.cl === st.dcl);
+    let d, tries = 0;
+    do { d = pick(pool); tries++; } while (st.draw && d === st.draw.d && pool.length > 1 && tries < 8);
+    st.draw = { d, shown: false, hint: false };
+    st.strokes = [];
+  }
+
+  function renderDraw() {
+    const bar = el("div", "ms-bar");
+    const cls = el("select", "ms-sel"); cls.setAttribute("aria-label", "Класа на соединенија");
+    const classes = D.map(d => d.cl).filter((c, i, a) => a.indexOf(c) === i).sort((a, b) => a.localeCompare(b, "mk"));
+    [["all", "Сите класи"]].concat(classes.map(c => [c, c])).forEach(([v, t]) => { const o = el("option", "", t); o.value = v; cls.appendChild(o); });
+    cls.value = st.dcl;
+    cls.addEventListener("change", () => { st.dcl = cls.value; pickDraw(); render(); });
+    const sc = el("span", "ms-score", `Погодено: ${st.dok} / ${st.dn}`);
+    const nw = el("button", "ms-link", "Нова задача"); nw.type = "button";
+    nw.addEventListener("click", () => { pickDraw(); render(); });
+    bar.append(cls, sc, nw);
+    body.appendChild(bar);
+
+    if (!st.draw) pickDraw();
+    const q = st.draw, d = q.d, S = spectrum(d);
+    const card = el("div", "ms-card");
+    card.appendChild(el("h3", "ms-q", "Кое соединение дава овој спектар?"));
+    card.appendChild(el("p", "ms-sub", "1. Разгледај го спектарот. 2. Нацртај ја структурата (по желба). 3. Напиши го името и провери. На крај ќе видиш од што е секој пик."));
+    const specBox = el("div", "ms-specbox");
+    const paint = hl => { specBox.textContent = ""; specBox.appendChild(drawSpectrum(d, { hl: hl || [] })); };
+    paint(q.hint ? (hasM(d) ? [S.M, S.base] : [S.base]) : []);
+    card.appendChild(specBox);
+    const hintBtn = el("button", "ms-link", "💡 Помош: покажи M⁺• и основен пик"); hintBtn.type = "button";
+    const hintTx = el("p", "ms-note");
+    hintBtn.addEventListener("click", () => {
+      q.hint = true; paint(hasM(d) ? [S.M, S.base] : [S.base]);
+      hintTx.textContent = fm(hasM(d) ? `M⁺• е на m/z ${S.M}${S.M % 2 ? " (непарна маса: има непарен број азотни атоми)" : ""}. Основниот пик е на m/z ${S.base}.` : `M⁺• е многу слаб или го нема. Основниот пик е на m/z ${S.base}.`);
+    });
+    card.append(hintBtn, hintTx);
+    if (q.hint) hintBtn.click();
+
+    // табла за цртање
+    card.appendChild(el("h4", "ms-h4", "Твоето цртање"));
+    const tools = el("div", "ms-tools");
+    let tool = "pen";
+    const mkT = (t, k) => { const b = el("button", "ms-tool" + (k === "pen" ? " on" : ""), t); b.type = "button"; b.dataset.k = k; return b; };
+    const bPen = mkT("✏️ Пенкало", "pen"), bEr = mkT("🧽 Гума", "er"), bUn = mkT("↶ Врати", "undo"), bCl = mkT("🗑 Избриши", "clr");
+    tools.append(bPen, bEr, bUn, bCl);
+    card.appendChild(tools);
+    const cv = document.createElement("canvas"); cv.className = "ms-canvas"; cv.width = 800; cv.height = 360;
+    cv.setAttribute("aria-label", "Табла за цртање на структурна формула");
+    const ctx = cv.getContext("2d");
+    const redraw = () => {
+      ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, cv.width, cv.height);
+      st.strokes.forEach(s => {
+        ctx.strokeStyle = s.er ? "#fff" : "#2a1f2d"; ctx.lineWidth = s.er ? 26 : 3.2; ctx.lineCap = "round"; ctx.lineJoin = "round";
+        ctx.beginPath(); s.p.forEach((pt, i) => i ? ctx.lineTo(pt[0], pt[1]) : ctx.moveTo(pt[0], pt[1]));
+        if (s.p.length === 1) ctx.lineTo(s.p[0][0] + 0.1, s.p[0][1]);
+        ctx.stroke();
+      });
+    };
+    redraw();
+    let cur = null;
+    const pos = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * cv.width / r.width, (e.clientY - r.top) * cv.height / r.height]; };
+    cv.addEventListener("pointerdown", e => { e.preventDefault(); cv.setPointerCapture(e.pointerId); cur = { er: tool === "er", p: [pos(e)] }; st.strokes.push(cur); redraw(); });
+    cv.addEventListener("pointermove", e => { if (!cur) return; e.preventDefault(); cur.p.push(pos(e)); redraw(); });
+    const end = () => { cur = null; };
+    cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", end);
+    const setTool = k => { tool = k; bPen.classList.toggle("on", k === "pen"); bEr.classList.toggle("on", k === "er"); cv.classList.toggle("er", k === "er"); };
+    bPen.addEventListener("click", () => setTool("pen")); bEr.addEventListener("click", () => setTool("er"));
+    bUn.addEventListener("click", () => { st.strokes.pop(); redraw(); });
+    bCl.addEventListener("click", () => { st.strokes = []; redraw(); });
+    const pad = el("div", "ms-pad"); pad.appendChild(cv);
+    card.appendChild(pad);
+    card.appendChild(el("p", "ms-hint", "Цртај со прст, пенкало или глувче. Структурата нема да се проверува автоматски: по одговорот ја гледаш точната и ја споредуваш со твојата."));
+
+    // одговор
+    const sel = document.createElement("input"); sel.type = "text"; sel.className = "ms-sel ms-ans"; sel.placeholder = "Напиши го името на соединението (на пр. пропан-2-ол)";
+    sel.setAttribute("aria-label", "Име на соединението"); sel.autocomplete = "off"; sel.autocapitalize = "off"; sel.spellcheck = false;
+    const chk = el("button", "btn", "Провери"); chk.type = "button";
+    const giveup = el("button", "ms-link", "Не знам, покажи"); giveup.type = "button";
+    const row = el("div", "ms-bar"); row.append(sel, chk, giveup);
+    sel.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); chk.click(); } });
+    card.appendChild(row);
+    const out = el("div", "ms-out");
+    card.appendChild(out);
+
+    const reveal = skip => {
+      if (q.shown) return;
+      const typed = sel.value.trim();
+      if (!skip && !typed) { out.textContent = ""; out.appendChild(el("p", "ms-note", "Напиши име на соединението (или кликни „Не знам“).")); return; }
+      q.shown = true; st.dn++;
+      const ok = !skip && nameOk(d, typed), chosen = skip ? null : findByName(typed);
+      if (ok) st.dok++;
+      sc.textContent = `Погодено: ${st.dok} / ${st.dn}`;
+      sel.disabled = true; chk.disabled = true; giveup.disabled = true;
+      out.textContent = "";
+      const fb = el("div", "ms-fb " + (ok ? "good" : "bad"));
+      fb.appendChild(el("b", "", ok ? "Точно! " : "Не баш. "));
+      let msg = `Спектарот е на ${d.n} (${sub(d.f)}), класа: ${d.cl}.`;
+      if (skip) msg = `Спектарот е на ${d.n} (${sub(d.f)}). Класа: ${d.cl}.`;
+      else if (!ok) msg = (chosen ? `Ти напиша „${typed}“ (${chosen.n}), а спектарот е на ` : `Ти напиша „${typed}“, а спектарот е на `) + `${d.n} (${sub(d.f)}). ` + (chosen && spectrum(chosen).M === S.M ? "Изомери имаат иста молекулска маса, па се разликуваат по фрагментите. " : "") + `Класа: ${d.cl}.`;
+      fb.appendChild(document.createTextNode(fm(msg)));
+      out.appendChild(fb);
+
+      const cmp = el("div", "ms-cmp");
+      const a1 = el("div", "ms-cmp-c"); a1.appendChild(el("h4", "ms-h4", "Точна структура")); a1.appendChild(drawStructure(d, 300, 200));
+      a1.appendChild(el("p", "ms-note", d.n + " — " + sub(d.f)));
+      cmp.appendChild(a1);
+      const a2 = el("div", "ms-cmp-c"); a2.appendChild(el("h4", "ms-h4", "Твоето цртање"));
+      const img = document.createElement("img"); img.className = "ms-mine"; img.alt = "Твоето цртање"; img.src = cv.toDataURL("image/png");
+      a2.appendChild(img); cmp.appendChild(a2);
+      out.appendChild(cmp);
+
+      out.appendChild(el("h4", "ms-h4", "Од што е секој пик"));
+      out.appendChild(el("p", "ms-note", "Кликни на ред за да го означиш пикот во спектарот."));
+      const rows = explainPeaks(d).slice().sort((a, b) => b.v - a.v);
+      const t = el("table", "ms-tbl ms-peaks");
+      const h = el("tr"); ["m/z", "%", "јон", "како настанува"].forEach(x => h.appendChild(el("th", "", x))); t.appendChild(h);
+      rows.forEach(p => {
+        const r = el("tr", "ms-prow" + (p.base ? " base" : ""));
+        r.append(el("td", "", p.mz), el("td", "", pct(p.v)), el("td", "", p.ion), el("td", "", p.how + (p.base ? " · основен пик (100%)" : "")));
+        r.addEventListener("click", () => { paint([p.mz]); [...t.querySelectorAll("tr")].forEach(x => x.classList.remove("sel")); r.classList.add("sel"); specBox.scrollIntoView({ block: "nearest", behavior: "smooth" }); });
+        t.appendChild(r);
+      });
+      const tw = el("div", "ms-tw"); tw.appendChild(t); out.appendChild(tw);
+      out.appendChild(el("p", "ms-note", d.note));
+      const nx = el("button", "btn ms-next", "Следна задача →"); nx.type = "button";
+      nx.addEventListener("click", () => { pickDraw(); render(); });
+      out.appendChild(nx);
+      paint([]);
+      nx.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    };
+    chk.addEventListener("click", () => reveal(false));
+    giveup.addEventListener("click", () => reveal(true));
+    body.appendChild(card);
   }
 
   function renderLib() {

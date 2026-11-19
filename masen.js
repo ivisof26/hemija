@@ -796,7 +796,7 @@
     const q = st.draw, d = q.d, S = spectrum(d);
     const card = el("div", "ms-card");
     card.appendChild(el("h3", "ms-q", "Кое соединение дава овој спектар?"));
-    card.appendChild(el("p", "ms-sub", "1. Разгледај го спектарот. 2. Нацртај ја структурата (по желба). 3. Напиши го името и провери. На крај ќе видиш од што е секој пик."));
+    card.appendChild(el("p", "ms-sub", "1. Разгледај го спектарот. 2. Нацртај ја структурата. 3. Напиши го името и провери. На крај ќе видиш од што е секој пик."));
     const specBox = el("div", "ms-specbox");
     const paint = hl => { specBox.textContent = ""; specBox.appendChild(drawSpectrum(d, { hl: hl || [] })); };
     paint(q.hint ? (hasM(d) ? [S.M, S.base] : [S.base]) : []);

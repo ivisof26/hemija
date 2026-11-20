@@ -135,8 +135,10 @@ function buildTube(svg, P) {
     </defs>
     <ellipse cx="140" cy="341" rx="52" ry="6" fill="#2d1b4e" opacity=".18"/>
     <!-- гумено црево за гас -->
-    <path d="M168 332 C200 332 205 318 226 322" fill="none" stroke="#3f7a55" stroke-width="7" stroke-linecap="round"/>
-    <path d="M168 330.5 C200 330.5 205 316.5 226 320.5" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M172 335 C200 335 206 321 232 325 C252 328 262 338 300 334" fill="none" stroke="#3f7a55" stroke-width="7" stroke-linecap="butt"/>
+    <path d="M172 333.3 C200 333.3 206 319.3 232 323.3 C252 326.3 262 336.3 300 332.3" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="1.6"/>
+    <rect x="164" y="330" width="10" height="10" rx="2" fill="#5b4d60"/>
+    <rect x="173" y="331.5" width="5" height="7" rx="1.5" fill="#2f2433"/>
     <!-- сјај околу пламенот -->
     <ellipse id="${i("flame-glow")}" cx="140" cy="215" rx="62" ry="92" fill="url(#${i("fg-glow")})" filter="url(#${i("fg-blur2")})" opacity="0"/>
     <!-- пламеник -->

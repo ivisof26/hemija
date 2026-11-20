@@ -13,5 +13,13 @@ window.MS_SMILES = {
   anizol: "COc1ccccc1", benzonitril: "N#Cc1ccccc1", piridin: "c1ccncc1", dietilamin: "CCNCC", propilamin: "CCCN",
   cikloheksanon: "O=C1CCCCC1", benzofenon: "O=C(c1ccccc1)c1ccccc1", furan: "c1ccoc1", tiofen: "c1ccsc1",
   kumen: "CC(C)c1ccccc1", ksilen: "Cc1ccc(C)cc1", butanol: "CCCCO", tbutanol: "CC(C)(C)O", benzilhlorid: "ClCc1ccccc1",
-  thf: "C1CCOC1", benzoilhlorid: "ClC(=O)c1ccccc1", dmso: "CS(C)=O", co2: "O=C=O", azot: "N#N", amonijak: "N", h2s: "S", hcl: "Cl"
+  thf: "C1CCOC1", benzoilhlorid: "ClC(=O)c1ccccc1", dmso: "CS(C)=O", co2: "O=C=O", azot: "N#N", amonijak: "N", h2s: "S", hcl: "Cl",
+  izobutan: "CC(C)C", ciklopentan: "C1CCCC1", metilciklopentan: "CC1CCCC1", norbornan: "C1CC2CCC1C2", penten1: "C=CCCC", penten2z: "CC=CCC",
+  limonen: "CC1=CCC(CC1)C(C)=C", pentin1: "C#CCCC", pentin2: "CC#CCC", oksilen: "Cc1ccccc1C", mksilen: "Cc1cccc(C)c1", butilbenzen: "CCCCc1ccccc1",
+  pentan1ol: "OCCCCC", pentan2ol: "CC(O)CCC", pentan3ol: "CCC(O)CC", metilbutan2ol: "CCC(C)(C)O", cikloheksanol: "OC1CCCCC1", okresol: "Cc1ccccc1O",
+  diizopropileter: "CC(C)OC(C)C", disbutileter: "CCC(C)OC(C)CC", dioksolan: "CCC1(C)OCCO1", metilfenetol: "CCOc1ccc(C)cc1",
+  pentanal: "CCCCC=O", oktan2on: "CCCCCCC(C)=O", butirofenon: "CCCC(=O)c1ccccc1", metilbutirat: "CCCC(=O)OC", butilbutirat: "CCCC(=O)OCCCC",
+  izobutilsalicilat: "CC(C)COC(=O)c1ccccc1O", maslenakis: "CCCC(=O)O", anisinska: "COc1ccc(cc1)C(O)=O", etilamin: "CCN", trietilamin: "CCN(CC)CC",
+  metilpiridin: "Cc1cccnc1", heksannitril: "CCCCCC#N", nitropropan: "CCC[N+](=O)[O-]", bromoheksan: "CCCCCCBr", hloroheptan: "CC(Cl)CCCCC",
+  dibromometan: "BrCBr", bromohloroetan: "ClCCBr"
 };

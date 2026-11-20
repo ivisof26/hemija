@@ -49,3 +49,7 @@
 .ms-esvg{display:block;width:100%;height:auto;aspect-ratio:800/360;touch-action:none;cursor:crosshair;background:#fff;user-select:none}
 .ms-editor .ms-tools{gap:6px}
 .ms-editor .ms-tool{padding:5px 10px;min-width:38px}
+.ms-mech-wrap .ms-mc{margin:0 0 14px}
+.ms-mech{background:#fff}
+.ms-mp{margin:6px 0;line-height:1.5;color:var(--text,#2a1f2d)}
+.ms-mc .ms-tw{margin:4px 0 8px}

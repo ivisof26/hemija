@@ -45,6 +45,7 @@ function buildTube(svg, P) {
   </defs>
 
   <!-- држач: страници, подлога и горна полица (позади епруветата) -->
+  <g id="${i("rackback")}">
   <ellipse cx="140" cy="${base + 14}" rx="68" ry="5" fill="#2d1b4e" opacity=".16"/>
   <rect x="82" y="224" width="8" height="${base - 224}" fill="url(#${i("woodv")})"/>
   <rect x="190" y="224" width="8" height="${base - 224}" fill="url(#${i("woodv")})"/>
@@ -52,6 +53,7 @@ function buildTube(svg, P) {
   <rect x="76" y="${base}" width="128" height="2" rx="1" fill="#fff" opacity=".25"/>
   <path d="M88 215 H192 L202 222 H78 Z" fill="#d9b684"/>
   <ellipse cx="140" cy="218.5" rx="21" ry="3.2" fill="#5e4122" opacity=".75"/>
+  </g>
 
   <g id="${i("tube")}">
     <g id="${i("body")}" style="transform-origin:140px ${bot + 20}px">
@@ -107,15 +109,57 @@ function buildTube(svg, P) {
     <text id="${i("label")}" x="140" y="418" text-anchor="middle" font-size="20" font-weight="800" fill="#2d1b4e"></text>
   </g>
 
-  <!-- пламен -->
-  <g id="${i("flamescene")}" style="display:none" transform="translate(0 60)">
-    <ellipse cx="140" cy="338" rx="46" ry="6" fill="#2d1b4e" opacity=".18"/>
-    <rect x="128" y="296" width="24" height="38" rx="4" fill="url(#${i("metal")})"/>
-    <rect x="124" y="288" width="32" height="10" rx="3" fill="#6b5b6e"/>
-    <rect x="112" y="332" width="56" height="10" rx="5" fill="#4a3b4e"/>
-    <path id="${i("flame-out")}" d="M140 288 C108 260 112 216 140 148 C168 216 172 260 140 288 Z" fill="#f5c518" style="transform-box:fill-box;transform-origin:50% 100%"/>
-    <path id="${i("flame-in")}" d="M140 288 C126 272 128 248 140 220 C152 248 154 272 140 288 Z" fill="#fff6d8" style="transform-box:fill-box;transform-origin:50% 100%"/>
-    <text x="140" y="358" text-anchor="middle" font-size="16" font-weight="700" fill="#6b5b6e">проба на пламен</text>
+  <!-- пламен: Бунзенов пламеник -->
+  <g id="${i("flamescene")}" style="display:none" transform="translate(-14 -6) scale(1.1)">
+    <defs>
+      <linearGradient id="${i("fg-out")}" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#9ec5ff" stop-opacity=".25"/>
+        <stop offset=".25" id="${i("fg-s1")}" stop-color="#f5c518" stop-opacity=".55"/>
+        <stop offset=".7" id="${i("fg-s2")}" stop-color="#f5c518" stop-opacity=".85"/>
+        <stop offset="1" id="${i("fg-s3")}" stop-color="#f5c518" stop-opacity=".25"/>
+      </linearGradient>
+      <linearGradient id="${i("fg-in")}" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#2358ff" stop-opacity=".95"/>
+        <stop offset=".55" stop-color="#6aa2ff" stop-opacity=".9"/>
+        <stop offset="1" stop-color="#d6e6ff" stop-opacity=".55"/>
+      </linearGradient>
+      <radialGradient id="${i("fg-glow")}" cx=".5" cy=".55" r=".5">
+        <stop offset="0" id="${i("fg-g1")}" stop-color="#f5c518" stop-opacity=".45"/>
+        <stop offset="1" id="${i("fg-g2")}" stop-color="#f5c518" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="${i("fg-barrel")}" x1="0" x2="1">
+        <stop offset="0" stop-color="#3b2d3f"/><stop offset=".3" stop-color="#b9afbd"/><stop offset=".55" stop-color="#7d7081"/><stop offset="1" stop-color="#2f2433"/>
+      </linearGradient>
+      <filter id="${i("fg-blur")}" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.2"/></filter>
+      <filter id="${i("fg-blur2")}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+    </defs>
+    <ellipse cx="140" cy="341" rx="52" ry="6" fill="#2d1b4e" opacity=".18"/>
+    <!-- гумено црево за гас -->
+    <path d="M168 332 C200 332 205 318 226 322" fill="none" stroke="#3f7a55" stroke-width="7" stroke-linecap="round"/>
+    <path d="M168 330.5 C200 330.5 205 316.5 226 320.5" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- сјај околу пламенот -->
+    <ellipse id="${i("flame-glow")}" cx="140" cy="215" rx="62" ry="92" fill="url(#${i("fg-glow")})" filter="url(#${i("fg-blur2")})" opacity="0"/>
+    <!-- пламеник -->
+    <rect x="124" y="296" width="32" height="36" rx="3" fill="url(#${i("fg-barrel")})"/>
+    <rect x="127" y="298" width="3" height="32" rx="1.5" fill="#fff" opacity=".35"/>
+    <rect x="121" y="284" width="38" height="14" rx="3" fill="#5b4d60"/>
+    <rect x="121" y="284" width="38" height="3" rx="1.5" fill="#fff" opacity=".25"/>
+    <rect x="121" y="304" width="38" height="9" rx="2.5" fill="#2f2433"/>
+    <ellipse cx="140" cy="308.5" rx="9" ry="3" fill="#0b0710"/>
+    <path d="M106 340 Q106 330 124 330 H156 Q174 330 174 340 Z" fill="url(#${i("fg-barrel")})"/>
+    <rect x="102" y="338" width="76" height="7" rx="3.5" fill="#3b2d3f"/>
+    <!-- пламен: надворешен конус (боја на јонот), внатрешен син конус -->
+    <path id="${i("flame-out")}" d="M140 286 C112 270 108 232 124 196 C130 182 136 170 140 150 C144 170 150 182 156 196 C172 232 168 270 140 286 Z" fill="url(#${i("fg-out")})" filter="url(#${i("fg-blur")})" style="transform-box:fill-box;transform-origin:50% 100%"/>
+    <path id="${i("flame-mid")}" d="M140 286 C122 274 120 246 130 222 C134 212 138 204 140 192 C142 204 146 212 150 222 C160 246 158 274 140 286 Z" fill="url(#${i("fg-out")})" opacity=".9" style="transform-box:fill-box;transform-origin:50% 100%"/>
+    <path id="${i("flame-in")}" d="M140 286 C128 276 128 258 134 244 C137 238 139 232 140 224 C141 232 143 238 146 244 C152 258 152 276 140 286 Z" fill="url(#${i("fg-in")})" style="transform-box:fill-box;transform-origin:50% 100%"/>
+    <ellipse cx="140" cy="285" rx="9" ry="3" fill="#7fb0ff" opacity=".9"/>
+    <!-- жичка (нихром) со проба -->
+    <g id="${i("flame-wire")}">
+      <path d="M232 138 L176 200 L160 218" fill="none" stroke="#8a8090" stroke-width="2.2" stroke-linecap="round"/>
+      <ellipse cx="156" cy="222" rx="7" ry="5" transform="rotate(-48 156 222)" fill="none" stroke="#b9afbd" stroke-width="2"/>
+      <circle id="${i("flame-bead")}" cx="156" cy="222" r="4" fill="#f5c518"/>
+    </g>
+    <text x="140" y="360" text-anchor="middle" font-size="15" font-weight="700" fill="#6b5b6e">проба на пламен</text>
   </g>`;
 }
 
@@ -134,7 +178,7 @@ function initLab(P, D) {
   const dropsG = $(P + "-drops"), tubeScene = $(P + "-tube"), flameScene = $(P + "-flamescene");
   const layerEl = $(P + "-layer"), ringEl = $(P + "-ring"), fumeG = $(P + "-fume"), bodyG = $(P + "-body");
   const pipLiq = $(P + "-pipliq"), bulbG = $(P + "-bulbg"), gasEl = $(P + "-gas"), gasG = $(P + "-gasg");
-  const flameOut = $(P + "-flame-out"), flameIn = $(P + "-flame-in"), label = $(P + "-label");
+  const flameOut = $(P + "-flame-out"), flameMid = $(P + "-flame-mid"), flameIn = $(P + "-flame-in"), flameGlow = $(P + "-flame-glow"), flameBead = $(P + "-flame-bead"), rackBack = $(P + "-rackback"), label = $(P + "-label");
   const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
   const T = ms => (reduce ? Math.min(ms, 60) : ms);
 
@@ -208,7 +252,7 @@ function initLab(P, D) {
     turb.style.opacity = 0;
     [layerEl, ringEl, gasEl].forEach(e => { e.getAnimations().forEach(a => a.cancel()); e.style.opacity = 0; });
     fumeG.replaceChildren();
-    tubeScene.style.display = ""; flameScene.style.display = "none";
+    tubeScene.style.display = ""; flameScene.style.display = "none"; rackBack.style.display = "";
     const [c, o] = baseColor();
     setLiquid(c, o);
     label.textContent = mode === "quiz" ? (unknown ? "?" : "") : (cat ? cat.ion : "");
@@ -314,13 +358,21 @@ function initLab(P, D) {
   }
 
   function flame(hex) {
-    tubeScene.style.display = "none"; flameScene.style.display = "";
-    flameOut.style.fill = hex; flameIn.style.fill = "#fff6d8";
-    [flameOut, flameIn].forEach(f => {
+    tubeScene.style.display = "none"; rackBack.style.display = "none"; flameScene.style.display = "";
+    ["s1", "s2", "s3", "g1", "g2"].forEach(k => { const e = $(P + "-fg-" + k); if (e) e.setAttribute("stop-color", hex); });
+    flameBead.setAttribute("fill", hex);
+    const parts = [flameOut, flameMid, flameIn];
+    parts.forEach((f, k) => {
       f.getAnimations().forEach(a => a.cancel());
       f.animate([{ transform: "scale(.15,.1)", opacity: 0 }, { transform: "scale(1,1)", opacity: 1, offset: 0.35 }, { transform: "scale(1,1)", opacity: 1 }], { duration: T(900), fill: "forwards" });
-      later(() => f.animate([{ transform: "scale(1,1)" }, { transform: "scale(.96,1.07)" }, { transform: "scale(1.03,.97)" }, { transform: "scale(1,1)" }], { duration: T(520), iterations: Infinity }), 900);
+      later(() => f.animate([
+        { transform: "scale(1,1) skewX(0deg)" }, { transform: "scale(.94," + (1.06 + k * .01) + ") skewX(" + (3 - k) + "deg)" },
+        { transform: "scale(1.04,.95) skewX(" + (-3 + k) + "deg)" }, { transform: "scale(.97,1.05) skewX(2deg)" }, { transform: "scale(1,1) skewX(0deg)" }
+      ], { duration: T(620 + k * 170), iterations: Infinity, easing: "ease-in-out" }), 900);
     });
+    flameGlow.getAnimations().forEach(a => a.cancel());
+    flameGlow.animate([{ opacity: 0 }, { opacity: 1 }], { duration: T(900), fill: "forwards" });
+    later(() => flameGlow.animate([{ opacity: 1 }, { opacity: .7 }, { opacity: 1 }], { duration: T(700), iterations: Infinity }), 900);
   }
 
   // ---------- реакција ----------

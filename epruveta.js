@@ -363,19 +363,19 @@ function initLab(P, D) {
     stops.forEach(e => { e.style.transition = "none"; e.style.stopColor = "#9ec5ff"; });
     flameBead.setAttribute("fill", "#e9e4ea");
     // пробата прво влегува во пламенот, па дури потоа се појавува бојата
-    later(() => stops.forEach(e => { e.style.transition = "stop-color 1.2s"; e.style.stopColor = hex; }), 1100);
+    later(() => stops.forEach(e => { e.style.transition = "stop-color .45s"; e.style.stopColor = hex; }), 250);
     const parts = [flameOut, flameMid, flameIn];
     parts.forEach((f, k) => {
       f.getAnimations().forEach(a => a.cancel());
-      f.animate([{ transform: "scale(.15,.1)", opacity: 0 }, { transform: "scale(1,1)", opacity: 1, offset: 0.35 }, { transform: "scale(1,1)", opacity: 1 }], { duration: T(900), fill: "forwards" });
+      f.animate([{ transform: "scale(.15,.1)", opacity: 0 }, { transform: "scale(1,1)", opacity: 1, offset: 0.35 }, { transform: "scale(1,1)", opacity: 1 }], { duration: T(450), fill: "forwards" });
       later(() => f.animate([
         { transform: "scale(1,1) skewX(0deg)" }, { transform: "scale(.94," + (1.06 + k * .01) + ") skewX(" + (3 - k) + "deg)" },
         { transform: "scale(1.04,.95) skewX(" + (-3 + k) + "deg)" }, { transform: "scale(.97,1.05) skewX(2deg)" }, { transform: "scale(1,1) skewX(0deg)" }
-      ], { duration: T(620 + k * 170), iterations: Infinity, easing: "ease-in-out" }), 900);
+      ], { duration: T(620 + k * 170), iterations: Infinity, easing: "ease-in-out" }), 450);
     });
     flameGlow.getAnimations().forEach(a => a.cancel());
-    flameGlow.animate([{ opacity: 0 }, { opacity: 1 }], { duration: T(900), fill: "forwards" });
-    later(() => flameGlow.animate([{ opacity: 1 }, { opacity: .7 }, { opacity: 1 }], { duration: T(700), iterations: Infinity }), 900);
+    flameGlow.animate([{ opacity: 0 }, { opacity: 1 }], { duration: T(500), fill: "forwards" });
+    later(() => flameGlow.animate([{ opacity: 1 }, { opacity: .7 }, { opacity: 1 }], { duration: T(700), iterations: Infinity }), 500);
   }
 
   // ---------- реакција ----------

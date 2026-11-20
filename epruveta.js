@@ -359,8 +359,11 @@ function initLab(P, D) {
 
   function flame(hex) {
     tubeScene.style.display = "none"; rackBack.style.display = "none"; flameScene.style.display = "";
-    ["s1", "s2", "s3", "g1", "g2"].forEach(k => { const e = $(P + "-fg-" + k); if (e) e.setAttribute("stop-color", hex); });
-    flameBead.setAttribute("fill", hex);
+    const stops = ["s1", "s2", "s3", "g1", "g2"].map(k => $(P + "-fg-" + k));
+    stops.forEach(e => { e.style.transition = "none"; e.style.stopColor = "#9ec5ff"; });
+    flameBead.setAttribute("fill", "#e9e4ea");
+    // пробата прво влегува во пламенот, па дури потоа се појавува бојата
+    later(() => stops.forEach(e => { e.style.transition = "stop-color 1.2s"; e.style.stopColor = hex; }), 1100);
     const parts = [flameOut, flameMid, flameIn];
     parts.forEach((f, k) => {
       f.getAnimations().forEach(a => a.cancel());

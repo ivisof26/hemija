@@ -205,7 +205,7 @@
         D.blanks.forEach((b, i) => {
           const f = blankFields[i];
           let r = judge(f.value, b.a);
-          if (r === "bad" && b.pair) { // двата талога во пар може да се запишани со заменет редослед
+          if (r === "bad" && b.pair) {
             const other = pairs[b.pair].find(j => j !== i);
             if (plain(f.value) === plain(D.blanks[other].a) && plain(blankFields[other].value) === plain(b.a)) r = judge(f.value, D.blanks[other].a);
           }
@@ -222,7 +222,7 @@
     };
   }
 
-  // ---------- 16: повлечи и пушти ----------
+  // ---------- 16: повлечи и пушти (селектирање отпад) ----------
 
   function dnd(q, onChange) {
     let locked = false, sel = null;
@@ -230,6 +230,7 @@
     const pool = G.el("div", "dz-body dz-pool");
     const groups = G.el("div", "dnd-groups");
     const bodies = [pool];
+    const groupBodies = {};
 
     const zoneAt = (x, y) => {
       const el = document.elementsFromPoint(x, y).find(e => e.classList && e.classList.contains("dz-body"));
@@ -286,6 +287,7 @@
       const g = G.el("div", "dz-group");
       const body = G.el("div", "dz-body");
       body.dataset.group = name;
+      groupBodies[name] = body;
       g.append(G.el("h4", "", name), body);
       groups.appendChild(g);
       bodies.push(body);
@@ -320,17 +322,25 @@
         const where = {};
         q.groups.forEach(([name, ions]) => ions.forEach(i => (where[i] = name)));
         chips.forEach(c => {
-          const ok = c.parentElement.dataset.group === where[c.dataset.ion];
+          const targetGroup = where[c.dataset.ion];
+          const ok = c.parentElement.dataset.group === targetGroup;
+          c.classList.remove("ok", "bad");
           c.classList.add(ok ? "ok" : "bad");
-          if (!ok) c.title = "Точна група: " + where[c.dataset.ion];
+          if (targetGroup && groupBodies[targetGroup] && !ok) {
+            groupBodies[targetGroup].appendChild(c);
+            c.classList.remove("bad");
+            c.classList.add("ok");
+            c.title = "Преместено во точна група: " + targetGroup;
+          }
           if (ok) got++;
         });
         let hits = 0, fp = 0;
         togs.forEach(t => {
           const should = (q.h2s || []).includes(t.textContent), on = t.classList.contains("on");
+          t.classList.remove("ok", "bad", "missing");
           if (on && should) { hits++; t.classList.add("ok"); }
           else if (on) { fp++; t.classList.add("bad"); }
-          else if (should) t.classList.add("missing");
+          else if (should) { t.classList.add("on", "ok"); }
         });
         return { got: got + Math.max(0, hits - fp), total: q.ions.length + (q.h2s ? q.h2s.length : 0) };
       }
@@ -355,7 +365,17 @@
       answered: () => fields.some(f => f.value.trim()),
       grade() {
         let got = 0;
-        fields.forEach((f, i) => { f.disabled = true; const r = judge(f.value, q.parts[i].a); mark(f, r); if (r !== "bad") got++; });
+        fields.forEach((f, i) => {
+          f.disabled = true;
+          const r = judge(f.value, q.parts[i].a);
+          if (r === "bad") {
+            f.value = q.parts[i].a;
+            mark(f, "ok");
+          } else {
+            mark(f, r);
+            got++;
+          }
+        });
         return { got, total: q.parts.length };
       }
     };
@@ -396,12 +416,28 @@
     };
   }
 
+  // ---------- помошни функции за точни одговори во полиња ----------
+
+  function fallbackFromField(fieldDef) {
+    if (fieldDef.sol) return fieldDef.sol;
+    const raw = (fieldDef.accept || [])[0] || "";
+    const firstAlt = raw.split("|")[0].trim();
+    return firstAlt.charAt(0).toUpperCase() + firstAlt.slice(1);
+  }
+
+  function parseNumberedAnswer(answerStr, index) {
+    if (!answerStr) return "";
+    const re = new RegExp(`(?:^|[.;]\\s*)${index}\\s*[—–-]\\s*([^.;]+)`, "u");
+    const m = answerStr.match(re);
+    return m ? m[1].trim() : "";
+  }
+
   // ---------- кус одговор (се проверува по клучни зборови) ----------
 
   function text(q, onChange) {
     const norm = v => v.toLowerCase().replace(/[„“”"'.,;:!?()]/g, " ").replace(/\s+/g, " ").trim();
     const nodes = [];
-    const fields = q.fields.map(f => {
+    const fields = q.fields.map((f, idx) => {
       const row = G.el("label", "qa-ion qa-ion-wide");
       const inp = G.el("input", "qa-fill inline qa-wide");
       inp.type = "text";
@@ -410,18 +446,32 @@
       inp.addEventListener("input", onChange);
       row.append(G.el("span", "", f.label || "Одговор:"), inp);
       nodes.push(row);
-      return inp;
+      return { inp, f, idx };
     });
+
+    const ppeSample = ["Заштитни очила", "Лабораториски мантил", "Заштитни ракавици", "Заштитни обувки"];
+
     return {
       nodes,
-      answered: () => fields.some(i => i.value.trim()),
+      answered: () => fields.some(({ inp }) => inp.value.trim()),
       grade() {
         let got = 0;
-        fields.forEach((inp, k) => {
+        fields.forEach(({ inp, f, idx }) => {
           inp.disabled = true;
-          const ok = q.fields[k].accept.some(p => new RegExp(p, "i").test(norm(inp.value)));
-          inp.classList.add(ok ? "ok" : "bad");
-          if (ok) got++;
+          const ok = f.accept.some(p => new RegExp(p, "i").test(norm(inp.value)));
+          if (ok) {
+            inp.classList.remove("bad");
+            inp.classList.add("ok");
+            got++;
+          } else {
+            let sol = f.sol || parseNumberedAnswer(q.answer, idx + 1);
+            if (!sol && q.n === 19) sol = ppeSample[idx] || fallbackFromField(f);
+            if (!sol && q.fields.length === 1 && q.answer) sol = q.answer;
+            if (!sol) sol = fallbackFromField(f);
+            inp.value = sol;
+            inp.classList.remove("bad");
+            inp.classList.add("ok");
+          }
         });
         return { got, total: fields.length };
       }
@@ -442,27 +492,41 @@
       im.src = r.img; im.alt = "Знак " + (i + 1);
       im.style.cssText = "height:76px;width:110px;object-fit:contain;flex:none";
       row.append(num, im);
-      r.fields.forEach(f => {
+
+      const seg = parseNumberedAnswer(q.answer, i + 1);
+      const colonIdx = seg.indexOf(":");
+      const segGroup = colonIdx >= 0 ? seg.slice(0, colonIdx).trim() : "";
+      const segMeaning = colonIdx >= 0 ? seg.slice(colonIdx + 1).trim() : "";
+
+      r.fields.forEach((f, fIdx) => {
         const inp = G.el("input", "qa-fill inline");
         inp.type = "text"; inp.autocomplete = "off"; inp.spellcheck = false;
         inp.placeholder = f.label; inp.setAttribute("aria-label", "Знак " + (i + 1) + " – " + f.label.toLowerCase());
         inp.style.cssText = "flex:1 1 150px;min-width:130px";
         inp.addEventListener("input", onChange);
         row.appendChild(inp);
-        fields.push([inp, f]);
+        const sol = f.sol || (fIdx === 0 && segGroup ? segGroup : fIdx === 1 && segMeaning ? segMeaning : fallbackFromField(f));
+        fields.push({ inp, f, sol });
       });
       nodes.push(row);
     });
     return {
       nodes,
-      answered: () => fields.some(([i]) => i.value.trim()),
+      answered: () => fields.some(({ inp }) => inp.value.trim()),
       grade() {
         let got = 0;
-        fields.forEach(([inp, f]) => {
+        fields.forEach(({ inp, f, sol }) => {
           inp.disabled = true;
           const ok = f.accept.some(p => new RegExp(p, "i").test(norm(inp.value)));
-          inp.classList.add(ok ? "ok" : "bad");
-          if (ok) got++;
+          if (ok) {
+            inp.classList.remove("bad");
+            inp.classList.add("ok");
+            got++;
+          } else {
+            inp.value = sol;
+            inp.classList.remove("bad");
+            inp.classList.add("ok");
+          }
         });
         return { got, total: fields.length };
       }
@@ -549,3 +613,6 @@
 
   build();
 })();
+```[cite: 2, 5]
+
+Дали сакаш при проверката да се разликуваат визуелно полињата што ти си ги пополнил точно од оние што автоматски се допишале како точен одговор (на пример со поинаква боја или белешка), или вака со зелена ознака во полето ти одговара?

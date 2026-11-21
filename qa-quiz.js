@@ -56,7 +56,7 @@
     const modes = ["n", "sub", "sup"];
     const btns = [["Aa Нормално"], ["x₂ Индекс"], ["x² Степен"]].map(([t], k) => {
       const b = btn(t, "btn ghost" + (k === 0 ? " active" : ""));
-      b.addEventListener("pointerdown", e => e.preventDefault()); // полето да не го губи фокусот
+      b.addEventListener("pointerdown", e => e.preventDefault());
       b.addEventListener("click", () => {
         mode = modes[k];
         btns.forEach((x, j) => x.classList.toggle("active", j === k));
@@ -481,7 +481,7 @@
   // ---------- знаци: во секој ред слика + група + значење ----------
 
   function textrows(q, onChange) {
-    const norm = v => v.toLowerCase().replace(/[„“”"'.,;:!?()/]/g, " ").replace(/\s+/g, " ").trim();
+    const norm = v => v.toLowerCase().replace(/[„“”"'.,;:!?()\/]/g, " ").replace(/\s+/g, " ").trim();
     const nodes = [], fields = [];
     q.rows.forEach((r, i) => {
       const row = G.el("div", "qa-signrow");
@@ -614,5 +614,3 @@
   build();
 })();
 ```[cite: 2, 5]
-
-Дали сакаш при проверката да се разликуваат визуелно полињата што ти си ги пополнил точно од оние што автоматски се допишале како точен одговор (на пример со поинаква боја или белешка), или вака со зелена ознака во полето ти одговара?

@@ -1,12 +1,12 @@
 // Service worker: сајтот работи и без интернет откако еднаш ќе се отвори.
 // Кога менувате датотеки, сменете го бројот на верзијата подолу.
-const CACHE = "hemija-v47";
+const CACHE = "hemija-v48";
 const FILES = [
-  "./", "index.html", "teme.html", "teme.css", "teme.js", "kvizovi.html", "igri.html", "testovi.html", "test-kvalitativna.html", "test-organska.html", "aplikacija.html", "za-proektot.html", "alatki.html", "alatki.css", "alatki.js", "ph.js", "imenuvanje.js", "imenuvanje-data.js", "imenuvanje.css", "bezbednost.js", "bezbednost.css", "reakcii.js", "anjoni-data.js", "analitika.js", "epruveta.js", "model.js", "instrumentalna.js", "titracija.js", "titracija.css", "hromatografija.js", "hromatografija.css", "hr-tlc.js", "hr-column.js", "hr-gc.js", "hr-hplc.js", "masen.js", "masen.css", "masen-smiles.js", "smiles-drawer.min.js", "ezero.js", "ezero.css", "simetrija-data.js", "simetrija.js", "simetrija.css",
+  "./", "index.html", "teme.html", "teme.css", "teme.js", "kvizovi.html", "igri.html", "testovi.html", "test-kvalitativna.html", "test-organska.html", "test-bezbednost.html", "aplikacija.html", "za-proektot.html", "alatki.html", "alatki.css", "alatki.js", "ph.js", "imenuvanje.js", "imenuvanje-data.js", "imenuvanje.css", "bezbednost.js", "bezbednost.css", "reakcii.js", "anjoni-data.js", "analitika.js", "epruveta.js", "model.js", "instrumentalna.js", "titracija.js", "titracija.css", "hromatografija.js", "hromatografija.css", "hr-tlc.js", "hr-column.js", "hr-gc.js", "hr-hplc.js", "masen.js", "masen.css", "masen-smiles.js", "smiles-drawer.min.js", "ezero.js", "ezero.css", "simetrija-data.js", "simetrija.js", "simetrija.css",
   "style.css", "mobile.css", "mobile.js", "app.js", "common.js", "chemists.js", "today.js",
   "questions.js", "quiz.js", "anagram-words.js", "anagram.js",
   "elements.js", "memory.js", "equations.js", "balance.js", "hangman.js",
-  "qa-scheme.js", "qa-questions.js", "qa-quiz.js", "qa-scheme-answer.png", "organska-questions.js",
+  "qa-scheme.js", "qa-questions.js", "qa-quiz.js", "qa-scheme-answer.png", "organska-questions.js", "bezbednost-questions.js", "bez-q1.png", "bez-q5.png", "bez-q6.png",
   "org-q1.jpg", "org-q2.png", "org-q3.jpg", "org-q4.jpg", "org-q5.jpg", "org-q6.jpg", "org-q7.jpg", "org-q8.jpg",
   "org-q9.jpg", "org-q10.jpg", "org-q12.png", "org-q14.jpg",
   "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"

@@ -299,7 +299,7 @@
     }));
 
     const h2s = G.el("div", "dz-body h2s-row");
-    const togs = q.ions.map(l => {
+    const togs = !q.h2s ? [] : q.ions.map(l => {
       const t = G.el("button", "chip tog", l);
       t.type = "button";
       t.addEventListener("click", () => { if (!locked) { t.classList.toggle("on"); onChange(); } });
@@ -309,8 +309,8 @@
 
     return {
       nodes: [
-        G.el("p", "qa-q qa-part", "Катјони (повлечи ги во групите, или кликни на катјон па на група):"), pool, groups,
-        G.el("p", "qa-q qa-part", "Од нив со H₂S(aq) во кисела средина ќе се исталожат (кликни за да избереш):"), h2s
+        G.el("p", "qa-q qa-part", q.poolLabel || "Катјони (повлечи ги во групите, или кликни на катјон па на група):"), pool, groups,
+        ...(q.h2s ? [G.el("p", "qa-q qa-part", "Од нив со H₂S(aq) во кисела средина ќе се исталожат (кликни за да избереш):"), h2s] : [])
       ],
       answered: () => chips.some(c => c.parentElement !== pool) || togs.some(t => t.classList.contains("on")),
       grade() {
@@ -327,12 +327,12 @@
         });
         let hits = 0, fp = 0;
         togs.forEach(t => {
-          const should = q.h2s.includes(t.textContent), on = t.classList.contains("on");
+          const should = (q.h2s || []).includes(t.textContent), on = t.classList.contains("on");
           if (on && should) { hits++; t.classList.add("ok"); }
           else if (on) { fp++; t.classList.add("bad"); }
           else if (should) t.classList.add("missing");
         });
-        return { got: got + Math.max(0, hits - fp), total: q.ions.length + q.h2s.length };
+        return { got: got + Math.max(0, hits - fp), total: q.ions.length + (q.h2s ? q.h2s.length : 0) };
       }
     };
   }

@@ -428,9 +428,50 @@
     };
   }
 
+  // ---------- знаци: во секој ред слика + група + значење ----------
+
+  function textrows(q, onChange) {
+    const norm = v => v.toLowerCase().replace(/[„“”"'.,;:!?()/]/g, " ").replace(/\s+/g, " ").trim();
+    const nodes = [], fields = [];
+    q.rows.forEach((r, i) => {
+      const row = G.el("div", "qa-signrow");
+      row.style.cssText = "display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:8px 0;border-bottom:1px solid #eee0d4";
+      const num = G.el("strong", "", String(i + 1) + ".");
+      num.style.cssText = "min-width:22px;color:#2d1b4e";
+      const im = G.el("img", "qa-sign-img");
+      im.src = r.img; im.alt = "Знак " + (i + 1);
+      im.style.cssText = "height:76px;width:110px;object-fit:contain;flex:none";
+      row.append(num, im);
+      r.fields.forEach(f => {
+        const inp = G.el("input", "qa-fill inline");
+        inp.type = "text"; inp.autocomplete = "off"; inp.spellcheck = false;
+        inp.placeholder = f.label; inp.setAttribute("aria-label", "Знак " + (i + 1) + " – " + f.label.toLowerCase());
+        inp.style.cssText = "flex:1 1 150px;min-width:130px";
+        inp.addEventListener("input", onChange);
+        row.appendChild(inp);
+        fields.push([inp, f]);
+      });
+      nodes.push(row);
+    });
+    return {
+      nodes,
+      answered: () => fields.some(([i]) => i.value.trim()),
+      grade() {
+        let got = 0;
+        fields.forEach(([inp, f]) => {
+          inp.disabled = true;
+          const ok = f.accept.some(p => new RegExp(p, "i").test(norm(inp.value)));
+          inp.classList.add(ok ? "ok" : "bad");
+          if (ok) got++;
+        });
+        return { got, total: fields.length };
+      }
+    };
+  }
+
   // ---------- страница со сите прашања ----------
 
-  const builders = { mc, multi, text, scheme, dnd, fill };
+  const builders = { mc, multi, text, textrows, scheme, dnd, fill };
 
   function build() {
     submitted = false; total = 0; warned = false;

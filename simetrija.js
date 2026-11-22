@@ -197,7 +197,7 @@
         return ul;
       })());
 
-    const fams = [["Ниска симетрија", "C<sub>1</sub>, C<sub>s</sub>, C<sub>i</sub>"], ["Оскени C<sub>n</sub>", "C<sub>n</sub>, C<sub>nv</sub>, C<sub>nh</sub>, S<sub>2n</sub>"], ["Дихедрални D<sub>n</sub>", "D<sub>n</sub>, D<sub>nh</sub>, D<sub>nd</sub> (C<sub>n</sub> оска и n нормални C<sub>2</sub>)"], ["Линеарни", "C<sub>∞v</sub>, D<sub>∞h</sub>"], ["Високи (повеќе оски од ред ≥ 3)", "T<sub>d</sub>, O<sub>h</sub>, I<sub>h</sub>"]];
+    const fams = [["Групи со ниска симетрија", "C<sub>1</sub>, C<sub>s</sub>, C<sub>i</sub>"], ["Циклични групи C<sub>n</sub>", "C<sub>n</sub>, C<sub>nv</sub>, C<sub>nh</sub>, S<sub>2n</sub>"], ["Диедарски групи D<sub>n</sub>", "D<sub>n</sub>, D<sub>nh</sub>, D<sub>nd</sub> (C<sub>n</sub> оска и n нормални C<sub>2</sub>)"], ["Линеарни групи", "C<sub>∞v</sub>, D<sub>∞h</sub>"], ["Групи со висока симетрија (повеќе оски од ред ≥ 3)", "T<sub>d</sub>, O<sub>h</sub>, I<sub>h</sub>"]];
     sec("4. Групите што ги учиш овде",
       H("p", "sy-small", "Секој ред е една точковна група: кои елементи ги има и примери од молекули. h е <b>ред на групата</b> (вкупен број операции)."),
       table(["Група", "Елементи на симетрија", "h", "Примери"], GK.map(k => [

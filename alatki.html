@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Вежби и алатки – Хемија за сите</title>
-  <meta name="description" content="Периоден систем, калкулатор за моларна маса, pH калкулатор, квалитативна анализа на катјони и виртуелни инструментални вежби.">
+  <meta name="description" content="Периоден систем, калкулатор за моларна маса, pH калкулатор, квалитативна анализа на катјони и симетрија на молекули и виртуелни инструментални вежби.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="alatki.css">
   <link rel="stylesheet" href="titracija.css">
   <link rel="stylesheet" href="hromatografija.css">
   <link rel="stylesheet" href="masen.css">
+  <link rel="stylesheet" href="simetrija.css">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#2d1b4e">
   <link rel="icon" type="image/png" href="icon-192.png">
@@ -52,6 +53,7 @@
         <button class="at-tab" role="tab" id="at-tab-tit" data-tab="tit" aria-selected="false" aria-controls="at-panel-tit" type="button">🥼 Титрации</button>
         <button class="at-tab" role="tab" id="at-tab-chr" data-tab="chr" aria-selected="false" aria-controls="at-panel-chr" type="button">🧫 Хроматографија</button>
         <button class="at-tab" role="tab" id="at-tab-ms" data-tab="ms" aria-selected="false" aria-controls="at-panel-ms" type="button">🔎 Масени спектри</button>
+        <button class="at-tab" role="tab" id="at-tab-sym" data-tab="sym" aria-selected="false" aria-controls="at-panel-sym" type="button">🔷 Симетрија на молекули</button>
         <button class="at-tab" role="tab" id="at-tab-inst" data-tab="inst" aria-selected="false" aria-controls="at-panel-inst" type="button">🔬 Инструментални методи</button>
       </div>
 
@@ -238,6 +240,12 @@
         <p class="at-note">Спектрите се за вежбање: m/z и изотопските групи (Cl, Br, S, 13C) се пресметани од формулите, а релативните интензитети се ориентациони.</p>
       </div>
 
+      <!-- СИМЕТРИЈА НА МОЛЕКУЛИ -->
+      <div class="at-panel" id="at-panel-sym" role="tabpanel" hidden>
+        <p class="calc-help">Научи кои елементи на симетрија постојат и кои точковни групи од нив се добиваат, па погоди ја точковната група на молекулите.</p>
+        <div class="quiz" id="sy-root"></div>
+      </div>
+
       <!-- ИНСТРУМЕНТАЛНИ МЕТОДИ: виртуелни лаборатории -->
       <div class="at-panel" id="at-panel-inst" role="tabpanel" hidden>
         <div id="inst-root"></div>
@@ -252,6 +260,7 @@
   </footer>
 
   <script src="app.js"></script>
+  <script src="common.js"></script>
   <script src="elements.js"></script>
   <script src="alatki.js"></script>
   <script src="ph.js"></script>
@@ -269,6 +278,8 @@
   <script src="smiles-drawer.min.js"></script>
   <script src="masen-smiles.js"></script>
   <script src="masen.js"></script>
+  <script src="simetrija-data.js"></script>
+  <script src="simetrija.js"></script>
   <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
 <script src="analitika.js" defer></script>
 </body>

@@ -157,11 +157,11 @@
       answered: () => chips.some(c => c.parentElement !== pool) || togs.some(t => t.classList.contains("on")),
       grade() {
         locked = true; if (sel) sel.classList.remove("sel");
-        let got = 0; const where = {}; q.groups.forEach(([name, ions]) => ions.forEach(i => (where[i] = name)));
+        let got = 0; const where = {}; q.groups.forEach(([name, ions]) => ions.forEach(i => (where[i] = (where[i] || []).concat(name))));
         chips.forEach(c => {
-          const target = where[c.dataset.ion], ok = c.parentElement.dataset.group === target;
+          const targets = where[c.dataset.ion] || [], target = targets[0], ok = targets.includes(c.parentElement.dataset.group);
           c.classList.remove("ok", "bad");
-          if (target && groupBodies[target] && !ok) { groupBodies[target].appendChild(c); c.title = "Точна група: " + target; }
+          if (target && groupBodies[target] && !ok) { groupBodies[target].appendChild(c); c.title = "Точна група: " + targets.join(" или "); }
           c.classList.add("ok"); if (ok) got++;
         });
         let hits = 0, fp = 0;
